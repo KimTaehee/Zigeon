@@ -5,13 +5,13 @@
     android:orientation="vertical"    
     >
     <Button
-    	android:id="@+id/btn"
+    	android:id="@+id/photo_upload_btn"
     	android:layout_width="wrap_content"
     	android:layout_height="50dp"
     	android:text=" Do Upload "
     />
     <EditText
-    	android:id="@+id/edit_entry"
+    	android:id="@+id/photo_upload_edit"
     	android:layout_width="fill_parent"
     	android:layout_height="100dp"
     />	

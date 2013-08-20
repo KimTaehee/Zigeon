@@ -204,7 +204,7 @@ public class BubbleActivity extends Activity {
 					try {
 						Message msg = handler.obtainMessage();
 						Thread.sleep(1000);
-						LogUtil.v("i = " + i + "getY = " + btn.getY());
+						//LogUtil.v("i = " + i + "getY = " + btn.getY());
 						msg.arg1 = i % 18 + 1; /*
 												 * 18로 한 이유는 bubble애니메이션 주기를
 												 * 18초로 해서 같아지게 할려고 했습니다. 따로 끄기
