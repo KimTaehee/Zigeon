@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ZigeonPrototype</string>
+    <string name="bubble_activity_title">BubbleActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="bubble_test_stop_service">ServiceOff</string>
+    <string name="bubble_tvIntro">지전(지역전문가) 납셨다.\nEndless Creation, Seoultech\n\n</string>
+    <string name="bubble_tvGPSTest">GPS 정보를 임시로 출력할거야</string>
+    <string name="bubble_tvLandmarkTest">Landmark 정보를 임시로 출력할거야</string>
+    <string name="bubble_tvPostingTest">Posting 정보를 임시로 출력할거야</string>
+    <string name="map_list_activity_title">MapListActivity</string>
+    <string name="map_list_activity_title_section1">Landmarks</string>
+    <string name="map_list_activity_title_section2">Postings</string>
+    <string name="landmark_activity_title">LandmarkActivity</string>
+    <string name="landmark_comment_default_message">글을 써라 자시가</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="bubble_action_map_list">MapList</string>
+    <string name="map_list_action_bubble">Bubble</string>
+    <string name="map_list_str_done">다됐다</string>
+    <string name="edit_message">글을 써라 자시가</string>
+    <string name="title_activity_posting">PostingActivity</string>
+    <string name="landmark_tv_name">제제제제모모모목</string>
+    <string name="landmark_tv_contents">내내내ㅐ내내내내내ㅐ내내ㅐ요요요요ㅛ요요요ㅛ요요ㅛ요요요용</string>
+
+</resources>

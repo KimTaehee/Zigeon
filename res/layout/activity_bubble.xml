@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".BubbleActivity" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:paddingBottom="6dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingTop="6dp" >
+
+        <!-- android:background="@drawable/header_bg" -->
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="23dp"
+            android:text="Button" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/bubbleImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:src="@drawable/bubble5" />
+
+    <ImageView
+        android:id="@+id/bubbleImage3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/bubbleImage"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/bubble" />
+
+    <ImageView
+        android:id="@+id/bubbleImage2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/bubbleImage3"
+        android:src="@drawable/bubble2" />
+
+    <ImageView
+        android:id="@+id/bubbleImage4"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/bubbleImage2"
+        android:layout_toRightOf="@+id/bubbleImage"
+        android:src="@drawable/bubblelotte2" />
+
+</RelativeLayout>

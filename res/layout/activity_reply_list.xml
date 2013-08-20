@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <ListView
+            android:id="@+id/id_list"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"       
+            android:layout_weight="1"
+            />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_camera" />
+
+        <EditText
+            android:id="@+id/id_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/edit_message" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/id_btn"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_gravity="right"
+            android:text="썼다"
+            />
+    </LinearLayout>
+    </LinearLayout>

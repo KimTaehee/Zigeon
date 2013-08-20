@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/posting_layout_contents"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/posting_tv_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="☆스압주의☆ 오늘 롯데리아 훈남알바 봄!!"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/posting_tv_writedate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2013/08/15/목요일"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/posting_tv_writer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="작성자 : 서듈님"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cal_line_01_g"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/posting_tv_contents"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:scrollbars="vertical"
+                    android:text="  언니들 반갑긔~~dddddn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\n\n\nㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="95dp"
+                        android:src="@drawable/btn_subfold_tch" />
+
+                    <TextView
+                        android:id="@+id/posting_tv_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textSize="25sp" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/btn_subopen_nor" />
+
+                    <TextView
+                        android:id="@+id/posting_tv_dislike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="98"
+                        android:textSize="25sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/cal_line_01_g"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/posting_layout_commentlist"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/posting_layout_contents"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/posting_commentlist"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:minHeight="100dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/posting_camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_camera" />
+
+            <EditText
+                android:id="@+id/posting_edit_input_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/edit_message" >
+
+                <!-- <requestFocus android:layout_width="match_parent" /> -->
+            </EditText>
+
+            <Button
+                android:id="@+id/posting_btn_input_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="썼다" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

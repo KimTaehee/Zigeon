@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/action_map_list" 
+        android:orderInCategory="1" 
+        android:title="@string/bubble_action_map_list"
+        android:showAsAction="ifRoom|withText" >
+	</item>
+    <item
+        android:id="@+id/action_test_stop_service"
+        android:orderInCategory="100"
+        android:title="@string/bubble_test_stop_service"
+		android:showAsAction="ifRoom|withText" >
+		<!-- showAsAction: never=>menu / ifRoom=>actionbar -->
+    </item>
+    
+</menu>
