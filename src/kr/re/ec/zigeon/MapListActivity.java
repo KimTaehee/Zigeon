@@ -1,6 +1,9 @@
 /* 작성자: 서주리
  * 수정자: 김태희
+<<<<<<< HEAD
  * gitgit
+=======
+>>>>>>> origin/KTHWorking
  */
 
 package kr.re.ec.zigeon;
