@@ -34,10 +34,6 @@
             android:name="kr.re.ec.zigeon.LandmarkActivity"
             android:label="@string/landmark_activity_title" >
         </activity>
-        <activity android:name="kr.re.ec.zigeon.ReplyListActivity" >
-        </activity>
-        <activity android:name="kr.re.ec.zigeon.PostingListActivity" >
-        </activity>
         <activity
             android:name="kr.re.ec.zigeon.PostingActivity"
             android:label="@string/title_activity_posting" >
