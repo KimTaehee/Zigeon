@@ -44,11 +44,6 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private Button btnInputComment;
 	private TextView tvName;
 	private TextView tvContents;
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> origin/KTHWorking
 	private ArrayList<String> mCommentArl;		//listview 세팅용	
 	private ArrayList<String> mPostingArl;		//listview 세팅용
 	private ArrayAdapter<String> mCommentAdp;		//listview 세팅용
@@ -70,11 +65,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //PK로 검색하므로 Arr.length==1이다. 
 				mLandmarkDataset = landmarkDataArr[0];
-<<<<<<< HEAD
 
-=======
-				
->>>>>>> origin/KTHWorking
 				/******************** info 출력 *******************/
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
@@ -84,11 +75,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			case Constants.MSG_TYPE_POSTING:
 			{
 				mPostingArr =(PostingDataset[]) msg.obj;
-<<<<<<< HEAD
 
-=======
-				
->>>>>>> origin/KTHWorking
 				/************ Posting을 listview에 반영한다 ************/
 				mPostingArl.clear();
 
@@ -103,11 +90,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			case Constants.MSG_TYPE_COMMENT:
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
-<<<<<<< HEAD
 
-=======
-				
->>>>>>> origin/KTHWorking
 				/************ Comment를 listview에 반영한다 ************/
 				mCommentArl.clear();
 
@@ -146,11 +129,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         mLandmarkDataset = new LandmarkDataset();
         mLandmarkDataset.idx = bundle.getInt("ldmIdx");
         //LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> origin/KTHWorking
 		//ldbIdx로 내용요청
         soapParser = SoapParser.getInstance(); 
         
@@ -220,11 +199,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
 			//TODO: mPostingArr와 Listview에 올라간 사항의 일치를 보장시켜야 한다. 아직 확인되지 않음.
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> origin/KTHWorking
 			mIntent = new Intent(LandmarkActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
 			startActivity(mIntent);

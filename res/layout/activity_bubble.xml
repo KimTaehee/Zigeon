@@ -20,12 +20,9 @@
         android:paddingLeft="9dp"
         android:paddingRight="9dp"
         android:paddingTop="6dp" >
-<<<<<<< HEAD
 
         <!-- android:background="@drawable/header_bg" -->
 
-=======
->>>>>>> origin/KTHWorking
     </RelativeLayout>
 
     <ImageView
