@@ -67,19 +67,14 @@ public final class R {
         public static final int pubtrans_ic_mylocation_on=0x7f020025;
     }
     public static final class id {
-        public static final int action_map_list=0x7f090029;
-        public static final int action_settings=0x7f09002b;
-        public static final int action_test_stop_service=0x7f09002a;
+        public static final int action_map_list=0x7f090024;
+        public static final int action_settings=0x7f090026;
+        public static final int action_test_stop_service=0x7f090025;
         public static final int bubbleImage=0x7f090003;
         public static final int bubbleImage2=0x7f090005;
         public static final int bubbleImage3=0x7f090004;
         public static final int bubbleImage4=0x7f090006;
         public static final int button1=0x7f090002;
-        public static final int camera_button=0x7f090026;
-        public static final int id_btn=0x7f090028;
-        public static final int id_edit=0x7f090027;
-        public static final int id_list=0x7f090024;
-        public static final int id_tv=0x7f090025;
         public static final int image=0x7f09000a;
         public static final int imageButton1=0x7f09001d;
         public static final int landmarkList=0x7f090016;
@@ -117,11 +112,9 @@ public final class R {
         public static final int activity_landmark=0x7f030001;
         public static final int activity_map_list=0x7f030002;
         public static final int activity_posting=0x7f030003;
-        public static final int activity_posting_list=0x7f030004;
-        public static final int activity_reply_list=0x7f030005;
-        public static final int listview_item_comment=0x7f030006;
-        public static final int listview_item_landmark=0x7f030007;
-        public static final int listview_item_posting=0x7f030008;
+        public static final int listview_item_comment=0x7f030004;
+        public static final int listview_item_landmark=0x7f030005;
+        public static final int listview_item_posting=0x7f030006;
     }
     public static final class menu {
         public static final int bubble=0x7f080000;
