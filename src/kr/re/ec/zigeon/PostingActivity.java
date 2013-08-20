@@ -1,4 +1,4 @@
-/*
+/**
  * 130816 조덕주 작성
  * 130819 김태희 수정
  */
@@ -6,10 +6,7 @@
 package kr.re.ec.zigeon;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import kr.re.ec.zigeon.dataset.CommentDataset;
-import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
@@ -22,9 +19,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.format.DateFormat;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;

@@ -9,9 +9,6 @@
 
 package kr.re.ec.zigeon;
 
-/* 작성자: 김태희. 임시 MainActivity
- * 
- */
 import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
