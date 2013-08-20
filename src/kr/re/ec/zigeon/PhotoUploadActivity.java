@@ -1,5 +1,7 @@
 package kr.re.ec.zigeon;
 
-public class PhotoUploadActivity {
+import android.app.Activity;
+
+public class PhotoUploadActivity extends Activity {
 
 }

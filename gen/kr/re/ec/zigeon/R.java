@@ -67,16 +67,18 @@ public final class R {
         public static final int pubtrans_ic_mylocation_on=0x7f020025;
     }
     public static final class id {
-        public static final int action_map_list=0x7f090024;
-        public static final int action_settings=0x7f090026;
-        public static final int action_test_stop_service=0x7f090025;
+        public static final int action_map_list=0x7f090026;
+        public static final int action_settings=0x7f090028;
+        public static final int action_test_stop_service=0x7f090027;
+        public static final int btn=0x7f090017;
         public static final int bubbleImage=0x7f090003;
         public static final int bubbleImage2=0x7f090005;
         public static final int bubbleImage3=0x7f090004;
         public static final int bubbleImage4=0x7f090006;
         public static final int button1=0x7f090002;
+        public static final int edit_entry=0x7f090018;
         public static final int image=0x7f09000a;
-        public static final int imageButton1=0x7f09001d;
+        public static final int imageButton1=0x7f09001f;
         public static final int landmarkList=0x7f090016;
         public static final int landmark_btn_input_comment=0x7f090010;
         public static final int landmark_camera_button=0x7f09000e;
@@ -91,18 +93,18 @@ public final class R {
         public static final int map=0x7f090013;
         public static final int map_list_tabhost=0x7f090014;
         public static final int postingList=0x7f090015;
-        public static final int posting_btn_input_comment=0x7f090023;
-        public static final int posting_camera_button=0x7f090021;
-        public static final int posting_commentlist=0x7f090020;
-        public static final int posting_edit_input_comment=0x7f090022;
-        public static final int posting_layout_commentlist=0x7f09001f;
-        public static final int posting_layout_contents=0x7f090017;
-        public static final int posting_tv_contents=0x7f09001b;
-        public static final int posting_tv_dislike=0x7f09001e;
-        public static final int posting_tv_like=0x7f09001c;
-        public static final int posting_tv_title=0x7f090018;
-        public static final int posting_tv_writedate=0x7f090019;
-        public static final int posting_tv_writer=0x7f09001a;
+        public static final int posting_btn_input_comment=0x7f090025;
+        public static final int posting_camera_button=0x7f090023;
+        public static final int posting_commentlist=0x7f090022;
+        public static final int posting_edit_input_comment=0x7f090024;
+        public static final int posting_layout_commentlist=0x7f090021;
+        public static final int posting_layout_contents=0x7f090019;
+        public static final int posting_tv_contents=0x7f09001d;
+        public static final int posting_tv_dislike=0x7f090020;
+        public static final int posting_tv_like=0x7f09001e;
+        public static final int posting_tv_title=0x7f09001a;
+        public static final int posting_tv_writedate=0x7f09001b;
+        public static final int posting_tv_writer=0x7f09001c;
         public static final int relativeLayout1=0x7f090001;
         public static final int rootLayout=0x7f090000;
         public static final int tableRow1=0x7f090011;
@@ -111,10 +113,11 @@ public final class R {
         public static final int activity_bubble=0x7f030000;
         public static final int activity_landmark=0x7f030001;
         public static final int activity_map_list=0x7f030002;
-        public static final int activity_posting=0x7f030003;
-        public static final int listview_item_comment=0x7f030004;
-        public static final int listview_item_landmark=0x7f030005;
-        public static final int listview_item_posting=0x7f030006;
+        public static final int activity_photo_upload=0x7f030003;
+        public static final int activity_posting=0x7f030004;
+        public static final int listview_item_comment=0x7f030005;
+        public static final int listview_item_landmark=0x7f030006;
+        public static final int listview_item_posting=0x7f030007;
     }
     public static final class menu {
         public static final int bubble=0x7f080000;
