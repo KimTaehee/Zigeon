@@ -62,7 +62,7 @@ public class PhotoUploadActivity extends Activity {
 	}
 	
 	private void DoFileUpload(String filePath) throws IOException {
-		LogUtil.v("file path = " + filePath);		
+		LogUtil.v("file path = " + filePath);
 		HttpFileUpload(UPLOAD_PAGE_URL, "", filePath);	
 	}
 	
