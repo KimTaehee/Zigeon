@@ -1,6 +1,6 @@
 package kr.re.ec.zigeon.handler;
-/* ÀÛ¼ºÀÚ: ±èÅÂÈñ. SleepÀÌ Æ÷ÇÔµÈ Thread Service·Î, °¢Á¾ ÁÖ±âÀûÀÎ ÀÛ¾÷À» °üÀå
- * ³»¿ë: GPS, UI, SoapParser¸¦ Æ÷ÇÔÇÑ´Ù.
+/* ì‘ì„±ì: ê¹€íƒœí¬. Sleepì´ í¬í•¨ëœ Thread Serviceë¡œ, ê°ì¢… ì£¼ê¸°ì ì¸ ì‘ì—…ì„ ê´€ì¥
+ * ë‚´ìš©: GPS, UI, SoapParserë¥¼ í¬í•¨í•œë‹¤.
  */
 import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapLocationManager;
@@ -31,7 +31,7 @@ public class UpdateService extends Service implements Runnable{
 //	
 
 	/*************nMap test****************/
-	private NMapLocationManager mMapLocationManager; //130816 ±èÅÂÈñ Ãß°¡
+	private NMapLocationManager mMapLocationManager; //130816 ê¹€íƒœí¬ ì¶”ê°€
 	private NGeoPoint mLocation;
 	
 	private UIHandler uiHandler; 	//UIHandler
@@ -59,9 +59,9 @@ public class UpdateService extends Service implements Runnable{
 			}
 		}
 		
-		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: LM°­Á¦Àü´Ş. ´õ ÁÁÀº ¹æ¹ıÀÌ ¾øÀ»±î?
+		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: LMê°•ì œì „ë‹¬. ë” ì¢‹ì€ ë°©ë²•ì´ ì—†ì„ê¹Œ?
 		
-		//nMapLM ¾²±âÀü
+		//nMapLM ì“°ê¸°ì „
 //		/********* LocationManager Init ******************/ 
 //		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 //		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -75,23 +75,23 @@ public class UpdateService extends Service implements Runnable{
 //        String provider = locationManager.getBestProvider(criteria, true);
 //        LogUtil.v("location provider: " + provider);
 //        
-//        gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);	//gps »ç¿ë 
+//        gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);	//gps ì‚¬ìš© 
 //		LogUtil.v("GPSEnabled: "+ gpsEnabled);
 //		if(gpsEnabled) {
 //			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE, 0, listener);
-//		} //requestLocationUpdates¸¦ Thread ¾È¿¡¼­ ¿äÃ»ÇÒ ¼ö ¾ø´Ù.
+//		} //requestLocationUpdatesë¥¼ Thread ì•ˆì—ì„œ ìš”ì²­í•  ìˆ˜ ì—†ë‹¤.
 		
 		
-		/********************** Thread »ı¼º *********************/
+		/********************** Thread ìƒì„± *********************/
 		if(mThread == null) {
 			LogUtil.v("creating new thread");
 			mThread = new Thread(this);
 			threadLoop=true;
 			mThread.start();
 			
-			am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //ÇöÀç Activity ¾Ë±âÀ§ÇÔ
+			am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //í˜„ì¬ Activity ì•Œê¸°ìœ„í•¨
 			
-			soapParser = SoapParser.getInstance(); //soapParser ÃÊ±âÈ­(Singleton. ¾øÀ¸¸é »ı¼ºÇÔ)
+			soapParser = SoapParser.getInstance(); //soapParser ì´ˆê¸°í™”(Singleton. ì—†ìœ¼ë©´ ìƒì„±í•¨)
 		}
 	}
 	
@@ -102,17 +102,17 @@ public class UpdateService extends Service implements Runnable{
 		threadLoop=false;	//thread loop exit
 		
 		mMapLocationManager.disableMyLocation();
-		//nMapLM ¾²±âÀü
+		//nMapLM ì“°ê¸°ì „
 		//locationManager.removeUpdates(listener);	
 	}
 	
 	/**
-	 * ½º·¹µåÀÇ ½ÇÇà ºÎºĞ. ÇöÀç ÇÁ·Î±×·¥ÀÇ »óÅÂ¸¦ ¸ğ´ÏÅÍ¸µÇÑ´Ù.
+	 * ìŠ¤ë ˆë“œì˜ ì‹¤í–‰ ë¶€ë¶„. í˜„ì¬ í”„ë¡œê·¸ë¨ì˜ ìƒíƒœë¥¼ ëª¨ë‹ˆí„°ë§í•œë‹¤.
 	 */
 	public void run() {
 		while(threadLoop){
 			try {
-				//ÇöÀç Activity ¾Ë±â(Activity¿¡ ¾Ë¸ÂÀº Çàµ¿ÇÏ±âÀ§ÇÔ)
+				//í˜„ì¬ Activity ì•Œê¸°(Activityì— ì•Œë§ì€ í–‰ë™í•˜ê¸°ìœ„í•¨)
 				String topActivityName = am.getRunningTasks(1).get(0).topActivity.getClassName(); 
 				LogUtil.v("updateService thread #" + count + " / current: " + topActivityName); 
 				count++;
@@ -158,7 +158,7 @@ public class UpdateService extends Service implements Runnable{
 	= new NMapLocationManager.OnLocationChangeListener() {
 		@Override
 		public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
-			//¾îµğ·Ğ°¡ ¹ß½Î! ¾îµğ·Î °¥Áö´Â ¸ğ¸§ ¤»
+			//ì–´ë””ë¡ ê°€ ë°œì‹¸! ì–´ë””ë¡œ ê°ˆì§€ëŠ” ëª¨ë¦„ ã…‹
 			LogUtil.v("onLocationChanged invoked!");
 			uiHandler.sendMessage(Constants.MSG_TYPE_LOCATION, "", myLocation);
 //			LogUtil.v("select * from tLandmark");
@@ -194,7 +194,7 @@ public class UpdateService extends Service implements Runnable{
 		}
 	};
 	
-	//nMapLM ¾²±â Àü.
+	//nMapLM ì“°ê¸° ì „.
 //	private LocationListener listener = new LocationListener() {
 //		@Override
 //		public void onLocationChanged(Location location) {

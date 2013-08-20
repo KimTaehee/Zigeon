@@ -1,6 +1,6 @@
 package kr.re.ec.zigeon.handler;
 
-/* ÀÛ¼ºÀÚ: ±èÅÂÈñ. UI¸¦ ¼öÁ¤ÇÏ´Â Message¸¦ °¢ Activity·Î ¹ß¼ÛÇÏ´Â Handler
+/* ì‘ì„±ì: ê¹€íƒœí¬. UIë¥¼ ìˆ˜ì •í•˜ëŠ” Messageë¥¼ ê° Activityë¡œ ë°œì†¡í•˜ëŠ” Handler
  * 
  */
 import kr.re.ec.zigeon.util.LogUtil;
@@ -23,9 +23,9 @@ public class UIHandler {
 	private static UIHandler instance; //for singleton
 	private Message msg;
 	
-	/* ±¸Á¶- °¢°¢ÀÇ Activity.onCreate¿¡¼­ messageHandler¸¦ UIHandler¿¡ µî·ÏÇÑ´Ù. 
-	 * ÀÌÈÄ UIHandler´Â ÀÚÃ¼ TopActivity ÆÇº°À» ÅëÇØ ¾î´À messageHandler·Î ¸Ş½ÃÁö¸¦ Àü¼ÛÇÒÁö °áÁ¤ÇÑ´Ù.
-	 * : ±èÅÂÈñ
+	/* êµ¬ì¡°- ê°ê°ì˜ Activity.onCreateì—ì„œ messageHandlerë¥¼ UIHandlerì— ë“±ë¡í•œë‹¤. 
+	 * ì´í›„ UIHandlerëŠ” ìì²´ TopActivity íŒë³„ì„ í†µí•´ ì–´ëŠ messageHandlerë¡œ ë©”ì‹œì§€ë¥¼ ì „ì†¡í• ì§€ ê²°ì •í•œë‹¤.
+	 * : ê¹€íƒœí¬
 	 */
 	private UIHandler(Context context) {
 		mContext = context;
@@ -39,8 +39,8 @@ public class UIHandler {
 		return instance;
 	}
 	
-	/***** activity°¡ º¯°æµÉ ¶§ handler¸¦ Àç¼³Á¤ÇØÁØ´Ù. *****/ //TODO: ¹é±×¶ó¿îµå ÀÛ¾÷ÀÏ ¶§ÀÇ Ã³¸® °úÁ¤ È®ÀÎÇÏ±â
-	public void setHandler(Handler handler) { //activity ¿Å°ÜÁú ¶§ oncreate¿¡¼­ handler º¯°æÀ» ÇØ ÁÖ¾î¾ß  ÇØ´ç UI°ªÀÌ ¹Ù²ï´Ù.
+	/***** activityê°€ ë³€ê²½ë  ë•Œ handlerë¥¼ ì¬ì„¤ì •í•´ì¤€ë‹¤. *****/ //TODO: ë°±ê·¸ë¼ìš´ë“œ ì‘ì—…ì¼ ë•Œì˜ ì²˜ë¦¬ ê³¼ì • í™•ì¸í•˜ê¸°
+	public void setHandler(Handler handler) { //activity ì˜®ê²¨ì§ˆ ë•Œ oncreateì—ì„œ handler ë³€ê²½ì„ í•´ ì£¼ì–´ì•¼  í•´ë‹¹ UIê°’ì´ ë°”ë€ë‹¤.
 		String str = getTopActivityName(mContext);
 		
 		if (str.compareTo("kr.re.ec.zigeon.BubbleActivity") == 0)
@@ -70,7 +70,7 @@ public class UIHandler {
 	
 	}
 	
-	/*** ÇöÀç UIHandler¿¡ ¼¼ÆÃµÈ handler¸¦ ÆÇº°ÇÑ´Ù. ***/
+	/*** í˜„ì¬ UIHandlerì— ì„¸íŒ…ëœ handlerë¥¼ íŒë³„í•œë‹¤. ***/
 	private Handler getCurrentHandler()
 	{
 		String str = getTopActivityName(mContext);
@@ -122,25 +122,25 @@ public class UIHandler {
 		}
 	}
 	
-	/************ ÇöÀç topactivity¿¡ ¾Ë¸ÂÀº handler·Î msg ¹ß¼Û **********/
-	public void sendMessage(int _what, String _value, Object _obj){ //whatÀº Constants.java¿¡ Á¤ÀÇµÇ¾î ÀÖ´Ù.
+	/************ í˜„ì¬ topactivityì— ì•Œë§ì€ handlerë¡œ msg ë°œì†¡ **********/
+	public void sendMessage(int _what, String _value, Object _obj){ //whatì€ Constants.javaì— ì •ì˜ë˜ì–´ ìˆë‹¤.
 		LogUtil.v("sendmsg called.");
 		Bundle bundle = new Bundle();
 		bundle.putString("msg", _value);
-		msg = new Message(); //ÀÌ¹Ì »ç¿ëÇß´ø message °´Ã¼´Â Àç»ç¿ëÇÒ ¼ö ¾ø´Ù.
+		msg = new Message(); //ì´ë¯¸ ì‚¬ìš©í–ˆë˜ message ê°ì²´ëŠ” ì¬ì‚¬ìš©í•  ìˆ˜ ì—†ë‹¤.
 		msg.what = _what; 
 		msg.obj = _obj;
 		msg.setData(bundle);
 		
 		Handler handler = getCurrentHandler();
 		if(handler!=null) {
-			handler.sendMessage(msg); //handler°¡ nullÀÌ¶ó¸é ¿À·ù.
+			handler.sendMessage(msg); //handlerê°€ nullì´ë¼ë©´ ì˜¤ë¥˜.
 		} else {
 			LogUtil.e("no handler set! cannot run sendMessage()");
 		}
 	}
 	
-	/* ÇöÀç Activity ¾Ë±â À§ÇÔ */
+	/* í˜„ì¬ Activity ì•Œê¸° ìœ„í•¨ */
 	public String getTopActivityName(Context context) {
 		am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE); 
 		String topActivityName = am.getRunningTasks(1).get(0).topActivity.getClassName();

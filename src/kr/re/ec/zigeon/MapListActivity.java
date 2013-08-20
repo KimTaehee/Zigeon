@@ -1,5 +1,5 @@
-/* ÀÛ¼ºÀÚ: ¼­ÁÖ¸®
- * ¼öÁ¤ÀÚ: ±èÅÂÈñ
+/* ì‘ì„±ì: ì„œì£¼ë¦¬
+ * ìˆ˜ì •ì: ê¹€íƒœí¬
  */
 
 package kr.re.ec.zigeon;
@@ -56,36 +56,36 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayList
 public class MapListActivity extends NMapActivity implements OnMapStateChangeListener, OnCalloutOverlayListener {
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 	
-	private NMapView mMapView = null;	//Naver map °´Ã¼
+	private NMapView mMapView = null;	//Naver map ê°ì²´
 	private ListView lstLandmark;
 	private ListView lstPosting;
 	private TabHost tabHost;
 		
-	private NMapController mMapController = null;	// ¸Ê ÄÁÆ®·Ñ·¯
-	private LinearLayout MapContainer;	//¸ÊÀ» Ãß°¡ ÇÒ ·¹ÀÌ¾Æ¿ô
-	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	// ¿À¹ö·¹ÀÌÀÇ ¸®¼Ò½º¸¦ Á¦°øÇÏ±â À§ÇÑ °´Ã¼
-	private NMapOverlayManager mOverlayManager = null;	// ¿À¹ö·¹ÀÌ °ü¸®ÀÚ
+	private NMapController mMapController = null;	// ë§µ ì»¨íŠ¸ë¡¤ëŸ¬
+	private LinearLayout MapContainer;	//ë§µì„ ì¶”ê°€ í•  ë ˆì´ì•„ì›ƒ
+	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	// ì˜¤ë²„ë ˆì´ì˜ ë¦¬ì†ŒìŠ¤ë¥¼ ì œê³µí•˜ê¸° ìœ„í•œ ê°ì²´
+	private NMapOverlayManager mOverlayManager = null;	// ì˜¤ë²„ë ˆì´ ê´€ë¦¬ì
 	//private OnStateChangeListener onPOIdataStateChangeListener = null;
 	private NGeoPoint myLocation;
 	
-	private NMapMyLocationOverlay mMyLocationOverlay; //130816 ±èÅÂÈñ Ãß°¡
-	public static NMapLocationManager mMapLocationManager; //UpdateService.onCreateÀ¸·ÎºÎÅÍ °­Á¦ ÃÊ±âÈ­ ¹ŞÀ½.
-	private NMapCompassManager mMapCompassManager; //130816 ±èÅÂÈñ Ãß°¡ 
-	//private MapContainerView mMapContainerView; //130816 ±èÅÂÈñ Ãß°¡
+	private NMapMyLocationOverlay mMyLocationOverlay; //130816 ê¹€íƒœí¬ ì¶”ê°€
+	public static NMapLocationManager mMapLocationManager; //UpdateService.onCreateìœ¼ë¡œë¶€í„° ê°•ì œ ì´ˆê¸°í™” ë°›ìŒ.
+	private NMapCompassManager mMapCompassManager; //130816 ê¹€íƒœí¬ ì¶”ê°€ 
+	//private MapContainerView mMapContainerView; //130816 ê¹€íƒœí¬ ì¶”ê°€
 
 	private Intent mIntent;
 
 	private SoapParser soapParser;
 	
-	private ArrayList<String> mLandmarkArl;		//listview ¼¼ÆÃ¿ë	
-	private ArrayList<String> mPostingArl;		//listview ¼¼ÆÃ¿ë
-	private ArrayAdapter<String> mLandmarkAdp;		//listview ¼¼ÆÃ¿ë
-	private ArrayAdapter<String> mPostingAdp;		//listview ¼¼ÆÃ¿ë
+	private ArrayList<String> mLandmarkArl;		//listview ì„¸íŒ…ìš©	
+	private ArrayList<String> mPostingArl;		//listview ì„¸íŒ…ìš©
+	private ArrayAdapter<String> mLandmarkAdp;		//listview ì„¸íŒ…ìš©
+	private ArrayAdapter<String> mPostingAdp;		//listview ì„¸íŒ…ìš©
 	private LandmarkDataset mLandmarkArr[];
 	private PostingDataset mPostingArr[];
 	
 	private UIHandler uiHandler;
-	private Handler messageHandler = new Handler() { //UpdateService·ÎºÎÅÍÀÇ ¼ö½ÅºÎ! Áß¿äÇÔ
+	private Handler messageHandler = new Handler() { //UpdateServiceë¡œë¶€í„°ì˜ ìˆ˜ì‹ ë¶€! ì¤‘ìš”í•¨
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
@@ -96,31 +96,31 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 				/****************** LandmarkDataset -> NMapPOIdataOverlay ***************/
 				//LogUtil.v("LandmarkDataset -> NMapOverlay");
 				
-				int markerId = NMapPOIflagType.PIN;		// ¿À¹ö·¹ÀÌ¿¡ Ç¥½ÃÇÏ±â À§ÇÑ ¸¶Ä¿ ÀÌ¹ÌÁöÀÇ id°ª »ı¼º
+				int markerId = NMapPOIflagType.PIN;		// ì˜¤ë²„ë ˆì´ì— í‘œì‹œí•˜ê¸° ìœ„í•œ ë§ˆì»¤ ì´ë¯¸ì§€ì˜ idê°’ ìƒì„±
 				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
-				poiData.beginPOIdata(0); //TODO: ¿©±â¼­ 0Àº ¹»±î?
+				poiData.beginPOIdata(0); //TODO: ì—¬ê¸°ì„œ 0ì€ ë­˜ê¹Œ?
 				for(int i=0;i<mLandmarkArr.length;i++) {
-					//TODO: ?¿¡ ¾Ë¸ÂÀº ¸»À» ±¸ÇÏ½Ã¿À(longitude, latitude, String, NMapPOIFlagtype, ?)
+					//TODO: ?ì— ì•Œë§ì€ ë§ì„ êµ¬í•˜ì‹œì˜¤(longitude, latitude, String, NMapPOIFlagtype, ?)
 					poiData.addPOIitem(mLandmarkArr[i].longitude, 
 							mLandmarkArr[i].latitude, mLandmarkArr[i].name, markerId, 0); 
 				}
 				poiData.endPOIdata();	
 			
-				// À§Ä¡ µ¥ÀÌÅÍ¸¦ »ç¿ëÇÏ¿© ¿À¹ö·¹ÀÌ »ı¼º
+				// ìœ„ì¹˜ ë°ì´í„°ë¥¼ ì‚¬ìš©í•˜ì—¬ ì˜¤ë²„ë ˆì´ ìƒì„±
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-				poiDataOverlay.showAllPOIdata(0);	//id°ªÀÌ 0À¸·Î ÁöÁ¤µÈ ¸ğµç ¿À¹ö·¹ÀÌ°¡ Ç¥½ÃµÇ°í ÀÖ´Â À§Ä¡·Î ÁöµµÀÇ Áß½É°ú ZoomÀ» Àç¼³Á¤
+				poiDataOverlay.showAllPOIdata(0);	//idê°’ì´ 0ìœ¼ë¡œ ì§€ì •ëœ ëª¨ë“  ì˜¤ë²„ë ˆì´ê°€ í‘œì‹œë˜ê³  ìˆëŠ” ìœ„ì¹˜ë¡œ ì§€ë„ì˜ ì¤‘ì‹¬ê³¼ Zoomì„ ì¬ì„¤ì •
 				
 				
-				/********************List¿¡ ¹İ¿µ*******************/
-				mLandmarkArl.clear(); //¿ø·¡ ÀÖ´ø°Å Áö¿ì°í
+				/********************Listì— ë°˜ì˜*******************/
+				mLandmarkArl.clear(); //ì›ë˜ ìˆë˜ê±° ì§€ìš°ê³ 
 				//LogUtil.v("mLandmarkArr.length : "+ mLandmarkArr.length);
 				for(int i=0;i<mLandmarkArr.length;i++){
-					//¼Ò¼öÁ¡ÀÌ ±æ¾î¼­ ÁöÀúºĞÇÏ´Ï±î
+					//ì†Œìˆ˜ì ì´ ê¸¸ì–´ì„œ ì§€ì €ë¶„í•˜ë‹ˆê¹Œ
 					int distanceFromMe = (int)(mLandmarkArr[i].getDistance(myLocation));
 					
-					//À§Ä¡ Á¤º¸°¡ ¾ÆÁ÷ ³ª¿ÀÁö ¾Ê¾ÒÀ» ¶§ ¸Ş½ÃÁö Ãâ·Â
+					//ìœ„ì¹˜ ì •ë³´ê°€ ì•„ì§ ë‚˜ì˜¤ì§€ ì•Šì•˜ì„ ë•Œ ë©”ì‹œì§€ ì¶œë ¥
 					mLandmarkArl.add(mLandmarkArr[i].name + "\n"
-							+ ((distanceFromMe==Constants.INT_NULL)?"Ã£´ÂÁß.. Àá½Ã¸¸ ±â´Ù·ÁºÁ^o^":distanceFromMe + " m"));
+							+ ((distanceFromMe==Constants.INT_NULL)?"ì°¾ëŠ”ì¤‘.. ì ì‹œë§Œ ê¸°ë‹¤ë ¤ë´^o^":distanceFromMe + " m"));
 				}
 				mLandmarkAdp.notifyDataSetChanged();
 				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
@@ -130,7 +130,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			{
 				mPostingArr =(PostingDataset[]) msg.obj;
 				
-				/************ PostingÀ» listview¿¡ ¹İ¿µÇÑ´Ù ************/
+				/************ Postingì„ listviewì— ë°˜ì˜í•œë‹¤ ************/
 				mPostingArl.clear();
 				 
 				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
@@ -158,17 +158,17 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			}
 			case Constants.MSG_TYPE_LOCATION:
 			{
-				//ÀÏ´ÜÀº android.location ´ë½Å NGeoPoint¸¦ ¾²±â·Î ÇÑ´Ù.
+				//ì¼ë‹¨ì€ android.location ëŒ€ì‹  NGeoPointë¥¼ ì“°ê¸°ë¡œ í•œë‹¤.
 				myLocation = (NGeoPoint)msg.obj;
 				
-				//UpdateServiceÀÇ onLocationChanged¿¡¼­ ¾Æ·¡ÀÇ select¹®À» ¹ßµ¿½ÃÅ°¸é ´Ù¸¥ Activity·Î Àü´ŞµÉ ¿ì·Á°¡ ÀÖ´Ù.
+				//UpdateServiceì˜ onLocationChangedì—ì„œ ì•„ë˜ì˜ selectë¬¸ì„ ë°œë™ì‹œí‚¤ë©´ ë‹¤ë¥¸ Activityë¡œ ì „ë‹¬ë  ìš°ë ¤ê°€ ìˆë‹¤.
 				LogUtil.v("select * from tLandmark");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 				
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
-				//ÀÌ°Å »ì·Á³õÀ¸¸é Location ¼ö½ÅÇÒ ¶§¸¶´Ù ÇöÀç À§Ä¡·Î Áöµµ ¿Å±è => ºıÄ§
+				//ì´ê±° ì‚´ë ¤ë†“ìœ¼ë©´ Location ìˆ˜ì‹ í•  ë•Œë§ˆë‹¤ í˜„ì¬ ìœ„ì¹˜ë¡œ ì§€ë„ ì˜®ê¹€ => ë¹¡ì¹¨
 //				if (mMapController != null) {
 //					mMapController.animateTo(myLocation);
 //				}
@@ -184,32 +184,32 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_list);
 
-		/************** ÇÚµé·¯ µî·Ï ***************/
+		/************** í•¸ë“¤ëŸ¬ ë“±ë¡ ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 		
-		/*************Áöµµ ÃÊ±âÈ­ ½ÃÀÛ**************/
-		MapContainer = (LinearLayout)findViewById(R.id.map);		//³×ÀÌ¹ö Áöµµ¸¦ ³Ö±â À§ÇÑ LinearLayout
-		mMapView = new NMapView(this);		//³×ÀÌ¹ö Áöµµ °´Ã¼ »ı¼º
-		mMapController = mMapView.getMapController();		//Áöµµ °´Ã¼·ÎºÎÅÍ ÄÁÆ®·Ñ·¯ ÃßÃâ
-		mMapView.setApiKey(API_KEY);		//³×ÀÌ¹ö Áöµµ °´Ã¼¿¡ APIÅ° ÁöÁ¤
-		MapContainer.addView(mMapView);		//»ı¼ºµÈ ³×ÀÌ¹ö Áöµµ °´Ã¼¸¦ LinearLayout¿¡ Ãß°¡½ÃÅ´
-		mMapView.setClickable(true);		//Áöµµ¸¦ ÅÍÄ¡ÇÒ ¼ö ÀÖµµ·Ï ¿É¼Ç È°¼ºÈ­
-		mMapView.setBuiltInZoomControls(true, null);		//È®´ë/Ãà¼Ò¸¦ À§ÇÑ ÁÜ ÄÁÆ®·Ñ·¯ Ç¥½Ã ¿É¼Ç È°¼ºÈ­
-		mMapView.setOnMapStateChangeListener(this);		//Áöµµ¿¡ ´ëÇÑ »óÅÂ º¯°æ ÀÌº¥Æ® ¿¬°á
+		/*************ì§€ë„ ì´ˆê¸°í™” ì‹œì‘**************/
+		MapContainer = (LinearLayout)findViewById(R.id.map);		//ë„¤ì´ë²„ ì§€ë„ë¥¼ ë„£ê¸° ìœ„í•œ LinearLayout
+		mMapView = new NMapView(this);		//ë„¤ì´ë²„ ì§€ë„ ê°ì²´ ìƒì„±
+		mMapController = mMapView.getMapController();		//ì§€ë„ ê°ì²´ë¡œë¶€í„° ì»¨íŠ¸ë¡¤ëŸ¬ ì¶”ì¶œ
+		mMapView.setApiKey(API_KEY);		//ë„¤ì´ë²„ ì§€ë„ ê°ì²´ì— APIí‚¤ ì§€ì •
+		MapContainer.addView(mMapView);		//ìƒì„±ëœ ë„¤ì´ë²„ ì§€ë„ ê°ì²´ë¥¼ LinearLayoutì— ì¶”ê°€ì‹œí‚´
+		mMapView.setClickable(true);		//ì§€ë„ë¥¼ í„°ì¹˜í•  ìˆ˜ ìˆë„ë¡ ì˜µì…˜ í™œì„±í™”
+		mMapView.setBuiltInZoomControls(true, null);		//í™•ëŒ€/ì¶•ì†Œë¥¼ ìœ„í•œ ì¤Œ ì»¨íŠ¸ë¡¤ëŸ¬ í‘œì‹œ ì˜µì…˜ í™œì„±í™”
+		mMapView.setOnMapStateChangeListener(this);		//ì§€ë„ì— ëŒ€í•œ ìƒíƒœ ë³€ê²½ ì´ë²¤íŠ¸ ì—°ê²°
 
-		/************Áöµµ ÃÊ±âÈ­ ³¡*******************/
+		/************ì§€ë„ ì´ˆê¸°í™” ë*******************/
 
-		/****************¿À¹ö·¹ÀÌ************************/
-		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// ¿À¹ö·¹ÀÌ ¸®¼Ò½º °ü¸®°´Ã¼ ÇÒ´ç
-		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);		// ¿À¹ö·¹ÀÌ °ü¸®ÀÚ Ãß°¡
+		/****************ì˜¤ë²„ë ˆì´************************/
+		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// ì˜¤ë²„ë ˆì´ ë¦¬ì†ŒìŠ¤ ê´€ë¦¬ê°ì²´ í• ë‹¹
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);		// ì˜¤ë²„ë ˆì´ ê´€ë¦¬ì ì¶”ê°€
 		
-		//TODO: ÀÌ°Ç ¹¹Áö? ÀÌ°Ô ÀÖÀ¸¸é CalloutOverlayListener ÀÛµ¿ ¾ÈÇÏ´Â °Í °°±âµµ
+		//TODO: ì´ê±´ ë­ì§€? ì´ê²Œ ìˆìœ¼ë©´ CalloutOverlayListener ì‘ë™ ì•ˆí•˜ëŠ” ê²ƒ ê°™ê¸°ë„
 		//poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);  		
-		mOverlayManager.setOnCalloutOverlayListener(this);		// ¿À¹ö·¹ÀÌ ÀÌº¥Æ® µî·Ï
+		mOverlayManager.setOnCalloutOverlayListener(this);		// ì˜¤ë²„ë ˆì´ ì´ë²¤íŠ¸ ë“±ë¡
 		
 		
-		//¿©±âºÎÅÍ ¿À¹ö·¹ÀÌ ³¡±îÁö 130816 ±èÅÂÈñ Ãß°¡
+		//ì—¬ê¸°ë¶€í„° ì˜¤ë²„ë ˆì´ ëê¹Œì§€ 130816 ê¹€íƒœí¬ ì¶”ê°€
 		mMapCompassManager = new NMapCompassManager(this);
 		if(mMapLocationManager != null) {
 			mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
@@ -218,11 +218,11 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		} else {
 			LogUtil.e("LocationManager is null!");
 		}
-		/******************¿À¹ö·¹ÀÌ ³¡********************/
+		/******************ì˜¤ë²„ë ˆì´ ë********************/
 
 
-		/***********************ÅÇÅÇ ¹× ¸®½ºÆ®ºä ÃÊ±âÈ­***************************/
-		//³»¿ë ¿äÃ»ÇÏ±â
+		/***********************íƒ­íƒ­ ë° ë¦¬ìŠ¤íŠ¸ë·° ì´ˆê¸°í™”***************************/
+		//ë‚´ìš© ìš”ì²­í•˜ê¸°
 		soapParser = SoapParser.getInstance(); 
 		LogUtil.v("data request. select * from tLandmark");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -231,28 +231,28 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData("select * from tPosting", Constants.MSG_TYPE_POSTING));
 		
-		//ÅÇ µî·Ï
+		//íƒ­ ë“±ë¡
 		tabHost = (TabHost) findViewById(R.id.map_list_tabhost);
         lstLandmark = (ListView) findViewById(R.id.landmarkList);
         lstPosting = (ListView) findViewById(R.id.postingList);
 		
-        //ÃÊ±â listview ¹®±¸ ÁöÁ¤.
+        //ì´ˆê¸° listview ë¬¸êµ¬ ì§€ì •.
         mLandmarkArl = new ArrayList<String>();
         mLandmarkArl.add("Landmarks Loading...");
         mPostingArl = new ArrayList<String>();
         mPostingArl.add("Postings Loading...");
         
-        //listview°¡ ¾Æ´Ñ layoutÀÌ µé¾î°¨¿¡ À¯ÀÇ
+        //listviewê°€ ì•„ë‹Œ layoutì´ ë“¤ì–´ê°ì— ìœ ì˜
         mLandmarkAdp = new ArrayAdapter<String>(this, R.layout.listview_item_landmark , mLandmarkArl); 
         mPostingAdp = new ArrayAdapter<String>(this, R.layout.listview_item_posting , mPostingArl); 
 		
         lstLandmark.setAdapter(mLandmarkAdp);
         lstLandmark.setOnItemClickListener(lstLandmarkItemClickListener);
-        mLandmarkAdp.setNotifyOnChange(true); //ÀÌ ¿É¼ÇÀÌ ÀÖÀ¸¸é ArrayList°¡ ¼öÁ¤µÉ ¶§ ÀÚµ¿À¸·Î ¹İ¿µµÈ´Ù. strArr´ë½Å ArrayList¸¦ ½á¾ß ÇÏ´Â ÀÌÀ¯
+        mLandmarkAdp.setNotifyOnChange(true); //ì´ ì˜µì…˜ì´ ìˆìœ¼ë©´ ArrayListê°€ ìˆ˜ì •ë  ë•Œ ìë™ìœ¼ë¡œ ë°˜ì˜ëœë‹¤. strArrëŒ€ì‹  ArrayListë¥¼ ì¨ì•¼ í•˜ëŠ” ì´ìœ 
         
         lstPosting.setAdapter(mPostingAdp);
         lstPosting.setOnItemClickListener(lstPostingItemClickListener);
-        mPostingAdp.setNotifyOnChange(true); //ÀÌ ¿É¼ÇÀÌ ÀÖÀ¸¸é ArrayList°¡ ¼öÁ¤µÉ ¶§ ÀÚµ¿À¸·Î ¹İ¿µµÈ´Ù. strArr´ë½Å ArrayList¸¦ ½á¾ß ÇÏ´Â ÀÌÀ¯
+        mPostingAdp.setNotifyOnChange(true); //ì´ ì˜µì…˜ì´ ìˆìœ¼ë©´ ArrayListê°€ ìˆ˜ì •ë  ë•Œ ìë™ìœ¼ë¡œ ë°˜ì˜ëœë‹¤. strArrëŒ€ì‹  ArrayListë¥¼ ì¨ì•¼ í•˜ëŠ” ì´ìœ 
         
         tabHost.setup(); 
         
@@ -270,23 +270,23 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	}
 
 	/**
-	 * Áöµµ°¡ ÃÊ±âÈ­ µÈ ÈÄ È£ÃâµÊ
-	 * Á¤»óÀûÀ¸·Î ÃÊ±âÈ­ µÇ¸é errorInfo°´Ã¼´Â nullÀÌ Àü´ŞµÇ¸ç,
-	 * ÃÊ±âÈ­ ½ÇÆĞ ½Ã errorInfo°´Ã¼¿¡ ¿¡·¯ ¿øÀÎÀÌ Àü´ŞµÈ´Ù.
+	 * ì§€ë„ê°€ ì´ˆê¸°í™” ëœ í›„ í˜¸ì¶œë¨
+	 * ì •ìƒì ìœ¼ë¡œ ì´ˆê¸°í™” ë˜ë©´ errorInfoê°ì²´ëŠ” nullì´ ì „ë‹¬ë˜ë©°,
+	 * ì´ˆê¸°í™” ì‹¤íŒ¨ ì‹œ errorInfoê°ì²´ì— ì—ëŸ¬ ì›ì¸ì´ ì „ë‹¬ëœë‹¤.
 	 */
 
 	@Override
 	public void onMapInitHandler(NMapView mapView, NMapError errorInfo) {
 		//LogUtil.v("onMapInitHandler invoked!");
 		if (errorInfo == null) { // success
-			//°æµµ, À§µµ, È®´ë Á¤µµ
+			//ê²½ë„, ìœ„ë„, í™•ëŒ€ ì •ë„
 			//	mMapController.setMapCenter(new NGeoPoint(LonLatScan.getLon(),LonLatScan.getLat()), 12);
 		} else { // fail
 			LogUtil.e("onMapInitHandler: error=" + errorInfo.toString());
 		}	
 	}
 
-	//Áöµµ·¹º§ º¯°æ½Ã È£ÃâµÇ¸ç º¯°æµÈ Áöµµ ·¹º§ÀÌ ÆÄ¶ó¹ÌÅÍ·Î Àü´ŞµÊ
+	//ì§€ë„ë ˆë²¨ ë³€ê²½ì‹œ í˜¸ì¶œë˜ë©° ë³€ê²½ëœ ì§€ë„ ë ˆë²¨ì´ íŒŒë¼ë¯¸í„°ë¡œ ì „ë‹¬ë¨
 	@Override
 	public void onZoomLevelChange(NMapView mapview, int level) {
 		//LogUtil.v("onZoomLevelChange invoked!");
@@ -294,7 +294,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	}
 
 
-	//Áöµµ Áß½É º¯°æ ½Ã È£ÃâµÇ¸ç º¯°æµÈ Áß½É ÁÂÇ¥°¡ ÆÄ¶ó¹ÌÅÍ·Î Àü´ŞµÈ´Ù.
+	//ì§€ë„ ì¤‘ì‹¬ ë³€ê²½ ì‹œ í˜¸ì¶œë˜ë©° ë³€ê²½ëœ ì¤‘ì‹¬ ì¢Œí‘œê°€ íŒŒë¼ë¯¸í„°ë¡œ ì „ë‹¬ëœë‹¤.
 	@Override
 	public void onMapCenterChange(NMapView mapview, NGeoPoint center) {
 		//LogUtil.v("onMapCenterChange invoked!");
@@ -303,7 +303,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	}
 
 
-	//Áöµµ ¾Ö´Ï¸ŞÀÌ¼Ç »óÅÂ º¯°æ ½Ã È£ÃâµÈ´Ù.
+	//ì§€ë„ ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœ ë³€ê²½ ì‹œ í˜¸ì¶œëœë‹¤.
 	// animType : ANIMATION_TYPE_PAN or ANIMATION_TYPE_ZOOM
 	// animState : ANIMATION_STATE)STARTED or ANIMATION_STATE_FINISHED
 	@Override
@@ -318,7 +318,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		// TODO Auto-generated method stub
 	}
 
-	/************ ¿À¹ö·¹ÀÌ°¡ Å¬¸¯µÇ¾úÀ» ¶§ÀÇ ÀÌº¥Æ®?? ¾Æ´Ñµí *************/
+	/************ ì˜¤ë²„ë ˆì´ê°€ í´ë¦­ë˜ì—ˆì„ ë•Œì˜ ì´ë²¤íŠ¸?? ì•„ë‹Œë“¯ *************/
 	public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item){
 		LogUtil.i("onCalloutClick invoked!");
 		Toast.makeText(MapListActivity.this,"onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
@@ -337,7 +337,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			LogUtil.v("onFocusChanged: ");
 		}
 	}
-	/************ ¿À¹ö·¹ÀÌ°¡ Å¬¸¯µÇ¾úÀ» ¶§ÀÇ ÀÌº¥Æ® *************/
+	/************ ì˜¤ë²„ë ˆì´ê°€ í´ë¦­ë˜ì—ˆì„ ë•Œì˜ ì´ë²¤íŠ¸ *************/
 	@Override
 	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
 			NMapOverlayItem arg1, Rect arg2) {
@@ -347,10 +347,10 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 //		startActivity(mIntent);
 //		overridePendingTransition(0, 0); //no switching animation
 //		
-		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   //¿À¹ö·¹ÀÌ°¡ ¼±ÅÃµÈ ¸ğ½ÀÀ» Áöµµ¿¡ Ç¥½ÃÇØÁØ´Ù.
+		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   //ì˜¤ë²„ë ˆì´ê°€ ì„ íƒëœ ëª¨ìŠµì„ ì§€ë„ì— í‘œì‹œí•´ì¤€ë‹¤.
 	}
 
-//	/************* ¿©±âºÎÅÍ 130816 ±èÅÂÈñ ÀÛ¼º **********************/  
+//	/************* ì—¬ê¸°ë¶€í„° 130816 ê¹€íƒœí¬ ì‘ì„± **********************/  
 //	private final NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener 
 //	= new NMapLocationManager.OnLocationChangeListener() {
 //		@Override
@@ -429,7 +429,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		finish();
 	}
 	
-	/************ ¾×¼Ç¹Ù ¹× ¸Ş´º ÃÊ±âÈ­ ¹× ÀÌº¥Æ® Ã³¸® *******************/
+	/************ ì•¡ì…˜ë°” ë° ë©”ë‰´ ì´ˆê¸°í™” ë° ì´ë²¤íŠ¸ ì²˜ë¦¬ *******************/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -442,7 +442,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		case R.id.landmark_tabhost:
 		{
 			LogUtil.v("action_bubble clicked. ");
-			finish(); //TODO: Áöµµ°¡ Á¾·áµÇÁö ¾Ê°Ô ÇÏ°í ½Í¾î... Àç·ÎµùÇÏÀİ¾Æ ¤Ğ¤Ğ 
+			finish(); //TODO: ì§€ë„ê°€ ì¢…ë£Œë˜ì§€ ì•Šê²Œ í•˜ê³  ì‹¶ì–´... ì¬ë¡œë”©í•˜ì–ì•„ ã… ã…  
 			overridePendingTransition(0, 0); //no switching animation
 			break;
 		}
@@ -450,15 +450,15 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		return true;
 	}
 	
-	/******************************* ¸®½ºÆ®ºä Å¬¸¯½Ã *************************/
+	/******************************* ë¦¬ìŠ¤íŠ¸ë·° í´ë¦­ì‹œ *************************/
 	private AdapterView.OnItemClickListener lstLandmarkItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position: ¸î ¹øÂ° °ÍÀ» ´­·¶´ÂÁö.0~n
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position: ëª‡ ë²ˆì§¸ ê²ƒì„ ëˆŒë €ëŠ”ì§€.0~n
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mLandmarkArr[position].idx);
-			//TODO: mLandmarkArr¿Í Listview¿¡ ¿Ã¶ó°£ »çÇ×ÀÇ ÀÏÄ¡¸¦ º¸Àå½ÃÄÑ¾ß ÇÑ´Ù. ¾ÆÁ÷ È®ÀÎµÇÁö ¾ÊÀ½.
+			//TODO: mLandmarkArrì™€ Listviewì— ì˜¬ë¼ê°„ ì‚¬í•­ì˜ ì¼ì¹˜ë¥¼ ë³´ì¥ì‹œì¼œì•¼ í•œë‹¤. ì•„ì§ í™•ì¸ë˜ì§€ ì•ŠìŒ.
 			
-			//Intent¸¦ ÀÌ¿ëÇÏ¿© LandmarkActivity¿¡ ldmIdx¸¦ Àü´ŞÇÑ´Ù.
+			//Intentë¥¼ ì´ìš©í•˜ì—¬ LandmarkActivityì— ldmIdxë¥¼ ì „ë‹¬í•œë‹¤.
 			mIntent = new Intent(MapListActivity.this, LandmarkActivity.class);
 			mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);
 			startActivity(mIntent);
@@ -467,10 +467,10 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	};
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position: ¸î ¹øÂ° °ÍÀ» ´­·¶´ÂÁö.0~n
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position: ëª‡ ë²ˆì§¸ ê²ƒì„ ëˆŒë €ëŠ”ì§€.0~n
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
-			//TODO: mPostingArr¿Í Listview¿¡ ¿Ã¶ó°£ »çÇ×ÀÇ ÀÏÄ¡¸¦ º¸Àå½ÃÄÑ¾ß ÇÑ´Ù. ¾ÆÁ÷ È®ÀÎµÇÁö ¾ÊÀ½.
+			//TODO: mPostingArrì™€ Listviewì— ì˜¬ë¼ê°„ ì‚¬í•­ì˜ ì¼ì¹˜ë¥¼ ë³´ì¥ì‹œì¼œì•¼ í•œë‹¤. ì•„ì§ í™•ì¸ë˜ì§€ ì•ŠìŒ.
 			
 			mIntent = new Intent(MapListActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);

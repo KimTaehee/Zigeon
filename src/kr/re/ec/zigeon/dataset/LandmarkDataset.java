@@ -48,8 +48,8 @@ public class LandmarkDataset extends Object {
 			dislike = Integer.parseInt(strArr[6]);
 			writerIdx = Integer.parseInt(strArr[7]);
 			readedCount = Integer.parseInt(strArr[8]);
-			writtenTime = new Date(); //TODO: ÀÓ½Ã·Î ÇöÀç ½Ã°£ ¹İ¿µ.
-			if (strArr[10]!=null) { //NumberFormatException ÇÇÇÏ±â À§ÇÔ
+			writtenTime = new Date(); //TODO: ì„ì‹œë¡œ í˜„ì¬ ì‹œê°„ ë°˜ì˜.
+			if (strArr[10]!=null) { //NumberFormatException í”¼í•˜ê¸° ìœ„í•¨
 				undoIdx = Integer.parseInt(strArr[10]);
 			} else {
 				//LogUtil.v("convert null to int DB_NULL");
@@ -62,27 +62,27 @@ public class LandmarkDataset extends Object {
 	}
 	
 	/*********** 
-	 * NGeoPoint³ª double latitudeÀ§µµ, double longitude°æµµ¸¦ ÀÔ·Â¹Ş¾Æ
-	 * ÇöÀç LandmarkDataset°úÀÇ °Å¸®¸¦ double(meter)·Î ¹İÈ¯ÇÑ´Ù.
+	 * NGeoPointë‚˜ double latitudeìœ„ë„, double longitudeê²½ë„ë¥¼ ì…ë ¥ë°›ì•„
+	 * í˜„ì¬ LandmarkDatasetê³¼ì˜ ê±°ë¦¬ë¥¼ double(meter)ë¡œ ë°˜í™˜í•œë‹¤.
 	 * 130818 function check done.
 	 *  ***********/
 	public double getDistance(NGeoPoint gp) {
-		if (this.latitude==0.0 || this.longitude==0.0 || gp==null) { //this³ª gp°¡ ¼¼ÆÃµÇÁö ¾ÊÀº »óÅÂ¶ó¸é
+		if (this.latitude==0.0 || this.longitude==0.0 || gp==null) { //thisë‚˜ gpê°€ ì„¸íŒ…ë˜ì§€ ì•Šì€ ìƒíƒœë¼ë©´
 			LogUtil.e("this.latlog or gp wasn't set. return dbl_null");
 			return Constants.DOUBLE_NULL;
 		} else {
-			//NGeoPoint constructorÀÎÀÚ´Â lon, lat ¼ø¼­ÀÓ¿¡ À¯ÀÇÇÏ¶ó!
+			//NGeoPoint constructorì¸ìëŠ” lon, lat ìˆœì„œì„ì— ìœ ì˜í•˜ë¼!
 			return NGeoPoint.getDistance(gp, new NGeoPoint(this.longitude, this.latitude)); 
 		}
 	}
 	
-	/***** À§µµlatitude, °æµµlongitude ****/
+	/***** ìœ„ë„latitude, ê²½ë„longitude ****/
 	public double getDistance(double _latitude, double _longitude) {
-		if (this.latitude==0.0 || this.longitude==0.0) { //this°¡ ¼¼ÆÃµÇÁö ¾ÊÀº »óÅÂ¶ó¸é
+		if (this.latitude==0.0 || this.longitude==0.0) { //thisê°€ ì„¸íŒ…ë˜ì§€ ì•Šì€ ìƒíƒœë¼ë©´
 			LogUtil.e("this.latlog didn't set. return dbl_null");
 			return Constants.DOUBLE_NULL;
 		} else {
-			//NGeoPoint constructorÀÎÀÚ´Â lon, lat ¼ø¼­ÀÓ¿¡ À¯ÀÇÇÏ¶ó!
+			//NGeoPoint constructorì¸ìëŠ” lon, lat ìˆœì„œì„ì— ìœ ì˜í•˜ë¼!
 			return NGeoPoint.getDistance(new NGeoPoint(_longitude, _latitude)
 				, new NGeoPoint(this.longitude, this.latitude)); 
 		}
