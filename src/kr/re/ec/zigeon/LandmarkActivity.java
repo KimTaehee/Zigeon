@@ -1,6 +1,6 @@
-/*
- * 130816 Á¶´öÁÖ ÀÛ¼º
- * 130819 ±èÅÂÈñ ¼öÁ¤
+/* djdjdj
+ * 130816 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½
+ * 130819 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  * 
  */
 
@@ -34,7 +34,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
-//TODO: DO NOT USE deprecated Class È¤Àº function
+//TODO: DO NOT USE deprecated Class È¤ï¿½ï¿½ function
 public class LandmarkActivity extends Activity implements OnClickListener {
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -45,10 +45,10 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private TextView tvName;
 	private TextView tvContents;
 	
-	private ArrayList<String> mCommentArl;		//listview ¼¼ÆÃ¿ë	
-	private ArrayList<String> mPostingArl;		//listview ¼¼ÆÃ¿ë
-	private ArrayAdapter<String> mCommentAdp;		//listview ¼¼ÆÃ¿ë
-	private ArrayAdapter<String> mPostingAdp;		//listview ¼¼ÆÃ¿ë
+	private ArrayList<String> mCommentArl;		//listview ï¿½ï¿½ï¿½Ã¿ï¿½	
+	private ArrayList<String> mPostingArl;		//listview ï¿½ï¿½ï¿½Ã¿ï¿½
+	private ArrayAdapter<String> mCommentAdp;		//listview ï¿½ï¿½ï¿½Ã¿ï¿½
+	private ArrayAdapter<String> mPostingAdp;		//listview ï¿½ï¿½ï¿½Ã¿ï¿½
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
@@ -57,17 +57,17 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-	private Handler messageHandler = new Handler() { //UpdateService·ÎºÎÅÍÀÇ ¼ö½ÅºÎ! Áß¿äÇÔ
+	private Handler messageHandler = new Handler() { //UpdateServiceï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åºï¿½! ï¿½ß¿ï¿½ï¿½ï¿½
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
 			case Constants.MSG_TYPE_LANDMARK:
 			{
-				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //PK·Î °Ë»öÇÏ¹Ç·Î Arr.length==1ÀÌ´Ù. 
+				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //PKï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï¹Ç·ï¿½ Arr.length==1ï¿½Ì´ï¿½. 
 				mLandmarkDataset = landmarkDataArr[0];
 				
-				/******************** info Ãâ·Â *******************/
+				/******************** info ï¿½ï¿½ï¿½ï¿½ *******************/
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
 				
@@ -77,7 +77,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				mPostingArr =(PostingDataset[]) msg.obj;
 				
-				/************ PostingÀ» listview¿¡ ¹Ý¿µÇÑ´Ù ************/
+				/************ Postingï¿½ï¿½ listviewï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½Ñ´ï¿½ ************/
 				mPostingArl.clear();
 				 
 				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
@@ -92,7 +92,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
 				
-				/************ Comment¸¦ listview¿¡ ¹Ý¿µÇÑ´Ù ************/
+				/************ Commentï¿½ï¿½ listviewï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½Ñ´ï¿½ ************/
 				mCommentArl.clear();
 				 
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
@@ -120,18 +120,18 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landmark);  
         
-        /************** ÇÚµé·¯ µî·Ï ***************/
+        /************** ï¿½Úµé·¯ ï¿½ï¿½ï¿½ï¿½ ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
         
 		/****** Data init request *****/
-		//intent¼ö½Å. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);·Î intent¸¦ ¹ÞÀ½À» »ó±âÇÏ¶ó
+		//intentï¿½ï¿½ï¿½ï¿½. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);ï¿½ï¿½ intentï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
         Bundle bundle = this.getIntent().getExtras();
         mLandmarkDataset = new LandmarkDataset();
         mLandmarkDataset.idx = bundle.getInt("ldmIdx");
         //LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
 		
-		//ldbIdx·Î ³»¿ë¿äÃ»
+		//ldbIdxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»
         soapParser = SoapParser.getInstance(); 
         
         String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
@@ -149,7 +149,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
         
-        /****** UI ÃÊ±âÈ­ *****/
+        /****** UI ï¿½Ê±ï¿½È­ *****/
         tabHost = (TabHost) findViewById(R.id.landmark_tabhost);
         lstComment = (ListView) findViewById(R.id.landmark_commentlist);
         lstPosting = (ListView) findViewById(R.id.landmark_postinglist);
@@ -160,23 +160,23 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         tvContents = (TextView) findViewById(R.id.landmark_tv_contents);
         btnInputComment.setOnClickListener(this);
         
-        //ÃÊ±â listview ¹®±¸ ÁöÁ¤.
+        //ï¿½Ê±ï¿½ listview ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
         mPostingArl = new ArrayList<String>();
         mPostingArl.add("Postings Loading...");
         
-        //listview°¡ ¾Æ´Ñ layoutÀÌ µé¾î°¨¿¡ À¯ÀÇ
+        //listviewï¿½ï¿½ ï¿½Æ´ï¿½ layoutï¿½ï¿½ ï¿½ï¿½ï¿½î°¨ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl); 
         mPostingAdp = new ArrayAdapter<String>(this, R.layout.listview_item_posting , mPostingArl);
         
         lstComment.setAdapter(mCommentAdp);
         //lstComment.setOnItemClickListener(lstCommentItemClickListener);
-        mCommentAdp.setNotifyOnChange(true); //ÀÌ ¿É¼ÇÀÌ ÀÖÀ¸¸é ArrayList°¡ ¼öÁ¤µÉ ¶§ ÀÚµ¿À¸·Î ¹Ý¿µµÈ´Ù. strArr´ë½Å ArrayList¸¦ ½á¾ß ÇÏ´Â ÀÌÀ¯
+        mCommentAdp.setNotifyOnChange(true); //ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ArrayListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½È´ï¿½. strArrï¿½ï¿½ï¿½ï¿½ ArrayListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
         
         lstPosting.setAdapter(mPostingAdp);
         lstPosting.setOnItemClickListener(lstPostingItemClickListener);
-        mPostingAdp.setNotifyOnChange(true); //ÀÌ ¿É¼ÇÀÌ ÀÖÀ¸¸é ArrayList°¡ ¼öÁ¤µÉ ¶§ ÀÚµ¿À¸·Î ¹Ý¿µµÈ´Ù. strArr´ë½Å ArrayList¸¦ ½á¾ß ÇÏ´Â ÀÌÀ¯
+        mPostingAdp.setNotifyOnChange(true); //ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ArrayListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½È´ï¿½. strArrï¿½ï¿½ï¿½ï¿½ ArrayListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
         
         tabHost.setup(); 
         
@@ -193,13 +193,13 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	    tabHost.setCurrentTab(0);
     }
     
-    /************** ¸®½ºÆ®ºä Å¬¸¯½Ã ****************/
+    /************** ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ****************/
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //positionÀº ¸î ¹øÂ° °ÍÀ» ´­·¶´ÂÁö. 0~n
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //positionï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 0~n
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
-			//TODO: mPostingArr¿Í Listview¿¡ ¿Ã¶ó°£ »çÇ×ÀÇ ÀÏÄ¡¸¦ º¸Àå½ÃÄÑ¾ß ÇÑ´Ù. ¾ÆÁ÷ È®ÀÎµÇÁö ¾ÊÀ½.
+			//TODO: mPostingArrï¿½ï¿½ Listviewï¿½ï¿½ ï¿½Ã¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ È®ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			
 			mIntent = new Intent(LandmarkActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
@@ -213,20 +213,20 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	}
 
     @Override
-    public void onClick(View v) { //ÆÄ¿ö´ñ±Û ¤»
-    	if(edtInputComment.getText().toString().compareTo("") == 0) { //³»¿ë¾øÀ¸¸é ¿¡·¯¶ç¿ì°í °­Á¦ return
+    public void onClick(View v) { //ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    	if(edtInputComment.getText().toString().compareTo("") == 0) { //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ return
     		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    		alert.setPositiveButton("È®ÀÎ", new DialogInterface.OnClickListener() {
+    		alert.setPositiveButton("È®ï¿½ï¿½", new DialogInterface.OnClickListener() {
     			@Override
     			public void onClick(DialogInterface dialog, int which) {
     				dialog.dismiss();	
     			}
     		});
-    		alert.setMessage("³»¿ëÀ» ÀÔ·ÂÇØ¾ßÁö? ^^");
+    		alert.setMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½? ^^");
     		alert.show();
     		return;
     	} else {
-    		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //Á¤»óÀÛµ¿ È®ÀÎ.
+    		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ È®ï¿½ï¿½.
     		int maxComIdx = Integer.parseInt(str);
     		str = soapParser.sendQuery(
     				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
