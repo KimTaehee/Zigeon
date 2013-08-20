@@ -15,7 +15,7 @@ now testing for android 4.0.3 (lev 15)
 
 ======
 
-if there is anything on the project, about mail to slhyvaa@nate.com. 
+if there is anything on the project, plz mail to slhyvaa@nate.com. 
 
 
 
