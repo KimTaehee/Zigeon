@@ -1,15 +1,15 @@
 /**
- * Å¬·¡½º ÀÌ¸§ : BubbleActivity
- * Å¬·¡½º ¼³¸í : ¹öºíÀ» È­¸é¿¡ ¶ç¿ì°í ¾Ö´Ï¸ŞÀÌ¼Ç È¿°ú¸¦ Áİ´Ï´Ù.
- * ÀÛ¼ºÀÚ (È¤Àº ÆÀ) : ±èÁöÈ« 
- * ¹öÀü Á¤º¸ :
- * ÀÛ¼º ÀÏÀÚ : 8¿ù 15ÀÏ ¿ÀÈÄ 6:35
- * ¼öÁ¤ ÀÌ·Â : 8¿ù 16 ¿ÀÀü 3:01
+ * í´ë˜ìŠ¤ ì´ë¦„ : BubbleActivity
+ * í´ë˜ìŠ¤ ì„¤ëª… : ë²„ë¸”ì„ í™”ë©´ì— ë„ìš°ê³  ì• ë‹ˆë©”ì´ì…˜ íš¨ê³¼ë¥¼ ì¤ë‹ˆë‹¤.
+ * ì‘ì„±ì (í˜¹ì€ íŒ€) : ê¹€ì§€í™ 
+ * ë²„ì „ ì •ë³´ :
+ * ì‘ì„± ì¼ì : 8ì›” 15ì¼ ì˜¤í›„ 6:35
+ * ìˆ˜ì • ì´ë ¥ : 8ì›” 16 ì˜¤ì „ 3:01
  */
 
 package kr.re.ec.zigeon;
 
-/* ÀÛ¼ºÀÚ: ±èÅÂÈñ. ÀÓ½Ã MainActivity
+/* ì‘ì„±ì: ê¹€íƒœí¬. ì„ì‹œ MainActivity
  * 
  */
 import com.nhn.android.maps.maplib.NGeoPoint;
@@ -55,10 +55,10 @@ public class BubbleActivity extends Activity {
 //	private TextView tvPostingTest;
 //	private Button btnServiceStopTest;
 	
-	private SoapParser soapParser; //TODO: test. È®ÀÎÇÑ ´ÙÀ½¿¡ »©Áà¾ßÇÔ.
+	private SoapParser soapParser; //TODO: test. í™•ì¸í•œ ë‹¤ìŒì— ë¹¼ì¤˜ì•¼í•¨.
 	
 	private UIHandler uiHandler; 
-	private Handler messageHandler = new Handler() { //UpdateService·ÎºÎÅÍÀÇ ¼ö½ÅºÎ! Áß¿äÇÔ
+	private Handler messageHandler = new Handler() { //UpdateServiceë¡œë¶€í„°ì˜ ìˆ˜ì‹ ë¶€! ì¤‘ìš”í•¨
 		@Override
 		public void handleMessage(Message msg){
 			switch (msg.what) {
@@ -96,7 +96,7 @@ public class BubbleActivity extends Activity {
 			}
 			case Constants.MSG_TYPE_LOCATION:
 			{
-				//ÀÏ´ÜÀº android.location ´ë½Å NGeoPoint¸¦ ¾²±â·Î ÇÑ´Ù.
+				//ì¼ë‹¨ì€ android.location ëŒ€ì‹  NGeoPointë¥¼ ì“°ê¸°ë¡œ í•œë‹¤.
 				NGeoPoint location = (NGeoPoint)msg.obj;
 				String str = location.getLatitude() + "\n" + location.getLongitude() + "\n";
 //						+ "\n" + location.getAccuracy() + "\n" + location.getProvider();
@@ -112,7 +112,7 @@ public class BubbleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble);
 		
-		/*************** UI ÃÊ±âÈ­ ************/
+		/*************** UI ì´ˆê¸°í™” ************/
 //		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
 //		tvLandmarkTest = (TextView)findViewById(R.id.bubble_tvLandmarkTest);
 //		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
@@ -124,27 +124,27 @@ public class BubbleActivity extends Activity {
 		bubbleImage4 = (ImageView) findViewById(R.id.bubbleImage4);
 		rootLayout = (RelativeLayout) findViewById(R.id.rootLayout);
 		
-		/************* ¾Ö´Ï¸ŞÀÌ¼ÇºÎ ****************/
-		// ÀÌ¹ÌÁö Å©±â¸¦ Á¶Á¤ÇÏ±â À§ÇÑ ÄÚµå
+		/************* ì• ë‹ˆë©”ì´ì…˜ë¶€ ****************/
+		// ì´ë¯¸ì§€ í¬ê¸°ë¥¼ ì¡°ì •í•˜ê¸° ìœ„í•œ ì½”ë“œ
 		LayoutParams params = (LayoutParams) bubbleImage.getLayoutParams();
 		params.width = 120;
 		bubbleImage.setLayoutParams(params);
 
-		// ¾Ö´Ï¸ŞÀÌ¼Ç È¿°ú
+		// ì• ë‹ˆë©”ì´ì…˜ íš¨ê³¼
 		bubblemoveAnimation = AnimationUtils.loadAnimation(this,
 				R.anim.bubblemove);
 		bubbleImage.setAnimation(bubblemoveAnimation);
 
 		/**
-		 * ÇöÀç´Â ÀÌ¹ÌÁö ÇÏ³ª´ç ÇÏ³ªÀÇ ¾Ö´Ï¸ŞÀÌ¼Ç°ú imageview¸¦ ¸¸µé¾î¼­ »ç¿ëÇß½À´Ï´Ù. 1~7°³±îÁö °°Àº ÀÌ¹ÌÁö¸¦ ½á¼­ 1°³ÀÇ
-		 * imageview·Î Ç¥ÇöÇÒ¼ö ÀÖÀ»°Í °°Àºµ¥ ±×°Ç Á»´õ »ı°¢ÇØºÁ¾ß ÇÒ°Í °°½À´Ï´Ù.
+		 * í˜„ì¬ëŠ” ì´ë¯¸ì§€ í•˜ë‚˜ë‹¹ í•˜ë‚˜ì˜ ì• ë‹ˆë©”ì´ì…˜ê³¼ imageviewë¥¼ ë§Œë“¤ì–´ì„œ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤. 1~7ê°œê¹Œì§€ ê°™ì€ ì´ë¯¸ì§€ë¥¼ ì¨ì„œ 1ê°œì˜
+		 * imageviewë¡œ í‘œí˜„í• ìˆ˜ ìˆì„ê²ƒ ê°™ì€ë° ê·¸ê±´ ì¢€ë” ìƒê°í•´ë´ì•¼ í• ê²ƒ ê°™ìŠµë‹ˆë‹¤.
 		 */
 
 		LayoutParams params2 = (LayoutParams) bubbleImage2.getLayoutParams();
 		params2.width = 100;
 		/**
-		 * width¾Æ¹«¸® Å©°ÔÇØµµ ¿ø·¡ imageview¿¡ ¼³Á¤µÈ Å©±â ÀÌ»óÀ¸·Î´Â Ä¿ÁöÁö ¾Ê³×¿ä Ã³À½ ¸¸µé¶§ ÀÏÁ¤Å©±â·Î ¸¸µé¾î µÎ¸é
-		 * ¹®Á¦´Â ¾øÀ»°Í °°½À´Ï´Ù.
+		 * widthì•„ë¬´ë¦¬ í¬ê²Œí•´ë„ ì›ë˜ imageviewì— ì„¤ì •ëœ í¬ê¸° ì´ìƒìœ¼ë¡œëŠ” ì»¤ì§€ì§€ ì•Šë„¤ìš” ì²˜ìŒ ë§Œë“¤ë•Œ ì¼ì •í¬ê¸°ë¡œ ë§Œë“¤ì–´ ë‘ë©´
+		 * ë¬¸ì œëŠ” ì—†ì„ê²ƒ ê°™ìŠµë‹ˆë‹¤.
 		 */
 
 		bubbleImage2.setLayoutParams(params2);
@@ -166,13 +166,13 @@ public class BubbleActivity extends Activity {
 				R.anim.bubblemove4);
 		bubbleImage4.setAnimation(bubblemoveAnimation);
 
-		/********************** ¹öÆ° Å¬¸¯À» À§ÇÑ ¼ıÀÚ ¶§·Á¹Ú±â ********************************/
+		/********************** ë²„íŠ¼ í´ë¦­ì„ ìœ„í•œ ìˆ«ì ë•Œë ¤ë°•ê¸° ********************************/
 
 		RelativeLayout.LayoutParams img_param = (LayoutParams) bubbleImage4
 				.getLayoutParams();
 		
 		final Button btn = new Button(this);
-		// ¹öºí(¾ß¸Å¹öÆ°)À» Å¬¸¯ÇßÀ»¶§
+		// ë²„ë¸”(ì•¼ë§¤ë²„íŠ¼)ì„ í´ë¦­í–ˆì„ë•Œ
 		btn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -186,10 +186,10 @@ public class BubbleActivity extends Activity {
 		
 		rootLayout.addView(btn);
 		btn.setLayoutParams(img_param);
-		btn.setBackgroundColor(0); /* ¹öÆ°Åõ¸íÇÏ°Ô */
-		btn.setY(1587); /* ¹öÆ°½ÃÀÛÀ§Ä¡ */
+		btn.setBackgroundColor(0); /* ë²„íŠ¼íˆ¬ëª…í•˜ê²Œ */
+		btn.setY(1587); /* ë²„íŠ¼ì‹œì‘ìœ„ì¹˜ */
 
-		// ¹öÆ° À§Ä¡ ¼³Á¤¿ë ÇÚµé·¯
+		// ë²„íŠ¼ ìœ„ì¹˜ ì„¤ì •ìš© í•¸ë“¤ëŸ¬
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				btn.setY(BUBBLETEST_BUTTON_START_Y - BUBBLETEST_BUTTON_INTERVAL
@@ -206,9 +206,9 @@ public class BubbleActivity extends Activity {
 						Thread.sleep(1000);
 						LogUtil.v("i = " + i + "getY = " + btn.getY());
 						msg.arg1 = i % 18 + 1; /*
-												 * 18·Î ÇÑ ÀÌÀ¯´Â bubble¾Ö´Ï¸ŞÀÌ¼Ç ÁÖ±â¸¦
-												 * 18ÃÊ·Î ÇØ¼­ °°¾ÆÁö°Ô ÇÒ·Á°í Çß½À´Ï´Ù. µû·Î ²ô±â
-												 * ±ÍÂú¾Æ¼­ i°¡ 100µÇ¸é ¾²·¹µå ¸ØÃß°Ô.......
+												 * 18ë¡œ í•œ ì´ìœ ëŠ” bubbleì• ë‹ˆë©”ì´ì…˜ ì£¼ê¸°ë¥¼
+												 * 18ì´ˆë¡œ í•´ì„œ ê°™ì•„ì§€ê²Œ í• ë ¤ê³  í–ˆìŠµë‹ˆë‹¤. ë”°ë¡œ ë„ê¸°
+												 * ê·€ì°®ì•„ì„œ iê°€ 100ë˜ë©´ ì“°ë ˆë“œ ë©ˆì¶”ê²Œ.......
 												 */
 						i += 1;
 						handler.sendMessage(msg);
@@ -219,7 +219,7 @@ public class BubbleActivity extends Activity {
 			}
 		}).start();
 
-		/*************** ÀÏ¹İ ÃÊ±âÈ­ *****************/
+		/*************** ì¼ë°˜ ì´ˆê¸°í™” *****************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
@@ -227,7 +227,7 @@ public class BubbleActivity extends Activity {
 		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
 
 		
-		//¿©±â´Â test±¸¹®
+		//ì—¬ê¸°ëŠ” testêµ¬ë¬¸
 		LogUtil.v("test phrase. select * from tLandmark");
 		soapParser = SoapParser.getInstance();
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -254,7 +254,7 @@ public class BubbleActivity extends Activity {
 		case R.id.action_test_stop_service:
 		{
 			LogUtil.i("action_test_stop_service clicked");
-			stopService(new Intent(this, UpdateService.class));	//TODO: Å×½ºÆ®ÇØºÁ¾ß ÇÔ. ¼­ºñ½º Á¾·á
+			stopService(new Intent(this, UpdateService.class));	//TODO: í…ŒìŠ¤íŠ¸í•´ë´ì•¼ í•¨. ì„œë¹„ìŠ¤ ì¢…ë£Œ
 			break;
 		}
 		}
@@ -264,7 +264,7 @@ public class BubbleActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		LogUtil.v("onDestroy: stop updateService");
-		stopService(new Intent(this, UpdateService.class));	//TODO: Å×½ºÆ®ÇØºÁ¾ß ÇÔ. ¼­ºñ½º Á¾·á
+		stopService(new Intent(this, UpdateService.class));	//TODO: í…ŒìŠ¤íŠ¸í•´ë´ì•¼ í•¨. ì„œë¹„ìŠ¤ ì¢…ë£Œ
 		
 	}
 }

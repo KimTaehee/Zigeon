@@ -31,7 +31,7 @@ public class CommentDataset extends Object {
 	public void setDataset(String[] strArr) {
 		if(strArr.length == COMMENT_FIELD_COUNT){
 			idx = Integer.parseInt(strArr[0]);
-			parentType = strArr[1].charAt(0); //TODO: testÇØºÁ¾ß ÇÔ
+			parentType = strArr[1].charAt(0); //TODO: testí•´ë´ì•¼ í•¨
 			parentIdx = Integer.parseInt(strArr[2]);
 			contents = strArr[3];
 			like = Integer.parseInt(strArr[4]);
