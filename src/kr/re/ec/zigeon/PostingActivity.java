@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /*hjkljlk
+=======
+/**
+>>>>>>> origin/KTHWorking
  * 130816 조덕주 작성
  * 130819 김태희 수정
  */
@@ -6,10 +10,14 @@
 package kr.re.ec.zigeon;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Date;
 
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
+=======
+import kr.re.ec.zigeon.dataset.CommentDataset;
+>>>>>>> origin/KTHWorking
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
@@ -21,9 +29,14 @@ import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+<<<<<<< HEAD
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MotionEvent;
+=======
+import android.content.Intent;
+import android.view.Menu;
+>>>>>>> origin/KTHWorking
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -141,6 +154,11 @@ public class PostingActivity extends Activity implements OnClickListener {
 		btnInputComment = (Button) findViewById(R.id.posting_btn_input_comment);
 		btnInputComment.setOnClickListener(this);
 		edtInputComment = (EditText) findViewById(R.id.posting_edit_input_comment);
+<<<<<<< HEAD
+=======
+		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
+		ibtUploadPhoto.setOnClickListener(this);
+>>>>>>> origin/KTHWorking
 		
 		mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
@@ -165,6 +183,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) { //파워 댓글달기
+<<<<<<< HEAD
 		if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -205,6 +224,62 @@ public class PostingActivity extends Activity implements OnClickListener {
 			//LogUtil.v("SELECT MAX(comIdx) FROM tComment=====>" + str);
 			//String str = soapParser.sendQuery("insert into tComment (col,col,col) values (val,valval..)");
 		}
+=======
+		
+		switch(v.getId()) {
+		case R.id.posting_btn_input_comment:
+		{
+			if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();	
+					}
+				});
+				alert.setMessage("내용을 입력해야지? ^^");
+				alert.show();
+				return;
+			} else {
+				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //정상작동 확인. +1한 idx로 insert한다.
+				int maxComIdx = Integer.parseInt(str);
+				str = soapParser.sendQuery(
+						"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
+								",comWriterIdx,comWrittenTime,comPicturePath)" +
+								" values ('" +
+								(maxComIdx + 1) + //comIdx
+								"','P','" + //comParentType
+								mPostingDataset.idx + //comParentIdx
+								"','"+ edtInputComment.getText() + //comContents
+								"','0','0','" + //comLike, comDislike
+								"1" + //TODO: temp comWriterIdx
+								"',GETDATE()," + //comWrittenTime
+								"NULL" + //TODO: temp comPicturePath 
+						")");
+				LogUtil.i("server return : "+str);
+				
+				edtInputComment.setText("");
+				
+				String query = "SELECT * FROM tComment WHERE comParentIdx='"
+						+ mPostingDataset.idx + "' AND comParentType='P'"; 
+				LogUtil.v("data request. " + query);
+				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+				
+				//LogUtil.v("SELECT MAX(comIdx) FROM tComment=====>" + str);
+				//String str = soapParser.sendQuery("insert into tComment (col,col,col) values (val,valval..)");
+			}
+			break;
+		}
+			
+		case R.id.posting_camera_button:
+		{
+			startActivity(new Intent(this,PhotoUploadActivity.class));
+			break;
+		}
+		}
+		
+>>>>>>> origin/KTHWorking
 	}
 
 }
