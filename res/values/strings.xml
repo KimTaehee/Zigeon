@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-<<<<<<< HEAD
-    <string name="app_name">ZigeonPrototype</string>
-    <string name="bubble_activity_title">BubbleActivity</string>
-=======
     <string name="app_name">Zigeon</string>
     <string name="bubble_activity_title">Bubble</string>
->>>>>>> c01abb94a5477864ebc9eae98e3ca9f4e09a3a97
     <string name="action_settings">Settings</string>
     <string name="bubble_test_stop_service">ServiceOff</string>
     <string name="bubble_tvIntro">지전(지역전문가) 납셨다.\nEndless Creation, Seoultech\n\n</string>
