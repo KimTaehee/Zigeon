@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Zigeon</string>
     <string name="bubble_activity_title">Bubble</string>
     <string name="action_settings">Settings</string>
