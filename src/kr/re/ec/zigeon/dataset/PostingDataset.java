@@ -31,7 +31,7 @@ public class PostingDataset extends Object {
 	
 	public void setDataset(String[] strArr) {
 		if(strArr.length == POSTING_FIELD_COUNT){
-//			LogUtil.v("test: postingdataset setDataset ÁøÀÔ. strArr[]:"
+//			LogUtil.v("test: postingdataset setDataset ì§„ìž…. strArr[]:"
 //					+ strArr[0] + " "+ strArr[1] + " "+ strArr[2] + " "+ strArr[3] + " "+ strArr[4] + " "
 //					+ strArr[5] + " "+ strArr[6] + " "+ strArr[7] + " "+ strArr[8] + " "+ strArr[9] + " ");
 			idx = Integer.parseInt(strArr[0]);
