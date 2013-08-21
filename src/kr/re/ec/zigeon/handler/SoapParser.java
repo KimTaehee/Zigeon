@@ -1,10 +1,10 @@
 /**
- * Å¬·¡½º ÀÌ¸§ : SoapParsing
- * Å¬·¡½º ¼³¸í : SoapParsing ÆÄ½ÌÆÄ½Ì
- * ÀÛ¼ºÀÚ (È¤Àº ÆÀ) : kim ji hong 
- * ¹öÀü Á¤º¸ :
- * ÀÛ¼º ÀÏÀÚ : 8¿ù 15ÀÏ
- * ¼öÁ¤ ÀÌ·Â : 8¿ù 19ÀÏ ¿ÀÀü 6:46
+ * í´ë˜ìŠ¤ ì´ë¦„ : SoapParsing
+ * í´ë˜ìŠ¤ ì„¤ëª… : SoapParsing íŒŒì‹±íŒŒì‹±
+ * ì‘ì„±ì (í˜¹ì€ íŒ€) : kim ji hong 
+ * ë²„ì „ ì •ë³´ :
+ * ì‘ì„± ì¼ì : 8ì›” 15ì¼
+ * ìˆ˜ì • ì´ë ¥ : 8ì›” 19ì¼ ì˜¤ì „ 6:46
  */
 
 package kr.re.ec.zigeon.handler;
@@ -54,7 +54,7 @@ public class SoapParser {
 		return instance;
 	}
 	
-	public Object getSoapData(String query, int datatype){ //datatypeÀº Contants¸¦ º¸¶ó.
+	public Object getSoapData(String query, int datatype){ //datatypeì€ Contantsë¥¼ ë³´ë¼.
 		LogUtil.v("getSoapData called. query: \"" + query + "\" / type: " + datatype);
 		
 		Object resultObj = null;
@@ -64,13 +64,13 @@ public class SoapParser {
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(request);
-		request.addProperty("searchData", query); //TODO: searchData Å°¿öµåÀÇ ÀÇ¹Ì?
+		request.addProperty("searchData", query); //TODO: searchData í‚¤ì›Œë“œì˜ ì˜ë¯¸?
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 		androidHttpTransport.debug = true;
 		try {
-			/**StrictMode´Â Çã´ÏÄŞ ÀÌ»ó ¹öÁ¯¿¡ ¸ŞÀÎ¾²·¹½º¿¡¼­ ³×Æ®¿öÅ© ÀÛ¾÷À» ÇÏ¸é
-			 * ¿¡·¯°¡³­´Ù. ±âÇÊÄÚ ¸ŞÀÎ¿¡¼­ ÀÛ¾÷ÇØ¾ßÇÒ°æ¿ì ¾²´Â ÄÚµå.....
-			 * °¡Á®´Ù ºÙ¿©¾´°Å¶ó ¾î¶»°Ô Ã³¸®¸¦ ¸øÇØ¼­ ±×³É ºÙ¾î¹ö·È¾î¿ä.....
+			/**StrictModeëŠ” í—ˆë‹ˆì½¤ ì´ìƒ ë²„ì ¼ì— ë©”ì¸ì“°ë ˆìŠ¤ì—ì„œ ë„¤íŠ¸ì›Œí¬ ì‘ì—…ì„ í•˜ë©´
+			 * ì—ëŸ¬ê°€ë‚œë‹¤. ê¸°í•„ì½” ë©”ì¸ì—ì„œ ì‘ì—…í•´ì•¼í• ê²½ìš° ì“°ëŠ” ì½”ë“œ.....
+			 * ê°€ì ¸ë‹¤ ë¶™ì—¬ì“´ê±°ë¼ ì–´ë–»ê²Œ ì²˜ë¦¬ë¥¼ ëª»í•´ì„œ ê·¸ëƒ¥ ë¶™ì–´ë²„ë ¸ì–´ìš”.....
 			 */
 			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
 			
@@ -89,7 +89,7 @@ public class SoapParser {
 		return resultObj;
 	}
 	
-	private String[][] xmlParser(String data, int datatype) {// µ¥ÀÌÅÍ ÆÄ½Ì. datatypeÀº Constants¿¡ µû¸§
+	private String[][] xmlParser(String data, int datatype) {// ë°ì´í„° íŒŒì‹±. datatypeì€ Constantsì— ë”°ë¦„
 		//LogUtil.v("xmlParser called.");
 		String parsingData = null;
 		String[][] parsingDataArr = null;
@@ -105,19 +105,19 @@ public class SoapParser {
 			String tag = null;
 			int inText = NONE; 
 			
-			int tableCnt; //ÃÑ Å×ÀÌºí °³¼ö¸¦ ±¸ÇÏ¿© 2Â÷¿ø String ¹è¿­ÀÇ ÇàÀ» ÇÒ´çÇÑ´Ù.
-			int i=0,j=0; //Çà,¿­ Ä¿¼­
-			String[] tableCntArr = data.split("<Table>"); //Àß¶ó¼­ ¸î °³ÀÎÁö ¾Ë¾Æº»´Ù.
-			tableCnt = tableCntArr.length - 1; //-1Àº <NewDataSet> ¶§¹®
+			int tableCnt; //ì´ í…Œì´ë¸” ê°œìˆ˜ë¥¼ êµ¬í•˜ì—¬ 2ì°¨ì› String ë°°ì—´ì˜ í–‰ì„ í• ë‹¹í•œë‹¤.
+			int i=0,j=0; //í–‰,ì—´ ì»¤ì„œ
+			String[] tableCntArr = data.split("<Table>"); //ì˜ë¼ì„œ ëª‡ ê°œì¸ì§€ ì•Œì•„ë³¸ë‹¤.
+			tableCnt = tableCntArr.length - 1; //-1ì€ <NewDataSet> ë•Œë¬¸
 			//LogUtil.v("tableCnt: " + tableCnt);
 			
-			parsingDataArr = new String[tableCnt][]; //String ¹è¿­ Çà ÇÒ´ç 
-			for(i=0;i<parsingDataArr.length;i++) { //String ¹è¿­ ¿­ ÇÒ´ç
+			parsingDataArr = new String[tableCnt][]; //String ë°°ì—´ í–‰ í• ë‹¹ 
+			for(i=0;i<parsingDataArr.length;i++) { //String ë°°ì—´ ì—´ í• ë‹¹
 				parsingDataArr[i] = new String[Constants.DATASET_FIELD[datatype].length];
 			}
 			LogUtil.v("prsDArr length["+parsingDataArr.length+"]["+parsingDataArr[0].length+"]");
 						
-			i = -1; //Ã¹ Å×ÀÌºíÀÌ 0ÀÌ µÇ¾î¾ß ÇÏ´Ï±î. i++ ºÎºĞÀ» º¸¶ó!
+			i = -1; //ì²« í…Œì´ë¸”ì´ 0ì´ ë˜ì–´ì•¼ í•˜ë‹ˆê¹Œ. i++ ë¶€ë¶„ì„ ë³´ë¼!
 			j = 0;
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
 				switch (parserEvent) {
@@ -143,10 +143,10 @@ public class SoapParser {
 					{
 //						LogUtil.v("parser.gettext : " + parser.getText() + " i: " + i + " j: "+j);
 //						LogUtil.v("Constants.DATASET_FIELD[datatype][j]" + Constants.DATASET_FIELD[datatype][j]);
-						if(tag.compareTo(Constants.DATASET_FIELD[datatype][j]) == 0) { //¼ø¸®´ë·Î Èê·¯°¡¸é
+						if(tag.compareTo(Constants.DATASET_FIELD[datatype][j]) == 0) { //ìˆœë¦¬ëŒ€ë¡œ í˜ëŸ¬ê°€ë©´
 							parsingDataArr[i][j] = parser.getText();							
-						} else { //¼ø¸®¸¦ °Å½º¸£¸é null°ªÀÓ
-							parsingDataArr[i][j] = "null"; //¹Ş¾Æ¶ó ³Î ¾¾¹ß·Ã¾Æ
+						} else { //ìˆœë¦¬ë¥¼ ê±°ìŠ¤ë¥´ë©´ nullê°’ì„
+							parsingDataArr[i][j] = "null"; //ë°›ì•„ë¼ ë„ ì”¨ë°œë ¨ì•„
 						}
 						j++;
 						break;
@@ -179,7 +179,7 @@ public class SoapParser {
 	}
 
 	/**
-	 * insert, update, delete Àü¼Û¿ëµµ. returnÀº  °á°ú°¡ ÄŞ¸¶·Î ±¸ºĞµÈ String. ±èÅÂÈñ ÀÛ¼º.
+	 * insert, update, delete ì „ì†¡ìš©ë„. returnì€  ê²°ê³¼ê°€ ì½¤ë§ˆë¡œ êµ¬ë¶„ëœ String. ê¹€íƒœí¬ ì‘ì„±.
 	 */
 	public String sendQuery(String query) { 
 		LogUtil.v("sendQuery called. query: \"" + query + "\"");
@@ -190,7 +190,7 @@ public class SoapParser {
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(request);
-		request.addProperty("searchData", query); //TODO: searchData Å°¿öµåÀÇ ÀÇ¹Ì?
+		request.addProperty("searchData", query); //TODO: searchData í‚¤ì›Œë“œì˜ ì˜ë¯¸?
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 		androidHttpTransport.debug = true;
 		try {
@@ -209,14 +209,14 @@ public class SoapParser {
 		return resultStr;
 	}
 	
-	private Object convertDatasetToObj(String[][] strArr, int datatype)	//2Â÷¿ø strArr¸¦ Obj[]·Î convert.
+	private Object convertDatasetToObj(String[][] strArr, int datatype)	//2ì°¨ì› strArrë¥¼ Obj[]ë¡œ convert.
 	{
 		//LogUtil.v("convert Dataset to Obj");
 		Object obj = null;
 		switch (datatype) {
 		case Constants.MSG_TYPE_LANDMARK:
 			//LogUtil.v("switched MSG_TYPE_LANDMARK");
-			LandmarkDataset[] landmarkArr = new LandmarkDataset[strArr.length];	//Landmark Array »ı¼º
+			LandmarkDataset[] landmarkArr = new LandmarkDataset[strArr.length];	//Landmark Array ìƒì„±
 			for(int i=0; i<strArr.length; i++) {
 				landmarkArr[i] = new LandmarkDataset(strArr[i]);	
 			}
@@ -224,7 +224,7 @@ public class SoapParser {
 			break;
 			
 		case Constants.MSG_TYPE_POSTING:
-			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//Posting Array »ı¼º
+			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//Posting Array ìƒì„±
 			for(int i=0; i<strArr.length; i++) {
 				postingArr[i] = new PostingDataset(strArr[i]);	
 			}
@@ -232,16 +232,16 @@ public class SoapParser {
 			break;
 			
 		case Constants.MSG_TYPE_COMMENT:
-			CommentDataset[] commentArr = new CommentDataset[strArr.length];	//Comment Array »ı¼º
+			CommentDataset[] commentArr = new CommentDataset[strArr.length];	//Comment Array ìƒì„±
 			for(int i=0; i<strArr.length; i++) {
 				commentArr[i] = new CommentDataset(strArr[i]);	
 			}
 			obj = commentArr;
 			break;
 			
-			//TODO: MEMBER Ã³¸®ÇØ¾ßÇÔ
+			//TODO: MEMBER ì²˜ë¦¬í•´ì•¼í•¨
 //		case Constants.MSG_TYPE_MEMBER: 
-//			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//Landmark Array »ı¼º
+//			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//Landmark Array ìƒì„±
 //			for(int i=0; i<strArr.length; i++) {
 //				landmark[i] = new LandmarkDataset(strArr[i]);	
 //			}
@@ -265,7 +265,7 @@ public class SoapParser {
 		return obj;
 	}
 	
-	private String xmlRawParser(String data) {// StringÀ¸·Î return.
+	private String xmlRawParser(String data) {// Stringìœ¼ë¡œ return.
 		String parsingData = null;
 		
 		try {
@@ -278,7 +278,7 @@ public class SoapParser {
 			String tag;
 			int inText = NONE;
 
-			//data°¡ ¾øÀ¸¸é <NewDataSet />ÀÌ ¿Â´Ù.
+			//dataê°€ ì—†ìœ¼ë©´ <NewDataSet />ì´ ì˜¨ë‹¤.
 			if(data.compareTo("<NewDataSet />")==0) {
 				return "";
 			} else {
@@ -300,7 +300,7 @@ public class SoapParser {
 						switch (inText) {
 						case DATA:
 							parsingData += parser.getText() + ",";
-							// µ¥ÀÌÅÍ¸¦ ±¸ºĞÇÏ±âÀ§ÇØ ÄŞ¸¶¸¦ Ãß°¡Çß½À´Ï´Ù
+							// ë°ì´í„°ë¥¼ êµ¬ë¶„í•˜ê¸°ìœ„í•´ ì½¤ë§ˆë¥¼ ì¶”ê°€í–ˆìŠµë‹ˆë‹¤
 							break;
 
 						case NONE:

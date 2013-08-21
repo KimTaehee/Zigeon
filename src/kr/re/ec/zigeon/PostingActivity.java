@@ -1,15 +1,23 @@
-/*
- * 130816 Á¶´öÁÖ ÀÛ¼º
- * 130819 ±èÅÂÈñ ¼öÁ¤
+<<<<<<< HEAD
+/*hjkljlk
+=======
+/**
+>>>>>>> origin/KTHWorking
+ * 130816 ì¡°ë•ì£¼ ì‘ì„±
+ * 130819 ê¹€íƒœí¬ ìˆ˜ì •
  */
 
 package kr.re.ec.zigeon;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Date;
 
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
+=======
+import kr.re.ec.zigeon.dataset.CommentDataset;
+>>>>>>> origin/KTHWorking
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
@@ -21,9 +29,14 @@ import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+<<<<<<< HEAD
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MotionEvent;
+=======
+import android.content.Intent;
+import android.view.Menu;
+>>>>>>> origin/KTHWorking
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -49,15 +62,15 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private EditText edtInputComment;
 	private Button btnInputComment;
 	
-	private ArrayList<String> mCommentArl;		//listview ¼¼ÆÃ¿ë
-	private ArrayAdapter<String> mCommentAdp;		//listview ¼¼ÆÃ¿ë
+	private ArrayList<String> mCommentArl;		//listview ì„¸íŒ…ìš©
+	private ArrayAdapter<String> mCommentAdp;		//listview ì„¸íŒ…ìš©
 	
 	private PostingDataset mPostingDataset;
 	private CommentDataset mCommentArr[];
 	
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-	private Handler messageHandler = new Handler() { //UpdateService·ÎºÎÅÍÀÇ ¼ö½ÅºÎ! Áß¿äÇÔ
+	private Handler messageHandler = new Handler() { //UpdateServiceë¡œë¶€í„°ì˜ ìˆ˜ì‹ ë¶€! ì¤‘ìš”í•¨
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
@@ -68,11 +81,11 @@ public class PostingActivity extends Activity implements OnClickListener {
 				PostingDataset[] postingDataArr = (PostingDataset[]) msg.obj; 
 				mPostingDataset = postingDataArr[0];
 				
-				/******************** info Ãâ·Â *******************/
+				/******************** info ì¶œë ¥ *******************/
 				tvTitle.setText(mPostingDataset.title);
 				tvWrittenTime.setText(mPostingDataset.writtenTime.toString());
-				tvWriter.setText("¼­µâ´Ô. memIdx: " + mPostingDataset.writerIdx); //TODO: tMemberÄõ¸®Ã³¸®ÇØ¾ßÇÔ.
-				//TODO: test line separator. ¾ÆÁ÷ ¾î¶² ½ÄÀ¸·Î ÀúÀåµÇ´ÂÁö ¸ğ¸§.
+				tvWriter.setText("ì„œë“ˆë‹˜. memIdx: " + mPostingDataset.writerIdx); //TODO: tMemberì¿¼ë¦¬ì²˜ë¦¬í•´ì•¼í•¨.
+				//TODO: test line separator. ì•„ì§ ì–´ë–¤ ì‹ìœ¼ë¡œ ì €ì¥ë˜ëŠ”ì§€ ëª¨ë¦„.
 				tvContents.setText(mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 //				tvLike.setText(mPostingDataset.like);
 //				tvDislike.setText(mPostingDataset.dislike);
@@ -83,7 +96,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
 				
-				/************ Comment¸¦ listview¿¡ ¹İ¿µÇÑ´Ù ************/
+				/************ Commentë¥¼ listviewì— ë°˜ì˜í•œë‹¤ ************/
 				mCommentArl.clear();
 				 
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
@@ -109,7 +122,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
 	
-		/************** ÇÚµé·¯ µî·Ï ***************/
+		/************** í•¸ë“¤ëŸ¬ ë“±ë¡ ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 		
@@ -130,7 +143,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
         
-		/****** UI ÃÊ±âÈ­ *****/
+		/****** UI ì´ˆê¸°í™” *****/
 		tvTitle = (TextView) findViewById(R.id.posting_tv_title);
 		tvWrittenTime = (TextView) findViewById(R.id.posting_tv_writedate);
 		tvWriter = (TextView) findViewById(R.id.posting_tv_writer);
@@ -141,13 +154,18 @@ public class PostingActivity extends Activity implements OnClickListener {
 		btnInputComment = (Button) findViewById(R.id.posting_btn_input_comment);
 		btnInputComment.setOnClickListener(this);
 		edtInputComment = (EditText) findViewById(R.id.posting_edit_input_comment);
+<<<<<<< HEAD
+=======
+		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
+		ibtUploadPhoto.setOnClickListener(this);
+>>>>>>> origin/KTHWorking
 		
 		mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
         
         mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl);
         lstComment.setAdapter(mCommentAdp);
-        mCommentAdp.setNotifyOnChange(true); //ÀÌ ¿É¼ÇÀÌ ÀÖÀ¸¸é ArrayList°¡ ¼öÁ¤µÉ ¶§ ÀÚµ¿À¸·Î ¹İ¿µµÈ´Ù. strArr´ë½Å ArrayList¸¦ ½á¾ß ÇÏ´Â ÀÌÀ¯
+        mCommentAdp.setNotifyOnChange(true); //ì´ ì˜µì…˜ì´ ìˆìœ¼ë©´ ArrayListê°€ ìˆ˜ì •ë  ë•Œ ìë™ìœ¼ë¡œ ë°˜ì˜ëœë‹¤. strArrëŒ€ì‹  ArrayListë¥¼ ì¨ì•¼ í•˜ëŠ” ì´ìœ 
         
 	}
 
@@ -164,20 +182,21 @@ public class PostingActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) { //ÆÄ¿ö ´ñ±Û´Ş±â
-		if(edtInputComment.getText().toString().compareTo("") == 0) { //³»¿ë¾øÀ¸¸é ¿¡·¯¶ç¿ì°í °­Á¦ return
+	public void onClick(View v) { //íŒŒì›Œ ëŒ“ê¸€ë‹¬ê¸°
+<<<<<<< HEAD
+		if(edtInputComment.getText().toString().compareTo("") == 0) { //ë‚´ìš©ì—†ìœ¼ë©´ ì—ëŸ¬ë„ìš°ê³  ê°•ì œ return
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-			alert.setPositiveButton("È®ÀÎ", new DialogInterface.OnClickListener() {
+			alert.setPositiveButton("í™•ì¸", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();	
 				}
 			});
-			alert.setMessage("³»¿ëÀ» ÀÔ·ÂÇØ¾ßÁö? ^^");
+			alert.setMessage("ë‚´ìš©ì„ ì…ë ¥í•´ì•¼ì§€? ^^");
 			alert.show();
 			return;
 		} else {
-			String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //Á¤»óÀÛµ¿ È®ÀÎ. +1ÇÑ idx·Î insertÇÑ´Ù.
+			String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //ì •ìƒì‘ë™ í™•ì¸. +1í•œ idxë¡œ insertí•œë‹¤.
 			int maxComIdx = Integer.parseInt(str);
 			str = soapParser.sendQuery(
 					"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
@@ -205,6 +224,62 @@ public class PostingActivity extends Activity implements OnClickListener {
 			//LogUtil.v("SELECT MAX(comIdx) FROM tComment=====>" + str);
 			//String str = soapParser.sendQuery("insert into tComment (col,col,col) values (val,valval..)");
 		}
+=======
+		
+		switch(v.getId()) {
+		case R.id.posting_btn_input_comment:
+		{
+			if(edtInputComment.getText().toString().compareTo("") == 0) { //ë‚´ìš©ì—†ìœ¼ë©´ ì—ëŸ¬ë„ìš°ê³  ê°•ì œ return
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setPositiveButton("í™•ì¸", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();	
+					}
+				});
+				alert.setMessage("ë‚´ìš©ì„ ì…ë ¥í•´ì•¼ì§€? ^^");
+				alert.show();
+				return;
+			} else {
+				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //ì •ìƒì‘ë™ í™•ì¸. +1í•œ idxë¡œ insertí•œë‹¤.
+				int maxComIdx = Integer.parseInt(str);
+				str = soapParser.sendQuery(
+						"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
+								",comWriterIdx,comWrittenTime,comPicturePath)" +
+								" values ('" +
+								(maxComIdx + 1) + //comIdx
+								"','P','" + //comParentType
+								mPostingDataset.idx + //comParentIdx
+								"','"+ edtInputComment.getText() + //comContents
+								"','0','0','" + //comLike, comDislike
+								"1" + //TODO: temp comWriterIdx
+								"',GETDATE()," + //comWrittenTime
+								"NULL" + //TODO: temp comPicturePath 
+						")");
+				LogUtil.i("server return : "+str);
+				
+				edtInputComment.setText("");
+				
+				String query = "SELECT * FROM tComment WHERE comParentIdx='"
+						+ mPostingDataset.idx + "' AND comParentType='P'"; 
+				LogUtil.v("data request. " + query);
+				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+				
+				//LogUtil.v("SELECT MAX(comIdx) FROM tComment=====>" + str);
+				//String str = soapParser.sendQuery("insert into tComment (col,col,col) values (val,valval..)");
+			}
+			break;
+		}
+			
+		case R.id.posting_camera_button:
+		{
+			startActivity(new Intent(this,PhotoUploadActivity.class));
+			break;
+		}
+		}
+		
+>>>>>>> origin/KTHWorking
 	}
 
 }
