@@ -115,7 +115,7 @@ public class SoapParser {
 			for(i=0;i<parsingDataArr.length;i++) { //String 배열 열 할당
 				parsingDataArr[i] = new String[Constants.DATASET_FIELD[datatype].length];
 			}
-			LogUtil.v("prsDArr length["+parsingDataArr.length+"]["+parsingDataArr[0].length+"]");
+			//LogUtil.v("prsDArr length["+parsingDataArr.length+"]["+parsingDataArr[0].length+"]");
 						
 			i = -1; //첫 테이블이 0이 되어야 하니까. i++ 부분을 보라!
 			j = 0;
@@ -128,6 +128,7 @@ public class SoapParser {
 						inText = NONE;
 						//parsingData = "";
 					} else if (tag.compareTo("Table") == 0) {
+						//LogUtil.v("new Table");
 						inText = TABLE;
 						i++;  
 						j=0;
