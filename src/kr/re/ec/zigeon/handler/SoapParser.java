@@ -45,6 +45,11 @@ public class SoapParser {
 		LogUtil.v("constructor called");
 	}
 
+	/**
+	 * singleton pattern applied.
+	 * if there is no instance, new instance will be created.
+	 * @return instance
+	 */
 	public static SoapParser getInstance(){ //singleton
 		if(instance==null){
 			LogUtil.v("create new instance");
