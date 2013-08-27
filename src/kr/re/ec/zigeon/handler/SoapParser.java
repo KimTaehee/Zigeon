@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 ﻿﻿/**
+=======
+
+/**
+>>>>>>> no hangul soap...
  * Class name : SoapParser
  * Class contents : SoapParsing
  * Writer : kim ji hong 
  * Version :
  * Write date : 130815
  * Modify date : 130816
+<<<<<<< HEAD
 >>>>>>> origin/Jihong
+=======
+>>>>>>> no hangul soap...
  */
 
 package kr.re.ec.zigeon.handler;
@@ -40,6 +48,7 @@ public class SoapParser {
 	private static final int TABLE = 1;
 	private static final int DATA = 2;
 	private static final int NONE = 3;
+<<<<<<< HEAD
 	
 	private static SoapParser instance;
 	
@@ -47,6 +56,15 @@ public class SoapParser {
 		LogUtil.v("constructor called");
 	}
 	
+=======
+
+	private static SoapParser instance;
+
+	private SoapParser() {
+		LogUtil.v("constructor called");
+	}
+
+>>>>>>> no hangul soap...
 	public static SoapParser getInstance(){ //singleton
 		if(instance==null){
 			LogUtil.v("create new instance");
@@ -54,6 +72,7 @@ public class SoapParser {
 		}
 		return instance;
 	}
+<<<<<<< HEAD
 	
 
 	public Object getSoapData(String query, int datatype){ 	//look Constants about datatype.
@@ -62,6 +81,16 @@ public class SoapParser {
 		Object resultObj = null;
 		String resultStrArr[][] = null;
 		
+=======
+
+
+	public Object getSoapData(String query, int datatype){ 	//look Constants about datatype.
+		LogUtil.v("getSoapData called. query: \"" + query + "\" / type: " + datatype);
+
+		Object resultObj = null;
+		String resultStrArr[][] = null;
+
+>>>>>>> no hangul soap...
 		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
@@ -75,22 +104,39 @@ public class SoapParser {
 			 * StrictMode can Work it.
 			 */
 			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 			androidHttpTransport.call(SOAP_ACTION, envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			//LogUtil.v(result.toString());
 			resultStrArr = xmlParser(result.toString(),datatype); // xml parsing
+<<<<<<< HEAD
 			
 			resultObj = convertDatasetToObj(resultStrArr, datatype);
 			
+=======
+
+			resultObj = convertDatasetToObj(resultStrArr, datatype);
+
+>>>>>>> no hangul soap...
 		} catch (Exception e) {
 			LogUtil.e("Error occured. see printStackTrace().");
 			e.printStackTrace();
 		} // try-catch
+<<<<<<< HEAD
 		
 		return resultObj;
 	}
 	
+=======
+
+		return resultObj;
+	}
+
+>>>>>>> no hangul soap...
 
 	private String[][] xmlParser(String data, int datatype) {	//look Constants about datatype.
 		//LogUtil.v("xmlParser called.");
@@ -107,20 +153,32 @@ public class SoapParser {
 			int parserEvent = parser.getEventType();
 			String tag = null;
 			int inText = NONE; 
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 
 			int tableCnt; //get num of total table. allocate 2d String array's rows.
 			int i=0,j=0; //cursor of rows and cols.
 			String[] tableCntArr = data.split("<Table>"); //split and count
 			tableCnt = tableCntArr.length - 1; // because of <NewDataSet>.
 			//LogUtil.v("tableCnt: " + tableCnt);
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 			parsingDataArr = new String[tableCnt][]; //allocate String Array's rows
 			for(i=0;i<parsingDataArr.length;i++) { //allocate String Array's cols
 				parsingDataArr[i] = new String[Constants.DATASET_FIELD[datatype].length];
 			}
 			//LogUtil.v("prsDArr length["+parsingDataArr.length+"]["+parsingDataArr[0].length+"]");
+<<<<<<< HEAD
 						
+=======
+
+>>>>>>> no hangul soap...
 			i = -1; // first table is 0. look around i++!
 			j = 0;
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
@@ -181,7 +239,11 @@ public class SoapParser {
 			}
 			parsingData += "\n";
 		}
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> no hangul soap...
 		return parsingDataArr;
 	}
 
@@ -190,9 +252,15 @@ public class SoapParser {
 	 */
 	public String sendQuery(String query) { 
 		LogUtil.v("sendQuery called. query: \"" + query + "\"");
+<<<<<<< HEAD
 		
 		String resultStr = null;
 		
+=======
+
+		String resultStr = null;
+
+>>>>>>> no hangul soap...
 		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
@@ -203,7 +271,11 @@ public class SoapParser {
 		androidHttpTransport.debug = true;
 		try {
 			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 			androidHttpTransport.call(SOAP_ACTION, envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			LogUtil.i(result.toString());
@@ -211,15 +283,26 @@ public class SoapParser {
 			LogUtil.v("xmlparser start");
 
 			resultStr = xmlRawParser(result.toString()); // xml parsing
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 		} catch (Exception e) {
 			LogUtil.e("Error occured. see printStackTrace().");
 			e.printStackTrace();
 		} // try-catch
+<<<<<<< HEAD
 		
 		return resultStr;
 	}
 	
+=======
+
+		return resultStr;
+	}
+
+>>>>>>> no hangul soap...
 	private Object convertDatasetToObj(String[][] strArr, int datatype)	//convert strArr[][] to Obj[]
 	{
 		//LogUtil.v("convert Dataset to Obj");
@@ -233,7 +316,11 @@ public class SoapParser {
 			}
 			obj = landmarkArr;
 			break;
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 		case Constants.MSG_TYPE_POSTING:
 			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//create Posting Array 
 			for(int i=0; i<strArr.length; i++) {
@@ -241,7 +328,11 @@ public class SoapParser {
 			}
 			obj = postingArr;
 			break;
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 		case Constants.MSG_TYPE_COMMENT:
 			CommentDataset[] commentArr = new CommentDataset[strArr.length];	//create Comment Array 
 			for(int i=0; i<strArr.length; i++) {
@@ -249,7 +340,11 @@ public class SoapParser {
 			}
 			obj = commentArr;
 			break;
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 			//TODO: MEMBER create needed
 //		case Constants.MSG_TYPE_MEMBER: 
 //			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//create Landmark Array 
@@ -267,11 +362,16 @@ public class SoapParser {
 				obj = null;
 			}
 			break;
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> no hangul soap...
 		default:
 			LogUtil.e("default switched.");
 			break;
 		}
+<<<<<<< HEAD
 		
 		return obj;
 	}
@@ -279,6 +379,15 @@ public class SoapParser {
 	private String xmlRawParser(String data) {// return String.
 		String parsingData = null;
 		
+=======
+
+		return obj;
+	}
+
+	private String xmlRawParser(String data) {// return String.
+		String parsingData = null;
+
+>>>>>>> no hangul soap...
 		try {
 			XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
 			XmlPullParser parser = parserCreator.newPullParser();
@@ -336,4 +445,8 @@ public class SoapParser {
 		return parsingData;
 
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> no hangul soap...
