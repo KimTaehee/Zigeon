@@ -36,11 +36,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="kr.re.ec.zigeon.login.LoginActivity"
+            android:name="kr.re.ec.zigeon.LoginActivity"
             android:label="@string/login_activity_title">
         </activity>
         <activity
-            android:name="kr.re.ec.zigeon.login.JoinActivity"
+            android:name="kr.re.ec.zigeon.RegisterActivity"
             android:label="@string/join_activity_title">
         </activity>
         <activity

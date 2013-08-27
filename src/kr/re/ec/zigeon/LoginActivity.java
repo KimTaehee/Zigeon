@@ -1,11 +1,9 @@
-﻿package kr.re.ec.zigeon.login;
+﻿package kr.re.ec.zigeon;
 
 /**
  * LoginActivity
  * 130821 kim ji hong
  * */
-import kr.re.ec.zigeon.BubbleActivity;
-import kr.re.ec.zigeon.IntroActivity;
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -127,7 +125,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				intent = new Intent(LoginActivity.this, JoinActivity.class);
+				intent = new Intent(LoginActivity.this, RegisterActivity.class);
 				startActivity(intent);
 			}
 		});

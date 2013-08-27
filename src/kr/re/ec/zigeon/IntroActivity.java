@@ -9,7 +9,6 @@
 
 package kr.re.ec.zigeon;
 
-import kr.re.ec.zigeon.login.LoginActivity;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Intent;
