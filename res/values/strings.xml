@@ -31,4 +31,5 @@
     <string name="Facebook_button">Facebook</string>
     <string name="cancle">취소</string>
     <string name="autologin">자동로그인</string>
+    <string name="intro_activity_title">Balloon</string>
 </resources>

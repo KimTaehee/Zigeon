@@ -26,13 +26,18 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="kr.re.ec.zigeon.login.LoginActivity"
-            android:label="@string/login_activity_title">
+            android:name="kr.re.ec.zigeon.IntroActivity"
+            android:label="@string/intro_activity_title"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="kr.re.ec.zigeon.login.LoginActivity"
+            android:label="@string/login_activity_title">
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.login.JoinActivity"
