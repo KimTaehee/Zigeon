@@ -44,7 +44,6 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private Button btnInputComment;
 	private TextView tvName;
 	private TextView tvContents;
-	
 	private ArrayList<String> mCommentArl;		//listview 세팅용	
 	private ArrayList<String> mPostingArl;		//listview 세팅용
 	private ArrayAdapter<String> mCommentAdp;		//listview 세팅용
@@ -52,9 +51,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
-	
+
 	private Intent mIntent;
-	
+
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
@@ -66,20 +65,20 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //PK로 검색하므로 Arr.length==1이다. 
 				mLandmarkDataset = landmarkDataArr[0];
-				
+
 				/******************** info 출력 *******************/
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
-				
+
 				break;
 			}
 			case Constants.MSG_TYPE_POSTING:
 			{
 				mPostingArr =(PostingDataset[]) msg.obj;
-				
+
 				/************ Posting을 listview에 반영한다 ************/
 				mPostingArl.clear();
-				 
+
 				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
 				for(int i=0;i<mPostingArr.length;i++){
 					mPostingArl.add(mPostingArr[i].title);
@@ -91,10 +90,10 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			case Constants.MSG_TYPE_COMMENT:
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
-				
+
 				/************ Comment를 listview에 반영한다 ************/
 				mCommentArl.clear();
-				 
+
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
 				for(int i=0;i<mCommentArr.length;i++){
 					mCommentArl.add(mCommentArr[i].contents);
@@ -113,7 +112,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		}
 	};
 
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -130,7 +129,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         mLandmarkDataset = new LandmarkDataset();
         mLandmarkDataset.idx = bundle.getInt("ldmIdx");
         //LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
-		
+
 		//ldbIdx로 내용요청
         soapParser = SoapParser.getInstance(); 
         
@@ -138,7 +137,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
-		
+
 		query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "'"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
@@ -184,12 +183,12 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	    ts1.setIndicator("Comment");
 	    ts1.setContent(R.id.landmark_layout_commentlist);
 	    tabHost.addTab(ts1);
-	
+
 	    TabSpec ts2 = tabHost.newTabSpec("Posting");
 	    ts2.setIndicator("Posting");
 	    ts2.setContent(R.id.landmark_postinglist);
 	    tabHost.addTab(ts2);
-	
+
 	    tabHost.setCurrentTab(0);
     }
     
@@ -200,7 +199,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
 			//TODO: mPostingArr와 Listview에 올라간 사항의 일치를 보장시켜야 한다. 아직 확인되지 않음.
-			
+
 			mIntent = new Intent(LandmarkActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
 			startActivity(mIntent);

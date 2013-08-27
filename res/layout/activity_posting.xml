@@ -24,21 +24,33 @@
                     android:id="@+id/posting_tv_title"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:text="☆SCROLL WARN☆ Today I had seen HUNNAM parttimer!!"
+=======
+                    android:text="☆스압주의☆ 오늘 롯데리아 훈남알바 봄!!"
+>>>>>>> origin/master
                     android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/posting_tv_writedate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:text="2013/08/15/Thu"
+=======
+                    android:text="2013/08/15/목요일"
+>>>>>>> origin/master
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/posting_tv_writer"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:text="Writer: seo dule num"
+=======
+                    android:text="작성자 : 서듈님"
+>>>>>>> origin/master
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -54,7 +66,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:scrollbars="vertical"
+<<<<<<< HEAD
                     android:text="  hi sisters~~dddddn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nddddddddddd\n\n\ndddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+=======
+                    android:text="  언니들 반갑긔~~dddddn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\n\n\nㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
+>>>>>>> origin/master
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -140,7 +156,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+<<<<<<< HEAD
                 android:text="commit" />
+=======
+                android:text="썼다" />
+>>>>>>> origin/master
         </LinearLayout>
     </LinearLayout>
 

@@ -9,6 +9,8 @@
 
 package kr.re.ec.zigeon;
 
+
+import com.google.android.gcm.GCMRegistrar;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
@@ -17,12 +19,12 @@ import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.content.Intent;
-//import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,12 +48,8 @@ public class BubbleActivity extends Activity {
 	private Animation bubblemoveAnimation;
 	
 	private Intent mIntent;
-	
-//	private TextView tvGPSTest;
-//	private TextView tvLandmarkTest;
-//	private TextView tvPostingTest;
-//	private Button btnServiceStopTest;
-	
+	/** The m register task. (GCM) */
+		
 	private SoapParser soapParser; //TODO: test. 확인한 다음에 빼줘야함.
 	
 	private UIHandler uiHandler; 
@@ -108,6 +106,24 @@ public class BubbleActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble);
+		
+		/*************** GCM registration **************/
+		LogUtil.v("push register start");
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		if (regId.equals("")) {
+			LogUtil.v("regId " + regId);
+			GCMRegistrar.register(this, Constants.GCM_PROJECT_ID);
+            // Automatically registers application on startup.
+			
+        // regId 는 있지만 서버에 등록이 안돼어 있다면 아래 로직으로 서버 재 등록 시작 
+		} else {
+			LogUtil.i("already registered device! ready to receive msg!");
+			LogUtil.v("regId " + regId);
+        }
+
+		
 		
 		/*************** UI 초기화 ************/
 //		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);

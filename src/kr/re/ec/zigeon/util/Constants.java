@@ -22,7 +22,10 @@ public final class Constants {
 	public static final int INT_NULL = -1; //because of int cannot have null value. Dataset.setDataSet use.
 	public static final double DOUBLE_NULL = -1.0; //double cannot have null value. LandmarkDataset.getDistance use.
 	
-	/************** Dataset Definition Å×ÀÌºí¸í¼¼¼­¿¡ µû¸§********************/ 
+	/***************** GCM **************/
+	public static final String GCM_PROJECT_ID = "39642280488"; 
+	
+	/************** Dataset Definition ï¿½ï¿½ï¿½Ìºï¿½?ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½********************/ 
 	public static final String DATASET_FIELD[][] = { //table arrtibute name. SoapParser use.
 		{ //0
 			"ldmIdx",

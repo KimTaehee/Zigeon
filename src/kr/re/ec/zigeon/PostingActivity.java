@@ -1,4 +1,7 @@
+/*hjkljlk
+=======
 /**
+>>>>>>> origin/KTHWorking
  * 130816 조덕주 작성
  * 130819 김태희 수정
  */
@@ -6,6 +9,10 @@
 package kr.re.ec.zigeon;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import kr.re.ec.zigeon.dataset.CommentDataset;
+import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
@@ -18,6 +25,9 @@ import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MotionEvent;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -137,6 +147,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		btnInputComment = (Button) findViewById(R.id.posting_btn_input_comment);
 		btnInputComment.setOnClickListener(this);
 		edtInputComment = (EditText) findViewById(R.id.posting_edit_input_comment);
+
 		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
 		ibtUploadPhoto.setOnClickListener(this);
 		
@@ -163,7 +174,6 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) { //파워 댓글달기
-		
 		switch(v.getId()) {
 		case R.id.posting_btn_input_comment:
 		{
@@ -195,28 +205,28 @@ public class PostingActivity extends Activity implements OnClickListener {
 								"NULL" + //TODO: temp comPicturePath 
 						")");
 				LogUtil.i("server return : "+str);
-				
+
 				edtInputComment.setText("");
-				
+
 				String query = "SELECT * FROM tComment WHERE comParentIdx='"
 						+ mPostingDataset.idx + "' AND comParentType='P'"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
-				
+
 				//LogUtil.v("SELECT MAX(comIdx) FROM tComment=====>" + str);
 				//String str = soapParser.sendQuery("insert into tComment (col,col,col) values (val,valval..)");
 			}
 			break;
 		}
-			
+
 		case R.id.posting_camera_button:
 		{
 			startActivity(new Intent(this,PhotoUploadActivity.class));
 			break;
 		}
 		}
-		
+
 	}
 
 }
