@@ -200,6 +200,7 @@ public class SoapParser {
 			androidHttpTransport.call(SOAP_ACTION, envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			LogUtil.i(result.toString());
+			LogUtil.v("xmlparser start");
 			resultStr = xmlRawParser(result.toString()); // xml parsing
 			
 		} catch (Exception e) {
