@@ -1,4 +1,4 @@
-package kr.re.ec.zigeon.login;
+﻿package kr.re.ec.zigeon.login;
 
 /**
  * LoginActivity
@@ -38,10 +38,10 @@ public class LoginActivity extends Activity {
 		soapParser = SoapParser.getInstance();
 		autoCheckBox = (CheckBox) findViewById(R.id.Autologin_Box);
 		
-		// 자동로그인을 위한 Shared Preference를 불러옵니다.
+		//  To Auto Login, get Shared Preference
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
 		
-		// 저장된 값들을 불러옵니다.
+		// load from saved values
 		String auto_ID = pref.getString("ID","");
 		String auto_password = pref.getString("Password", "");
 		Boolean auto_check = pref.getBoolean("AutoCheck",false);
@@ -58,7 +58,7 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				// TODO 데이터 베이스 에서 받아서 패스워드 체크정도만? 해봅시다
+				// TODO: Let's test to check password from DB
 				/*
 				 * String response = null; try { response =
 				 * CustomHttpClient.executeHttpPost( "<target page url>",
@@ -75,42 +75,42 @@ public class LoginActivity extends Activity {
 				String idQuery = "SELECT memPW FROM tMember WHERE memID ='"
 						+ strID + "'";
 				// uiHandler.sendMessage(Constants.MSG_TYPE_MEMBER, "",
-				LogUtil.v("쿼리문 생성");
+				LogUtil.v("query created");
 				
 				strPassword = soapParser.sendQuery(idQuery);
 				LogUtil.v(strPassword);
 				LogUtil.v(password.getText().toString());
-				if (strPassword.compareTo("")!=0)// 아이디가 있다면
+				if (strPassword.compareTo("")!=0)// if have ID
 				{
 					if (password.getText().toString().compareTo(strPassword)==0) {
 						intent = new Intent(LoginActivity.this,
 								BubbleActivity.class);
 						startActivity(intent);
 
-						finish(); /* 로그인이 성공하면 뒤돌아가기를 눌럿을때 로그인화면으로 돌아가지 않도록 종료합니다. */
+						finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
 					} else {
-						// 비밀번호 틀림
+						// Wrong Password
 						AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-						alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+						alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								dialog.dismiss();	
 							}
 						});
-						alert.setMessage("비밀번호를 잘못입력하셨습니다.");
+						alert.setMessage("Wrong Password.");
 						alert.show();
 						return;
 					}
 				} else {
-					// 아이디없음
+					// No matched ID
 					AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-					alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+					alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();	
 						}
 					});
-					alert.setMessage("아이디가 없습니다.");
+					alert.setMessage("There is no matched ID");
 					alert.show();
 					return;
 				}
@@ -128,22 +128,22 @@ public class LoginActivity extends Activity {
 		
 	}
 	
-	public void onStop(){ //activity가 종료될때?
+	public void onStop(){ //when activity onStop(invisible)
 		super.onStop();
-		//상태를 저장합니다.
+		//save status
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
-		SharedPreferences.Editor editor = pref.edit(); //Editor 불러오기
+		SharedPreferences.Editor editor = pref.edit(); //load Editor
 		
-		//저장할 값들
+		//values to save
 		id = (EditText) findViewById(R.id.Login_Id);
 		password = (EditText) findViewById(R.id.Login_Password);
 		autoCheckBox = (CheckBox) findViewById(R.id.Autologin_Box);
 		
-		//값을 입력합니다
+		//input values
 		editor.putString("ID", id.getText().toString());
 		editor.putString("Password", password.getText().toString());
 		editor.putBoolean("AutoCheck", autoCheckBox.isChecked());
 		
-		editor.commit();//저장합니다.
+		editor.commit();	//save
 	}
 }
