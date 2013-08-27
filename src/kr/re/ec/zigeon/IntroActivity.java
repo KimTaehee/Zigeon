@@ -1,6 +1,6 @@
 /**
  * Class Name: IntroActivity
- * Description: Start of Application
+ * Description: Show Logo. Start of Application
  * Author: KimTaehee slhyvaa@nate.com
  * Version: 0.0.1
  * Created Date: 130828
@@ -17,7 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 
 public class IntroActivity extends Activity {
-	private final int LOADING_DELAY_MS = 2500; //loading time. (ms)
+	private final int LOADING_DELAY_MS = 2000; //loading time. (ms)
 	
 	private Handler handler = new Handler() {
 		@Override

@@ -63,6 +63,10 @@
             android:label="@string/title_activity_posting" >
         </activity>
         <activity
+            android:name="kr.re.ec.zigeon.PostingWriteActivity"
+            android:label="@string/posting_write_activity_title" >
+        </activity>
+        <activity
             android:name="kr.re.ec.zigeon.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>

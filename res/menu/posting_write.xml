@@ -1,14 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/landmark_action_posting_write" 
+    <item android:id="@+id/posting_write_action_write" 
         android:orderInCategory="1" 
-        android:title="@string/landmark_action_posting_write"
+        android:title="@string/posting_write_action_write"
         android:showAsAction="ifRoom|withText" >
 	</item>
+    
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_settings">
+    </item>
 
 </menu>
