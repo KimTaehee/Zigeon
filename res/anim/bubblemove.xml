@@ -7,11 +7,7 @@
 		android:duration="11000"
 		android:repeatCount="-1" 
 		/>
-<<<<<<< HEAD
 	 <!-- animation move left and right in translate)
-=======
-	 <!-- 좌우로 이동할때 쓰는 애니매이션(translate에서)
->>>>>>> origin/master
 	 	android:fromXDelta="20%p" 
 		android:toXDelta="20%p"  -->
 </set>
