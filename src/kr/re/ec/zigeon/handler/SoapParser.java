@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * 클래스 이름 : SoapParsing
  * 클래스 설명 : SoapParsing 파싱파싱
@@ -5,6 +6,15 @@
  * 버전 정보 :
  * 작성 일자 : 8월 15일
  * 수정 이력 : 8월 19일 오전 6:46
+=======
+﻿/**
+ * Class name : SoapParser
+ * Class contents : SoapParsing
+ * Writer : kim ji hong 
+ * Version :
+ * Write date : 130815
+ * Modify date : 130816
+>>>>>>> origin/Jihong
  */
 
 package kr.re.ec.zigeon.handler;
@@ -54,7 +64,11 @@ public class SoapParser {
 		return instance;
 	}
 	
+<<<<<<< HEAD
 	public Object getSoapData(String query, int datatype){ //datatype은 Contants를 보라.
+=======
+	public Object getSoapData(String query, int datatype){ 	//look Constants about datatype.
+>>>>>>> origin/Jihong
 		LogUtil.v("getSoapData called. query: \"" + query + "\" / type: " + datatype);
 		
 		Object resultObj = null;
@@ -64,6 +78,7 @@ public class SoapParser {
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(request);
+<<<<<<< HEAD
 		request.addProperty("searchData", query); //TODO: searchData 키워드의 의미?
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 		androidHttpTransport.debug = true;
@@ -71,6 +86,14 @@ public class SoapParser {
 			/**StrictMode는 허니콤 이상 버젼에 메인쓰레스에서 네트워크 작업을 하면
 			 * 에러가난다. 기필코 메인에서 작업해야할경우 쓰는 코드.....
 			 * 가져다 붙여쓴거라 어떻게 처리를 못해서 그냥 붙어버렸어요.....
+=======
+		request.addProperty("searchData", query); //TODO: what is searchData?
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+		androidHttpTransport.debug = true;
+		try {
+			/**above Honeycomb, network operation on Main Thread occurs Error.
+			 * StrictMode can Work it.
+>>>>>>> origin/Jihong
 			 */
 			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
 			
@@ -89,7 +112,11 @@ public class SoapParser {
 		return resultObj;
 	}
 	
+<<<<<<< HEAD
 	private String[][] xmlParser(String data, int datatype) {// 데이터 파싱. datatype은 Constants에 따름
+=======
+	private String[][] xmlParser(String data, int datatype) {	//look Constants about datatype.
+>>>>>>> origin/Jihong
 		//LogUtil.v("xmlParser called.");
 		String parsingData = null;
 		String[][] parsingDataArr = null;
@@ -105,6 +132,7 @@ public class SoapParser {
 			String tag = null;
 			int inText = NONE; 
 			
+<<<<<<< HEAD
 			int tableCnt; //총 테이블 개수를 구하여 2차원 String 배열의 행을 할당한다.
 			int i=0,j=0; //행,열 커서
 			String[] tableCntArr = data.split("<Table>"); //잘라서 몇 개인지 알아본다.
@@ -113,11 +141,25 @@ public class SoapParser {
 			
 			parsingDataArr = new String[tableCnt][]; //String 배열 행 할당 
 			for(i=0;i<parsingDataArr.length;i++) { //String 배열 열 할당
+=======
+			int tableCnt; //get num of total table. allocate 2d String array's rows.
+			int i=0,j=0; //cursor of rows and cols.
+			String[] tableCntArr = data.split("<Table>"); //split and count
+			tableCnt = tableCntArr.length - 1; // because of <NewDataSet>.
+			//LogUtil.v("tableCnt: " + tableCnt);
+			
+			parsingDataArr = new String[tableCnt][]; //allocate String Array's rows
+			for(i=0;i<parsingDataArr.length;i++) { //allocate String Array's cols
+>>>>>>> origin/Jihong
 				parsingDataArr[i] = new String[Constants.DATASET_FIELD[datatype].length];
 			}
 			//LogUtil.v("prsDArr length["+parsingDataArr.length+"]["+parsingDataArr[0].length+"]");
 						
+<<<<<<< HEAD
 			i = -1; //첫 테이블이 0이 되어야 하니까. i++ 부분을 보라!
+=======
+			i = -1; // first table is 0. look around i++!
+>>>>>>> origin/Jihong
 			j = 0;
 			while (parserEvent != XmlPullParser.END_DOCUMENT) {
 				switch (parserEvent) {
@@ -144,10 +186,17 @@ public class SoapParser {
 					{
 //						LogUtil.v("parser.gettext : " + parser.getText() + " i: " + i + " j: "+j);
 //						LogUtil.v("Constants.DATASET_FIELD[datatype][j]" + Constants.DATASET_FIELD[datatype][j]);
+<<<<<<< HEAD
 						if(tag.compareTo(Constants.DATASET_FIELD[datatype][j]) == 0) { //순리대로 흘러가면
 							parsingDataArr[i][j] = parser.getText();							
 						} else { //순리를 거스르면 null값임
 							parsingDataArr[i][j] = "null"; //받아라 널 씨발련아
+=======
+						if(tag.compareTo(Constants.DATASET_FIELD[datatype][j]) == 0) { //no error on col name matching 
+							parsingDataArr[i][j] = parser.getText();							
+						} else { //error on col name matching
+							parsingDataArr[i][j] = "null"; //force to insert null
+>>>>>>> origin/Jihong
 						}
 						j++;
 						break;
@@ -180,7 +229,11 @@ public class SoapParser {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * insert, update, delete 전송용도. return은  결과가 콤마로 구분된 String. 김태희 작성.
+=======
+	 * to insert, update, delete. return is String that splited comma. written by KimTaehee
+>>>>>>> origin/Jihong
 	 */
 	public String sendQuery(String query) { 
 		LogUtil.v("sendQuery called. query: \"" + query + "\"");
@@ -191,7 +244,11 @@ public class SoapParser {
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(request);
+<<<<<<< HEAD
 		request.addProperty("searchData", query); //TODO: searchData 키워드의 의미?
+=======
+		request.addProperty("searchData", query); //TODO: what is searchData?
+>>>>>>> origin/Jihong
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 		androidHttpTransport.debug = true;
 		try {
@@ -200,6 +257,10 @@ public class SoapParser {
 			androidHttpTransport.call(SOAP_ACTION, envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			LogUtil.i(result.toString());
+<<<<<<< HEAD
+=======
+			LogUtil.v("xmlparser start");
+>>>>>>> origin/Jihong
 			resultStr = xmlRawParser(result.toString()); // xml parsing
 			
 		} catch (Exception e) {
@@ -210,14 +271,22 @@ public class SoapParser {
 		return resultStr;
 	}
 	
+<<<<<<< HEAD
 	private Object convertDatasetToObj(String[][] strArr, int datatype)	//2차원 strArr를 Obj[]로 convert.
+=======
+	private Object convertDatasetToObj(String[][] strArr, int datatype)	//convert strArr[][] to Obj[]
+>>>>>>> origin/Jihong
 	{
 		//LogUtil.v("convert Dataset to Obj");
 		Object obj = null;
 		switch (datatype) {
 		case Constants.MSG_TYPE_LANDMARK:
 			//LogUtil.v("switched MSG_TYPE_LANDMARK");
+<<<<<<< HEAD
 			LandmarkDataset[] landmarkArr = new LandmarkDataset[strArr.length];	//Landmark Array 생성
+=======
+			LandmarkDataset[] landmarkArr = new LandmarkDataset[strArr.length];	//create Landmark Array 
+>>>>>>> origin/Jihong
 			for(int i=0; i<strArr.length; i++) {
 				landmarkArr[i] = new LandmarkDataset(strArr[i]);	
 			}
@@ -225,7 +294,11 @@ public class SoapParser {
 			break;
 			
 		case Constants.MSG_TYPE_POSTING:
+<<<<<<< HEAD
 			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//Posting Array 생성
+=======
+			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//create Posting Array 
+>>>>>>> origin/Jihong
 			for(int i=0; i<strArr.length; i++) {
 				postingArr[i] = new PostingDataset(strArr[i]);	
 			}
@@ -233,16 +306,26 @@ public class SoapParser {
 			break;
 			
 		case Constants.MSG_TYPE_COMMENT:
+<<<<<<< HEAD
 			CommentDataset[] commentArr = new CommentDataset[strArr.length];	//Comment Array 생성
+=======
+			CommentDataset[] commentArr = new CommentDataset[strArr.length];	//create Comment Array 
+>>>>>>> origin/Jihong
 			for(int i=0; i<strArr.length; i++) {
 				commentArr[i] = new CommentDataset(strArr[i]);	
 			}
 			obj = commentArr;
 			break;
 			
+<<<<<<< HEAD
 			//TODO: MEMBER 처리해야함
 //		case Constants.MSG_TYPE_MEMBER: 
 //			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//Landmark Array 생성
+=======
+			//TODO: MEMBER create needed
+//		case Constants.MSG_TYPE_MEMBER: 
+//			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//create Landmark Array 
+>>>>>>> origin/Jihong
 //			for(int i=0; i<strArr.length; i++) {
 //				landmark[i] = new LandmarkDataset(strArr[i]);	
 //			}
@@ -266,7 +349,11 @@ public class SoapParser {
 		return obj;
 	}
 	
+<<<<<<< HEAD
 	private String xmlRawParser(String data) {// String으로 return.
+=======
+	private String xmlRawParser(String data) {// return String.
+>>>>>>> origin/Jihong
 		String parsingData = null;
 		
 		try {
@@ -279,7 +366,11 @@ public class SoapParser {
 			String tag;
 			int inText = NONE;
 
+<<<<<<< HEAD
 			//data가 없으면 <NewDataSet />이 온다.
+=======
+			//if there is no data, response is "<NewDataSet />".
+>>>>>>> origin/Jihong
 			if(data.compareTo("<NewDataSet />")==0) {
 				return "";
 			} else {
@@ -301,7 +392,11 @@ public class SoapParser {
 						switch (inText) {
 						case DATA:
 							parsingData += parser.getText() + ",";
+<<<<<<< HEAD
 							// 데이터를 구분하기위해 콤마를 추가했습니다
+=======
+							// to divide data, insert comma
+>>>>>>> origin/Jihong
 							break;
 
 						case NONE:
