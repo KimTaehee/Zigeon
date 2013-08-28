@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/Login_Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="@string/login_id" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/Login_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/Login_Id"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@+id/Login_Id"
+        android:text="@string/login_button" />
+
+    <EditText
+        android:id="@+id/Login_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Login_Id"
+        android:layout_below="@+id/Login_Id"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="@string/login_password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/Facebook_Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/Login_Password"
+        android:layout_centerVertical="true"
+        android:text="@string/Facebook_button" />
+
+    <Button
+        android:id="@+id/Join_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Login_Password"
+        android:layout_centerVertical="true"
+        android:text="@string/Join" />
+
+    <CheckBox
+        android:id="@+id/Autologin_Box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Login_Password"
+        android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/Facebook_Login"
+        android:text="@string/autologin" />
+    
+</RelativeLayout>

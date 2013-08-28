@@ -13,6 +13,7 @@ import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.handler.UpdateService;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -250,4 +253,25 @@ public class LandmarkActivity extends Activity implements OnClickListener {
     				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
     	}
     }
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.landmark, menu);
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
+		switch(item.getItemId()) {
+		case R.id.landmark_action_posting_write:
+		{
+			LogUtil.v("action_posting_write clicked");
+			mIntent = new Intent(this, PostingWriteActivity.class);
+			startActivity(mIntent);
+			overridePendingTransition(0, 0); //no switching animation
+			break;
+		}
+		}
+		return true;
+	}
 }
