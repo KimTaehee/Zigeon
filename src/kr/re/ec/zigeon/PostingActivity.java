@@ -1,9 +1,6 @@
-/*hjkljlk
-=======
 /**
->>>>>>> origin/KTHWorking
- * 130816 조덕주 작성
- * 130819 김태희 수정
+ * Author ChoDeokjoo 130816
+ * Modified KimTaehee 130819 
  */
 
 package kr.re.ec.zigeon;
@@ -50,49 +47,49 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private TextView tvContents;
 	private TextView tvLike;
 	private TextView tvDislike;
-	
+
 	private ListView lstComment;
 	private ImageButton ibtUploadPhoto;
 	private EditText edtInputComment;
 	private Button btnInputComment;
-	
-	private ArrayList<String> mCommentArl;		//listview 세팅용
-	private ArrayAdapter<String> mCommentAdp;		//listview 세팅용
-	
+
+	private ArrayList<String> mCommentArl;		//to set listview 
+	private ArrayAdapter<String> mCommentAdp;		//to set listview 
+
 	private PostingDataset mPostingDataset;
 	private CommentDataset mCommentArr[];
-	
+
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
+	private Handler messageHandler = new Handler() { //recieving to UpdateService
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
-			
+
 			case Constants.MSG_TYPE_POSTING:
 			{
 				PostingDataset[] postingDataArr = (PostingDataset[]) msg.obj; 
 				mPostingDataset = postingDataArr[0];
-				
-				/******************** info 출력 *******************/
+
+				/******************** print info  *******************/
 				tvTitle.setText(mPostingDataset.title);
 				tvWrittenTime.setText(mPostingDataset.writtenTime.toString());
-				tvWriter.setText("서듈님. memIdx: " + mPostingDataset.writerIdx); //TODO: tMember쿼리처리해야함.
-				//TODO: test line separator. 아직 어떤 식으로 저장되는지 모름.
+				tvWriter.setText("seo dul nim. memIdx: " + mPostingDataset.writerIdx); //TODO: tMember query proceeing
+				//TODO: test line separator. what is it?
 				tvContents.setText(mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 //				tvLike.setText(mPostingDataset.like);
 //				tvDislike.setText(mPostingDataset.dislike);
-				
+
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
-				
-				/************ Comment를 listview에 반영한다 ************/
+
+				/************ print Comment to listview ************/
 				mCommentArl.clear();
-				 
+
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
 				for(int i=0;i<mCommentArr.length;i++){
 					mCommentArl.add(mCommentArr[i].contents);
@@ -110,23 +107,23 @@ public class PostingActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
-	
-		/************** 핸들러 등록 ***************/
+
+		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
-		
+
 		/****** Data init request *****/
 		Bundle bundle = this.getIntent().getExtras();
         mPostingDataset = new PostingDataset();
         mPostingDataset.idx = bundle.getInt("pstIdx");
-		
+
         soapParser = SoapParser.getInstance();
-		
+
         String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "'"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
@@ -137,7 +134,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
         
-		/****** UI 초기화 *****/
+		/****** UI init *****/
 		tvTitle = (TextView) findViewById(R.id.posting_tv_title);
 		tvWrittenTime = (TextView) findViewById(R.id.posting_tv_writedate);
 		tvWriter = (TextView) findViewById(R.id.posting_tv_writer);
@@ -151,13 +148,13 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
 		ibtUploadPhoto.setOnClickListener(this);
-		
+
 		mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
         
         mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl);
         lstComment.setAdapter(mCommentAdp);
-        mCommentAdp.setNotifyOnChange(true); //이 옵션이 있으면 ArrayList가 수정될 때 자동으로 반영된다. strArr대신 ArrayList를 써야 하는 이유
+        mCommentAdp.setNotifyOnChange(true); //when ArrayList modified, ArrayList is reflected automatically. SHOULD USE ArrayList
         
 	}
 
@@ -167,30 +164,30 @@ public class PostingActivity extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.posting, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
 
 	@Override
-	public void onClick(View v) { //파워 댓글달기
+	public void onClick(View v) { //input comment
 		switch(v.getId()) {
 		case R.id.posting_btn_input_comment:
 		{
-			if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
+			if(edtInputComment.getText().toString().compareTo("") == 0) { //if blank, force to return and alert.
 				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();	
 					}
 				});
-				alert.setMessage("내용을 입력해야지? ^^");
+				alert.setMessage("Blank Comment? ^^");
 				alert.show();
 				return;
 			} else {
-				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //정상작동 확인. +1한 idx로 insert한다.
+				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //+1 idx insertion.
 				int maxComIdx = Integer.parseInt(str);
 				str = soapParser.sendQuery(
 						"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
