@@ -45,9 +45,8 @@
                     android:layout_height="fill_parent"
                     android:ems="10"
                     android:hint="@string/posting_write_edt_contents_hint"
-                    android:inputType="textMultiLine" >
-
-                    <requestFocus />
+                    android:inputType="textMultiLine" 
+                    android:lines="6">
                 </EditText>
             </LinearLayout>
         </ScrollView>

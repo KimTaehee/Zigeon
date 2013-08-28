@@ -47,7 +47,7 @@ public final class R {
         public static final int header_tab_bg=0x7f020011;
         public static final int ic_angle=0x7f020012;
         public static final int ic_launcher=0x7f020013;
-        public static final int ic_launcher_balloon=0x7f020014;
+        public static final int ic_launcher_bubble=0x7f020014;
         public static final int ic_map_arrive=0x7f020015;
         public static final int ic_map_arrive_over=0x7f020016;
         public static final int ic_map_no_01=0x7f020017;
@@ -58,7 +58,7 @@ public final class R {
         public static final int ic_pin_02=0x7f02001c;
         public static final int icon=0x7f02001d;
         public static final int intro_logo=0x7f02001e;
-        public static final int intro_logo_balloon=0x7f02001f;
+        public static final int intro_logo_bubble=0x7f02001f;
         public static final int lotte_logo=0x7f020020;
         public static final int lotte_picture=0x7f020021;
         public static final int lotte_picture1=0x7f020022;
