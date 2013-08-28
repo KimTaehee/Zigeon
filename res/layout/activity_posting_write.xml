@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/posting_write_layout_contents"
         android:layout_width="match_parent"
-        android:layout_height="230sp"
+        android:layout_height="230dp"
         android:orientation="vertical" >
 
         <ScrollView

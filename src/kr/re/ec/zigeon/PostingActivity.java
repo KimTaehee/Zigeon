@@ -19,6 +19,7 @@ import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
+import kr.re.ec.zigeon.util.PhotoUpload;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -222,7 +223,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 		case R.id.posting_camera_button:
 		{
-			startActivity(new Intent(this,PhotoUploadActivity.class));
+			//startActivity(new Intent(this,PhotoUploadActivity.class));
 			break;
 		}
 		}

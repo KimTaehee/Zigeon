@@ -5,7 +5,7 @@
  * 
  */
 
-package kr.re.ec.zigeon;
+package kr.re.ec.zigeon.util;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -14,15 +14,19 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import kr.re.ec.zigeon.util.LogUtil;
+import kr.re.ec.zigeon.R;
+import kr.re.ec.zigeon.R.id;
+import kr.re.ec.zigeon.R.layout;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class PhotoUploadActivity extends Activity {
+public class PhotoUpload extends AsyncTask<String, Void, Bitmap> {
 
 	private static final String UPLOAD_FILE_PATH = "/sdcard/f1.png"; 
 	private static final String UPLOAD_PAGE_URL = "http://117.17.198.41:8088/Upload.aspx";
@@ -36,30 +40,8 @@ public class PhotoUploadActivity extends Activity {
 	String twoHyphens = "--";
 	String boundary = "*****";	
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.activity_photo_upload);
-		
-		mEdityEntry = (EditText)findViewById(R.id.photo_upload_edit);
-		mUploadBtn = (Button)findViewById(R.id.photo_upload_btn);
-		mUploadBtn.setOnClickListener(new View.OnClickListener() {			
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				try {
-					mEdityEntry.setText("Uploading...");
-					
-					DoFileUpload(UPLOAD_FILE_PATH);					
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-			}
-		});
-		
-		
-	}
+	//				try-catch DoFileUpload(UPLOAD_FILE_PATH);					
+	
 	
 	private void DoFileUpload(String filePath) throws IOException {
 		LogUtil.v("file path = " + filePath);
@@ -129,6 +111,12 @@ public class PhotoUploadActivity extends Activity {
 		} catch (Exception e) {
 			LogUtil.e("exception " + e.getMessage()+", "+e.toString());
 		}		
+	}
+
+	@Override
+	protected Bitmap doInBackground(String... arg0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
