@@ -22,12 +22,12 @@ public class PhotoViewActivity extends Activity {
 		setContentView(R.layout.activity_photo_view);
 
 		
-		/** 전송메시지 */
+		/** receive intent */
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
 		String imgPath = extras.getString("imgPath");
 		
-		/** 완성된 이미지 보여주기  */
+		/** show image from path  */
 		BitmapFactory.Options bfo = new BitmapFactory.Options();
 		bfo.inSampleSize = 2;
 		ImageView iv = (ImageView)findViewById(R.id.photo_view_image);
