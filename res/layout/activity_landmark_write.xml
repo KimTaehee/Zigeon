@@ -5,7 +5,7 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/posting_write_layout_contents"
+        android:id="@+id/landmark_write_layout_contents"
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:orientation="vertical" >
@@ -22,14 +22,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/posting_write_txt_title" />
+                    android:text="@string/landmark_write_txt_title" />
 
                 <EditText
-                    android:id="@+id/posting_write_edt_title"
+                    android:id="@+id/landmark_write_edt_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/posting_write_edt_title_hint" >
+                    android:hint="@string/landmark_write_edt_title_hint" >
 
                     <requestFocus />
                 </EditText>
@@ -37,16 +37,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/posting_write_txt_contents" />
+                    android:text="@string/landmark_write_txt_contents" />
 
                 <EditText
-                    android:id="@+id/posting_write_edt_contents"
+                    android:id="@+id/landmark_write_edt_contents"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:ems="10"
-                    android:hint="@string/posting_write_edt_contents_hint"
-                    android:inputType="textMultiLine" 
-                    android:lines="6">
+                    android:hint="@string/landmark_write_edt_contents_hint"
+                    android:inputType="textMultiLine"
+                    android:lines="6" >
                 </EditText>
             </LinearLayout>
         </ScrollView>
@@ -55,11 +55,17 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/posting_write_layout_contents"
+        android:layout_below="@id/landmark_write_layout_contents"
         android:orientation="vertical" >
 
+        <Button
+            android:id="@+id/landmark_write_btn_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gogo_map" />
+
         <ImageView
-            android:id="@+id/posting_write_img_input"
+            android:id="@+id/landmark_write_img_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@android:drawable/ic_menu_camera" />
