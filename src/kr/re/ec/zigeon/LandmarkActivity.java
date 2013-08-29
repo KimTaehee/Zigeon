@@ -1,6 +1,11 @@
 /*
+<<<<<<< HEAD
+ * 130816 조덕주 작성
+ * 130819 김태희 수정
+=======
  * author 130816 newcho 
- * modified 130819 KimTaehee
+ * modified 130830 newcho (image click added)
+>>>>>>> origin/develop
  * 
  */
 
@@ -21,6 +26,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
@@ -32,12 +42,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
+
 public class LandmarkActivity extends Activity implements OnClickListener {
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -47,6 +59,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private Button btnInputComment;
 	private TextView tvName;
 	private TextView tvContents;
+	private ImageView imgLandmarkPicture;
 	private ArrayList<String> mCommentArl;		//to set listview 
 	private ArrayList<String> mPostingArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
@@ -59,6 +72,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
+
 	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
 		@Override
 		public void handleMessage(Message msg){
@@ -94,7 +108,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
 
+
 				/************ Comment to listview ************/
+
 				mCommentArl.clear();
 
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
@@ -160,7 +176,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         btnInputComment = (Button) findViewById(R.id.landmark_btn_input_comment);
         tvName = (TextView) findViewById(R.id.landmark_tv_name);
         tvContents = (TextView) findViewById(R.id.landmark_tv_contents);
+        imgLandmarkPicture = (ImageView)findViewById(R.id.image);
         btnInputComment.setOnClickListener(this);
+        imgLandmarkPicture.setOnClickListener(this);
         
         //initial listview string.
         mCommentArl = new ArrayList<String>();
@@ -215,43 +233,64 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	}
 
     @Override
-    public void onClick(View v) { //register comment
-    	if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank err
-    		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    		alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-    			@Override
-    			public void onClick(DialogInterface dialog, int which) {
-    				dialog.dismiss();	
-    			}
-    		});
-    		alert.setMessage("No Blank Allowed? ^^");
-    		alert.show();
-    		return;
-    	} else {
-    		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment");
-    		int maxComIdx = Integer.parseInt(str);
-    		str = soapParser.sendQuery(
-    				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-    						",comWriterIdx,comWrittenTime,comPicturePath)" +
-    						" values ('" +
-    						(maxComIdx + 1) + //comIdx
-    						"','L','" + //comParentType
-    						mLandmarkDataset.idx + //comParentIdx
-    						"','"+ edtInputComment.getText() + //comContents
-    						"','0','0','" + //comLike, comDislike
-    						"1" + //TODO: temp comWriterIdx
-    						"',GETDATE()," + //comWrittenTime
-    						"NULL" + //TODO: temp comPicturePath 
-    				")");
-    		LogUtil.i("server return : "+str);
+    public void onClick(View v) { 
+    	switch(v.getId()) {
+    	case R.id.landmark_btn_input_comment:
+    	{
+    		//send 
+    		if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank allowed. force to return
+        		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        		alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        			@Override
+        			public void onClick(DialogInterface dialog, int which) {
+        				dialog.dismiss();	
+        			}
+        		});
+        		alert.setMessage("BLANK? ^^");
+        		alert.show();
+        		return;
+        	} else {
+        		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); 
+        		int maxComIdx = Integer.parseInt(str);
+        		str = soapParser.sendQuery(
+        				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
+        						",comWriterIdx,comWrittenTime,comPicturePath)" +
+        						" values ('" +
+        						(maxComIdx + 1) + //comIdx
+        						"','L','" + //comParentType
+        						mLandmarkDataset.idx + //comParentIdx
+        						"','"+ edtInputComment.getText() + //comContents
+        						"','0','0','" + //comLike, comDislike
+        						"1" + //TODO: temp comWriterIdx
+        						"',GETDATE()," + //comWrittenTime
+        						"NULL" + //TODO: temp comPicturePath 
+        				")");
+        		LogUtil.i("server return : "+str);
 
-    		edtInputComment.setText("");
+        		edtInputComment.setText("");
 
-    		String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
-    		LogUtil.v("data request. " + query);
-    		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-    				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+        		String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
+        		LogUtil.v("data request. " + query);
+        		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+        				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+        	}
+    		
+    		break;
+        	
     	}
+    	case R.id.image:
+    	{
+    		LogUtil.i("hi i'm here");
+    		mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
+		mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
+		startActivity(mIntent);
+    	
+    		break;
+    	
+    	}
+    	}
+    	
+    	
     }
     
     @Override
