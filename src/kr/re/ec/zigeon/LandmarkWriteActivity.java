@@ -10,7 +10,5 @@ public class LandmarkWriteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(kr.re.ec.zigeon.R.layout.activity_landmark_write);
 		
-		
 	}
-	
 }
