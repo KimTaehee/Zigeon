@@ -1,10 +1,9 @@
-﻿package kr.re.ec.zigeon.login;
+﻿package kr.re.ec.zigeon;
 
 /**
  * LoginActivity
  * 130821 kim ji hong
  * */
-import kr.re.ec.zigeon.BubbleActivity;
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -31,6 +30,11 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(kr.re.ec.zigeon.R.layout.activity_login);
+
+		//call Intro Activity from here
+//		LogUtil.v("call IntroActivity");
+//		startActivity(new Intent(this,IntroActivity.class)); 
+		
 		id = (EditText) findViewById(R.id.Login_Id);
 		password = (EditText) findViewById(R.id.Login_Password);
 		login = (Button) findViewById(R.id.Login_Button);
@@ -121,7 +125,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				intent = new Intent(LoginActivity.this, JoinActivity.class);
+				intent = new Intent(LoginActivity.this, RegisterActivity.class);
 				startActivity(intent);
 			}
 		});

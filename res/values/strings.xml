@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Zigeon</string>
     <string name="bubble_activity_title">Bubble</string>
     <string name="action_settings">Settings</string>
@@ -23,6 +24,7 @@
     <string name="title_activity_posting">PostingActivity</string>
     <string name="landmark_tv_name">제제제제모모모목</string>
     <string name="landmark_tv_contents">내내내ㅐ내내내내내ㅐ내내ㅐ요요요요ㅛ요요요ㅛ요요ㅛ요요요용</string>
+    <string name="landmark_action_posting_write">Write Posting</string>
     <string name="login_id">ID</string>
     <string name="login_password">password</string>
     <string name="login_nickname">nickname</string>
@@ -31,4 +33,13 @@
     <string name="Facebook_button">Facebook</string>
     <string name="cancle">취소</string>
     <string name="autologin">자동로그인</string>
+    <string name="intro_activity_title">Balloon</string>
+    <string name="posting_write_action_write">올려</string>
+    <string name="posting_write_activity_title">포스팅 작성</string>
+    <string name="posting_write_edt_title_hint">스압ㅡ 본격 밥버거 정복기!</string>
+    <string name="posting_write_txt_title">제목</string>
+    <string name="posting_write_edt_contents_hint"></string>
+    <string name="posting_write_txt_contents">내용</string>
+    
+
 </resources>

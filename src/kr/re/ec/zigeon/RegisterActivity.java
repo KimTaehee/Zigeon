@@ -1,4 +1,4 @@
-﻿package kr.re.ec.zigeon.login;
+﻿package kr.re.ec.zigeon;
 
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.handler.SoapParser;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class JoinActivity extends Activity implements OnClickListener{
+public class RegisterActivity extends Activity implements OnClickListener{
 	private EditText id,password,nickname;
 	private SoapParser soapParser;
 	private String ID_check, Nickname_check; 
