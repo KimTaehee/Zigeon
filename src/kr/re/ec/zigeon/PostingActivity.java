@@ -47,11 +47,16 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private TextView tvContents;
 	private TextView tvLike;
 	private TextView tvDislike;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/Jihong
 	private ListView lstComment;
 	private ImageButton ibtUploadPhoto;
 	private EditText edtInputComment;
 	private Button btnInputComment;
+<<<<<<< HEAD
 	
 	private ArrayList<String> mCommentArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
@@ -59,6 +64,15 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private PostingDataset mPostingDataset;
 	private CommentDataset mCommentArr[];
 	
+=======
+
+	private ArrayList<String> mCommentArl;		//to set listview 
+	private ArrayAdapter<String> mCommentAdp;		//to set listview 
+
+	private PostingDataset mPostingDataset;
+	private CommentDataset mCommentArr[];
+
+>>>>>>> origin/Jihong
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 	private Handler messageHandler = new Handler() { //recieving to UpdateService
@@ -66,12 +80,20 @@ public class PostingActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> origin/Jihong
 			case Constants.MSG_TYPE_POSTING:
 			{
 				PostingDataset[] postingDataArr = (PostingDataset[]) msg.obj; 
 				mPostingDataset = postingDataArr[0];
+<<<<<<< HEAD
 				
+=======
+
+>>>>>>> origin/Jihong
 				/******************** print info  *******************/
 				tvTitle.setText(mPostingDataset.title);
 				tvWrittenTime.setText(mPostingDataset.writtenTime.toString());
@@ -80,16 +102,27 @@ public class PostingActivity extends Activity implements OnClickListener {
 				tvContents.setText(mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 //				tvLike.setText(mPostingDataset.like);
 //				tvDislike.setText(mPostingDataset.dislike);
+<<<<<<< HEAD
 				
+=======
+
+>>>>>>> origin/Jihong
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
+<<<<<<< HEAD
 				
 				/************ print Comment to listview ************/
 				mCommentArl.clear();
 				 
+=======
+
+				/************ print Comment to listview ************/
+				mCommentArl.clear();
+
+>>>>>>> origin/Jihong
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
 				for(int i=0;i<mCommentArr.length;i++){
 					mCommentArl.add(mCommentArr[i].contents);
@@ -107,23 +140,41 @@ public class PostingActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/Jihong
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
+<<<<<<< HEAD
 	
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 		
+=======
+
+		/************** register handler ***************/
+		uiHandler = UIHandler.getInstance(this);
+		uiHandler.setHandler(messageHandler);
+
+>>>>>>> origin/Jihong
 		/****** Data init request *****/
 		Bundle bundle = this.getIntent().getExtras();
         mPostingDataset = new PostingDataset();
         mPostingDataset.idx = bundle.getInt("pstIdx");
+<<<<<<< HEAD
 		
         soapParser = SoapParser.getInstance();
 		
+=======
+
+        soapParser = SoapParser.getInstance();
+
+>>>>>>> origin/Jihong
         String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "'"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
@@ -148,7 +199,11 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
 		ibtUploadPhoto.setOnClickListener(this);
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> origin/Jihong
 		mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
         
@@ -164,7 +219,11 @@ public class PostingActivity extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.posting, menu);
 		return true;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/Jihong
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -227,4 +286,8 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 	}
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/Jihong

@@ -20,10 +20,10 @@ import com.google.android.gcm.GCMBaseIntentService;
 public class GCMIntentService extends GCMBaseIntentService {
     private static final String tag = "GCMIntentService";
     
-    //구글 api 페이지 주소 [https://code.google.com/apis/console/#project:긴 번호]
-   //#project: 이후의 숫자가 위의 PROJECT_ID 값에 해당한다
+    //google api page url [https://code.google.com/apis/console/#project:#########]
+   //#project: ####### means PROJECT_ID
    
-    //public 기본 생성자를 무조건 만들어야 한다.
+    //public contructor requested
     public GCMIntentService(){ 
     	this(Constants.GCM_PROJECT_ID); 
     }
@@ -33,7 +33,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     	LogUtil.i("GCMIntentService start!");
     }
 
-    /** 푸시로 받은 메시지 */
+    /** msg from push */
     @Override
     protected void onMessage(Context context, Intent intent) {
     	LogUtil.i("GCM onMessage invoked!!!!!!");

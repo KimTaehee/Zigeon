@@ -1,11 +1,7 @@
 /**
- * 클래스 이름 : BubbleActivity
- * 클래스 설명 : 버블을 화면에 띄우고 애니메이션 효과를 줍니다.
- * 작성자 (혹은 팀) : 김지홍 
- * 버전 정보 :
- * 작성 일자 : 8월 15일 오후 6:35
- * 수정 이력 : 8월 16 오전 3:01
- */
+ * ClassName : BubbleActivity
+ * Class explain : bubble in 
+ * */
 
 package kr.re.ec.zigeon;
 
@@ -50,10 +46,10 @@ public class BubbleActivity extends Activity {
 	private Intent mIntent;
 	/** The m register task. (GCM) */
 		
-	private SoapParser soapParser; //TODO: test. 확인한 다음에 빼줘야함.
+	private SoapParser soapParser; //TODO: test. will be deleted.
 	
 	private UIHandler uiHandler; 
-	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
+	private Handler messageHandler = new Handler() { //receiver from UpdateService
 		@Override
 		public void handleMessage(Message msg){
 			switch (msg.what) {
@@ -91,7 +87,7 @@ public class BubbleActivity extends Activity {
 			}
 			case Constants.MSG_TYPE_LOCATION:
 			{
-				//일단은 android.location 대신 NGeoPoint를 쓰기로 한다.
+				//NGeoPoint instead of android.location 
 				NGeoPoint location = (NGeoPoint)msg.obj;
 				String str = location.getLatitude() + "\n" + location.getLongitude() + "\n";
 //						+ "\n" + location.getAccuracy() + "\n" + location.getProvider();
@@ -117,7 +113,7 @@ public class BubbleActivity extends Activity {
 			GCMRegistrar.register(this, Constants.GCM_PROJECT_ID);
             // Automatically registers application on startup.
 			
-        // regId 는 있지만 서버에 등록이 안돼어 있다면 아래 로직으로 서버 재 등록 시작 
+        // if have regId but not registered on server, retry. 
 		} else {
 			LogUtil.i("already registered device! ready to receive msg!");
 			LogUtil.v("regId " + regId);
@@ -125,7 +121,7 @@ public class BubbleActivity extends Activity {
 
 		
 		
-		/*************** UI 초기화 ************/
+		/*************** UI init  ************/
 //		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
 //		tvLandmarkTest = (TextView)findViewById(R.id.bubble_tvLandmarkTest);
 //		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
@@ -137,28 +133,22 @@ public class BubbleActivity extends Activity {
 		bubbleImage4 = (ImageView) findViewById(R.id.bubbleImage4);
 		rootLayout = (RelativeLayout) findViewById(R.id.rootLayout);
 		
-		/************* 애니메이션부 ****************/
-		// 이미지 크기를 조정하기 위한 코드
+		/************* anim part ****************/
+		// to resize image
 		LayoutParams params = (LayoutParams) bubbleImage.getLayoutParams();
 		params.width = 120;
 		bubbleImage.setLayoutParams(params);
 
-		// 애니메이션 효과
+		// anim effect
 		bubblemoveAnimation = AnimationUtils.loadAnimation(this,
 				R.anim.bubblemove);
 		bubbleImage.setAnimation(bubblemoveAnimation);
 
-		/**
-		 * 현재는 이미지 하나당 하나의 애니메이션과 imageview를 만들어서 사용했습니다. 1~7개까지 같은 이미지를 써서 1개의
-		 * imageview로 표현할수 있을것 같은데 그건 좀더 생각해봐야 할것 같습니다.
-		 */
+		
 
 		LayoutParams params2 = (LayoutParams) bubbleImage2.getLayoutParams();
 		params2.width = 100;
-		/**
-		 * width아무리 크게해도 원래 imageview에 설정된 크기 이상으로는 커지지 않네요 처음 만들때 일정크기로 만들어 두면
-		 * 문제는 없을것 같습니다.
-		 */
+		
 
 		bubbleImage2.setLayoutParams(params2);
 		bubblemoveAnimation = AnimationUtils.loadAnimation(this,
@@ -179,13 +169,13 @@ public class BubbleActivity extends Activity {
 				R.anim.bubblemove4);
 		bubbleImage4.setAnimation(bubblemoveAnimation);
 
-		/********************** 버튼 클릭을 위한 숫자 때려박기 ********************************/
+		/********************** to click button ********************************/
 
 		RelativeLayout.LayoutParams img_param = (LayoutParams) bubbleImage4
 				.getLayoutParams();
 		
 		final Button btn = new Button(this);
-		// 버블(야매버튼)을 클릭했을때
+		// when button clicked
 		btn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -199,10 +189,10 @@ public class BubbleActivity extends Activity {
 		
 		rootLayout.addView(btn);
 		btn.setLayoutParams(img_param);
-		btn.setBackgroundColor(0); /* 버튼투명하게 */
-		btn.setY(1587); /* 버튼시작위치 */
+		btn.setBackgroundColor(0); /* transparent btn */
+		btn.setY(1587); /* btn start location */
 
-		// 버튼 위치 설정용 핸들러
+		// to set btn location
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				btn.setY(BUBBLETEST_BUTTON_START_Y - BUBBLETEST_BUTTON_INTERVAL
@@ -219,9 +209,7 @@ public class BubbleActivity extends Activity {
 						Thread.sleep(1000);
 						//LogUtil.v("i = " + i + "getY = " + btn.getY());
 						msg.arg1 = i % 18 + 1; /*
-												 * 18로 한 이유는 bubble애니메이션 주기를
-												 * 18초로 해서 같아지게 할려고 했습니다. 따로 끄기
-												 * 귀찮아서 i가 100되면 쓰레드 멈추게.......
+												 * 
 												 */
 						i += 1;
 						handler.sendMessage(msg);
@@ -232,7 +220,7 @@ public class BubbleActivity extends Activity {
 			}
 		}).start();
 
-		/*************** 일반 초기화 *****************/
+		/*************** init other *****************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
@@ -240,7 +228,7 @@ public class BubbleActivity extends Activity {
 		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
 
 		
-		//여기는 test구문
+		//test phrase
 		LogUtil.v("test phrase. select * from tLandmark");
 		soapParser = SoapParser.getInstance();
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -267,7 +255,7 @@ public class BubbleActivity extends Activity {
 		case R.id.action_test_stop_service:
 		{
 			LogUtil.i("action_test_stop_service clicked");
-			stopService(new Intent(this, UpdateService.class));	//TODO: 테스트해봐야 함. 서비스 종료
+			stopService(new Intent(this, UpdateService.class));	//TODO: test. stop service
 			break;
 		}
 		}
@@ -277,7 +265,7 @@ public class BubbleActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		LogUtil.v("onDestroy: stop updateService");
-		stopService(new Intent(this, UpdateService.class));	//TODO: 테스트해봐야 함. 서비스 종료
+		stopService(new Intent(this, UpdateService.class));	//TODO: test. stop service
 		
 	}
 }

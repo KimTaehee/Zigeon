@@ -15,6 +15,7 @@ import java.io.InputStream;
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 
@@ -236,14 +237,14 @@ public class SoapParser {
 			obj = commentArr;
 			break;
 			//TODO: MEMBER create needed
-//		case Constants.MSG_TYPE_MEMBER: 
-//			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//create Landmark Array 
-//			for(int i=0; i<strArr.length; i++) {
-//				landmark[i] = new LandmarkDataset(strArr[i]);	
-//			}
-//			obj = landmark;
-//			break;
-//			
+		case Constants.MSG_TYPE_MEMBER: 
+			MemberDataset[] memberArr = new MemberDataset[strArr.length];	//create Landmark Array 
+			for(int i=0; i<strArr.length; i++) {
+				memberArr[i] = new MemberDataset(strArr[i]);	
+			}
+			obj = memberArr;
+			break;
+			
 		case Constants.MSG_TYPE_TEST:
 			//LogUtil.v("object test converting. strArr[0][0] = " + strArr[0][0]);
 			if(strArr[0][0]!=null) {
