@@ -443,12 +443,18 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
 		switch(item.getItemId()) {
-		case R.id.landmark_tabhost:
+		case R.id.map_list_action_bubble:
 		{
 			LogUtil.v("action_bubble clicked. ");
 			finish(); //TODO: 지도가 종료되지 않게 하고 싶어... 재로딩하잖아 ㅠㅠ 
 			overridePendingTransition(0, 0); //no switching animation
 			break;
+		}
+		case R.id.map_list_action_landmark_write:
+		{
+			startActivity(new Intent(this,LandmarkWriteActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;			
 		}
 		}
 		return true;
