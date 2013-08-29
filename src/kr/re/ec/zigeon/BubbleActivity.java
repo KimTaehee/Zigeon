@@ -45,15 +45,9 @@ public class BubbleActivity extends Activity {
 
 	private Intent mIntent;
 	/** The m register task. (GCM) */
-<<<<<<< HEAD
-
-	private SoapParser soapParser; //TODO: test. 확인한 다음에 빼줘야함.
-
-=======
 		
 	private SoapParser soapParser; //TODO: test. will be deleted.
 	
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 	private UIHandler uiHandler; 
 	private Handler messageHandler = new Handler() { //receiver from UpdateService
 		@Override
@@ -108,15 +102,11 @@ public class BubbleActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble);
-<<<<<<< HEAD
-
-=======
 		
 		/*********** MemberDataset Global test ***********/
 		MemberDataset mem = MemberDataset.getInstance();
 		LogUtil.v("MEMBERDATASET GLOBAL ID: " + mem.id);
 				
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 		/*************** GCM registration **************/
 		LogUtil.v("push register start");
 		GCMRegistrar.checkDevice(this);
@@ -125,31 +115,13 @@ public class BubbleActivity extends Activity {
 		if (regId.equals("")) {
 			LogUtil.v("regId " + regId);
 			GCMRegistrar.register(this, Constants.GCM_PROJECT_ID);
-<<<<<<< HEAD
-			// Automatically registers application on startup.
-
-			// regId 는 있지만 서버에 등록이 안돼어 있다면 아래 로직으로 서버 재 등록 시작 
-=======
             // Automatically registers application on startup.
 			
         // if have regId but not registered on server, retry. 
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 		} else {
 			LogUtil.i("already registered device! ready to receive msg!");
 			LogUtil.v("regId " + regId);
 		}
-
-
-
-<<<<<<< HEAD
-		/*************** UI 초기화 ************/
-		//		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
-		//		tvLandmarkTest = (TextView)findViewById(R.id.bubble_tvLandmarkTest);
-		//		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
-		//		btnServiceStopTest = (Button)findViewById(R.id.btnServiceStopTest);
-		//		btnServiceStopTest.setOnClickListener(this);
-=======
-		
 		
 		/*************** UI init  ************/
 //		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
@@ -157,21 +129,15 @@ public class BubbleActivity extends Activity {
 //		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
 //		btnServiceStopTest = (Button)findViewById(R.id.btnServiceStopTest);
 //		btnServiceStopTest.setOnClickListener(this);
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
+
 		bubbleImage = (ImageView) findViewById(R.id.bubbleImage);
 		bubbleImage2 = (ImageView) findViewById(R.id.bubbleImage2);
 		bubbleImage3 = (ImageView) findViewById(R.id.bubbleImage3);
 		bubbleImage4 = (ImageView) findViewById(R.id.bubbleImage4);
 		rootLayout = (RelativeLayout) findViewById(R.id.rootLayout);
-<<<<<<< HEAD
-
-		/************* 애니메이션부 ****************/
-		// 이미지 크기를 조정하기 위한 코드
-=======
 		
 		/************* anim part ****************/
 		// to resize image
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 		LayoutParams params = (LayoutParams) bubbleImage.getLayoutParams();
 		params.width = 120;
 		bubbleImage.setLayoutParams(params);
@@ -246,15 +212,8 @@ public class BubbleActivity extends Activity {
 						Thread.sleep(1000);
 						//LogUtil.v("i = " + i + "getY = " + btn.getY());
 						msg.arg1 = i % 18 + 1; /*
-<<<<<<< HEAD
-						 * 18로 한 이유는 bubble애니메이션 주기를
-						 * 18초로 해서 같아지게 할려고 했습니다. 따로 끄기
-						 * 귀찮아서 i가 100되면 쓰레드 멈추게.......
-						 */
-=======
 												 * 
 												 */
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 						i += 1;
 						handler.sendMessage(msg);
 					} catch (InterruptedException ie) {
@@ -271,13 +230,7 @@ public class BubbleActivity extends Activity {
 		LogUtil.v("onCreate: start updateService");
 		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
 
-<<<<<<< HEAD
-
-		//여기는 test구문
-=======
-		
 		//test phrase
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 		LogUtil.v("test phrase. select * from tLandmark");
 		soapParser = SoapParser.getInstance();
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -315,12 +268,6 @@ public class BubbleActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		LogUtil.v("onDestroy: stop updateService");
-<<<<<<< HEAD
-		stopService(new Intent(this, UpdateService.class));	//TODO: 테스트해봐야 함. 서비스 종료
-
-=======
 		stopService(new Intent(this, UpdateService.class));	//TODO: test. stop service
-		
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
 	}
 }

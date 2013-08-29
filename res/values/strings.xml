@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-<resources>
-
-=======
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
     <string name="app_name">Balloon</string>
     <string name="bubble_activity_title">Balloon</string>
     <string name="action_settings">Settings</string>
@@ -34,11 +29,7 @@
     <string name="landmark_write_txt_title">title</string>
     <string name="landmark_write_edt_title_hint">no hint!</string>
     <string name="landmark_write_txt_contents">contents</string>
-<<<<<<< HEAD
-    <string name="landmark_write_edt_contents_hint"></string>
-=======
     <string name="landmark_write_edt_contents_hint"></string>    
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
     <string name="login_id">ID</string>
     <string name="login_password">password</string>
     <string name="login_nickname">nickname</string>
@@ -53,12 +44,6 @@
     <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conquerer!</string>
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
-<<<<<<< HEAD
     <string name="posting_write_txt_contents">contents</string>    
 
 </resources>
-=======
-    <string name="posting_write_txt_contents">contents</string>
-    
-</resources>
->>>>>>> 4d42b1f0b2ee27adbaa3fd51e2d8f8ed643109e4
