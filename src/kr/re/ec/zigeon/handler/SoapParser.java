@@ -5,7 +5,6 @@
  * Version :
  * Write date : 130815
  * Modify date : 130816
->>>>>>> origin/KTHWorking
  */
 
 package kr.re.ec.zigeon.handler;
@@ -212,8 +211,6 @@ public class SoapParser {
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(request);
 
-		request.addProperty("searchData", query); //TODO: searchData 키워드의 의미?
-		
 		request.addProperty("searchData", query); //TODO: what is searchData?
 
 
@@ -272,13 +269,6 @@ public class SoapParser {
 			obj = commentArr;
 			break;
 
-			
-			//TODO: MEMBER 처리해야함
-//		case Constants.MSG_TYPE_MEMBER: 
-//			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//Landmark Array 생성
-
-			//TODO: MEMBER create needed
-<<<<<<< HEAD
 		case Constants.MSG_TYPE_MEMBER: 
 			MemberDataset[] memberArr = new MemberDataset[strArr.length];	//create Landmark Array 
 			for(int i=0; i<strArr.length; i++) {
@@ -287,17 +277,7 @@ public class SoapParser {
 			obj = memberArr;
 			break;
 			
-=======
-//		case Constants.MSG_TYPE_MEMBER: 
-//			MemberDataset[] landmark = new LandmarkDataset[strArr.length];	//create Landmark Array 
 
-//			for(int i=0; i<strArr.length; i++) {
-//				landmark[i] = new LandmarkDataset(strArr[i]);	
-//			}
-//			obj = landmark;
-//			break;
-//			
->>>>>>> origin/newcho
 		case Constants.MSG_TYPE_TEST:
 			//LogUtil.v("object test converting. strArr[0][0] = " + strArr[0][0]);
 			if(strArr[0][0]!=null) {
@@ -331,9 +311,6 @@ public class SoapParser {
 			String tag;
 			int inText = NONE;
 
-			
-			//data가 없으면 <NewDataSet />이 온다.
-
 			//if there is no data, response is "<NewDataSet />".
 
 			if(data.compareTo("<NewDataSet />")==0) {
@@ -357,8 +334,6 @@ public class SoapParser {
 						switch (inText) {
 						case DATA:
 							parsingData += parser.getText() + ",";
-
-							// 데이터를 구분하기위해 콤마를 추가했습니다
 
 							// to divide data, insert comma
 
