@@ -16,6 +16,7 @@ public class UIHandler {
 	public static Handler mapListActivityHandler;
 	public static Handler landmarkActivityHandler;
 	public static Handler postingActivityHandler;
+	public static Handler mapActivityHandler;
 	
 	private Context mContext; //for use topActivity
 	private ActivityManager am;
@@ -62,6 +63,11 @@ public class UIHandler {
 		{
 			postingActivityHandler = handler;
 			LogUtil.v("top activity is PostingActivity. set handler.");
+		}
+		else if (str.compareTo("kr.re.ec.zigeon.MapActivity") == 0)
+		{
+			mapActivityHandler = handler;
+			LogUtil.v("top activity is MapActivity. set handler.");
 		}
 		else 
 		{
@@ -112,6 +118,16 @@ public class UIHandler {
 				return postingActivityHandler;
 			} else {
 				LogUtil.e("Cannot return handler. no postingActivityHandler detected.");
+				return null;
+			}
+		}
+		else if (str.compareTo("kr.re.ec.zigeon.MapActivity") == 0) 
+		{
+			if(mapActivityHandler!=null) {
+				LogUtil.v("mapActivityHandler selected.");
+				return mapActivityHandler;
+			} else {
+				LogUtil.e("Cannot return handler. no mapActivityHandler detected.");
 				return null;
 			}
 		}
