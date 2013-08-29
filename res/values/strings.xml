@@ -40,6 +40,10 @@
     <string name="posting_write_txt_title">제목</string>
     <string name="posting_write_edt_contents_hint"></string>
     <string name="posting_write_txt_contents">내용</string>
+    <string name="landmark_write_txt_title">name!</string>
+    <string name="landmark_write_edt_title_hint">write name!!!!!!!!!!!!!!!!!!!!!!!</string>
+    <string name="landmark_write_txt_contents">hahaha</string>
+    <string name="landmark_write_edt_contents_hint">haha</string>
+    <string name="map_list_action_landmark_write">landmark write</string>
     
-
 </resources>

@@ -275,4 +275,3 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		return true;
 	}
 }
-
