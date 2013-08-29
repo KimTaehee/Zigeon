@@ -6,6 +6,8 @@ package kr.re.ec.zigeon.dataset;
 
 import java.util.Date;
 
+import android.content.Context;
+import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.util.LogUtil;
 
 public class MemberDataset extends Object {
@@ -16,17 +18,22 @@ public class MemberDataset extends Object {
 	public String pw;
 	public String nick;
 	public int exp;
-	public boolean isfacebook;
-	public Date regtime;
-	public Date lastaccesstime;
-	public boolean isadmin;
+	public boolean isFacebook;
+	public Date regTime;
+	public Date lastAccessTime;
+	public boolean isAdmin;
 	
-	public MemberDataset() {
+	private static MemberDataset instance; //for singleton
+	
+	private MemberDataset() {
 		
-	}
+	}	
 	
-	public MemberDataset(String[] strArr) {
-		setDataset(strArr);
+	public static MemberDataset getInstance(){
+		if(instance==null) {
+			instance = new MemberDataset(); 
+		}
+		return instance;
 	}
 	
 	public void setDataset(String[] strArr) {
@@ -36,13 +43,18 @@ public class MemberDataset extends Object {
 			pw = strArr[2];
 			nick = strArr[3];
 			exp = Integer.parseInt(strArr[4]);
-			isfacebook = Boolean.parseBoolean(strArr[5]);
-			regtime = new Date(); //TODO: temporary.
-			lastaccesstime = new Date(); //TODO: temporary.
-			isadmin = Boolean.parseBoolean(strArr[8]);
+			isFacebook = Boolean.parseBoolean(strArr[5]);
+			regTime = new Date(); //TODO: temporary.
+			lastAccessTime = new Date(); //TODO: temporary.
+			isAdmin = Boolean.parseBoolean(strArr[8]);
 		} else {
 			LogUtil.e("wrong data input");
 		}
+	}
+	public void setDataset(MemberDataset dataset) {
+		//LogUtil.i("dataset.id: " + dataset.id);
+		instance = dataset;
+		//LogUtil.i("instance.id: " + instance.id);		 
 	}
 }
 

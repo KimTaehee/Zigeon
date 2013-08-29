@@ -10,6 +10,7 @@ import com.google.android.gcm.GCMRegistrar;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
@@ -103,6 +104,10 @@ public class BubbleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble);
 		
+		/*********** MemberDataset Global test ***********/
+		MemberDataset mem = MemberDataset.getInstance();
+		LogUtil.v("MEMBERDATASET GLOBAL ID: " + mem.id);
+				
 		/*************** GCM registration **************/
 		LogUtil.v("push register start");
 		GCMRegistrar.checkDevice(this);

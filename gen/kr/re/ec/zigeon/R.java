@@ -139,9 +139,10 @@ public final class R {
         public static final int activity_photo_upload=0x7f030006;
         public static final int activity_posting=0x7f030007;
         public static final int activity_posting_write=0x7f030008;
-        public static final int listview_item_comment=0x7f030009;
-        public static final int listview_item_landmark=0x7f03000a;
-        public static final int listview_item_posting=0x7f03000b;
+        public static final int activity_preference=0x7f030009;
+        public static final int listview_item_comment=0x7f03000a;
+        public static final int listview_item_landmark=0x7f03000b;
+        public static final int listview_item_posting=0x7f03000c;
     }
     public static final class menu {
         public static final int bubble=0x7f080000;
