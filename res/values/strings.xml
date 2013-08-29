@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Balloon</string>
     <string name="bubble_activity_title">Balloon</string>
     <string name="action_settings">Settings</string>
@@ -20,11 +19,16 @@
     <string name="bubble_action_map_list">MapList</string>
     <string name="map_list_action_bubble">Bubble</string>
     <string name="map_list_str_done">done</string>
+    <string name="map_list_action_landmark_write">WRITE LANDMARK</string>
     <string name="edit_message">input bitch</string>
     <string name="title_activity_posting">PostingActivity</string>
     <string name="landmark_tv_name">title</string>
     <string name="landmark_tv_contents">contents</string>
     <string name="landmark_action_posting_write">Write Posting</string>
+    <string name="landmark_write_txt_title">title</string>
+    <string name="landmark_write_edt_title_hint">no hint!</string>
+    <string name="landmark_write_txt_contents">contents</string>
+    <string name="landmark_write_edt_contents_hint"></string>    
     <string name="login_id">ID</string>
     <string name="login_password">password</string>
     <string name="login_nickname">nickname</string>
@@ -36,10 +40,9 @@
     <string name="intro_activity_title">Balloon</string>
     <string name="posting_write_action_write">write</string>
     <string name="posting_write_activity_title">WRITE POSTING</string>
-    <string name="posting_write_edt_title_hint">scroll warnㅡ I'm the bobburger conquerer!</string>
+    <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conquerer!</string>
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
     <string name="posting_write_txt_contents">contents</string>
     
-
 </resources>
