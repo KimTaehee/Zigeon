@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 /* 작성자: 서주리
  * 수정자: 김태희
 <<<<<<< HEAD
  * gitgit
 =======
 >>>>>>> origin/KTHWorking
+=======
+/* Author: SeoJuri
+ * Modifier: KimTaehee
+
+>>>>>>> origin/Jool
  */
 
 package kr.re.ec.zigeon;
@@ -57,14 +63,24 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayListener;
 
+<<<<<<< HEAD
 public class MapListActivity extends NMapActivity implements OnMapStateChangeListener, OnCalloutOverlayListener {
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 	
 	private NMapView mMapView = null;	//Naver map 객체
+=======
+public class MapListActivity extends NMapActivity 
+	implements OnMapStateChangeListener, OnCalloutOverlayListener {
+	
+	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
+	
+	private NMapView mMapView = null;	//Naver map object
+>>>>>>> origin/Jool
 	private ListView lstLandmark;
 	private ListView lstPosting;
 	private TabHost tabHost;
 		
+<<<<<<< HEAD
 	private NMapController mMapController = null;	// 맵 컨트롤러
 	private LinearLayout MapContainer;	//맵을 추가 할 레이아웃
 	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	// 오버레이의 리소스를 제공하기 위한 객체
@@ -76,20 +92,44 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	public static NMapLocationManager mMapLocationManager; //UpdateService.onCreate으로부터 강제 초기화 받음.
 	private NMapCompassManager mMapCompassManager; //130816 김태희 추가 
 	//private MapContainerView mMapContainerView; //130816 김태희 추가
+=======
+	private NMapController mMapController = null;	
+	private LinearLayout MapContainer;	//map on layout
+	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	// Overlay Resource Provider
+	private NMapOverlayManager mOverlayManager = null;	// Overlay manager
+	//private OnStateChangeListener onPOIdataStateChangeListener = null;
+	private NGeoPoint myLocation;
+	
+	private NMapMyLocationOverlay mMyLocationOverlay; 
+	public static NMapLocationManager mMapLocationManager; //forced init from UpdateService.onCreate()
+	private NMapCompassManager mMapCompassManager; 
+	//private MapContainerView mMapContainerView; 
+>>>>>>> origin/Jool
 
 	private Intent mIntent;
 
 	private SoapParser soapParser;
 	
+<<<<<<< HEAD
 	private ArrayList<String> mLandmarkArl;		//listview 세팅용	
 	private ArrayList<String> mPostingArl;		//listview 세팅용
 	private ArrayAdapter<String> mLandmarkAdp;		//listview 세팅용
 	private ArrayAdapter<String> mPostingAdp;		//listview 세팅용
+=======
+	private ArrayList<String> mLandmarkArl;		//to set listview	
+	private ArrayList<String> mPostingArl;		//to set listview
+	private ArrayAdapter<String> mLandmarkAdp;		//to set listview
+	private ArrayAdapter<String> mPostingAdp;		//to set listview
+>>>>>>> origin/Jool
 	private LandmarkDataset mLandmarkArr[];
 	private PostingDataset mPostingArr[];
 	
 	private UIHandler uiHandler;
+<<<<<<< HEAD
 	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
+=======
+	private Handler messageHandler = new Handler() { //receiver from UpdateService
+>>>>>>> origin/Jool
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
@@ -100,16 +140,25 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 				/****************** LandmarkDataset -> NMapPOIdataOverlay ***************/
 				//LogUtil.v("LandmarkDataset -> NMapOverlay");
 				
+<<<<<<< HEAD
 				int markerId = NMapPOIflagType.PIN;		// 오버레이에 표시하기 위한 마커 이미지의 id값 생성
 				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
 				poiData.beginPOIdata(0); //TODO: 여기서 0은 뭘까?
 				for(int i=0;i<mLandmarkArr.length;i++) {
 					//TODO: ?에 알맞은 말을 구하시오(longitude, latitude, String, NMapPOIFlagtype, ?)
+=======
+				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
+				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
+				poiData.beginPOIdata(0); //TODO: what is 0?
+				for(int i=0;i<mLandmarkArr.length;i++) {
+					//TODO: what is 0?
+>>>>>>> origin/Jool
 					poiData.addPOIitem(mLandmarkArr[i].longitude, 
 							mLandmarkArr[i].latitude, mLandmarkArr[i].name, markerId, 0); 
 				}
 				poiData.endPOIdata();	
 			
+<<<<<<< HEAD
 				// 위치 데이터를 사용하여 오버레이 생성
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 				poiDataOverlay.showAllPOIdata(0);	//id값이 0으로 지정된 모든 오버레이가 표시되고 있는 위치로 지도의 중심과 Zoom을 재설정
@@ -125,6 +174,23 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 					//위치 정보가 아직 나오지 않았을 때 메시지 출력
 					mLandmarkArl.add(mLandmarkArr[i].name + "\n"
 							+ ((distanceFromMe==Constants.INT_NULL)?"찾는중.. 잠시만 기다려봐^o^":distanceFromMe + " m"));
+=======
+				// create overlay with location data
+				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+				poiDataOverlay.showAllPOIdata(0);	//set center and zoom which can express all overlay where id==0
+				
+				
+				/******************** reflect on List*******************/
+				mLandmarkArl.clear(); //reset arraylist
+				//LogUtil.v("mLandmarkArr.length : "+ mLandmarkArr.length);
+				for(int i=0;i<mLandmarkArr.length;i++){
+					//double->int
+					int distanceFromMe = (int)(mLandmarkArr[i].getDistance(myLocation));
+					
+					//init string
+					mLandmarkArl.add(mLandmarkArr[i].name + "\n"
+							+ ((distanceFromMe==Constants.INT_NULL)?"finding.. ^o^":distanceFromMe + " m"));
+>>>>>>> origin/Jool
 				}
 				mLandmarkAdp.notifyDataSetChanged();
 				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
@@ -134,7 +200,11 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			{
 				mPostingArr =(PostingDataset[]) msg.obj;
 				
+<<<<<<< HEAD
 				/************ Posting을 listview에 반영한다 ************/
+=======
+				/************ reflect Posting on listview ************/
+>>>>>>> origin/Jool
 				mPostingArl.clear();
 				 
 				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
@@ -162,17 +232,29 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			}
 			case Constants.MSG_TYPE_LOCATION:
 			{
+<<<<<<< HEAD
 				//일단은 android.location 대신 NGeoPoint를 쓰기로 한다.
 				myLocation = (NGeoPoint)msg.obj;
 				
 				//UpdateService의 onLocationChanged에서 아래의 select문을 발동시키면 다른 Activity로 전달될 우려가 있다.
+=======
+				//use NGeoPoint instead of android.location 
+				myLocation = (NGeoPoint)msg.obj;
+				
+				//WARN: cannot use this query on UpdateService.onLocationChanged().
+				//WARN: It may cause to send to other Activity.
+>>>>>>> origin/Jool
 				LogUtil.v("select * from tLandmark");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 				
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
+<<<<<<< HEAD
 				//이거 살려놓으면 Location 수신할 때마다 현재 위치로 지도 옮김 => 빡침
+=======
+				//WARN: It may cause you angry. map trace myLocation always.
+>>>>>>> origin/Jool
 //				if (mMapController != null) {
 //					mMapController.animateTo(myLocation);
 //				}
@@ -188,6 +270,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_list);
 
+<<<<<<< HEAD
 		/************** 핸들러 등록 ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -214,6 +297,30 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		
 		
 		//여기부터 오버레이 끝까지 130816 김태희 추가
+=======
+		/************** register handler ***************/
+		uiHandler = UIHandler.getInstance(this);
+		uiHandler.setHandler(messageHandler);
+		
+		/************* map init **************/
+		MapContainer = (LinearLayout)findViewById(R.id.map);		// LinearLayout for show map
+		mMapView = new NMapView(this);		//create map object
+		mMapController = mMapView.getMapController();		//extract controller from map object
+		mMapView.setApiKey(API_KEY);		
+		MapContainer.addView(mMapView);		//map->layout
+		mMapView.setClickable(true);		//can click map
+		mMapView.setBuiltInZoomControls(true, null);		//zoom controller for +/- enable
+		mMapView.setOnMapStateChangeListener(this);		//event listener
+
+		/**************** overlay init ************************/
+		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider 
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider); 	//add overlay manager
+		
+		//TODO: what is it? it seem to stop working this: CalloutOverlayListener
+		//poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);  		
+		mOverlayManager.setOnCalloutOverlayListener(this);		// register overlay eventlistener
+		
+>>>>>>> origin/Jool
 		mMapCompassManager = new NMapCompassManager(this);
 		if(mMapLocationManager != null) {
 			mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
@@ -222,11 +329,17 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		} else {
 			LogUtil.e("LocationManager is null!");
 		}
+<<<<<<< HEAD
 		/******************오버레이 끝********************/
 
 
 		/***********************탭탭 및 리스트뷰 초기화***************************/
 		//내용 요청하기
+=======
+
+		/*********************** tab and listview init***************************/
+		//request contents
+>>>>>>> origin/Jool
 		soapParser = SoapParser.getInstance(); 
 		LogUtil.v("data request. select * from tLandmark");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -235,28 +348,48 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData("select * from tPosting", Constants.MSG_TYPE_POSTING));
 		
+<<<<<<< HEAD
 		//탭 등록
+=======
+		//resigter tab
+>>>>>>> origin/Jool
 		tabHost = (TabHost) findViewById(R.id.map_list_tabhost);
         lstLandmark = (ListView) findViewById(R.id.landmarkList);
         lstPosting = (ListView) findViewById(R.id.postingList);
 		
+<<<<<<< HEAD
         //초기 listview 문구 지정.
+=======
+        //first listview string 
+>>>>>>> origin/Jool
         mLandmarkArl = new ArrayList<String>();
         mLandmarkArl.add("Landmarks Loading...");
         mPostingArl = new ArrayList<String>();
         mPostingArl.add("Postings Loading...");
         
+<<<<<<< HEAD
         //listview가 아닌 layout이 들어감에 유의
+=======
+        //WARN: no listview, but layout
+>>>>>>> origin/Jool
         mLandmarkAdp = new ArrayAdapter<String>(this, R.layout.listview_item_landmark , mLandmarkArl); 
         mPostingAdp = new ArrayAdapter<String>(this, R.layout.listview_item_posting , mPostingArl); 
 		
         lstLandmark.setAdapter(mLandmarkAdp);
         lstLandmark.setOnItemClickListener(lstLandmarkItemClickListener);
+<<<<<<< HEAD
         mLandmarkAdp.setNotifyOnChange(true); //이 옵션이 있으면 ArrayList가 수정될 때 자동으로 반영된다. strArr대신 ArrayList를 써야 하는 이유
         
         lstPosting.setAdapter(mPostingAdp);
         lstPosting.setOnItemClickListener(lstPostingItemClickListener);
         mPostingAdp.setNotifyOnChange(true); //이 옵션이 있으면 ArrayList가 수정될 때 자동으로 반영된다. strArr대신 ArrayList를 써야 하는 이유
+=======
+        mLandmarkAdp.setNotifyOnChange(true); //this can detect modify on ArrayList. SHOULD use ArrayList, not strArr
+        
+        lstPosting.setAdapter(mPostingAdp);
+        lstPosting.setOnItemClickListener(lstPostingItemClickListener);
+        mPostingAdp.setNotifyOnChange(true); //this can detect modify on ArrayList. SHOULD use ArrayList.
+>>>>>>> origin/Jool
         
         tabHost.setup(); 
         
@@ -274,22 +407,33 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	}
 
 	/**
+<<<<<<< HEAD
 	 * 지도가 초기화 된 후 호출됨
 	 * 정상적으로 초기화 되면 errorInfo객체는 null이 전달되며,
 	 * 초기화 실패 시 errorInfo객체에 에러 원인이 전달된다.
+=======
+	 * called after map init. 
+	 * when no error, =>null
+	 * else errorInfo => cause 
+>>>>>>> origin/Jool
 	 */
 
 	@Override
 	public void onMapInitHandler(NMapView mapView, NMapError errorInfo) {
 		//LogUtil.v("onMapInitHandler invoked!");
 		if (errorInfo == null) { // success
+<<<<<<< HEAD
 			//경도, 위도, 확대 정도
+=======
+			//lon, lat, zoom level
+>>>>>>> origin/Jool
 			//	mMapController.setMapCenter(new NGeoPoint(LonLatScan.getLon(),LonLatScan.getLat()), 12);
 		} else { // fail
 			LogUtil.e("onMapInitHandler: error=" + errorInfo.toString());
 		}	
 	}
 
+<<<<<<< HEAD
 	//지도레벨 변경시 호출되며 변경된 지도 레벨이 파라미터로 전달됨
 	@Override
 	public void onZoomLevelChange(NMapView mapview, int level) {
@@ -308,21 +452,48 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 
 
 	//지도 애니메이션 상태 변경 시 호출된다.
+=======
+	//called when zoom level changed.
+	@Override
+	public void onZoomLevelChange(NMapView mapview, int level) {
+		//LogUtil.v("onZoomLevelChange invoked!");
+
+	}
+
+
+	//called when map center changed
+	@Override
+	public void onMapCenterChange(NMapView mapview, NGeoPoint center) {
+		//LogUtil.v("onMapCenterChange invoked!");
+	}
+
+
+	// called when map animation status changed.
+>>>>>>> origin/Jool
 	// animType : ANIMATION_TYPE_PAN or ANIMATION_TYPE_ZOOM
 	// animState : ANIMATION_STATE)STARTED or ANIMATION_STATE_FINISHED
 	@Override
 	public void onAnimationStateChange(NMapView arg0, int animType, int animState) {
 		//LogUtil.v("onAnimationStateChange invoked!");
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
+=======
+>>>>>>> origin/Jool
 	}
 
 	@Override
 	public void onMapCenterChangeFine(NMapView arg0) {
 		//LogUtil.v("onMapCenterChangeFine invoked!");
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
 	}
 
 	/************ 오버레이가 클릭되었을 때의 이벤트?? 아닌듯 *************/
+=======
+	}
+
+	/************ what is this? *************/
+>>>>>>> origin/Jool
 	public void onCalloutClick(NMapPOIdataOverlay poiDataOverlay, NMapPOIitem item){
 		LogUtil.i("onCalloutClick invoked!");
 		Toast.makeText(MapListActivity.this,"onCalloutClick: " + item.getTitle(), Toast.LENGTH_LONG).show();
@@ -341,7 +512,11 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			LogUtil.v("onFocusChanged: ");
 		}
 	}
+<<<<<<< HEAD
 	/************ 오버레이가 클릭되었을 때의 이벤트 *************/
+=======
+	/************ event when clicked overlay *************/
+>>>>>>> origin/Jool
 	@Override
 	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
 			NMapOverlayItem arg1, Rect arg2) {
@@ -351,10 +526,18 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 //		startActivity(mIntent);
 //		overridePendingTransition(0, 0); //no switching animation
 //		
+<<<<<<< HEAD
 		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   //오버레이가 선택된 모습을 지도에 표시해준다.
 	}
 
 //	/************* 여기부터 130816 김태희 작성 **********************/  
+=======
+		//show overlay selected effect
+		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   
+	}
+
+ 
+>>>>>>> origin/Jool
 //	private final NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener 
 //	= new NMapLocationManager.OnLocationChangeListener() {
 //		@Override
@@ -433,7 +616,11 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		finish();
 	}
 	
+<<<<<<< HEAD
 	/************ 액션바 및 메뉴 초기화 및 이벤트 처리 *******************/
+=======
+	/************ actionbar & menu init, event processing  *******************/
+>>>>>>> origin/Jool
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -446,7 +633,11 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		case R.id.map_list_action_bubble:
 		{
 			LogUtil.v("action_bubble clicked. ");
+<<<<<<< HEAD
 			finish(); //TODO: 지도가 종료되지 않게 하고 싶어... 재로딩하잖아 ㅠㅠ 
+=======
+			finish(); //TODO: need to reduce MAP Loading again.. TT 
+>>>>>>> origin/Jool
 			overridePendingTransition(0, 0); //no switching animation
 			break;
 		}
@@ -460,6 +651,7 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 		return true;
 	}
 	
+<<<<<<< HEAD
 	/******************************* 리스트뷰 클릭시 *************************/
 	private AdapterView.OnItemClickListener lstLandmarkItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
@@ -469,6 +661,17 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 			//TODO: mLandmarkArr와 Listview에 올라간 사항의 일치를 보장시켜야 한다. 아직 확인되지 않음.
 			
 			//Intent를 이용하여 LandmarkActivity에 ldmIdx를 전달한다.
+=======
+	/******************************* when listview clicked *************************/
+	private AdapterView.OnItemClickListener lstLandmarkItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position. 0~n
+			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			LogUtil.v("position: "+position + ", ldmIdx: " + mLandmarkArr[position].idx);
+			//TODO: SHOULD match mLandmarkArr contents == Listview contents. need to test 
+			
+			//send ldmIdx to LandmarkActivity using Intent
+>>>>>>> origin/Jool
 			mIntent = new Intent(MapListActivity.this, LandmarkActivity.class);
 			mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);
 			startActivity(mIntent);
@@ -477,11 +680,20 @@ public class MapListActivity extends NMapActivity implements OnMapStateChangeLis
 	};
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
+<<<<<<< HEAD
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position: 몇 번째 것을 눌렀는지.0~n
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
 			//TODO: mPostingArr와 Listview에 올라간 사항의 일치를 보장시켜야 한다. 아직 확인되지 않음.
 			
+=======
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position: 0~n
+			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
+			//TODO: SHOULD match mPostingArr contents == Listview contents. need to test 
+			
+			//send ldmIdx to PostingActivity using Intent
+>>>>>>> origin/Jool
 			mIntent = new Intent(MapListActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
 			startActivity(mIntent);

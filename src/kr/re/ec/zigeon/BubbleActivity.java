@@ -10,21 +10,17 @@
 package kr.re.ec.zigeon;
 
 
-import com.google.android.gcm.GCMRegistrar;
-import com.nhn.android.maps.maplib.NGeoPoint;
-
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,22 +32,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.google.android.gcm.GCMRegistrar;
+import com.nhn.android.maps.maplib.NGeoPoint;
+
 public class BubbleActivity extends Activity {
 	public static final int BUBBLETEST_BUTTON_START_Y = 1487; /**/
 	public static final int BUBBLETEST_BUTTON_INTERVAL = 150;
-	
+
 	private ImageView bubbleImage;
 	private ImageView bubbleImage2;
 	private ImageView bubbleImage3;
 	private ImageView bubbleImage4;
 	private RelativeLayout rootLayout;
 	private Animation bubblemoveAnimation;
-	
+
 	private Intent mIntent;
 	/** The m register task. (GCM) */
-		
+
 	private SoapParser soapParser; //TODO: test. 확인한 다음에 빼줘야함.
-	
+
 	private UIHandler uiHandler; 
 	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
 		@Override
@@ -86,7 +85,7 @@ public class BubbleActivity extends Activity {
 			}
 			case Constants.MSG_TYPE_TEST:
 			{	
-				
+
 				break;
 			}
 			case Constants.MSG_TYPE_LOCATION:
@@ -94,7 +93,7 @@ public class BubbleActivity extends Activity {
 				//일단은 android.location 대신 NGeoPoint를 쓰기로 한다.
 				NGeoPoint location = (NGeoPoint)msg.obj;
 				String str = location.getLatitude() + "\n" + location.getLongitude() + "\n";
-//						+ "\n" + location.getAccuracy() + "\n" + location.getProvider();
+				//						+ "\n" + location.getAccuracy() + "\n" + location.getProvider();
 				//tvGPSTest.setText(str);
 				break;
 			}
@@ -106,7 +105,7 @@ public class BubbleActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble);
-		
+
 		/*************** GCM registration **************/
 		LogUtil.v("push register start");
 		GCMRegistrar.checkDevice(this);
@@ -115,28 +114,28 @@ public class BubbleActivity extends Activity {
 		if (regId.equals("")) {
 			LogUtil.v("regId " + regId);
 			GCMRegistrar.register(this, Constants.GCM_PROJECT_ID);
-            // Automatically registers application on startup.
-			
-        // regId 는 있지만 서버에 등록이 안돼어 있다면 아래 로직으로 서버 재 등록 시작 
+			// Automatically registers application on startup.
+
+			// regId 는 있지만 서버에 등록이 안돼어 있다면 아래 로직으로 서버 재 등록 시작 
 		} else {
 			LogUtil.i("already registered device! ready to receive msg!");
 			LogUtil.v("regId " + regId);
-        }
+		}
 
-		
-		
+
+
 		/*************** UI 초기화 ************/
-//		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
-//		tvLandmarkTest = (TextView)findViewById(R.id.bubble_tvLandmarkTest);
-//		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
-//		btnServiceStopTest = (Button)findViewById(R.id.btnServiceStopTest);
-//		btnServiceStopTest.setOnClickListener(this);
+		//		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
+		//		tvLandmarkTest = (TextView)findViewById(R.id.bubble_tvLandmarkTest);
+		//		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
+		//		btnServiceStopTest = (Button)findViewById(R.id.btnServiceStopTest);
+		//		btnServiceStopTest.setOnClickListener(this);
 		bubbleImage = (ImageView) findViewById(R.id.bubbleImage);
 		bubbleImage2 = (ImageView) findViewById(R.id.bubbleImage2);
 		bubbleImage3 = (ImageView) findViewById(R.id.bubbleImage3);
 		bubbleImage4 = (ImageView) findViewById(R.id.bubbleImage4);
 		rootLayout = (RelativeLayout) findViewById(R.id.rootLayout);
-		
+
 		/************* 애니메이션부 ****************/
 		// 이미지 크기를 조정하기 위한 코드
 		LayoutParams params = (LayoutParams) bubbleImage.getLayoutParams();
@@ -183,7 +182,7 @@ public class BubbleActivity extends Activity {
 
 		RelativeLayout.LayoutParams img_param = (LayoutParams) bubbleImage4
 				.getLayoutParams();
-		
+
 		final Button btn = new Button(this);
 		// 버블(야매버튼)을 클릭했을때
 		btn.setOnClickListener(new OnClickListener() {
@@ -196,7 +195,7 @@ public class BubbleActivity extends Activity {
 			}
 		});
 		;
-		
+
 		rootLayout.addView(btn);
 		btn.setLayoutParams(img_param);
 		btn.setBackgroundColor(0); /* 버튼투명하게 */
@@ -219,10 +218,10 @@ public class BubbleActivity extends Activity {
 						Thread.sleep(1000);
 						//LogUtil.v("i = " + i + "getY = " + btn.getY());
 						msg.arg1 = i % 18 + 1; /*
-												 * 18로 한 이유는 bubble애니메이션 주기를
-												 * 18초로 해서 같아지게 할려고 했습니다. 따로 끄기
-												 * 귀찮아서 i가 100되면 쓰레드 멈추게.......
-												 */
+						 * 18로 한 이유는 bubble애니메이션 주기를
+						 * 18초로 해서 같아지게 할려고 했습니다. 따로 끄기
+						 * 귀찮아서 i가 100되면 쓰레드 멈추게.......
+						 */
 						i += 1;
 						handler.sendMessage(msg);
 					} catch (InterruptedException ie) {
@@ -239,7 +238,7 @@ public class BubbleActivity extends Activity {
 		LogUtil.v("onCreate: start updateService");
 		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
 
-		
+
 		//여기는 test구문
 		LogUtil.v("test phrase. select * from tLandmark");
 		soapParser = SoapParser.getInstance();
@@ -270,6 +269,7 @@ public class BubbleActivity extends Activity {
 			stopService(new Intent(this, UpdateService.class));	//TODO: 테스트해봐야 함. 서비스 종료
 			break;
 		}
+
 		}
 		return true;
 	}
@@ -278,6 +278,6 @@ public class BubbleActivity extends Activity {
 		super.onDestroy();
 		LogUtil.v("onDestroy: stop updateService");
 		stopService(new Intent(this, UpdateService.class));	//TODO: 테스트해봐야 함. 서비스 종료
-		
+
 	}
 }
