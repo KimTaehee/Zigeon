@@ -78,21 +78,37 @@ public final class R {
         public static final int Join_Nickname=0x7f090009;
         public static final int Join_Password=0x7f09000b;
         public static final int Join_btn=0x7f090008;
+<<<<<<< HEAD
         public static final int Login_Button=0x7f09001e;
         public static final int Login_Id=0x7f09001d;
         public static final int Login_Password=0x7f09001f;
         public static final int action_map_list=0x7f09003a;
         public static final int action_settings=0x7f09003d;
         public static final int action_test_stop_service=0x7f09003b;
+=======
+        public static final int Login_Button=0x7f090019;
+        public static final int Login_Id=0x7f090018;
+        public static final int Login_Password=0x7f09001a;
+        public static final int action_map_list=0x7f090036;
+        public static final int action_settings=0x7f090039;
+        public static final int action_test_stop_service=0x7f090037;
+>>>>>>> origin/newcho
         public static final int bubbleImage=0x7f090002;
         public static final int bubbleImage2=0x7f090004;
         public static final int bubbleImage3=0x7f090003;
         public static final int bubbleImage4=0x7f090005;
         public static final int image=0x7f09000f;
+<<<<<<< HEAD
         public static final int imageButton1=0x7f09002f;
         public static final int intro_img_logo=0x7f090006;
         public static final int landmarkList=0x7f090026;
         public static final int landmark_action_posting_write=0x7f09003c;
+=======
+        public static final int imageButton1=0x7f09002b;
+        public static final int intro_img_logo=0x7f090006;
+        public static final int landmarkList=0x7f090021;
+        public static final int landmark_action_posting_write=0x7f090038;
+>>>>>>> origin/newcho
         public static final int landmark_btn_input_comment=0x7f090015;
         public static final int landmark_camera_button=0x7f090013;
         public static final int landmark_commentlist=0x7f090012;
@@ -103,6 +119,7 @@ public final class R {
         public static final int landmark_tabhost=0x7f090010;
         public static final int landmark_tv_contents=0x7f09000e;
         public static final int landmark_tv_name=0x7f09000d;
+<<<<<<< HEAD
         public static final int landmark_write_btn_map=0x7f09001b;
         public static final int landmark_write_edt_contents=0x7f09001a;
         public static final int landmark_write_edt_title=0x7f090019;
@@ -132,6 +149,31 @@ public final class R {
         public static final int posting_write_edt_title=0x7f090037;
         public static final int posting_write_img_input=0x7f090039;
         public static final int posting_write_layout_contents=0x7f090036;
+=======
+        public static final int map=0x7f09001e;
+        public static final int map_list_tabhost=0x7f09001f;
+        public static final int photo_upload_btn=0x7f090022;
+        public static final int photo_upload_edit=0x7f090023;
+        public static final int photo_view_image=0x7f090024;
+        public static final int postingList=0x7f090020;
+        public static final int posting_btn_input_comment=0x7f090031;
+        public static final int posting_camera_button=0x7f09002f;
+        public static final int posting_commentlist=0x7f09002e;
+        public static final int posting_edit_input_comment=0x7f090030;
+        public static final int posting_layout_commentlist=0x7f09002d;
+        public static final int posting_layout_contents=0x7f090025;
+        public static final int posting_tv_contents=0x7f090029;
+        public static final int posting_tv_dislike=0x7f09002c;
+        public static final int posting_tv_like=0x7f09002a;
+        public static final int posting_tv_title=0x7f090026;
+        public static final int posting_tv_writedate=0x7f090027;
+        public static final int posting_tv_writer=0x7f090028;
+        public static final int posting_write_action_write=0x7f09003a;
+        public static final int posting_write_edt_contents=0x7f090034;
+        public static final int posting_write_edt_title=0x7f090033;
+        public static final int posting_write_img_input=0x7f090035;
+        public static final int posting_write_layout_contents=0x7f090032;
+>>>>>>> origin/newcho
         public static final int relativeLayout1=0x7f090001;
         public static final int rootLayout=0x7f090000;
         public static final int tableRow1=0x7f090016;
@@ -141,6 +183,7 @@ public final class R {
         public static final int activity_intro=0x7f030001;
         public static final int activity_join=0x7f030002;
         public static final int activity_landmark=0x7f030003;
+<<<<<<< HEAD
         public static final int activity_landmark_write=0x7f030004;
         public static final int activity_login=0x7f030005;
         public static final int activity_map=0x7f030006;
@@ -151,6 +194,17 @@ public final class R {
         public static final int listview_item_comment=0x7f03000b;
         public static final int listview_item_landmark=0x7f03000c;
         public static final int listview_item_posting=0x7f03000d;
+=======
+        public static final int activity_login=0x7f030004;
+        public static final int activity_map_list=0x7f030005;
+        public static final int activity_photo_upload=0x7f030006;
+        public static final int activity_photo_view=0x7f030007;
+        public static final int activity_posting=0x7f030008;
+        public static final int activity_posting_write=0x7f030009;
+        public static final int listview_item_comment=0x7f03000a;
+        public static final int listview_item_landmark=0x7f03000b;
+        public static final int listview_item_posting=0x7f03000c;
+>>>>>>> origin/newcho
     }
     public static final class menu {
         public static final int bubble=0x7f080000;
