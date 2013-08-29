@@ -21,8 +21,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -47,6 +51,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private Button btnInputComment;
 	private TextView tvName;
 	private TextView tvContents;
+	private ImageView imgLandmarkPicture;
 	private ArrayList<String> mCommentArl;		//listview 세팅용	
 	private ArrayList<String> mPostingArl;		//listview 세팅용
 	private ArrayAdapter<String> mCommentAdp;		//listview 세팅용
@@ -66,7 +71,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			switch (msg.what) {
 			case Constants.MSG_TYPE_LANDMARK:
 			{
+				LogUtil.v("msg.what: " + msg.what);
 				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //PK로 검색하므로 Arr.length==1이다. 
+				LogUtil.v("landmarkDataArr.length: " + landmarkDataArr.length);
 				mLandmarkDataset = landmarkDataArr[0];
 
 				/******************** info 출력 *******************/
@@ -121,7 +128,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landmark);  
-        
+       
         /************** 핸들러 등록 ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -160,7 +167,10 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         btnInputComment = (Button) findViewById(R.id.landmark_btn_input_comment);
         tvName = (TextView) findViewById(R.id.landmark_tv_name);
         tvContents = (TextView) findViewById(R.id.landmark_tv_contents);
+        imgLandmarkPicture = (ImageView)findViewById(R.id.image);
         btnInputComment.setOnClickListener(this);
+        imgLandmarkPicture.setOnClickListener(this);
+        
         
         //초기 listview 문구 지정.
         mCommentArl = new ArrayList<String>();
@@ -215,43 +225,70 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	}
 
     @Override
-    public void onClick(View v) { //파워댓글 ㅋ
-    	if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
-    		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    		alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-    			@Override
-    			public void onClick(DialogInterface dialog, int which) {
-    				dialog.dismiss();	
-    			}
-    		});
-    		alert.setMessage("내용을 입력해야지? ^^");
-    		alert.show();
-    		return;
-    	} else {
-    		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //정상작동 확인.
-    		int maxComIdx = Integer.parseInt(str);
-    		str = soapParser.sendQuery(
-    				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-    						",comWriterIdx,comWrittenTime,comPicturePath)" +
-    						" values ('" +
-    						(maxComIdx + 1) + //comIdx
-    						"','L','" + //comParentType
-    						mLandmarkDataset.idx + //comParentIdx
-    						"','"+ edtInputComment.getText() + //comContents
-    						"','0','0','" + //comLike, comDislike
-    						"1" + //TODO: temp comWriterIdx
-    						"',GETDATE()," + //comWrittenTime
-    						"NULL" + //TODO: temp comPicturePath 
-    				")");
-    		LogUtil.i("server return : "+str);
+    public void onClick(View v) { 
+    	switch(v.getId()) {
+    	case R.id.landmark_btn_input_comment:
+    	{
+    		//파워댓글 ㅋ
+        	if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
+        		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        		alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+        			@Override
+        			public void onClick(DialogInterface dialog, int which) {
+        				dialog.dismiss();	
+        			}
+        		});
+        		alert.setMessage("내용을 입력해야지? ^^");
+        		alert.show();
+        		return;
+        	} else {
+        		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //정상작동 확인.
+        		int maxComIdx = Integer.parseInt(str);
+        		str = soapParser.sendQuery(
+        				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
+        						",comWriterIdx,comWrittenTime,comPicturePath)" +
+        						" values ('" +
+        						(maxComIdx + 1) + //comIdx
+        						"','L','" + //comParentType
+        						mLandmarkDataset.idx + //comParentIdx
+        						"','"+ edtInputComment.getText() + //comContents
+        						"','0','0','" + //comLike, comDislike
+        						"1" + //TODO: temp comWriterIdx
+        						"',GETDATE()," + //comWrittenTime
+        						"NULL" + //TODO: temp comPicturePath 
+        				")");
+        		LogUtil.i("server return : "+str);
 
-    		edtInputComment.setText("");
+        		edtInputComment.setText("");
 
-    		String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
-    		LogUtil.v("data request. " + query);
-    		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-    				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+        		String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
+        		LogUtil.v("data request. " + query);
+        		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+        				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+        	}
+    		
+    		break;
     	}
+    	case R.id.image:
+    	{
+    		//Intent i = new Intent(this, PhotoViewActivity.class);
+//			String imgPath = getImageInfo(imgData, geoData, thumbsIDList.get(selectedIndex));
+//			i.putExtra("filename", imgPath);
+			
+    		LogUtil.i("hi i'm here");
+    		mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
+			mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
+			startActivity(mIntent);
+    		
+//    		i.putExtra
+//    		startActivityForResult(i, 1);
+			
+			break;
+    	
+    	}
+    	}
+    	
+    	
     }
     
     @Override

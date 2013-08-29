@@ -65,7 +65,7 @@ public class UIHandler {
 		}
 		else 
 		{
-			LogUtil.e("cannot set handler. Other TopActivity detected.");
+			LogUtil.i("cannot set handler. Other TopActivity detected.");
 		}
 	
 	}
