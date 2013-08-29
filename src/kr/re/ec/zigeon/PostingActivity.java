@@ -47,18 +47,16 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private TextView tvContents;
 	private TextView tvLike;
 	private TextView tvDislike;
-	
 	private ListView lstComment;
 	private ImageButton ibtUploadPhoto;
 	private EditText edtInputComment;
 	private Button btnInputComment;
-	
+
 	private ArrayList<String> mCommentArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
-	
+
 	private PostingDataset mPostingDataset;
 	private CommentDataset mCommentArr[];
-	
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 	private Handler messageHandler = new Handler() { //recieving to UpdateService
@@ -66,12 +64,11 @@ public class PostingActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
-			
 			case Constants.MSG_TYPE_POSTING:
 			{
 				PostingDataset[] postingDataArr = (PostingDataset[]) msg.obj; 
 				mPostingDataset = postingDataArr[0];
-				
+
 				/******************** print info  *******************/
 				tvTitle.setText(mPostingDataset.title);
 				tvWrittenTime.setText(mPostingDataset.writtenTime.toString());
@@ -80,16 +77,16 @@ public class PostingActivity extends Activity implements OnClickListener {
 				tvContents.setText(mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 //				tvLike.setText(mPostingDataset.like);
 //				tvDislike.setText(mPostingDataset.dislike);
-				
+
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
-				
+
 				/************ print Comment to listview ************/
 				mCommentArl.clear();
-				 
+
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
 				for(int i=0;i<mCommentArr.length;i++){
 					mCommentArl.add(mCommentArr[i].contents);
@@ -107,23 +104,23 @@ public class PostingActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
-	
+
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
-		
+
 		/****** Data init request *****/
 		Bundle bundle = this.getIntent().getExtras();
         mPostingDataset = new PostingDataset();
         mPostingDataset.idx = bundle.getInt("pstIdx");
-		
+
         soapParser = SoapParser.getInstance();
-		
+
         String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "'"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
@@ -148,7 +145,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
 		ibtUploadPhoto.setOnClickListener(this);
-		
+
 		mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
         
@@ -164,7 +161,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.posting, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -226,5 +223,4 @@ public class PostingActivity extends Activity implements OnClickListener {
 		}
 
 	}
-
 }

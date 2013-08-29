@@ -1,3 +1,4 @@
+
 /* Author: SeoJuri
  * Modifier: KimTaehee
 
@@ -60,10 +61,11 @@ public class MapListActivity extends NMapActivity
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 	
 	private NMapView mMapView = null;	//Naver map object
+
 	private ListView lstLandmark;
 	private ListView lstPosting;
 	private TabHost tabHost;
-		
+
 	private NMapController mMapController = null;	
 	private LinearLayout MapContainer;	//map on layout
 	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	// Overlay Resource Provider
