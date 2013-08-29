@@ -141,6 +141,7 @@ public final class R {
         public static final int activity_intro=0x7f030001;
         public static final int activity_join=0x7f030002;
         public static final int activity_landmark=0x7f030003;
+<<<<<<< HEAD
         public static final int activity_landmark_write=0x7f030004;
         public static final int activity_login=0x7f030005;
         public static final int activity_map=0x7f030006;
@@ -151,6 +152,17 @@ public final class R {
         public static final int listview_item_comment=0x7f03000b;
         public static final int listview_item_landmark=0x7f03000c;
         public static final int listview_item_posting=0x7f03000d;
+=======
+        public static final int activity_login=0x7f030004;
+        public static final int activity_map_list=0x7f030005;
+        public static final int activity_photo_upload=0x7f030006;
+        public static final int activity_posting=0x7f030007;
+        public static final int activity_posting_write=0x7f030008;
+        public static final int activity_preference=0x7f030009;
+        public static final int listview_item_comment=0x7f03000a;
+        public static final int listview_item_landmark=0x7f03000b;
+        public static final int listview_item_posting=0x7f03000c;
+>>>>>>> origin/Jihong
     }
     public static final class menu {
         public static final int bubble=0x7f080000;
