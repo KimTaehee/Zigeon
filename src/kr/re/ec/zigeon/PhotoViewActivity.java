@@ -13,8 +13,8 @@ import android.widget.ImageView;
 
 public class PhotoViewActivity extends Activity {
 
-	private final int imgWidth = 320;
-	private final int imgHeight = 372;
+//	private final int imgWidth = 320;
+//	private final int imgHeight = 372;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class PhotoViewActivity extends Activity {
 		bfo.inSampleSize = 2;
 		ImageView iv = (ImageView)findViewById(R.id.photo_view_image);
 		Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
-		Bitmap resized = Bitmap.createScaledBitmap(bm, imgWidth, imgHeight, true);
-		iv.setImageBitmap(resized);
+		//Bitmap resized = Bitmap.createScaledBitmap(bm, imgWidth, imgHeight, true);
+		iv.setImageBitmap(bm);
 		
 		
 	}
