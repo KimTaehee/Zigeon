@@ -1,11 +1,6 @@
 /*
-<<<<<<< HEAD
- * 130816 조덕주 작성
- * 130819 김태희 수정
-=======
  * author 130816 newcho 
  * modified 130830 newcho (image click added)
->>>>>>> origin/develop
  * 
  */
 
