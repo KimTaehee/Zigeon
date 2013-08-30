@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 package kr.re.ec.zigeon;
 
 import android.content.Context;
@@ -283,6 +284,8 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
 
 
 =======
+=======
+>>>>>>> commited.
 package kr.re.ec.zigeon;
 
 import android.content.Context;
@@ -560,4 +563,7 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
         savedMatrix2.set(matrix);
     }
 }
+<<<<<<< HEAD
 >>>>>>> no hangul updated
+=======
+>>>>>>> commited.
