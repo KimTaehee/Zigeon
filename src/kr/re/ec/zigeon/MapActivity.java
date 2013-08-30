@@ -44,28 +44,29 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayListener;
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 
-public class MapActivity extends NMapActivity implements OnClickListener, OnMapStateChangeListener, OnCalloutOverlayListener{
+public class MapActivity extends NMapActivity implements OnClickListener
+		, OnMapStateChangeListener, OnCalloutOverlayListener{
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 
-	private NMapView mMapView = null;	//Naver map 객체
+	private NMapView mMapView = null;	//Naver map object
 
-	private NMapController mMapController = null;	// 맵 컨트롤러
-	private RelativeLayout MapContainer;	//맵을 추가 할 레이아웃
-	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	// 오버레이의 리소스를 제공하기 위한 객체
-	private NMapOverlayManager mOverlayManager = null;	// 오버레이 관리자
+	private NMapController mMapController = null;	// map controller
+	private RelativeLayout MapContainer;	//map on layout
+	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	 //Overlay Resource Provider
+	private NMapOverlayManager mOverlayManager = null;	
 	//private OnStateChangeListener onPOIdataStateChangeListener = null;
 	private NGeoPoint myLocation;
 
-	private NMapMyLocationOverlay mMyLocationOverlay; //130816 김태희 추가
-	public static NMapLocationManager mMapLocationManager; //UpdateService.onCreate으로부터 강제 초기화 받음.
-	private NMapCompassManager mMapCompassManager; //130816 김태희 추가 
-	//private MapContainerView mMapContainerView; //130816 김태희 추가
+	private NMapMyLocationOverlay mMyLocationOverlay; 
+	public static NMapLocationManager mMapLocationManager; //forced init from UpdateService.onCreate()
+	private NMapCompassManager mMapCompassManager;  
+	//private MapContainerView mMapContainerView; 
 
 	private SoapParser soapParser;
 	private LandmarkDataset mLandmarkArr[];
 
 	private UIHandler uiHandler;
-	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
+	private Handler messageHandler = new Handler() { //receiver from UpdateService
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
@@ -76,19 +77,19 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 				/****************** LandmarkDataset -> NMapPOIdataOverlay ***************/
 				//LogUtil.v("LandmarkDataset -> NMapOverlay");
 
-				int markerId = NMapPOIflagType.PIN;		// 오버레이에 표시하기 위한 마커 이미지의 id값 생성
+				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
 				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
-				poiData.beginPOIdata(0); //TODO: 여기서 0은 뭘까?
+				poiData.beginPOIdata(0); //TODO: what is 0?
 				for(int i=0;i<mLandmarkArr.length;i++) {
-					//TODO: ?에 알맞은 말을 구하시오(longitude, latitude, String, NMapPOIFlagtype, ?)
+					//TODO: what is 0?(longitude, latitude, String, NMapPOIFlagtype, ?)
 					poiData.addPOIitem(mLandmarkArr[i].longitude, 
 							mLandmarkArr[i].latitude, mLandmarkArr[i].name, markerId, 0); 
 				}
 				poiData.endPOIdata();	
 
-				// 위치 데이터를 사용하여 오버레이 생성
+				// create overlay with location data
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-				poiDataOverlay.showAllPOIdata(0);	//id값이 0으로 지정된 모든 오버레이가 표시되고 있는 위치로 지도의 중심과 Zoom을 재설정
+				poiDataOverlay.showAllPOIdata(0);	//set center and zoom which can express all overlay where id==0
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
@@ -108,17 +109,18 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 			}
 			case Constants.MSG_TYPE_LOCATION:
 			{
-				//일단은 android.location 대신 NGeoPoint를 쓰기로 한다.
+				//use NGeoPoint instead of android.location 
 				myLocation = (NGeoPoint)msg.obj;
 				LogUtil.v("myLocation is " + myLocation.getLatitude() + ", " + myLocation.getLongitude());
-				
-				//UpdateService의 onLocationChanged에서 아래의 select문을 발동시키면 다른 Activity로 전달될 우려가 있다.
-//				LogUtil.v("select * from tLandmark");
-//				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
+
+				////WARN: cannot use this query on UpdateService.onLocationChanged().
+				//WARN: It may cause to send to other Activity.
+				//				LogUtil.v("select * from tLandmark");
+				//				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				//						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
-				//이거 살려놓으면 Location 수신할 때마다 현재 위치로 지도 옮김 => 빡침
+				//WARN: It may cause you angry. map trace myLocation always.
 				//				if (mMapController != null) {
 				//					mMapController.animateTo(myLocation);
 				//				}
@@ -135,39 +137,36 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 
-		/************** 핸들러 등록 ***************/
+		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
-		
-		
+
+		/************ UI init ***********/
 		Button btn = (Button) findViewById(R.id.map_btn_gps);
 		btn.setOnClickListener(this);
-		
 
-		/*************지도 초기화 시작**************/
+
+		/************* map init **************/
 		LogUtil.v("map init start");
-		MapContainer = (RelativeLayout)findViewById(R.id.mapmap);		//네이버 지도를 넣기 위한 RelativeLayout
-		mMapView = new NMapView(this);		//네이버 지도 객체 생성
-		mMapController = mMapView.getMapController();		//지도 객체로부터 컨트롤러 추출
-		mMapView.setApiKey(API_KEY);		//네이버 지도 객체에 API키 지정
-		MapContainer.addView(mMapView);		//생성된 네이버 지도 객체를 RelativeLayout에 추가시킴
-		mMapView.setClickable(true);		//지도를 터치할 수 있도록 옵션 활성화
-		mMapView.setBuiltInZoomControls(true, null);		//확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
-		mMapView.setOnMapStateChangeListener(this);		//지도에 대한 상태 변경 이벤트 연결
+		MapContainer = (RelativeLayout)findViewById(R.id.mapmap);		// Layout for show map
+		mMapView = new NMapView(this);		//create map object
+		mMapController = mMapView.getMapController();		//extract controller from map object
+		mMapView.setApiKey(API_KEY);		
+		MapContainer.addView(mMapView);		//map->layout
+		mMapView.setClickable(true);		//can click map
+		mMapView.setBuiltInZoomControls(true, null);		//zoom controller for +/- enable
+		mMapView.setOnMapStateChangeListener(this);		//event listener
 
-		/************지도 초기화 끝*******************/
-
-		/****************오버레이************************/
+		/**************** overlay init ************************/
 		LogUtil.v("overlay init start");
-		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// 오버레이 리소스 관리객체 할당
-		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);		// 오버레이 관리자 추가
+		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);	//add overlay manager
 
-		//TODO: 이건 뭐지? 이게 있으면 CalloutOverlayListener 작동 안하는 것 같기도
+		//TODO: what is it? it seem to stop working this: CalloutOverlayListener
 		//poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);  		
-		mOverlayManager.setOnCalloutOverlayListener(this);		// 오버레이 이벤트 등록
+		mOverlayManager.setOnCalloutOverlayListener(this);		// register overlay eventlistener
 
 
-		//여기부터 오버레이 끝까지 130816 김태희 추가
 		mMapCompassManager = new NMapCompassManager(this);
 		if(mMapLocationManager != null) {
 			mMyLocationOverlay = mOverlayManager.createMyLocationOverlay(mMapLocationManager, mMapCompassManager);
@@ -175,39 +174,45 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 		} else {
 			LogUtil.e("LocationManager is null!");
 		} 
-		/******************오버레이 끝********************/
 
 		
-		
+		/************ data request ***********/
 		soapParser = SoapParser.getInstance(); 
-//		LogUtil.v("data request. select * from tLandmark");
-//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
-		
-	
-		
+		//		LogUtil.v("data request. select * from tLandmark");
+		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+		//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
+
+
+
 	}
 
 
+	/************ event when clicked overlay *************/
 	@Override
 	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
 			NMapOverlayItem arg1, Rect arg2) {
-		// TODO Auto-generated method stub
-		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   //오버레이가 선택된 모습을 지도에 표시해준다.
+		
+		//show overlay selected effect
+		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   
 	}
 
+	// called when map animation status changed.
+	// animType : ANIMATION_TYPE_PAN or ANIMATION_TYPE_ZOOM
+	// animState : ANIMATION_STATE)STARTED or ANIMATION_STATE_FINISHED
 	@Override
 	public void onAnimationStateChange(NMapView arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub
 
 	}
 
+	//called when map center changed
 	@Override
 	public void onMapCenterChange(NMapView arg0, NGeoPoint arg1) {
 		// TODO Auto-generated method stub
 
 	}
 
+	
 	@Override
 	public void onMapCenterChangeFine(NMapView arg0) {
 		// TODO Auto-generated method stub
@@ -215,9 +220,9 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 	}
 
 	/**
-	 * 지도가 초기화 된 후 호출됨
-	 * 정상적으로 초기화 되면 errorInfo객체는 null이 전달되며,
-	 * 초기화 실패 시 errorInfo객체에 에러 원인이 전달된다.
+	 * called after map init. 
+	 * when no error, =>null
+	 * else errorInfo => cause 
 	 */
 	@Override
 	public void onMapInitHandler(NMapView arg0, NMapError errorInfo) {
@@ -225,7 +230,7 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 
 		//LogUtil.v("onMapInitHandler invoked!");
 		if (errorInfo == null) { // success
-			//경도, 위도, 확대 정도
+			//lon, lat, zoom level
 			//	mMapController.setMapCenter(new NGeoPoint(LonLatScan.getLon(),LonLatScan.getLat()), 12);
 		} else { // fail
 			LogUtil.e("onMapInitHandler: error=" + errorInfo.toString());
@@ -292,6 +297,13 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.map_btn_gps : 
+			startMyLocation();
+			if (mMapController != null && myLocation != null) {
+				mMapController.animateTo(myLocation);
+			} else {
+				LogUtil.e("myLocation is null or mMapController is null!");
+			}
+
 			break;
 		}
 	}
