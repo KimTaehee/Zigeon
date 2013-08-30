@@ -47,7 +47,6 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private TextView tvContents;
 	private TextView tvLike;
 	private TextView tvDislike;
-
 	private ListView lstComment;
 	private ImageButton ibtUploadPhoto;
 	private EditText edtInputComment;
@@ -58,7 +57,6 @@ public class PostingActivity extends Activity implements OnClickListener {
 
 	private PostingDataset mPostingDataset;
 	private CommentDataset mCommentArr[];
-
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 	private Handler messageHandler = new Handler() { //recieving to UpdateService
@@ -66,7 +64,6 @@ public class PostingActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
-
 			case Constants.MSG_TYPE_POSTING:
 			{
 				PostingDataset[] postingDataArr = (PostingDataset[]) msg.obj; 
@@ -226,5 +223,4 @@ public class PostingActivity extends Activity implements OnClickListener {
 		}
 
 	}
-
 }

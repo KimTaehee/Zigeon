@@ -4,15 +4,21 @@
  * LoginActivity
  * 130821 kim ji hong
  * */
-import kr.re.ec.zigeon.R;
+import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.CalendarContract.Instances;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,6 +32,8 @@ public class LoginActivity extends Activity {
 	private String strPassword;
 	private SoapParser soapParser;
 	private CheckBox autoCheckBox;
+	private MemberDataset mMemberDataset; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +49,7 @@ public class LoginActivity extends Activity {
 		join = (Button) findViewById(R.id.Join_Button);
 		soapParser = SoapParser.getInstance();
 		autoCheckBox = (CheckBox) findViewById(R.id.Autologin_Box);
+		mMemberDataset = MemberDataset.getInstance();
 		
 		//  To Auto Login, get Shared Preference
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
@@ -55,30 +64,19 @@ public class LoginActivity extends Activity {
 		{
 			id.setText(auto_ID);
 			password.setText(auto_password);
-			login.performClick();
+			//login.performClick(); //TODO: Click event not perform
 		}
 		
 		login.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				// TODO: Let's test to check password from DB
-				/*
-				 * String response = null; try { response =
-				 * CustomHttpClient.executeHttpPost( "<target page url>",
-				 * postParameters); String res = response.toString(); res =
-				 * res.replaceAll("\\s+", ""); if (res.equals("1"))
-				 * error.setText("Correct Username or Password"); else
-				 * error.setText("Sorry!! Incorrect Username or Password"); }
-				 * catch (Exception e) { un.setText(e.toString()); }
-				 */
-				
+			
 				LogUtil.v("onClick");
 				strID = id.getText().toString();// TODO: user ID;
 				LogUtil.v(id.getText().toString());
+				
 				String idQuery = "SELECT memPW FROM tMember WHERE memID ='"
 						+ strID + "'";
-				// uiHandler.sendMessage(Constants.MSG_TYPE_MEMBER, "",
 				LogUtil.v("query created");
 				
 				strPassword = soapParser.sendQuery(idQuery);
@@ -87,6 +85,18 @@ public class LoginActivity extends Activity {
 				if (strPassword.compareTo("")!=0)// if have ID
 				{
 					if (password.getText().toString().compareTo(strPassword)==0) {
+						
+						//save to dataset
+						String query = "SELECT * FROM tMember WHERE memID='" + strID + "'"; 
+						LogUtil.v("data request. " + query);
+
+						mMemberDataset.setDataset(((MemberDataset[]) soapParser.getSoapData(query,
+								Constants.MSG_TYPE_MEMBER))[0]);
+						
+						/******************** dataset test *******************/
+						LogUtil.v("MemberDataset ID=" + mMemberDataset.id);
+						
+
 						intent = new Intent(LoginActivity.this,
 								BubbleActivity.class);
 						startActivity(intent);
@@ -118,6 +128,8 @@ public class LoginActivity extends Activity {
 					alert.show();
 					return;
 				}
+				
+				
 			}
 		});
 

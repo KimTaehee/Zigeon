@@ -6,6 +6,7 @@ import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
+import kr.re.ec.zigeon.MapActivity;
 import kr.re.ec.zigeon.MapListActivity;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -60,6 +61,7 @@ public class UpdateService extends Service implements Runnable{
 		}
 		
 		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: LM강제전달. 더 좋은 방법이 없을까?
+		MapActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: LM강제전달. 더 좋은 방법이 없을까?
 		
 		//nMapLM 쓰기전
 //		/********* LocationManager Init ******************/ 
