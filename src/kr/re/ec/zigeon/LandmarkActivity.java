@@ -1,11 +1,16 @@
 /*
 <<<<<<< HEAD
+<<<<<<< HEAD
  * author 130816 newcho 
  * modified 130830 newcho (image click added)
 =======
  * 130816 조덕주 작성
  * 130819 김태희 수정
 >>>>>>> commited.
+=======
+ * author 130816 newcho 
+ * modified 130830 newcho (image click added)
+>>>>>>> no hangul conflict solved
  * 
  */
 
@@ -27,13 +32,19 @@ import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> no hangul conflict solved
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+<<<<<<< HEAD
 =======
 >>>>>>> commited.
+=======
+>>>>>>> no hangul conflict solved
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
@@ -46,20 +57,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import android.widget.ImageView;
 =======
 >>>>>>> commited.
+=======
+import android.widget.ImageView;
+>>>>>>> no hangul conflict solved
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //TODO: DO NOT USE deprecated Class or function
 
 =======
 //TODO: DO NOT USE deprecated Class 혹은 function
 >>>>>>> commited.
+=======
+//TODO: DO NOT USE deprecated Class or function
+
+>>>>>>> no hangul conflict solved
 public class LandmarkActivity extends Activity implements OnClickListener {
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -70,17 +90,23 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private TextView tvName;
 	private TextView tvContents;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> no hangul conflict solved
 	private ImageView imgLandmarkPicture;
 	private ArrayList<String> mCommentArl;		//to set listview 
 	private ArrayList<String> mPostingArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
 	private ArrayAdapter<String> mPostingAdp;		//to set listview 
+<<<<<<< HEAD
 =======
 	private ArrayList<String> mCommentArl;		//listview 세팅용	
 	private ArrayList<String> mPostingArl;		//listview 세팅용
 	private ArrayAdapter<String> mCommentAdp;		//listview 세팅용
 	private ArrayAdapter<String> mPostingAdp;		//listview 세팅용
 >>>>>>> commited.
+=======
+>>>>>>> no hangul conflict solved
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
@@ -90,17 +116,23 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
 =======
 	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
 >>>>>>> commited.
+=======
+
+	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
+>>>>>>> no hangul conflict solved
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
 			case Constants.MSG_TYPE_LANDMARK:
 			{
+<<<<<<< HEAD
 <<<<<<< HEAD
 				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //selected by PK. so Arr.length==1
 				mLandmarkDataset = landmarkDataArr[0];
@@ -112,6 +144,12 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 
 				/******************** info 출력 *******************/
 >>>>>>> commited.
+=======
+				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //selected by PK. so Arr.length==1
+				mLandmarkDataset = landmarkDataArr[0];
+
+				/******************** print info *******************/
+>>>>>>> no hangul conflict solved
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
 
@@ -122,10 +160,14 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 				mPostingArr =(PostingDataset[]) msg.obj;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 				/************ Posting to listview ************/
 =======
 				/************ Posting을 listview에 반영한다 ************/
 >>>>>>> commited.
+=======
+				/************ Posting to listview ************/
+>>>>>>> no hangul conflict solved
 				mPostingArl.clear();
 
 				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
@@ -141,12 +183,18 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 				mCommentArr =(CommentDataset[]) msg.obj;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 				/************ Comment to listview ************/
 
 =======
 				/************ Comment를 listview에 반영한다 ************/
 >>>>>>> commited.
+=======
+
+				/************ Comment to listview ************/
+
+>>>>>>> no hangul conflict solved
 				mCommentArl.clear();
 
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
@@ -175,29 +223,41 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_landmark);  
         
 <<<<<<< HEAD
+<<<<<<< HEAD
         /************** register handler ***************/
 =======
         /************** 핸들러 등록 ***************/
 >>>>>>> commited.
+=======
+        /************** register handler ***************/
+>>>>>>> no hangul conflict solved
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
         
 		/****** Data init request *****/
 <<<<<<< HEAD
+<<<<<<< HEAD
 		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
 =======
 		//intent수신. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);로 intent를 받음을 상기하라
 >>>>>>> commited.
+=======
+		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
+>>>>>>> no hangul conflict solved
         Bundle bundle = this.getIntent().getExtras();
         mLandmarkDataset = new LandmarkDataset();
         mLandmarkDataset.idx = bundle.getInt("ldmIdx");
         //LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		//data request using ldmIdx
 =======
 		//ldbIdx로 내용요청
 >>>>>>> commited.
+=======
+		//data request using ldmIdx
+>>>>>>> no hangul conflict solved
         soapParser = SoapParser.getInstance(); 
         
         String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
@@ -216,10 +276,14 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
         
 <<<<<<< HEAD
+<<<<<<< HEAD
         /****** UI init *****/
 =======
         /****** UI 초기화 *****/
 >>>>>>> commited.
+=======
+        /****** UI init *****/
+>>>>>>> no hangul conflict solved
         tabHost = (TabHost) findViewById(R.id.landmark_tabhost);
         lstComment = (ListView) findViewById(R.id.landmark_commentlist);
         lstPosting = (ListView) findViewById(R.id.landmark_postinglist);
@@ -229,31 +293,42 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         tvName = (TextView) findViewById(R.id.landmark_tv_name);
         tvContents = (TextView) findViewById(R.id.landmark_tv_contents);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> no hangul conflict solved
         imgLandmarkPicture = (ImageView)findViewById(R.id.image);
         btnInputComment.setOnClickListener(this);
         imgLandmarkPicture.setOnClickListener(this);
         
         //initial listview string.
+<<<<<<< HEAD
 =======
         btnInputComment.setOnClickListener(this);
         
         //초기 listview 문구 지정.
 >>>>>>> commited.
+=======
+>>>>>>> no hangul conflict solved
         mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
         mPostingArl = new ArrayList<String>();
         mPostingArl.add("Postings Loading...");
         
 <<<<<<< HEAD
+<<<<<<< HEAD
         //warn: no listview, SHOULD input layout
 =======
         //listview가 아닌 layout이 들어감에 유의
 >>>>>>> commited.
+=======
+        //warn: no listview, SHOULD input layout
+>>>>>>> no hangul conflict solved
         mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl); 
         mPostingAdp = new ArrayAdapter<String>(this, R.layout.listview_item_posting , mPostingArl);
         
         lstComment.setAdapter(mCommentAdp);
         //lstComment.setOnItemClickListener(lstCommentItemClickListener);
+<<<<<<< HEAD
 <<<<<<< HEAD
         mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
         
@@ -267,6 +342,13 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         lstPosting.setOnItemClickListener(lstPostingItemClickListener);
         mPostingAdp.setNotifyOnChange(true); //이 옵션이 있으면 ArrayList가 수정될 때 자동으로 반영된다. strArr대신 ArrayList를 써야 하는 이유
 >>>>>>> commited.
+=======
+        mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+        
+        lstPosting.setAdapter(mPostingAdp);
+        lstPosting.setOnItemClickListener(lstPostingItemClickListener);
+        mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+>>>>>>> no hangul conflict solved
         
         tabHost.setup(); 
         
@@ -284,6 +366,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     /************** when listview clicked ****************/
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
@@ -293,13 +376,20 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			//TODO: MUST BE mPostingArr == Listview. (test phrase)
 =======
     /************** 리스트뷰 클릭시 ****************/
+=======
+    /************** when listview clicked ****************/
+>>>>>>> no hangul conflict solved
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position은 몇 번째 것을 눌렀는지. 0~n
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
+<<<<<<< HEAD
 			//TODO: mPostingArr와 Listview에 올라간 사항의 일치를 보장시켜야 한다. 아직 확인되지 않음.
 >>>>>>> commited.
+=======
+			//TODO: MUST BE mPostingArr == Listview. (test phrase)
+>>>>>>> no hangul conflict solved
 
 			mIntent = new Intent(LandmarkActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
@@ -314,6 +404,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 
     @Override
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> no hangul conflict solved
     public void onClick(View v) { 
     	switch(v.getId()) {
     	case R.id.landmark_btn_input_comment:
@@ -372,6 +465,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
     	}
     	
     	
+<<<<<<< HEAD
 =======
     public void onClick(View v) { //파워댓글 ㅋ
     	if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
@@ -411,6 +505,8 @@ public class LandmarkActivity extends Activity implements OnClickListener {
     				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
     	}
 >>>>>>> commited.
+=======
+>>>>>>> no hangul conflict solved
     }
     
     @Override
