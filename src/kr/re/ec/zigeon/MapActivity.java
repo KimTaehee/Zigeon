@@ -111,11 +111,11 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 				//일단은 android.location 대신 NGeoPoint를 쓰기로 한다.
 				myLocation = (NGeoPoint)msg.obj;
 				LogUtil.v("myLocation is " + myLocation.getLatitude() + ", " + myLocation.getLongitude());
-				
+
 				//UpdateService의 onLocationChanged에서 아래의 select문을 발동시키면 다른 Activity로 전달될 우려가 있다.
-//				LogUtil.v("select * from tLandmark");
-//				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
+				//				LogUtil.v("select * from tLandmark");
+				//				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				//						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
 				//이거 살려놓으면 Location 수신할 때마다 현재 위치로 지도 옮김 => 빡침
@@ -138,11 +138,11 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 		/************** 핸들러 등록 ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
-		
-		
+
+
 		Button btn = (Button) findViewById(R.id.map_btn_gps);
 		btn.setOnClickListener(this);
-		
+
 
 		/*************지도 초기화 시작**************/
 		LogUtil.v("map init start");
@@ -177,15 +177,15 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 		} 
 		/******************오버레이 끝********************/
 
-		
-		
+
+
 		soapParser = SoapParser.getInstance(); 
-//		LogUtil.v("data request. select * from tLandmark");
-//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
-		
-	
-		
+		//		LogUtil.v("data request. select * from tLandmark");
+		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+		//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
+
+
+
 	}
 
 
@@ -292,6 +292,11 @@ public class MapActivity extends NMapActivity implements OnClickListener, OnMapS
 		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.map_btn_gps : 
+			startMyLocation();
+			if (mMapController != null) {
+				mMapController.animateTo(myLocation);
+			}
+
 			break;
 		}
 	}
