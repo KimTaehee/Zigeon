@@ -72,9 +72,11 @@
             android:label="@string/title_activity_posting" >
         </activity>
 
-        <activity android:name="kr.re.ec.zigeon.MapActivity" >
+        <activity 
+            android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
-        <activity android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
+        <activity 
+            android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
             
         </activity>
 
