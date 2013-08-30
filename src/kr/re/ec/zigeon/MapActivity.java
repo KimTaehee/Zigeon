@@ -298,8 +298,10 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		switch(v.getId()){
 		case R.id.map_btn_gps : 
 			startMyLocation();
-			if (mMapController != null) {
+			if (mMapController != null && myLocation != null) {
 				mMapController.animateTo(myLocation);
+			} else {
+				LogUtil.e("myLocation is null or mMapController is null!");
 			}
 
 			break;
