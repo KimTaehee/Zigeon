@@ -41,7 +41,7 @@
     <string name="intro_activity_title">Balloon</string>
     <string name="posting_write_action_write">write</string>
     <string name="posting_write_activity_title">WRITE POSTING</string>
-    <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conquerer!</string>
+    <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conqueror!</string>
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
     <string name="posting_write_txt_contents">contents</string>    
