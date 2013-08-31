@@ -426,12 +426,18 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		{
 			LogUtil.v("action_posting_write clicked");
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 			mIntent = new Intent(this, PostingWriteActivity.class);
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
 =======
 			mIntent = new Intent(this, PostingWriteActivity.class);
 >>>>>>> commited.
+=======
+			
+			mIntent = new Intent(this, PostingWriteActivity.class);
+			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
+>>>>>>> chong che jeok modified
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
