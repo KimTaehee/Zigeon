@@ -427,6 +427,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			LogUtil.v("action_posting_write clicked");
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict solved
 
 			mIntent = new Intent(this, PostingWriteActivity.class);
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
