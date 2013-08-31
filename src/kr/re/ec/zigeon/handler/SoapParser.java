@@ -1,6 +1,6 @@
 /**
  * Class name : SoapParser
- * Class contents : SoapParsing
+ * Description : Data SoapParse from Server and sendQuery to server
  * Writer : kim ji hong 
  * Version :
  * Write date : 130815
@@ -199,8 +199,9 @@ public class SoapParser {
 		return parsingDataArr;
 	}
 
-	 /* to insert, update, delete. return is String that splited comma. written by KimTaehee
-	 */
+	 /**
+	  *  to insert, update, delete. return is String that splited comma. written by KimTaehee
+	  */
 	public String sendQuery(String query) { 
 		LogUtil.v("sendQuery called. query: \"" + query + "\"");
 		String resultStr = null;
@@ -235,8 +236,18 @@ public class SoapParser {
 		return resultStr;
 	}
 	
-	private Object convertDatasetToObj(String[][] strArr, int datatype)	//convert strArr[][] to Obj[]
-
+	/**
+	 * Author: KimTaehee
+	 * Description: convert strArr[][] to Obj 
+	 * 
+	 * @param strArr: array of Dataset[] 
+	 * Dataset[] MUST have type of each Dataset 
+	 * from class Constants 
+	 * @param dataType: MSG_TYPE_LANDMARK | MSG_TYPE_POSTING | MSG_TYPE_COMMENT | MSG_TYPE_MEMBER | MSG_TYPE_TEST
+	 * from class Constants
+	 * @return Obj is each Dataset[]
+	 */
+	public Object convertDatasetToObj(String[][] strArr, int datatype)	
 	{
 		//LogUtil.v("convert Dataset to Obj");
 		Object obj = null;
@@ -297,8 +308,80 @@ public class SoapParser {
 		
 		return obj;
 	}
+
+	/**
+	 * Author: KimTaehee
+	 * Description: convert strArr[] to Obj
+	 * 
+	 * @param strArr: Dataset
+	 * Dataset MUST have type of each Dataset 
+	 * from class Constants 
+	 * @param dataType: MSG_TYPE_LANDMARK | MSG_TYPE_POSTING | MSG_TYPE_COMMENT | MSG_TYPE_MEMBER
+	 * from class Constants
+	 * @return Obj is each Dataset
+	 */
+	public Object convertDatasetToObj(String[] strArr, int datatype)	
+	{
+		LogUtil.v("convert Dataset to Obj");
+		Object obj = null;
+		switch (datatype) {
+		case Constants.MSG_TYPE_LANDMARK:
+			//LogUtil.v("switched MSG_TYPE_LANDMARK");
+			LandmarkDataset ldm = new LandmarkDataset();	//create Landmark 
+
+			ldm = new LandmarkDataset(strArr);	
+			
+			obj = ldm;
+			break;
+
+//		case Constants.MSG_TYPE_POSTING:
+//			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//create Posting Array 
+//
+//			for(int i=0; i<strArr.length; i++) {
+//				postingArr[i] = new PostingDataset(strArr[i]);	
+//			}
+//			obj = postingArr;
+//			break;
+//
+//		case Constants.MSG_TYPE_COMMENT:
+//			CommentDataset[] commentArr = new CommentDataset[strArr.length];	//create Comment Array 
+//
+//			for(int i=0; i<strArr.length; i++) {
+//				commentArr[i] = new CommentDataset(strArr[i]);	
+//			}
+//			obj = commentArr;
+//			break;
+//
+//		case Constants.MSG_TYPE_MEMBER: 
+//			MemberDataset[] memberArr = new MemberDataset[strArr.length];	//create Landmark Array 
+//			for(int i=0; i<strArr.length; i++) {
+//				memberArr[i] = MemberDataset.getInstance(); 
+//				memberArr[i].setDataset(strArr[i]);   //always one instance created
+//			}
+//			obj = memberArr;
+//			break;
+//
+			
+		default:
+			LogUtil.e("default switched.");
+			break;
+		}
+
 		
-	private String xmlRawParser(String data) {// return String.
+		return obj;
+	}
+	
+	
+	/**
+	 * Name: String xmlRawParser(String data)
+	 * Author: KimTaehee
+	 * Description: XML to String
+	 * 
+	 * @param 	XML
+	 * @return 	if data exist: String "t1.col1,t1.col2,t1.col3,t2.col1,t2.col2 ..."
+	 * 			if no data: String ""
+	 */
+	private String xmlRawParser(String data) {
 		String parsingData = null;
 
 
@@ -361,5 +444,63 @@ public class SoapParser {
 
 		return parsingData;
 
+	}
+
+	/**
+	 * insert Dataset to DB
+	 * @author KimTaehee
+	 * @param dataType: MSG_TYPE_LANDMARK | MSG_TYPE_POSTING | MSG_TYPE_COMMENT | MSG_TYPE_MEMBER from Constants.
+	 * @param datasetObj: It MUST conversion one each Dataset. ex: (Object)landmarkDataset
+	 * @return result String of SoapParser.sendQuery() 
+	 */
+	public String insertDatasetUsingQuery(int dataType, Object datasetObj) {
+		String query = null;
+		
+		//create query for each dataset
+		switch(dataType) {
+		case Constants.MSG_TYPE_LANDMARK:
+			LandmarkDataset ldm = (LandmarkDataset)datasetObj;
+			
+			break;
+			
+		case Constants.MSG_TYPE_POSTING:
+			PostingDataset pst = (PostingDataset)datasetObj;
+			
+			//get maxPstIdx
+			String str = sendQuery("SELECT MAX(pstIdx) FROM tPosting"); 
+    		int maxPstIdx = Integer.parseInt(str);
+			
+			query = "INSERT INTO tPosting (pstIdx,pstTitle,pstParentIdx,pstContents,pstLike,pstDislike" +
+					",pstWriterIdx,pstReadedCount,pstWrittenTime,pstPicturePath)" +
+					" values ('" +
+					(maxPstIdx + 1) + //pstIdx
+					"','" + pst.title + //pstTitle
+					"','" + pst.parentIdx + //pstParentIdx
+					"','"+ pst.contents + //pstContents
+					"','0','0','" + //pstLike, pstDislike
+					pst.writerIdx + //pstWriterIdx
+					"','0'," + //pstReadedCount
+					"GETDATE(),"; //pstWrittenTime
+			if(pst.picturePath==null) {
+				query += "NULL)";
+			} else {
+				query += "'" + pst.picturePath + "')";
+			}
+			
+			break;
+		case Constants.MSG_TYPE_COMMENT:
+		
+			break;
+		
+		case Constants.MSG_TYPE_MEMBER:
+		
+			break;
+		}
+		
+		//send insert query
+		LogUtil.v(query);
+		String result = sendQuery(query);
+		
+		return result;
 	}
 }
