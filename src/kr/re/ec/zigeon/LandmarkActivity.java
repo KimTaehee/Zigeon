@@ -1,6 +1,6 @@
 /*
  * author 130816 newcho 
- * modified 130830 newcho (image click added)
+ * modified 130831 KimTaehee (ldmIdx -> PostingWrite)
  * 
  */
 
@@ -300,7 +300,11 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		case R.id.landmark_action_posting_write:
 		{
 			LogUtil.v("action_posting_write clicked");
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> origin/develop
 			mIntent = new Intent(this, PostingWriteActivity.class);
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
 			startActivity(mIntent);
