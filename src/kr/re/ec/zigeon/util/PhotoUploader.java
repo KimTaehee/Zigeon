@@ -1,8 +1,10 @@
 /**
- * Class PhotoUploadeActivity
- * KimTaehee slhyvaa@nate.com
- * 130821 first created
- * 
+ * Class Name: PhotoUploader
+ * Description: Upload photo to server using AsyncTask
+ * Author: KimTaehee slhyvaa@nate.com
+ * Version: 0.0.1
+ * Created Date: 130821
+ * Modified Date: 130831
  */
 
 package kr.re.ec.zigeon.util;
@@ -26,7 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class PhotoUpload extends AsyncTask<String, Void, Bitmap> {
+public class PhotoUploader extends AsyncTask<String, Void, Bitmap> {
 
 	private static final String UPLOAD_FILE_PATH = "/sdcard/f1.png"; 
 	private static final String UPLOAD_PAGE_URL = "http://117.17.198.41:8088/Upload.aspx";

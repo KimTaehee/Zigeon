@@ -14,9 +14,10 @@ import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
-import kr.re.ec.zigeon.util.PhotoUpload;
+import kr.re.ec.zigeon.util.PhotoUploader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -173,15 +174,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		case R.id.posting_btn_input_comment:
 		{
 			if(edtInputComment.getText().toString().compareTo("") == 0) { //if blank, force to return and alert.
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("Blank Comment? ^^");
-				alert.show();
+				new AlertManager(this,"Blank Comment? ^^","Confirm");
 				return;
 			} else {
 				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //+1 idx insertion.
