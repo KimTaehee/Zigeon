@@ -25,7 +25,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.plus.model.people.Person.PlacesLived;
 import com.nhn.android.maps.NMapActivity;
 import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapController;
@@ -36,6 +39,7 @@ import com.nhn.android.maps.NMapView;
 import com.nhn.android.maps.NMapView.OnMapStateChangeListener;
 import com.nhn.android.maps.maplib.NGeoPoint;
 import com.nhn.android.maps.nmapmodel.NMapError;
+import com.nhn.android.maps.nmapmodel.NMapPlacemark;
 import com.nhn.android.maps.overlay.NMapPOIdata;
 import com.nhn.android.mapviewer.overlay.NMapCalloutCustomOverlay;
 import com.nhn.android.mapviewer.overlay.NMapCalloutOverlay;
@@ -45,7 +49,7 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayList
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 
 public class MapActivity extends NMapActivity implements OnClickListener
-		, OnMapStateChangeListener, OnCalloutOverlayListener{
+, OnMapStateChangeListener, OnCalloutOverlayListener{
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 
 	private NMapView mMapView = null;	//Naver map object
@@ -130,8 +134,12 @@ public class MapActivity extends NMapActivity implements OnClickListener
 			}
 		}
 	};
-
-
+	
+	
+	private OnDataProviderListener onDataProviderListener;	
+	private NMapPlacemark nMapPlacemark;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -175,15 +183,17 @@ public class MapActivity extends NMapActivity implements OnClickListener
 			LogUtil.e("LocationManager is null!");
 		} 
 
-		
+
 		/************ data request ***********/
 		soapParser = SoapParser.getInstance(); 
 		//		LogUtil.v("data request. select * from tLandmark");
 		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 		//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 
-
-
+		
+	    // set data provider listener
+	    super.setMapDataProviderListener(onDataProviderListener);
+	    
 	}
 
 
@@ -191,7 +201,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	@Override
 	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
 			NMapOverlayItem arg1, Rect arg2) {
-		
+
 		//show overlay selected effect
 		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   
 	}
@@ -212,12 +222,14 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 	}
 
-	
+
 	@Override
 	public void onMapCenterChangeFine(NMapView arg0) {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 	/**
 	 * called after map init. 
@@ -306,6 +318,64 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 			break;
 		}
+		
+		
 	}
+	
+	
+	public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
 
+	    if (errInfo != null) {
+	        LogUtil.v("Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
+	        return;
+	    }
+	   
+	    LogUtil.v("onReverseGeocoderResponse: placeMark=" + placeMark.toString());
+	    Toast.makeText(MapActivity.this,
+	    		"onReverseGeocoderResponse: placeMark=" + placeMark.toString(),
+				Toast.LENGTH_LONG).show();
+	}
+		
+	
+	private NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener = new NMapLocationManager.OnLocationChangeListener() {
+
+		@Override
+		public boolean onLocationChanged(NMapLocationManager locationManager,
+				NGeoPoint myLocation) {
+			findPlacemarkAtLocation(myLocation.getLongitude(), myLocation.getLatitude());
+			//위도경도를 주소로 변환
+			
+			onReverseGeocoderResponse(nMapPlacemark, null);
+			
+			String strFormat = getResources().getString(R.string.map_address);
+			String strResult = String.format(strFormat, nMapPlacemark.toString());
+
+			TextView text = (TextView) findViewById(R.id.map_txt_address);
+			text.setText(strResult);
+			
+			return true;
+		}
+
+		@Override
+		public void onLocationUnavailableArea(NMapLocationManager arg0,
+				NGeoPoint arg1) {
+			// TODO Auto-generated method stub
+			Toast.makeText(MapActivity.this,
+					"Your current location is unavailable area.",
+					Toast.LENGTH_LONG).show();
+
+			stopMyLocation();
+		}
+
+		@Override
+		public void onLocationUpdateTimeout(NMapLocationManager arg0) {
+			// TODO Auto-generated method stub
+			Toast.makeText(MapActivity.this,
+					"Your current location is temporarily unavailable.",
+					Toast.LENGTH_LONG).show();
+		}
+	};
+	
+	
+	
 }
