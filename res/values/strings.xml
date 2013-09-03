@@ -45,6 +45,7 @@
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="posting_write_txt_contents">contents</string>
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
 
@@ -57,6 +58,10 @@
     <string name="landmark_write_edt_contents_hint">haha</string>
     <string name="map_list_action_landmark_write">landmark write</string>
     <string name="title_activity_photo_zoom">PhotoZoom</string>
+=======
+    <string name="title_activity_photo_zoom">PhotoZoom</string>
+    <string name="posting_write_txt_contents">contents</string>    
+>>>>>>> fixed conflicts
 
 </resources>
 >>>>>>> git add   AndroidManifest.xml
