@@ -169,10 +169,11 @@ public final class R {
         public static final int bubble=0x7f080000;
         public static final int landmark=0x7f080001;
         public static final int map_list=0x7f080002;
-        public static final int posting=0x7f080003;
-        public static final int posting_list=0x7f080004;
-        public static final int posting_write=0x7f080005;
-        public static final int reply_list=0x7f080006;
+        public static final int photo_zoom=0x7f080003;
+        public static final int posting=0x7f080004;
+        public static final int posting_list=0x7f080005;
+        public static final int posting_write=0x7f080006;
+        public static final int reply_list=0x7f080007;
     }
     public static final class string {
         public static final int Facebook_button=0x7f060023;
@@ -217,8 +218,9 @@ public final class R {
         public static final int posting_write_activity_title=0x7f060028;
         public static final int posting_write_edt_contents_hint=0x7f06002b;
         public static final int posting_write_edt_title_hint=0x7f060029;
-        public static final int posting_write_txt_contents=0x7f06002c;
+        public static final int posting_write_txt_contents=0x7f06002d;
         public static final int posting_write_txt_title=0x7f06002a;
+        public static final int title_activity_photo_zoom=0x7f06002c;
         public static final int title_activity_posting=0x7f060016;
     }
     public static final class style {
