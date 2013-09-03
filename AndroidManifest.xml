@@ -106,6 +106,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
      	</activity>
+<<<<<<< HEAD
      	
      	<activity 
      	    android:name="kr.re.ec.zigeon.TestActivity2">
@@ -121,6 +122,9 @@
      	    android:name="kr.re.ec.zigeon.Preferences">
      	    
      	</activity>
+=======
+        
+>>>>>>> test... why not? SSANG
         <service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
