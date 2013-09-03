@@ -1,75 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <!-- Category xmlns need? -->
     <PreferenceCategory
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="preferenceCategory_account"
-        android:title="ACCOUNT"
-         >
+        android:title="ACCOUNT" >
         <Preference
-        android:key="preference_myInfo"
-        android:title="My Information"
-        android:selectable="true"/>
-    <Preference
-        android:key="preference_PWchange"
-        android:title="Password Change"
-        android:selectable="true"/>
+            android:key="preference_myInfo"
+            android:selectable="true"
+            android:title="My Information" />
+        <Preference
+            android:key="preference_PWchange"
+            android:selectable="true"
+            android:title="Password Change" />
     </PreferenceCategory>
-     <!-- alarm? notice?  -->
-    <PreferenceCategory 
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- alarm? notice? -->
+    <PreferenceCategory
         android:key="preferenceCategory_notification"
-        android:title="NOTIFICATION">
-    <!-- Notification sound vs sound?  -->
+        android:title="NOTIFICATION" >
+
+        <!-- Notification sound vs sound? -->
         <CheckBoxPreference
-        android:key="preference_CheckBox_notificationSound"
-        android:title="Sound"
-        android:defaultValue="true"/>
-    <CheckBoxPreference 
-        android:key="preference_CheckBox_notificationVibration"
-        android:title="Vibration"
-        android:defaultValue="true"/>
-    <CheckBoxPreference 
-        android:key="preference_CheckBox_notification_bubblehead"
-        android:title="BubbleHead"
-        android:defaultValue="true"/>
+            android:defaultValue="true"
+            android:key="preference_CheckBox_notificationSound"
+            android:title="Sound" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="preference_CheckBox_notificationVibration"
+            android:title="Vibration" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="preference_CheckBox_notification_bubblehead"
+            android:title="BubbleHead" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preferenceCategory_divice"
+        android:title="DEVICE" >
+        <Preference
+            android:key="preference_clearCacheImage"
+            android:selectable="true"
+            android:title="Clear CacheImage" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preferenceCategory_information"
+        android:title="INFORMATION" >
+
+        <!-- version selectable? provide more informaion? -->
+        <Preference
+            android:key="preference_version"
+            android:title="Version - 1.0.0" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preferenceCategory_help"
+        android:title="HELP" >
+        <Preference
+            android:key="preference_whatIsBallon"
+            android:selectable="true"
+            android:title="What is Balloon?" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="preferenceCategory_logout"
+        android:title="LOGOUT" >
+        <Preference
+            android:key="preference_logout"
+            android:selectable="true"
+            android:title="Logout" />
     </PreferenceCategory>
 
-   <PreferenceCategory 
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       android:key="preferenceCategory_divice"
-       android:title="DIVICE"
-       >
-       <Preference 
-           android:key="preference_clearCacheImage"
-           android:title="Clear CacheImage"
-           android:selectable="true"/>
-   </PreferenceCategory>    
-   <PreferenceCategory 
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       android:key="preferenceCategory_information"
-       android:title="INFORMATION">
-       <!-- version selectable? provide more informaion? -->
-       <Preference
-           android:key="preference_version"
-           android:title="Version - 1.0.0"/>
-   </PreferenceCategory>
-   <PreferenceCategory 
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       android:key="preferenceCategory_help"
-       android:title="HELP">
-       <Preference 
-           android:key="preference_whatIsBallon"
-           android:title="What is Ballon?"
-           android:selectable="true"/>
-   </PreferenceCategory>
-	<PreferenceCategory 
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:key="preferenceCategory_logout"
-	    android:title="LOGOUT">
-	    <Preference 
-	        android:key="preference_logout"
-	        android:title="Logout"
-	        android:selectable="true"/>
-	</PreferenceCategory>
 </PreferenceScreen>
