@@ -8,6 +8,6 @@ public class PreferenceActivity extends PreferenceFragment{
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.layout.activity_preference);
+		addPreferencesFromResource(R.xml.activity_preference);
 	}
 }
