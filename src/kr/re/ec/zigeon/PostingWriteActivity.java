@@ -11,8 +11,14 @@ package kr.re.ec.zigeon;
 
 import java.io.File;
 
+import kr.re.ec.zigeon.dataset.LandmarkDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
+import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.util.AlertManager;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
+import kr.re.ec.zigeon.util.PhotoUploader;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.View;
@@ -30,34 +36,39 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 public class PostingWriteActivity extends Activity implements OnClickListener {
-	EditText edtTitle;
-	EditText edtContents;
-	ImageView imgInput;
-	
-	SoapParser soapParser;
-	
+	private EditText edtTitle;
+	private EditText edtContents;
+	private ImageView imgInput;
+
+	private int mLdmIdx;
+
+	private SoapParser soapParser;
+
 	//YOU CAN EDIT THIS TO WHATEVER YOU WANT
-    private final int SELECT_PICTURE = 1;
-    private String selectedImagePath;
-    private String fileManagerString;
-	
+	private final int SELECT_PICTURE = 1;
+	private String selectedImagePath;
+	private String fileManagerString;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting_write);
 		LogUtil.v("onCreate invoked!");
-		
+
+		Bundle bundle = this.getIntent().getExtras();
+		mLdmIdx = bundle.getInt("ldmIdx");
+
 		/******** Init UI ********/
 		edtTitle = (EditText) findViewById(R.id.posting_write_edt_title);
 		edtContents = (EditText) findViewById(R.id.posting_write_edt_contents);
 		imgInput = (ImageView) findViewById(R.id.posting_write_img_input);
 		imgInput.setOnClickListener(this);
 
-		
+
 		/******** Init Handler *******/
 		soapParser = SoapParser.getInstance();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -69,89 +80,126 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 		switch(item.getItemId()) {
 		case R.id.posting_write_action_write:
 		{
-			LogUtil.v("action_write clicked");
-			//TODO: here is error part. need to fix 
-			Intent intent = new Intent(this, PostingActivity.class); 
-			startActivity(intent);
-			overridePendingTransition(0, 0); //no switching animation
+			LogUtil.v("action_write clicked.");
+
+			PostingDataset pst = new PostingDataset();
+			MemberDataset mem = MemberDataset.getInstance();
+			//String strArr[] = new String[Constants.DATASET_FIELD[Constants.MSG_TYPE_POSTING].length];
+			//strArr[0] = 
+			LogUtil.v("create pstDataset and get memDataset success!");
+			//title
+			if(edtTitle.getText().toString().compareTo("")==0) {
+				new AlertManager(this,"Blank Title? ^^","Confirm");	
+			} else {
+				pst.title = edtTitle.getText().toString();
+			}
+
+			//parentIdx
+			pst.parentIdx = mLdmIdx;
+
+			//contents
+			if(edtContents.getText().toString().compareTo("")==0) {
+				new AlertManager(this,"Blank Contents? ^^","Confirm");	
+			} else {
+				pst.contents = edtContents.getText().toString();
+			}
+
+			pst.writerIdx = mem.idx;
+
+			pst.readedCount = 0;
+
+			if(selectedImagePath==null) { 
+				pst.picturePath = null;
+			} else {
+				pst.picturePath = selectedImagePath;
+			}
+			LogUtil.v("data input to pst success");
+
+
+			soapParser.insertDatasetUsingQuery(Constants.MSG_TYPE_POSTING, pst);
+
+			//TODO: PhotoUploader
+
 			break;
 		}
-		}
-		return true;
+
+	}
+	return true;
+}
+
+@Override
+public void onClick(View v) {
+	switch(v.getId()) {
+	case R.id.posting_write_img_input:
+	{
+		LogUtil.v("img_input clicked.");
+
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent,
+				"Select Picture"), SELECT_PICTURE);
+
+		break;
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()) {
-		case R.id.posting_write_img_input:
-		{
-			LogUtil.v("img_input clicked.");
-			
-			Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent,
-                    "Select Picture"), SELECT_PICTURE);
-			
-			break;
-		}
-		}
 	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
+}
 
-                //OI FILE Manager
-                fileManagerString = selectedImageUri.getPath();
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	if (resultCode == RESULT_OK) {
+		if (requestCode == SELECT_PICTURE) {
+			Uri selectedImageUri = data.getData();
 
-                //MEDIA GALLERY
-                selectedImagePath = getPath(selectedImageUri);
+			//FILE Manager
+			fileManagerString = selectedImageUri.getPath();
 
-                //DEBUG PURPOSE - you can delete this if you want
-                if(selectedImagePath!=null) {
-                    LogUtil.v("selectedImagePath: " + selectedImagePath);
-                } else {
-                	LogUtil.v("selectedImagePath is null");
-                }
-                if(fileManagerString!=null) {
-                	LogUtil.v("fileManagerString: " + fileManagerString);
-                } else {
-                	LogUtil.v("filemanagerstring is null");
-                }
+			//MEDIA GALLERY
+			selectedImagePath = getPath(selectedImageUri);
 
-                //NOW WE HAVE OUR WANTED STRING
-                if(selectedImagePath!=null) {
-                	LogUtil.v("selectedImagePath is the right one for you!");
-                } else {
-                	LogUtil.v("filemanagerstring is the right one for you!");
-                }
-                
-                //path to imageview
-                File imgFile = new File(selectedImagePath);
-                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                imgInput.setImageBitmap(bitmap);
-            }
-            
-        }
-    }
-	
-	public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null); 	//deprecated func used!
-        if(cursor!=null)
-        {
-            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        else return null;
-    }
-	
-	
+			//DEBUG PURPOSE - you can delete this if you want
+			if(selectedImagePath!=null) {
+				LogUtil.v("selectedImagePath: " + selectedImagePath);
+			} else {
+				LogUtil.v("selectedImagePath is null");
+			}
+			if(fileManagerString!=null) {
+				LogUtil.v("fileManagerString: " + fileManagerString);
+			} else {
+				LogUtil.v("filemanagerstring is null");
+			}
+
+			//NOW WE HAVE OUR WANTED STRING
+			if(selectedImagePath!=null) {
+				LogUtil.v("selectedImagePath is the right one for you!");
+			} else {
+				LogUtil.v("filemanagerstring is the right one for you!");
+			}
+
+			//path to imageview
+			File imgFile = new File(selectedImagePath);
+			Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+			imgInput.setImageBitmap(bitmap);
+		}
+
+	}
+}
+
+public String getPath(Uri uri) {
+	String[] projection = { MediaStore.Images.Media.DATA };
+	Cursor cursor = managedQuery(uri, projection, null, null, null); 	//TODO: deprecated func used!
+	if(cursor!=null)
+	{
+		//HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+		//THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+	else return null;
+}
+
+
 }

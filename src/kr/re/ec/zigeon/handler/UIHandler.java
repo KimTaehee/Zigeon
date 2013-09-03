@@ -21,29 +21,30 @@ public class UIHandler {
 	public static Handler mapListActivityHandler;
 	public static Handler landmarkActivityHandler;
 	public static Handler postingActivityHandler;
-	
+	public static Handler mapActivityHandler;
+
 	private Context mContext; //for use topActivity
 	private ActivityManager am;
-	
+
 	private static UIHandler instance; //for singleton
 	private Message msg;
-	
+
 	private UIHandler(Context context) {
 		mContext = context;
 		LogUtil.v("uihandler instance created");
 	}	
-	
+
 	public static UIHandler getInstance(Context context){
 		if(instance==null) {
 			instance = new UIHandler(context); 
 		}
 		return instance;
 	}
-	
+
 	/***** when TopActivity change, reset handler. *****/ //TODO: how it works on background?
 	public void setHandler(Handler handler) { //MUST set handler in each Activity.onCreate()
 		String str = getTopActivityName(mContext);
-		
+
 		if (str.compareTo("kr.re.ec.zigeon.BubbleActivity") == 0)
 		{
 			bubbleActivityHandler = handler;
@@ -64,18 +65,23 @@ public class UIHandler {
 			postingActivityHandler = handler;
 			LogUtil.v("top activity is PostingActivity. set handler.");
 		}
+		else if (str.compareTo("kr.re.ec.zigeon.MapActivity") == 0)
+		{
+			mapActivityHandler = handler;
+			LogUtil.v("top activity is MapActivity. set handler.");
+		}
 		else 
 		{
 			LogUtil.i("cannot set handler. Other TopActivity detected.");
 		}
-	
+
 	}
-	
+
 	/*** recognize current handler on UIHandler ***/
 	private Handler getCurrentHandler()
 	{
 		String str = getTopActivityName(mContext);
-		
+
 		if (str.compareTo("kr.re.ec.zigeon.BubbleActivity") == 0)
 		{
 			if(bubbleActivityHandler!=null) {
@@ -116,13 +122,23 @@ public class UIHandler {
 				return null;
 			}
 		}
+		else if (str.compareTo("kr.re.ec.zigeon.MapActivity") == 0) 
+		{
+			if(mapActivityHandler!=null) {
+				LogUtil.v("mapActivityHandler selected.");
+				return mapActivityHandler;
+			} else {
+				LogUtil.e("Cannot return handler. no mapActivityHandler detected.");
+				return null;
+			}
+		}
 		else 
 		{
 			LogUtil.e("Cannot return handler. Other TopActivity detected.");
 			return null;
 		}
 	}
-	
+
 	/************ send msg to current TopActivity **********/
 	public void sendMessage(int _what, String _value, Object _obj){ //what defined on Constants.java
 		LogUtil.v("sendmsg called.");
@@ -133,7 +149,7 @@ public class UIHandler {
 		msg.what = _what; 
 		msg.obj = _obj;
 		msg.setData(bundle);
-		
+
 		Handler handler = getCurrentHandler();
 		if(handler!=null) {
 			handler.sendMessage(msg); //if handler==null, error occur
@@ -141,13 +157,13 @@ public class UIHandler {
 			LogUtil.e("no handler set! cannot run sendMessage()");
 		}
 	}
-	
+
 	/* which activity on Top? */
 	public String getTopActivityName(Context context) {
 		am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE); 
 		String topActivityName = am.getRunningTasks(1).get(0).topActivity.getClassName();
-				
+
 		return topActivityName;
-		
+
 	}
 }

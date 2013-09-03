@@ -6,21 +6,18 @@
 package kr.re.ec.zigeon;
 
 
-import com.google.android.gcm.GCMRegistrar;
-import com.nhn.android.maps.maplib.NGeoPoint;
-
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,17 +29,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.google.android.gcm.GCMRegistrar;
+import com.nhn.android.maps.maplib.NGeoPoint;
+
 public class BubbleActivity extends Activity {
 	public static final int BUBBLETEST_BUTTON_START_Y = 1487; /**/
 	public static final int BUBBLETEST_BUTTON_INTERVAL = 150;
-	
+
 	private ImageView bubbleImage;
 	private ImageView bubbleImage2;
 	private ImageView bubbleImage3;
 	private ImageView bubbleImage4;
 	private RelativeLayout rootLayout;
 	private Animation bubblemoveAnimation;
-	
+
 	private Intent mIntent;
 	/** The m register task. (GCM) */
 		
@@ -82,7 +82,7 @@ public class BubbleActivity extends Activity {
 			}
 			case Constants.MSG_TYPE_TEST:
 			{	
-				
+
 				break;
 			}
 			case Constants.MSG_TYPE_LOCATION:
@@ -90,7 +90,7 @@ public class BubbleActivity extends Activity {
 				//NGeoPoint instead of android.location 
 				NGeoPoint location = (NGeoPoint)msg.obj;
 				String str = location.getLatitude() + "\n" + location.getLongitude() + "\n";
-//						+ "\n" + location.getAccuracy() + "\n" + location.getProvider();
+				//						+ "\n" + location.getAccuracy() + "\n" + location.getProvider();
 				//tvGPSTest.setText(str);
 				break;
 			}
@@ -103,6 +103,10 @@ public class BubbleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble);
 		
+		/*********** MemberDataset Global test ***********/
+		MemberDataset mem = MemberDataset.getInstance();
+		LogUtil.v("MEMBERDATASET GLOBAL ID: " + mem.id);
+				
 		/*************** GCM registration **************/
 		LogUtil.v("push register start");
 		GCMRegistrar.checkDevice(this);
@@ -117,9 +121,7 @@ public class BubbleActivity extends Activity {
 		} else {
 			LogUtil.i("already registered device! ready to receive msg!");
 			LogUtil.v("regId " + regId);
-        }
-
-		
+		}
 		
 		/*************** UI init  ************/
 //		tvGPSTest = (TextView)findViewById(R.id.bubble_tvGPSTest);
@@ -127,6 +129,7 @@ public class BubbleActivity extends Activity {
 //		tvPostingTest = (TextView)findViewById(R.id.bubble_tvPostingTest);
 //		btnServiceStopTest = (Button)findViewById(R.id.btnServiceStopTest);
 //		btnServiceStopTest.setOnClickListener(this);
+
 		bubbleImage = (ImageView) findViewById(R.id.bubbleImage);
 		bubbleImage2 = (ImageView) findViewById(R.id.bubbleImage2);
 		bubbleImage3 = (ImageView) findViewById(R.id.bubbleImage3);
@@ -173,7 +176,7 @@ public class BubbleActivity extends Activity {
 
 		RelativeLayout.LayoutParams img_param = (LayoutParams) bubbleImage4
 				.getLayoutParams();
-		
+
 		final Button btn = new Button(this);
 		// when button clicked
 		btn.setOnClickListener(new OnClickListener() {
@@ -186,7 +189,7 @@ public class BubbleActivity extends Activity {
 			}
 		});
 		;
-		
+
 		rootLayout.addView(btn);
 		btn.setLayoutParams(img_param);
 		btn.setBackgroundColor(0); /* transparent btn */
@@ -227,7 +230,6 @@ public class BubbleActivity extends Activity {
 		LogUtil.v("onCreate: start updateService");
 		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
 
-		
 		//test phrase
 		LogUtil.v("test phrase. select * from tLandmark");
 		soapParser = SoapParser.getInstance();
@@ -258,6 +260,7 @@ public class BubbleActivity extends Activity {
 			stopService(new Intent(this, UpdateService.class));	//TODO: test. stop service
 			break;
 		}
+
 		}
 		return true;
 	}
@@ -266,6 +269,5 @@ public class BubbleActivity extends Activity {
 		super.onDestroy();
 		LogUtil.v("onDestroy: stop updateService");
 		stopService(new Intent(this, UpdateService.class));	//TODO: test. stop service
-		
 	}
 }

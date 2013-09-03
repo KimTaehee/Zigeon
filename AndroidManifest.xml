@@ -71,9 +71,19 @@
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>
+<<<<<<< HEAD
         <activity android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
         <activity android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
+=======
+
+        <activity 
+            android:name="kr.re.ec.zigeon.MapActivity" >
+        </activity>
+        <activity 
+            android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
+            
+>>>>>>> origin/develop
         </activity>
         <activity android:name="kr.re.ec.zigeon.PhotoViewActivity" >
         </activity>
