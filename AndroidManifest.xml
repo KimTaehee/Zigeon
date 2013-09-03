@@ -72,6 +72,7 @@
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>
+<<<<<<< HEAD
 
         <activity 
             android:name="kr.re.ec.zigeon.MapActivity" >
@@ -79,17 +80,20 @@
         <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
             
+=======
+        <activity android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
-
-        <activity
-            android:name="kr.re.ec.zigeon.PhotoViewActivity" >
+        <activity android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
+>>>>>>> git add   AndroidManifest.xml
+        </activity>
+        <activity android:name="kr.re.ec.zigeon.PhotoViewActivity" >
         </activity>
 
         <service
-            android:name=".handler.UpdateService"
+            android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
         </service>
-        <service android:name=".GCMIntentService" >
+        <service android:name="kr.re.ec.zigeon.GCMIntentService" >
 
             <!-- DO NOT MODIFY SERVICE NAME -->
         </service>
@@ -106,6 +110,11 @@
 
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="kr.re.ec.zigeon.PhotoZoom"
+            android:label="@string/title_activity_photo_zoom" >
+        </activity>
     </application>
 
 </manifest>
