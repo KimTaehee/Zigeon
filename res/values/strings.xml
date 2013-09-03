@@ -45,5 +45,6 @@
     <string name="landmark_write_txt_contents">hahaha</string>
     <string name="landmark_write_edt_contents_hint">haha</string>
     <string name="map_list_action_landmark_write">landmark write</string>
-   
+    <string name="title_activity_photo_zoom">PhotoZoom</string>
+
 </resources>

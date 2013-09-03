@@ -21,6 +21,7 @@ public class PhotoViewActivity extends Activity {
 //	private final int imgWidth = 320;
 //	private final int imgHeight = 372;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
