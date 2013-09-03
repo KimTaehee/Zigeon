@@ -68,6 +68,7 @@
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>
+<<<<<<< HEAD
         <!--  <activity
             android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
         </activity> -->
@@ -80,6 +81,13 @@
         <activity 
             android:name="kr.re.ec.zigeon.PhotoViewActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+=======
+        <activity android:name="kr.re.ec.zigeon.MapActivity" >
+        </activity>
+        <activity android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
+        </activity>
+        <activity android:name="kr.re.ec.zigeon.PhotoViewActivity" >
+>>>>>>> git add   AndroidManifest.xml
         </activity>
 
         <service
@@ -103,6 +111,11 @@
 
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="kr.re.ec.zigeon.PhotoZoom"
+            android:label="@string/title_activity_photo_zoom" >
+        </activity>
     </application>
 
 </manifest>

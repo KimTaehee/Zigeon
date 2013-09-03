@@ -30,6 +30,7 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 //	private final int imgWidth = 320;
 //	private final int imgHeight = 372;
 	
+<<<<<<< HEAD
 	private ImageView iv;
 	
 	/******** AUIL init ********/
@@ -39,6 +40,8 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 	.showImageOnFail(R.drawable.ic_auil_error)
 	.build();
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
+=======
+>>>>>>> git add   AndroidManifest.xml
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
