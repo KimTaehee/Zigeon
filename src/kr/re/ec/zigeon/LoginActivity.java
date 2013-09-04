@@ -7,6 +7,7 @@
 import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
@@ -20,18 +21,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.CalendarContract.Instances;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Switch;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements OnClickListener {
 	private EditText id, password;
-	private Button login, join;
+	private ImageButton imgbtnLogin, imgbtnRegister;
+	private Switch swtAutoLogin;
 	private Intent intent;
 	private String strID;
 	private String strPassword;
 	private SoapParser soapParser;
-	private CheckBox autoCheckBox;
 	private MemberDataset mMemberDataset; 
 	
 	@Override
@@ -45,10 +49,10 @@ public class LoginActivity extends Activity {
 		
 		id = (EditText) findViewById(R.id.Login_Id);
 		password = (EditText) findViewById(R.id.Login_Password);
-		login = (Button) findViewById(R.id.Login_Button);
-		join = (Button) findViewById(R.id.Join_Button);
+		imgbtnLogin = (ImageButton) findViewById(R.id.login_imgbtn_login);
+		imgbtnRegister = (ImageButton) findViewById(R.id.login_imgbtn_register);
 		soapParser = SoapParser.getInstance();
-		autoCheckBox = (CheckBox) findViewById(R.id.Autologin_Box);
+		swtAutoLogin = (Switch) findViewById(R.id.login_switch_autologin);
 		mMemberDataset = MemberDataset.getInstance();
 		
 		//  To Auto Login, get Shared Preference
@@ -59,88 +63,17 @@ public class LoginActivity extends Activity {
 		String auto_password = pref.getString("Password", "");
 		Boolean auto_check = pref.getBoolean("AutoCheck",false);
 		
-		autoCheckBox.setChecked(auto_check);
-		if(autoCheckBox.isChecked())
+		swtAutoLogin.setChecked(auto_check);
+		if(swtAutoLogin.isChecked())
 		{
 			id.setText(auto_ID);
 			password.setText(auto_password);
 			//login.performClick(); //TODO: Click event not perform
 		}
 		
-		login.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			
-				LogUtil.v("onClick");
-				strID = id.getText().toString();// TODO: user ID;
-				LogUtil.v(id.getText().toString());
-				
-				String idQuery = "SELECT memPW FROM tMember WHERE memID ='"
-						+ strID + "'";
-				LogUtil.v("query created");
-				
-				strPassword = soapParser.sendQuery(idQuery);
-				LogUtil.v(strPassword);
-				LogUtil.v(password.getText().toString());
-				if (strPassword.compareTo("")!=0)// if have ID
-				{
-					if (password.getText().toString().compareTo(strPassword)==0) {
-						
-						//save to dataset
-						String query = "SELECT * FROM tMember WHERE memID='" + strID + "'"; 
-						LogUtil.v("data request. " + query);
-
-						mMemberDataset.setDataset(((MemberDataset[]) soapParser.getSoapData(query,
-								Constants.MSG_TYPE_MEMBER))[0]);
-						
-						/******************** dataset test *******************/
-						LogUtil.v("MemberDataset ID=" + mMemberDataset.id);
-						
-
-						intent = new Intent(LoginActivity.this,
-								BubbleActivity.class);
-						startActivity(intent);
-
-						finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
-					} else {
-						// Wrong Password
-						AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-						alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();	
-							}
-						});
-						alert.setMessage("Wrong Password.");
-						alert.show();
-						return;
-					}
-				} else {
-					// No matched ID
-					AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-					alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();	
-						}
-					});
-					alert.setMessage("There is no matched ID");
-					alert.show();
-					return;
-				}
-				
-				
-			}
-		});
-
-		join.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				intent = new Intent(LoginActivity.this, RegisterActivity.class);
-				startActivity(intent);
-			}
-		});
+		imgbtnLogin.setOnClickListener(this);
+		imgbtnRegister.setOnClickListener(this);			
+		
 		
 	}
 	
@@ -153,13 +86,73 @@ public class LoginActivity extends Activity {
 		//values to save
 		id = (EditText) findViewById(R.id.Login_Id);
 		password = (EditText) findViewById(R.id.Login_Password);
-		autoCheckBox = (CheckBox) findViewById(R.id.Autologin_Box);
+		swtAutoLogin = (Switch) findViewById(R.id.login_switch_autologin);
 		
 		//input values
 		editor.putString("ID", id.getText().toString());
 		editor.putString("Password", password.getText().toString());
-		editor.putBoolean("AutoCheck", autoCheckBox.isChecked());
+		editor.putBoolean("AutoCheck", swtAutoLogin.isChecked());
 		
 		editor.commit();	//save
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.login_imgbtn_login:
+		{
+			LogUtil.v("onClick");
+			strID = id.getText().toString();// TODO: user ID;
+			LogUtil.v(id.getText().toString());
+			
+			String idQuery = "SELECT memPW FROM tMember WHERE memID ='"
+					+ strID + "'";
+			LogUtil.v("query created");
+			
+			strPassword = soapParser.sendQuery(idQuery);
+			LogUtil.v(strPassword);
+			LogUtil.v(password.getText().toString());
+			if (strPassword.compareTo("")!=0)// if have ID
+			{
+				if (password.getText().toString().compareTo(strPassword)==0) {
+					
+					//save to dataset
+					String query = "SELECT * FROM tMember WHERE memID='" + strID + "'"; 
+					LogUtil.v("data request. " + query);
+
+					mMemberDataset.setDataset(((MemberDataset[]) soapParser.getSoapData(query,
+							Constants.MSG_TYPE_MEMBER))[0]);
+					
+					/******************** dataset test *******************/
+					LogUtil.v("MemberDataset ID=" + mMemberDataset.id);
+					
+
+					intent = new Intent(LoginActivity.this,
+							BubbleActivity.class);
+					startActivity(intent);
+
+					finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
+				} else {
+					// Wrong Password
+					new AlertManager(this,"Wrong Password? ^^","Confirm");
+					return;
+				}
+			} else {
+				// No matched ID
+				new AlertManager(this,"There is no matched ID? ^^","Confirm");
+				
+				return;
+			}
+			break;
+			
+		}
+		case R.id.login_imgbtn_register:
+		{
+			intent = new Intent(LoginActivity.this, RegisterActivity.class);
+			startActivity(intent);
+			break;
+		}
+		}
+		
 	}
 }
