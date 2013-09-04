@@ -1,6 +1,6 @@
 /**
  * Class Name: IntroActivity
- * Description: Show Logo. Start of Application
+ * Description: Show Logo. First Activity
  * Author: KimTaehee slhyvaa@nate.com
  * Version: 0.0.1
  * Created Date: 130828

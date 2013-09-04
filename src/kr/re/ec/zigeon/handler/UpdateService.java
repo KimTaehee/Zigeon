@@ -1,7 +1,14 @@
-package kr.re.ec.zigeon.handler;
-/* 작성자: 김태희. Sleep이 포함된 Thread Service로, 각종 주기적인 작업을 관장
- * 내용: GPS, UI, SoapParser를 포함한다.
+/**
+ * Class Name: IntroActivity
+ * Description: Thread Service. Manage periodical Task (Location, UI, SoapParser)
+ * Author: KimTaehee slhyvaa@nate.com
+ * Version: 0.0.1
+ * Created Date: 
+ * Modified Date: 130915
  */
+
+package kr.re.ec.zigeon.handler;
+
 import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.maplib.NGeoPoint;
@@ -32,7 +39,7 @@ public class UpdateService extends Service implements Runnable{
 //	
 
 	/*************nMap test****************/
-	private NMapLocationManager mMapLocationManager; //130816 김태희 추가
+	private NMapLocationManager mMapLocationManager; 
 	private NGeoPoint mLocation;
 	
 	private UIHandler uiHandler; 	//UIHandler
@@ -60,10 +67,10 @@ public class UpdateService extends Service implements Runnable{
 			}
 		}
 		
-		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: LM강제전달. 더 좋은 방법이 없을까?
-		MapActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: LM강제전달. 더 좋은 방법이 없을까?
+		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
+		MapActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		
-		//nMapLM 쓰기전
+
 //		/********* LocationManager Init ******************/ 
 //		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 //		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -77,23 +84,23 @@ public class UpdateService extends Service implements Runnable{
 //        String provider = locationManager.getBestProvider(criteria, true);
 //        LogUtil.v("location provider: " + provider);
 //        
-//        gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);	//gps 사용 
+//        gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);	//use gps
 //		LogUtil.v("GPSEnabled: "+ gpsEnabled);
 //		if(gpsEnabled) {
 //			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE, 0, listener);
-//		} //requestLocationUpdates를 Thread 안에서 요청할 수 없다.
+//		} //cannot call requestLocationUpdates in Thread
 		
 		
-		/********************** Thread 생성 *********************/
+		/********************** create Thread *********************/
 		if(mThread == null) {
 			LogUtil.v("creating new thread");
 			mThread = new Thread(this);
 			threadLoop=true;
 			mThread.start();
 			
-			am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //현재 Activity 알기위함
+			am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //what is current Activity?
 			
-			soapParser = SoapParser.getInstance(); //soapParser 초기화(Singleton. 없으면 생성함)
+			soapParser = SoapParser.getInstance(); //singleton
 		}
 	}
 	
@@ -104,17 +111,17 @@ public class UpdateService extends Service implements Runnable{
 		threadLoop=false;	//thread loop exit
 		
 		mMapLocationManager.disableMyLocation();
-		//nMapLM 쓰기전
+
 		//locationManager.removeUpdates(listener);	
 	}
 	
 	/**
-	 * 스레드의 실행 부분. 현재 프로그램의 상태를 모니터링한다.
+	 * monitor status of app
 	 */
 	public void run() {
 		while(threadLoop){
 			try {
-				//현재 Activity 알기(Activity에 알맞은 행동하기위함)
+				//get Top Activity (for appropriate action)
 				String topActivityName = am.getRunningTasks(1).get(0).topActivity.getClassName(); 
 				LogUtil.v("updateService thread #" + count + " / current: " + topActivityName); 
 				count++;
@@ -160,7 +167,7 @@ public class UpdateService extends Service implements Runnable{
 	= new NMapLocationManager.OnLocationChangeListener() {
 		@Override
 		public boolean onLocationChanged(NMapLocationManager locationManager, NGeoPoint myLocation) {
-			//어디론가 발싸! 어디로 갈지는 모름 ㅋ
+			//send location info to current activity.
 			LogUtil.v("onLocationChanged invoked!");
 			uiHandler.sendMessage(Constants.MSG_TYPE_LOCATION, "", myLocation);
 //			LogUtil.v("select * from tLandmark");
@@ -196,8 +203,7 @@ public class UpdateService extends Service implements Runnable{
 		}
 	};
 	
-	//nMapLM 쓰기 전.
-//	private LocationListener listener = new LocationListener() {
+	//	private LocationListener listener = new LocationListener() {
 //		@Override
 //		public void onLocationChanged(Location location) {
 //			LogUtil.v("onLocationChanged called! Lat: " + location.getLatitude() + ", Log" + location.getLongitude());

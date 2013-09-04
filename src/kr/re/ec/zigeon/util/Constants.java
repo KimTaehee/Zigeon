@@ -26,6 +26,9 @@ public final class Constants {
 	/***************** GCM **************/
 	public static final String GCM_PROJECT_ID = "39642280488"; //can identify unique GCM server
 	
+	/**************** Image Server URL *********************/
+	public static final String URL_SERVER_IMAGE_DIR = "http://117.17.198.41:8088/images/";
+	
 	/**************** Err Code. int range 1000~1069 ****************/
 	public static final int ERR_UNEXPECTED = 1000;
 	public static final int ERR_DEFAULT_SWITCHED = 1001;
