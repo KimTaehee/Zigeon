@@ -451,11 +451,11 @@ public class SoapParser {
 	 * @author KimTaehee
 	 * @param dataType: MSG_TYPE_LANDMARK | MSG_TYPE_POSTING | MSG_TYPE_COMMENT | MSG_TYPE_MEMBER from Constants.
 	 * @param datasetObj: It MUST conversion one each Dataset. ex: (Object)landmarkDataset
-	 * @return result String of SoapParser.sendQuery() 
+	 * @return inserted index of each Dataset. 
 	 */
-	public String insertDatasetUsingQuery(int dataType, Object datasetObj) {
+	public int insertDatasetUsingQuery(int dataType, Object datasetObj) {
 		String query = null;
-		
+		int insertIndex = Constants.INT_NULL; //maxIdx + 1
 		//create query for each dataset
 		switch(dataType) {
 		case Constants.MSG_TYPE_LANDMARK:
@@ -468,12 +468,12 @@ public class SoapParser {
 			
 			//get maxPstIdx
 			String str = sendQuery("SELECT MAX(pstIdx) FROM tPosting"); 
-    		int maxPstIdx = Integer.parseInt(str);
-			
+    		insertIndex = Integer.parseInt(str) + 1;
+			    		
 			query = "INSERT INTO tPosting (pstIdx,pstTitle,pstParentIdx,pstContents,pstLike,pstDislike" +
 					",pstWriterIdx,pstReadedCount,pstWrittenTime,pstPicturePath)" +
 					" values ('" +
-					(maxPstIdx + 1) + //pstIdx
+					insertIndex + //pstIdx
 					"','" + pst.title + //pstTitle
 					"','" + pst.parentIdx + //pstParentIdx
 					"','"+ pst.contents + //pstContents
@@ -500,7 +500,7 @@ public class SoapParser {
 		//send insert query
 		LogUtil.v(query);
 		String result = sendQuery(query);
-		
-		return result;
+		LogUtil.v("query result: " + result);
+		return insertIndex;
 	}
 }

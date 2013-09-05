@@ -63,5 +63,15 @@ public class PostingDataset extends Object {
 		}
 
 	}
+	public String getImageUrl() {
+		String str = "";
+		if(picturePath!=null) {
+			str += Constants.URL_SERVER_IMAGE_DIR + String.valueOf(Constants.MSG_TYPE_POSTING) + "/" 
+				+ String.valueOf(idx) + "/" + picturePath;
+		} else {
+			str = null;
+		}
+		return str;
+	}
 	
 }

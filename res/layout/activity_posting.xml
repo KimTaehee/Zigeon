@@ -48,6 +48,13 @@
                     android:orientation="vertical" >
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/posting_img_posting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:src="@drawable/ic_auil_empty" />
+
                 <TextView
                     android:id="@+id/posting_tv_contents"
                     android:layout_width="fill_parent"

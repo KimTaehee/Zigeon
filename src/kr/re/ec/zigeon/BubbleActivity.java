@@ -227,9 +227,6 @@ public class BubbleActivity extends Activity {
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
-		LogUtil.v("onCreate: start updateService");
-		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
-
 		//test phrase
 		LogUtil.v("test phrase. select * from tLandmark");
 		soapParser = SoapParser.getInstance();
