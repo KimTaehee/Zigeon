@@ -50,6 +50,10 @@ import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
+<<<<<<< HEAD
+=======
+
+>>>>>>> conflict occured
 public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -150,7 +154,11 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landmark);  
 
+<<<<<<< HEAD
         /************** register handler ***************/
+=======
+		/************** register handler ***************/
+>>>>>>> conflict occured
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
@@ -292,6 +300,10 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		case R.id.image:
 		{
+<<<<<<< HEAD
+=======
+			LogUtil.i("hi i'm here");
+>>>>>>> conflict occured
 			mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
 			mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
 			startActivity(mIntent);
@@ -303,7 +315,12 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 
 	}
+<<<<<<< HEAD
     	
+=======
+
+	@Override
+>>>>>>> conflict occured
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.landmark, menu);
@@ -325,6 +342,10 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		return true;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> conflict occured
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub
