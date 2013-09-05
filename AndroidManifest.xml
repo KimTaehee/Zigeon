@@ -87,6 +87,11 @@
      	</activity>
      	
      	<activity 
+     	    android:name="kr.re.ec.zigeon.TestActivity2">
+     	    
+     	</activity>
+     	
+     	<activity 
      	    android:name="kr.re.ec.zigeon.PreferenceActivity">
      	    
      	</activity>
