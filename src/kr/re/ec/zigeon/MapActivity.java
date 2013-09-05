@@ -28,7 +28,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.model.people.Person.PlacesLived;
 import com.nhn.android.maps.NMapActivity;
 import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapController;
@@ -70,6 +69,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	private LandmarkDataset mLandmarkArr[];
 
 	private UIHandler uiHandler;
+	
 	private Handler messageHandler = new Handler() { //receiver from UpdateService
 		@Override
 		public void handleMessage(Message msg){
@@ -134,12 +134,12 @@ public class MapActivity extends NMapActivity implements OnClickListener
 			}
 		}
 	};
-	
-	
+
+
 	private OnDataProviderListener onDataProviderListener;	
 	private NMapPlacemark nMapPlacemark;
-	
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -190,10 +190,10 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 		//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 
-		
-	    // set data provider listener
-	    super.setMapDataProviderListener(onDataProviderListener);
-	    
+
+		// set data provider listener
+		super.setMapDataProviderListener(onDataProviderListener);
+
 	}
 
 
@@ -318,25 +318,25 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 			break;
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
 
-	    if (errInfo != null) {
-	        LogUtil.v("Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
-	        return;
-	    }
-	   
-	    LogUtil.v("onReverseGeocoderResponse: placeMark=" + placeMark.toString());
-	    Toast.makeText(MapActivity.this,
-	    		"onReverseGeocoderResponse: placeMark=" + placeMark.toString(),
+		if (errInfo != null) {
+			LogUtil.v("Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
+			return;
+		}
+
+		LogUtil.v("onReverseGeocoderResponse: placeMark=" + placeMark.toString());
+		Toast.makeText(MapActivity.this,
+				"onReverseGeocoderResponse: placeMark=" + placeMark.toString(),
 				Toast.LENGTH_LONG).show();
 	}
-		
-	
+
+
 	private NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener = new NMapLocationManager.OnLocationChangeListener() {
 
 		@Override
@@ -344,15 +344,15 @@ public class MapActivity extends NMapActivity implements OnClickListener
 				NGeoPoint myLocation) {
 			findPlacemarkAtLocation(myLocation.getLongitude(), myLocation.getLatitude());
 			//위도경도를 주소로 변환
-			
+
 			onReverseGeocoderResponse(nMapPlacemark, null);
-			
+
 			String strFormat = getResources().getString(R.string.map_address);
 			String strResult = String.format(strFormat, nMapPlacemark.toString());
 
 			TextView text = (TextView) findViewById(R.id.map_txt_address);
 			text.setText(strResult);
-			
+
 			return true;
 		}
 
@@ -375,7 +375,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 					Toast.LENGTH_LONG).show();
 		}
 	};
-	
-	
-	
+
+
+
 }
