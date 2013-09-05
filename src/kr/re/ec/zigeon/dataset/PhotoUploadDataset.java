@@ -1,7 +1,7 @@
 package kr.re.ec.zigeon.dataset;
 
 /**************** Simple Dataset for Image upload *******************/
-public class ImageUploadDataset {
+public class PhotoUploadDataset {
 	public int type;
 	public int idx;
 	public String sourcePath;
@@ -14,9 +14,9 @@ public class ImageUploadDataset {
 	 * @param idx
 	 * idx is each type's idx
 	 * @param sourcePath
-	 * sourcePath ex: storage/sdcard0/hanwoo.jpg (from WriteActivities)
+	 * sourcePath ex: storage/sdcard0/picture/hanwoo.jpg (from WriteActivities)
 	 */
-	public ImageUploadDataset(int _type, int _idx, String _sourcePath) {
+	public PhotoUploadDataset(int _type, int _idx, String _sourcePath) {
 		this.type = _type;
 		this.idx = _idx;
 		this.sourcePath = _sourcePath;
