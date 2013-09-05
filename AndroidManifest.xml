@@ -72,31 +72,14 @@
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fixed conflicts
-
-=======
         <activity
             android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
         </activity>
->>>>>>> scaledimageview applied
         <activity 
             android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
-<<<<<<< HEAD
-            
-=======
-        <activity android:name="kr.re.ec.zigeon.MapActivity" >
-        </activity>
-        <activity android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
->>>>>>> git add   AndroidManifest.xml
-=======
->>>>>>> fixed conflicts
         </activity>
         <activity android:name="kr.re.ec.zigeon.PhotoViewActivity" >
         </activity>

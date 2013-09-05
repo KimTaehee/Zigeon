@@ -218,9 +218,9 @@ public final class R {
         public static final int posting_write_activity_title=0x7f060028;
         public static final int posting_write_edt_contents_hint=0x7f06002b;
         public static final int posting_write_edt_title_hint=0x7f060029;
-        public static final int posting_write_txt_contents=0x7f06002d;
+        public static final int posting_write_txt_contents=0x7f06002c;
         public static final int posting_write_txt_title=0x7f06002a;
-        public static final int title_activity_photo_zoom=0x7f06002c;
+        public static final int title_activity_photo_zoom=0x7f06002d;
         public static final int title_activity_posting=0x7f060016;
     }
     public static final class style {

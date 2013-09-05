@@ -50,19 +50,7 @@ import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
-
-<<<<<<< HEAD
-<<<<<<< HEAD
 public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
-=======
-=======
-//TODO: DO NOT USE deprecated Class 혹은 function
->>>>>>> commited.
-public class LandmarkActivity extends Activity implements OnClickListener {
->>>>>>> commited.
-=======
-public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
->>>>>>> conflict occured
 	private TabHost tabHost;
 	private ListView lstComment;
 	private ListView lstPosting;
@@ -84,16 +72,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-
-	private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
-
-	/******** AUIL init ********/
-	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
-	.showStubImage(R.drawable.ic_auil_stub)	
-	.showImageForEmptyUri(R.drawable.ic_auil_empty)
-	.showImageOnFail(R.drawable.ic_auil_error)
-	.build();
-	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
 
 	private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
 
@@ -166,78 +144,27 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	};
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> conflict occured
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landmark);  
 
-		/************** register handler ***************/
-<<<<<<< HEAD
-=======
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landmark);  
-        
-<<<<<<< HEAD
         /************** register handler ***************/
-=======
-        /************** 핸들러 등록 ***************/
->>>>>>> commited.
->>>>>>> commited.
-=======
->>>>>>> conflict occured
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
 		/****** Data init request *****/
 		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> conflict occured
 		Bundle bundle = this.getIntent().getExtras();
 		mLandmarkDataset = new LandmarkDataset();
 		mLandmarkDataset.idx = bundle.getInt("ldmIdx");
 		//LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
-<<<<<<< HEAD
-=======
-=======
-		//intent수신. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);로 intent를 받음을 상기하라
->>>>>>> commited.
-        Bundle bundle = this.getIntent().getExtras();
-        mLandmarkDataset = new LandmarkDataset();
-        mLandmarkDataset.idx = bundle.getInt("ldmIdx");
-        //LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
->>>>>>> commited.
-
-<<<<<<< HEAD
-		//data request using ldmIdx
-<<<<<<< HEAD
-		soapParser = SoapParser.getInstance(); 
-
-		String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
-=======
-=======
-		//ldbIdx로 내용요청
->>>>>>> commited.
-        soapParser = SoapParser.getInstance(); 
-        
-        String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
->>>>>>> commited.
-=======
 
 		//data request using ldmIdx
 		soapParser = SoapParser.getInstance(); 
 
 		String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
->>>>>>> conflict occured
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
@@ -251,10 +178,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> conflict occured
 
 		/****** UI init *****/
 		tabHost = (TabHost) findViewById(R.id.landmark_tabhost);
@@ -303,82 +226,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	}
 
 	/************** when listview clicked ****************/
-<<<<<<< HEAD
-=======
-        
-<<<<<<< HEAD
-        /****** UI init *****/
-=======
-        /****** UI 초기화 *****/
->>>>>>> commited.
-        tabHost = (TabHost) findViewById(R.id.landmark_tabhost);
-        lstComment = (ListView) findViewById(R.id.landmark_commentlist);
-        lstPosting = (ListView) findViewById(R.id.landmark_postinglist);
-        ibtUploadPhoto = (ImageButton) findViewById(R.id.landmark_camera_button);
-        edtInputComment = (EditText) findViewById(R.id.landmark_edit_input_comment);
-        btnInputComment = (Button) findViewById(R.id.landmark_btn_input_comment);
-        tvName = (TextView) findViewById(R.id.landmark_tv_name);
-        tvContents = (TextView) findViewById(R.id.landmark_tv_contents);
-<<<<<<< HEAD
-        imgLandmarkPicture = (ImageView)findViewById(R.id.image);
-        btnInputComment.setOnClickListener(this);
-        imgLandmarkPicture.setOnClickListener(this);
-        
-        //initial listview string.
-=======
-        btnInputComment.setOnClickListener(this);
-        
-        //초기 listview 문구 지정.
->>>>>>> commited.
-        mCommentArl = new ArrayList<String>();
-        mCommentArl.add("Comments Loading...");
-        mPostingArl = new ArrayList<String>();
-        mPostingArl.add("Postings Loading...");
-        
-<<<<<<< HEAD
-        //warn: no listview, SHOULD input layout
-=======
-        //listview가 아닌 layout이 들어감에 유의
->>>>>>> commited.
-        mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl); 
-        mPostingAdp = new ArrayAdapter<String>(this, R.layout.listview_item_posting , mPostingArl);
-        
-        lstComment.setAdapter(mCommentAdp);
-        //lstComment.setOnItemClickListener(lstCommentItemClickListener);
-<<<<<<< HEAD
-        mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
-        
-        lstPosting.setAdapter(mPostingAdp);
-        lstPosting.setOnItemClickListener(lstPostingItemClickListener);
-        mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
-=======
-        mCommentAdp.setNotifyOnChange(true); //이 옵션이 있으면 ArrayList가 수정될 때 자동으로 반영된다. strArr대신 ArrayList를 써야 하는 이유
-        
-        lstPosting.setAdapter(mPostingAdp);
-        lstPosting.setOnItemClickListener(lstPostingItemClickListener);
-        mPostingAdp.setNotifyOnChange(true); //이 옵션이 있으면 ArrayList가 수정될 때 자동으로 반영된다. strArr대신 ArrayList를 써야 하는 이유
->>>>>>> commited.
-        
-        tabHost.setup(); 
-        
-        TabSpec ts1 = tabHost.newTabSpec("Comment");
-	    ts1.setIndicator("Comment");
-	    ts1.setContent(R.id.landmark_layout_commentlist);
-	    tabHost.addTab(ts1);
-
-	    TabSpec ts2 = tabHost.newTabSpec("Posting");
-	    ts2.setIndicator("Posting");
-	    ts2.setContent(R.id.landmark_postinglist);
-	    tabHost.addTab(ts2);
-
-	    tabHost.setCurrentTab(0);
-    }
-    
-<<<<<<< HEAD
-    /************** when listview clicked ****************/
->>>>>>> commited.
-=======
->>>>>>> conflict occured
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
@@ -397,10 +244,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		super.onDestroy();
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> conflict occured
 	@Override
 	public void onClick(View v) { 
 		switch(v.getId()) {
@@ -449,7 +292,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		case R.id.image:
 		{
-			LogUtil.i("hi i'm here");
 			mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
 			mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
 			startActivity(mIntent);
@@ -461,115 +303,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 
 	}
-
-	@Override
-<<<<<<< HEAD
-=======
-    @Override
-<<<<<<< HEAD
-    public void onClick(View v) { 
-    	switch(v.getId()) {
-    	case R.id.landmark_btn_input_comment:
-    	{
-    		//send 
-    		if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank allowed. force to return
-        		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        		alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-        			@Override
-        			public void onClick(DialogInterface dialog, int which) {
-        				dialog.dismiss();	
-        			}
-        		});
-        		alert.setMessage("BLANK? ^^");
-        		alert.show();
-        		return;
-        	} else {
-        		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); 
-        		int maxComIdx = Integer.parseInt(str);
-        		str = soapParser.sendQuery(
-        				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-        						",comWriterIdx,comWrittenTime,comPicturePath)" +
-        						" values ('" +
-        						(maxComIdx + 1) + //comIdx
-        						"','L','" + //comParentType
-        						mLandmarkDataset.idx + //comParentIdx
-        						"','"+ edtInputComment.getText() + //comContents
-        						"','0','0','" + //comLike, comDislike
-        						"1" + //TODO: temp comWriterIdx
-        						"',GETDATE()," + //comWrittenTime
-        						"NULL" + //TODO: temp comPicturePath 
-        				")");
-        		LogUtil.i("server return : "+str);
-
-        		edtInputComment.setText("");
-
-        		String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
-        		LogUtil.v("data request. " + query);
-        		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-        				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
-        	}
-    		
-    		break;
-        	
-    	}
-    	case R.id.image:
-    	{
-    		LogUtil.i("hi i'm here");
-    		mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
-		mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
-		startActivity(mIntent);
     	
-    		break;
-    	
-    	}
-    	}
-    	
-    	
-=======
-    public void onClick(View v) { //파워댓글 ㅋ
-    	if(edtInputComment.getText().toString().compareTo("") == 0) { //내용없으면 에러띄우고 강제 return
-    		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    		alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-    			@Override
-    			public void onClick(DialogInterface dialog, int which) {
-    				dialog.dismiss();	
-    			}
-    		});
-    		alert.setMessage("내용을 입력해야지? ^^");
-    		alert.show();
-    		return;
-    	} else {
-    		String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //정상작동 확인.
-    		int maxComIdx = Integer.parseInt(str);
-    		str = soapParser.sendQuery(
-    				"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-    						",comWriterIdx,comWrittenTime,comPicturePath)" +
-    						" values ('" +
-    						(maxComIdx + 1) + //comIdx
-    						"','L','" + //comParentType
-    						mLandmarkDataset.idx + //comParentIdx
-    						"','"+ edtInputComment.getText() + //comContents
-    						"','0','0','" + //comLike, comDislike
-    						"1" + //TODO: temp comWriterIdx
-    						"',GETDATE()," + //comWrittenTime
-    						"NULL" + //TODO: temp comPicturePath 
-    				")");
-    		LogUtil.i("server return : "+str);
-
-    		edtInputComment.setText("");
-
-    		String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
-    		LogUtil.v("data request. " + query);
-    		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-    				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
-    	}
->>>>>>> commited.
-    }
-    
-    @Override
->>>>>>> commited.
-=======
->>>>>>> conflict occured
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.landmark, menu);
@@ -591,11 +325,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		return true;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> conflict occured
-
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub
@@ -620,15 +349,4 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		// TODO Auto-generated method stub
 		imgLandmarkPicture.setImageResource(R.drawable.ic_auil_error);
 	}
-<<<<<<< HEAD
 }
-=======
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> commited.
->>>>>>> commited.
-=======
-}
->>>>>>> conflict occured
