@@ -74,9 +74,15 @@
         </activity>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> fixed conflicts
 
+=======
+        <activity
+            android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
+        </activity>
+>>>>>>> scaledimageview applied
         <activity 
             android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
@@ -116,11 +122,6 @@
 
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name="kr.re.ec.zigeon.PhotoZoom"
-            android:label="@string/title_activity_photo_zoom" >
-        </activity>
     </application>
 
 </manifest>
