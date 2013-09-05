@@ -32,6 +32,7 @@ public class BalloonApplication extends Application {
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
 			.writeDebugLogs() // Remove for release app
 			.build();
+		LogUtil.v("image loader init!!!");
 		ImageLoader.getInstance().init(config);
 		
 		//service start: to reduce db connection delay and quick location return
