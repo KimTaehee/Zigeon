@@ -45,11 +45,16 @@
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="posting_write_txt_contents">contents</string>
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
 =======
     <string name="title_activity_photo_zoom">PhotoZoom</string>
     <string name="posting_write_txt_contents">contents</string>    
 >>>>>>> conflict occured
+=======
+    <string name="posting_write_txt_contents">contents</string>
+    <string name="title_activity_photo_zoom">PhotoZoom</string> 
+>>>>>>> conflict solved
 
 </resources>

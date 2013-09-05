@@ -274,4 +274,8 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
         matrix.setValues(value);
         savedMatrix2.set(matrix);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> conflict solved
