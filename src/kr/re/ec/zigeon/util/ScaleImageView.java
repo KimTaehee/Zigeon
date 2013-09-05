@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/kr/re/ec/zigeon/ScaleImageView.java
 package kr.re.ec.zigeon;
+=======
+package kr.re.ec.zigeon.util;
+>>>>>>> origin/KTHWorking:src/kr/re/ec/zigeon/util/ScaleImageView.java
 
 import android.content.Context;
 import android.graphics.Bitmap;

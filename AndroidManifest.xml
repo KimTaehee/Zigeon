@@ -72,16 +72,18 @@
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>
-        <activity
+        <!--  <activity
             android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
-        </activity>
+        </activity> -->
         <activity 
             android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
         </activity>
-        <activity android:name="kr.re.ec.zigeon.PhotoViewActivity" >
+        <activity 
+            android:name="kr.re.ec.zigeon.PhotoViewActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
 
         <service
