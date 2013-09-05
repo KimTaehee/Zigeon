@@ -1,11 +1,6 @@
 /*
-<<<<<<< HEAD
  * author 130816 newcho 
  * modified 130831 KimTaehee (ldmIdx -> PostingWrite)
-=======
- * 130816 조덕주 작성
- * 130819 김태희 수정
->>>>>>> commited.
  * 
  */
 
@@ -32,14 +27,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
-<<<<<<< HEAD
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-=======
->>>>>>> commited.
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
@@ -51,18 +43,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-<<<<<<< HEAD
 import android.widget.ImageView;
-=======
->>>>>>> commited.
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
-<<<<<<< HEAD
 //TODO: DO NOT USE deprecated Class or function
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
 =======
@@ -71,6 +60,9 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 >>>>>>> commited.
 public class LandmarkActivity extends Activity implements OnClickListener {
 >>>>>>> commited.
+=======
+public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
+>>>>>>> conflict occured
 	private TabHost tabHost;
 	private ListView lstComment;
 	private ListView lstPosting;
@@ -79,18 +71,11 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private Button btnInputComment;
 	private TextView tvName;
 	private TextView tvContents;
-<<<<<<< HEAD
 	private ImageView imgLandmarkPicture;
 	private ArrayList<String> mCommentArl;		//to set listview 
 	private ArrayList<String> mPostingArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
 	private ArrayAdapter<String> mPostingAdp;		//to set listview 
-=======
-	private ArrayList<String> mCommentArl;		//listview 세팅용	
-	private ArrayList<String> mPostingArl;		//listview 세팅용
-	private ArrayAdapter<String> mCommentAdp;		//listview 세팅용
-	private ArrayAdapter<String> mPostingAdp;		//listview 세팅용
->>>>>>> commited.
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
@@ -99,7 +84,16 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-<<<<<<< HEAD
+
+	private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
+
+	/******** AUIL init ********/
+	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
+	.showStubImage(R.drawable.ic_auil_stub)	
+	.showImageForEmptyUri(R.drawable.ic_auil_empty)
+	.showImageOnFail(R.drawable.ic_auil_error)
+	.build();
+	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
 
 	private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
 
@@ -112,26 +106,16 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
 
 	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
-=======
-	private Handler messageHandler = new Handler() { //UpdateService로부터의 수신부! 중요함
->>>>>>> commited.
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
 			case Constants.MSG_TYPE_LANDMARK:
 			{
-<<<<<<< HEAD
 				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //selected by PK. so Arr.length==1
 				mLandmarkDataset = landmarkDataArr[0];
 
 				/******************** print info *******************/
-=======
-				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //PK로 검색하므로 Arr.length==1이다. 
-				mLandmarkDataset = landmarkDataArr[0];
-
-				/******************** info 출력 *******************/
->>>>>>> commited.
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
 				LogUtil.v("image load start! uri: " + sampleImgUri);
@@ -143,11 +127,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				mPostingArr =(PostingDataset[]) msg.obj;
 
-<<<<<<< HEAD
 				/************ Posting to listview ************/
-=======
-				/************ Posting을 listview에 반영한다 ************/
->>>>>>> commited.
 				mPostingArl.clear();
 
 				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
@@ -162,13 +142,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
 
-<<<<<<< HEAD
 
 				/************ Comment to listview ************/
 
-=======
-				/************ Comment를 listview에 반영한다 ************/
->>>>>>> commited.
 				mCommentArl.clear();
 
 				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
@@ -191,6 +167,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict occured
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -198,6 +177,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_landmark);  
 
 		/************** register handler ***************/
+<<<<<<< HEAD
 =======
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -211,17 +191,22 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         /************** 핸들러 등록 ***************/
 >>>>>>> commited.
 >>>>>>> commited.
+=======
+>>>>>>> conflict occured
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
 		/****** Data init request *****/
-<<<<<<< HEAD
 		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict occured
 		Bundle bundle = this.getIntent().getExtras();
 		mLandmarkDataset = new LandmarkDataset();
 		mLandmarkDataset.idx = bundle.getInt("ldmIdx");
 		//LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
+<<<<<<< HEAD
 =======
 =======
 		//intent수신. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx);로 intent를 받음을 상기하라
@@ -246,6 +231,13 @@ public class LandmarkActivity extends Activity implements OnClickListener {
         
         String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
 >>>>>>> commited.
+=======
+
+		//data request using ldmIdx
+		soapParser = SoapParser.getInstance(); 
+
+		String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
+>>>>>>> conflict occured
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
@@ -260,6 +252,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict occured
 
 		/****** UI init *****/
 		tabHost = (TabHost) findViewById(R.id.landmark_tabhost);
@@ -308,6 +303,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	}
 
 	/************** when listview clicked ****************/
+<<<<<<< HEAD
 =======
         
 <<<<<<< HEAD
@@ -381,21 +377,14 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 <<<<<<< HEAD
     /************** when listview clicked ****************/
 >>>>>>> commited.
+=======
+>>>>>>> conflict occured
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
 			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
 			//TODO: MUST BE mPostingArr == Listview. (test phrase)
-=======
-    /************** 리스트뷰 클릭시 ****************/
-	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position은 몇 번째 것을 눌렀는지. 0~n
-			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
-			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
-			//TODO: mPostingArr와 Listview에 올라간 사항의 일치를 보장시켜야 한다. 아직 확인되지 않음.
->>>>>>> commited.
 
 			mIntent = new Intent(LandmarkActivity.this, PostingActivity.class);
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
@@ -409,6 +398,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict occured
 	@Override
 	public void onClick(View v) { 
 		switch(v.getId()) {
@@ -471,6 +463,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+<<<<<<< HEAD
 =======
     @Override
 <<<<<<< HEAD
@@ -575,6 +568,8 @@ public class LandmarkActivity extends Activity implements OnClickListener {
     
     @Override
 >>>>>>> commited.
+=======
+>>>>>>> conflict occured
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.landmark, menu);
@@ -586,13 +581,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		case R.id.landmark_action_posting_write:
 		{
 			LogUtil.v("action_posting_write clicked");
-<<<<<<< HEAD
 
 			mIntent = new Intent(this, PostingWriteActivity.class);
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
-=======
-			mIntent = new Intent(this, PostingWriteActivity.class);
->>>>>>> commited.
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
@@ -601,6 +592,9 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		return true;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict occured
 
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
@@ -626,6 +620,7 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		imgLandmarkPicture.setImageResource(R.drawable.ic_auil_error);
 	}
+<<<<<<< HEAD
 }
 =======
 <<<<<<< HEAD
@@ -634,3 +629,6 @@ public class LandmarkActivity extends Activity implements OnClickListener {
 }
 >>>>>>> commited.
 >>>>>>> commited.
+=======
+}
+>>>>>>> conflict occured
