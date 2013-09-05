@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 package kr.re.ec.zigeon;
 
 import android.content.Context;
@@ -286,6 +287,8 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
 =======
 =======
 >>>>>>> commited.
+=======
+>>>>>>> conflict solved
 package kr.re.ec.zigeon;
 
 import android.content.Context;
@@ -564,6 +567,9 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> no hangul updated
 =======
 >>>>>>> commited.
+=======
+>>>>>>> conflict solved

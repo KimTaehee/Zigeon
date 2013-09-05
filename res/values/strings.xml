@@ -62,6 +62,7 @@
     <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conqueror!</string>
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
+<<<<<<< HEAD
 <<<<<<< HEAD:res/values/strings.xml
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -104,6 +105,10 @@
     <string name="posting_write_edt_contents_hint"></string>
     <string name="posting_write_txt_contents">내용</string>
     
+=======
+    <string name="posting_write_txt_contents">contents</string>
+    <string name="title_activity_photo_zoom">PhotoZoom</string> 
+>>>>>>> conflict solved
 
 </resources>
 >>>>>>> commited.
