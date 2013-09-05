@@ -92,19 +92,19 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
     }
  
     /**
-     * 이미지 핏
+     * image fit
      */
     public void setImagePit(){
  
-        // 매트릭스 값
+        // value of matrix
         float[] value = new float[9];
         this.matrix.getValues(value);
  
-        // 뷰 크기
+        // size of view
         int width = this.getWidth();
         int height = this.getHeight();
  
-        // 이미지 크기
+        // size of image
         Drawable d = this.getDrawable();
         if (d == null)  return;
        int imageWidth = d.getIntrinsicWidth();
@@ -112,8 +112,7 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
         int scaleWidth = (int) (imageWidth * value[0]);
         int scaleHeight = (int) (imageHeight * value[4]);
  
-       // 이미지가 바깥으로 나가지 않도록.
- 
+       // image cannot move outside
         value[2] = 0;
         value[5] = 0;
  
@@ -131,7 +130,7 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
             if (scaleHeight > height) value[0] = value[4] = (float)height / imageHeight;
         }
  
-        // 그리고 가운데 위치하도록 한다.
+        // and locate at center
         scaleWidth = (int) (imageWidth * value[0]);
         scaleHeight = (int) (imageHeight * value[4]);
         if (scaleWidth < width){
@@ -186,7 +185,7 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
            break;
         }
  
-        // 매트릭스 값 튜닝.
+        // matrix value turning
         matrixTurning(matrix, view);
  
         view.setImageMatrix(matrix);
@@ -207,17 +206,17 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
     }
  
     private void matrixTurning(Matrix matrix, ImageView view){
-        // 매트릭스 값
+        // value of matrix
         float[] value = new float[9];
         matrix.getValues(value);
         float[] savedValue = new float[9];
         savedMatrix2.getValues(savedValue);
  
-        // 뷰 크기
+        // size of view
         int width = view.getWidth();
         int height = view.getHeight();
  
-        // 이미지 크기
+        // size of image
         Drawable d = view.getDrawable();
         if (d == null)  return;
         int imageWidth = d.getIntrinsicWidth();
@@ -225,13 +224,13 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
         int scaleWidth = (int) (imageWidth * value[0]);
         int scaleHeight = (int) (imageHeight * value[4]);
  
-        // 이미지가 바깥으로 나가지 않도록.
+        // image cannot move outside
         if (value[2] < width - scaleWidth)   value[2] = width - scaleWidth;
         if (value[5] < height - scaleHeight)   value[5] = height - scaleHeight;
         if (value[2] > 0)   value[2] = 0;
         if (value[5] > 0)   value[5] = 0;
  
-        // 10배 이상 확대 하지 않도록
+        // max scale is X10
         if (value[0] > 10 || value[4] > 10){
             value[0] = savedValue[0];
             value[4] = savedValue[4];
@@ -239,7 +238,7 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
             value[5] = savedValue[5];
         }
  
-        // 화면보다 작게 축소 하지 않도록
+        // cannot zoom out less than screen size
         if (imageWidth > width || imageHeight > height){
             if (scaleWidth < width && scaleHeight < height){
                 int target = WIDTH;
@@ -256,13 +255,13 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
             }
         }
  
-        // 원래부터 작은 얘들은 본래 크기보다 작게 하지 않도록
+        // if image is small originally, cannot zoom out less than origin size
         else{
             if (value[0] < 1)   value[0] = 1;
             if (value[4] < 1)   value[4] = 1;
         }
  
-        // 그리고 가운데 위치하도록 한다.
+        // and locate center
         scaleWidth = (int) (imageWidth * value[0]);
         scaleHeight = (int) (imageHeight * value[4]);
         if (scaleWidth < width){
@@ -276,8 +275,3 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
         savedMatrix2.set(matrix);
     }
 }
-
-
-
-
-
