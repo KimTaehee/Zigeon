@@ -67,6 +67,8 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 	private SoapParser soapParser;
 	private LandmarkDataset mLandmarkArr[];
+	
+	private NGeoPoint mMapCenter;
 
 	private UIHandler uiHandler;
 	
@@ -182,7 +184,11 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		} else {
 			LogUtil.e("LocationManager is null!");
 		} 
-
+		
+		/************ mapcenter init ************/
+		
+		mMapCenter = mMapController.getMapCenter();
+		LogUtil.v("mMapCenter: lat: " + mMapCenter.latitude + ", lon: " + mMapCenter.longitude);
 
 		/************ data request ***********/
 		soapParser = SoapParser.getInstance(); 
@@ -190,7 +196,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 		//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 
-
+		
 		// set data provider listener
 		super.setMapDataProviderListener(onDataProviderListener);
 
@@ -219,7 +225,8 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	@Override
 	public void onMapCenterChange(NMapView arg0, NGeoPoint arg1) {
 		// TODO Auto-generated method stub
-
+		LogUtil.v("onMapCenterChange invoked!!!!! oh yeah\nlat: " + arg1.latitude + ", lon: " + arg1.longitude);
+		
 	}
 
 
@@ -343,7 +350,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		public boolean onLocationChanged(NMapLocationManager locationManager,
 				NGeoPoint myLocation) {
 			findPlacemarkAtLocation(myLocation.getLongitude(), myLocation.getLatitude());
-			//위도경도를 주소로 변환
+			//lat,lon -> address
 
 			onReverseGeocoderResponse(nMapPlacemark, null);
 
