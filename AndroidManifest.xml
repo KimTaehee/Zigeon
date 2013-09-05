@@ -90,16 +90,20 @@
             </intent-filter>
      	</activity>
 <<<<<<< HEAD
+<<<<<<< HEAD
      	
      	<activity 
      	    android:name="kr.re.ec.zigeon.TestActivity2">
      	    
      	</activity>
+=======
+>>>>>>> preference data load test OK
      	
      	<activity 
      	    android:name="kr.re.ec.zigeon.PreferenceActivity">
      	    
      	</activity>
+<<<<<<< HEAD
         
      	<activity 
      	    android:name="kr.re.ec.zigeon.Preferences">
@@ -108,6 +112,13 @@
 =======
         
 >>>>>>> test... why not? SSANG
+=======
+        
+     	<activity 
+     	    android:name="kr.re.ec.zigeon.Preferences">
+     	    
+     	</activity>
+>>>>>>> preference data load test OK
         <service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
