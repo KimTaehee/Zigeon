@@ -47,6 +47,7 @@ public class BalloonApplication extends Application {
 			.memoryCache(new WeakMemoryCache())
 			.defaultDisplayImageOptions(defaultOptions)
 			.build();
+		LogUtil.v("image loader init!!!");
 		ImageLoader.getInstance().init(config);
 		
 		//service start: to reduce db connection delay and quick location return
