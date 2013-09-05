@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/landmark_write_action_write" 
+        android:orderInCategory="1" 
+        android:title="@string/landmark_write_action_write"
+        android:showAsAction="ifRoom|withText" >
+	</item>
+    
+    <item
+        android:id="@+id/action_settings_landmark"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings">
+    </item>
+
+</menu>
