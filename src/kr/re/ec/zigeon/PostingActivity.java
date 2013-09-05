@@ -163,6 +163,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		btnInputComment.setOnClickListener(this);
 		edtInputComment = (EditText) findViewById(R.id.posting_edit_input_comment);
 		imgPosting = (ImageView) findViewById(R.id.posting_img_posting);
+		imgPosting.setOnClickListener(this);
 		
 		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
 		ibtUploadPhoto.setOnClickListener(this);
@@ -227,7 +228,21 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			}
 			break;
 		}
+		
+		case R.id.posting_img_posting:
+		{
+			if(mPostingDataset.getImageUrl()!=null) {
+				Intent intent = new Intent(PostingActivity.this, PhotoViewActivity.class);
+				intent.putExtra("imgPath", mPostingDataset.getImageUrl());
+				startActivity(intent);
+			} else {
+				LogUtil.w("imgPath is null. cancel calling");
+			}
+			
 
+			break;
+
+		}
 		case R.id.posting_camera_button:
 		{
 			//startActivity(new Intent(this,PhotoUploadActivity.class));

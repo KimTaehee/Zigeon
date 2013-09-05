@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <kr.re.ec.zigeon.ScaleImageView
+    <kr.re.ec.zigeon.util.ScaleImageView
         android:id="@+id/photo_view_image"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

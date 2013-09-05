@@ -292,9 +292,13 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		case R.id.image:
 		{
-			mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
-			mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
-			startActivity(mIntent);
+			if(mLandmarkDataset.getImageUrl()!=null) {
+				mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
+				mIntent.putExtra("imgPath", mLandmarkDataset.getImageUrl());
+				startActivity(mIntent);
+			} else {
+				LogUtil.w("imgPath is null. cancel calling");
+			}
 
 			break;
 

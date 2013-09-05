@@ -1,4 +1,4 @@
-package kr.re.ec.zigeon;
+package kr.re.ec.zigeon.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
