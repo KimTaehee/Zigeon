@@ -5,16 +5,20 @@
 
 package kr.re.ec.zigeon;
 
+import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 public class PhotoViewActivity extends Activity {
 
@@ -37,9 +41,18 @@ public class PhotoViewActivity extends Activity {
 		BitmapFactory.Options bfo = new BitmapFactory.Options();
 		bfo.inSampleSize = 2;
 		ImageView iv = (ImageView)findViewById(R.id.photo_view_image);
+		
 		Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
-
-		//Bitmap resized = Bitmap.createScaledBitmap(bm, imgWidth, imgHeight, true);
+		
+		/** calc and resize image to fit screen **/
+		Point displaySize = new Point();
+		getWindowManager().getDefaultDisplay().getSize(displaySize);
+		int scaledY = displaySize.x * bm.getHeight() / bm.getWidth(); //calc height
+		
+		LogUtil.v("display w, h, scaledY: " + displaySize.x + ", " + displaySize.y + ", " + scaledY);
+		
+		bm = Bitmap.createScaledBitmap(bm, displaySize.x, scaledY, true);
+		
 		iv.setImageBitmap(bm);	
 	}
 }
