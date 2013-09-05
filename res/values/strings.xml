@@ -84,6 +84,7 @@
 >>>>>>> fixed conflicts
 =======
     <string name="posting_write_txt_contents">contents</string>
+<<<<<<< HEAD
     <string name="map_address">%s</string>    
 >>>>>>> address textview working ing ing ing:res/values/string.xml
 
@@ -107,6 +108,11 @@
     
 =======
     <string name="posting_write_txt_contents">contents</string>
+    <string name="title_activity_photo_zoom">PhotoZoom</string> 
+>>>>>>> conflict solved
+=======
+    <string name="map_address">ya</string>
+    <string name="landmark_write_action_write">write</string>    
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
 >>>>>>> conflict solved
 
