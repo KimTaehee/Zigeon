@@ -22,6 +22,8 @@ public class BalloonApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		
 		LogUtil.i("\n======================== Start of App =========================");
 		LogUtil.v("WOW! onCreated invoked. let's init AUIL! and updateService!");
 		

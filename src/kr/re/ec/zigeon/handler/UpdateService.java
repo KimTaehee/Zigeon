@@ -96,11 +96,12 @@ public class UpdateService extends Service implements Runnable{
 			LogUtil.v("creating new thread");
 			mThread = new Thread(this);
 			threadLoop=true;
-			mThread.start();
-			
-			am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //what is current Activity?
 			
 			soapParser = SoapParser.getInstance(); //singleton
+			am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //what is current Activity?
+			
+			mThread.start();
+			
 		}
 	}
 	
@@ -147,7 +148,7 @@ public class UpdateService extends Service implements Runnable{
 				if(mLocation != null) {
 					LogUtil.i("myLocation searching OK: Lat: " + mLocation.getLatitude() + ", Log: " + mLocation.getLongitude());
 				} else {
-					LogUtil.e("Location is null!");
+					LogUtil.i("Location is null!");
 				}
 				
 				Thread.sleep(THREAD_INTERVAL_MS);

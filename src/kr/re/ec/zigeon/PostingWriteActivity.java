@@ -11,6 +11,7 @@ package kr.re.ec.zigeon;
 
 import java.io.File;
 
+import kr.re.ec.zigeon.dataset.ImageUploadDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
@@ -111,13 +112,17 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 			if(selectedImagePath==null) { 
 				pst.picturePath = null;
 			} else {
-				pst.picturePath = selectedImagePath;
+				//save only filename(not dir. ex: gootmorning.jpg)
+				pst.picturePath = selectedImagePath.substring(selectedImagePath.lastIndexOf("/")+1);
+				LogUtil.v("pst.picturePath: " + pst.picturePath);
 			}
 			LogUtil.v("data input to pst success");
 
 
-			soapParser.insertDatasetUsingQuery(Constants.MSG_TYPE_POSTING, pst);
+			pst.idx = soapParser.insertDatasetUsingQuery(Constants.MSG_TYPE_POSTING, pst);
 
+			//upload photo
+			new PhotoUploader().execute(new ImageUploadDataset(Constants.MSG_TYPE_POSTING,pst.idx,selectedImagePath));
 			//TODO: PhotoUploader
 
 			break;
