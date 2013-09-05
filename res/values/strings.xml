@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
     <string name="app_name">Balloon</string>
     <string name="bubble_activity_title">Balloon</string>
     <string name="action_settings">Settings</string>
@@ -9,6 +8,7 @@
     <string name="bubble_tvGPSTest">GPS temp</string>
     <string name="bubble_tvLandmarkTest">Landmark info. temp</string>
     <string name="bubble_tvPostingTest">Posting info temp</string>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <string name="best_list_activity_title">MapListActivity</string>
 =======
@@ -23,21 +23,18 @@
     <string name="bubble_tvLandmarkTest">Landmark 정보를 임시로 출력할거야</string>
     <string name="bubble_tvPostingTest">Posting 정보를 임시로 출력할거야</string>
 >>>>>>> commited.
+=======
+>>>>>>> conflict occured
     <string name="map_list_activity_title">MapListActivity</string>
 >>>>>>> commited.
     <string name="map_list_activity_title_section1">Landmarks</string>
     <string name="map_list_activity_title_section2">Postings</string>
     <string name="landmark_activity_title">LandmarkActivity</string>
-<<<<<<< HEAD
     <string name="landmark_comment_default_message">input bitch</string>
-=======
-    <string name="landmark_comment_default_message">글을 써라 자시가</string>
->>>>>>> commited.
     <string name="login_activity_title">LoginActivity</string>
     <string name="join_activity_title">JoinActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="bubble_action_map_list">MapList</string>
-<<<<<<< HEAD
     <string name="map_location">my location</string>
     <string name="map_list_action_bubble">Bubble</string>
     <string name="map_list_str_done">done</string>
@@ -51,20 +48,10 @@
     <string name="landmark_write_edt_title_hint">no hint!</string>
     <string name="landmark_write_txt_contents">contents</string>
     <string name="landmark_write_edt_contents_hint"></string>    
-=======
-    <string name="map_list_action_bubble">Bubble</string>
-    <string name="map_list_str_done">다됐다</string>
-    <string name="edit_message">글을 써라 자시가</string>
-    <string name="title_activity_posting">PostingActivity</string>
-    <string name="landmark_tv_name">제제제제모모모목</string>
-    <string name="landmark_tv_contents">내내내ㅐ내내내내내ㅐ내내ㅐ요요요요ㅛ요요요ㅛ요요ㅛ요요요용</string>
-    <string name="landmark_action_posting_write">Write Posting</string>
->>>>>>> commited.
     <string name="login_id">ID</string>
     <string name="login_password">password</string>
     <string name="login_nickname">nickname</string>
     <string name="login_button">Login</string>
-<<<<<<< HEAD
     <string name="Join">join us</string>
     <string name="Facebook_button">Facebook</string>
     <string name="cancle">cancle</string>
@@ -99,6 +86,7 @@
     <string name="map_address">%s</string>    
 >>>>>>> address textview working ing ing ing:res/values/string.xml
 
+<<<<<<< HEAD
 </resources>
 <<<<<<< HEAD
 >>>>>>> git add   AndroidManifest.xml
@@ -120,3 +108,6 @@
 </resources>
 >>>>>>> commited.
 >>>>>>> commited.
+=======
+</resources>
+>>>>>>> conflict occured
