@@ -1,5 +1,5 @@
 /*
- * Landmark Dataset
+ * LandmarkDataset
  * 130816 Kim Taehee
  * slhyvaa@nate.com
  */
@@ -37,54 +37,83 @@ public class LandmarkDataset extends Object {
 		setDataset(strArr);
 	}
 	
-	public void setDataset(String[] strArr) {
-		if(strArr.length == LANDMARK_FIELD_COUNT){
-			idx = Integer.parseInt(strArr[0]);
-			name = strArr[1];
-			latitude = Double.parseDouble(strArr[2]);
-			longitude = Double.parseDouble(strArr[3]);
-			contents = strArr[4];
-			like = Integer.parseInt(strArr[5]);
-			dislike = Integer.parseInt(strArr[6]);
-			writerIdx = Integer.parseInt(strArr[7]);
-			readedCount = Integer.parseInt(strArr[8]);
-			writtenTime = new Date(); //TODO: 임시로 현재 시간 반영.
-			if (strArr[10]!=null) { //NumberFormatException 피하기 위함
-				undoIdx = Integer.parseInt(strArr[10]);
+	/**
+	 * 
+	 * @param strArr: MUST have format of each Dataset. from class Constants.
+	 * @return errCode. from class Constants.
+	 */
+	public int setDataset(String[] strArr) {
+		try {
+			if(strArr.length == LANDMARK_FIELD_COUNT){
+				idx = Integer.parseInt(strArr[0]);
+				name = strArr[1];
+				latitude = Double.parseDouble(strArr[2]);
+				longitude = Double.parseDouble(strArr[3]);
+				contents = strArr[4];
+				like = Integer.parseInt(strArr[5]);
+				dislike = Integer.parseInt(strArr[6]);
+				writerIdx = Integer.parseInt(strArr[7]);
+				readedCount = Integer.parseInt(strArr[8]);
+				writtenTime = new Date(); //TODO: temp. return now.
+				if (strArr[10]!=null) { //for avoid NumberFormatException
+					undoIdx = Integer.parseInt(strArr[10]);
+				} else {
+					//LogUtil.v("convert null to int DB_NULL");
+					undoIdx = Constants.INT_NULL;
+				}
+				picturePath = strArr[11];
+				return 0;
 			} else {
-				//LogUtil.v("convert null to int DB_NULL");
-				undoIdx = Constants.INT_NULL;
+				LogUtil.e("wrong data input");
+				return Constants.ERR_DATASET_MISMATCHED;
 			}
-			picturePath = strArr[11];
-		} else {
-			LogUtil.e("wrong data input");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Constants.ERR_DATASET_MISMATCHED;
 		}
+		
 	}
 	
 	/*********** 
-	 * NGeoPoint나 double latitude위도, double longitude경도를 입력받아
-	 * 현재 LandmarkDataset과의 거리를 double(meter)로 반환한다.
-	 * 130818 function check done.
-	 *  ***********/
+	 * @param NGeoPoint  
+	 * @return meter between current LandmarkDataset and NGeoPoint
+	 * 
+	 */
 	public double getDistance(NGeoPoint gp) {
-		if (this.latitude==0.0 || this.longitude==0.0 || gp==null) { //this나 gp가 세팅되지 않은 상태라면
+		if (this.latitude==0.0 || this.longitude==0.0 || gp==null) { //if this has no latlog
 			LogUtil.e("this.latlog or gp wasn't set. return dbl_null");
 			return Constants.DOUBLE_NULL;
 		} else {
-			//NGeoPoint constructor인자는 lon, lat 순서임에 유의하라!
+			//WARN: NGeoPoint constructor is (lon, lat)! not (lat, lon)
 			return NGeoPoint.getDistance(gp, new NGeoPoint(this.longitude, this.latitude)); 
 		}
 	}
 	
-	/***** 위도latitude, 경도longitude ****/
+	/**
+	 * @param double latitude(WiDo), double longitude(GyeongDo)
+	 * @return meter between current LandmarkDataset and latlog
+	 */
 	public double getDistance(double _latitude, double _longitude) {
-		if (this.latitude==0.0 || this.longitude==0.0) { //this가 세팅되지 않은 상태라면
+		if (this.latitude==0.0 || this.longitude==0.0) { //if this has no latlog
 			LogUtil.e("this.latlog didn't set. return dbl_null");
 			return Constants.DOUBLE_NULL;
 		} else {
-			//NGeoPoint constructor인자는 lon, lat 순서임에 유의하라!
+			//WARN: NGeoPoint constructor is (lon, lat)! not (lat, lon)
 			return NGeoPoint.getDistance(new NGeoPoint(_longitude, _latitude)
 				, new NGeoPoint(this.longitude, this.latitude)); 
 		}
 	}
+	
+	public String getImageUrl() {
+		String str = "";
+		if(picturePath!=null) {
+			str += Constants.URL_SERVER_IMAGE_DIR + String.valueOf(Constants.MSG_TYPE_LANDMARK) + "/" 
+				+ String.valueOf(idx) + "/" + picturePath;
+		} else {
+			str = null;
+		}
+		return str;
+	}
+	
 }

@@ -12,17 +12,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-
     <permission
         android:name="kr.re.ec.zigeon.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-
     <uses-permission android:name="kr.re.ec.zigeon.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
     <application
+        android:name=".BalloonApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -41,7 +41,8 @@
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LoginActivity"
-            android:label="@string/login_activity_title" >
+            android:label="@string/login_activity_title" 
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.RegisterActivity"
@@ -71,24 +72,25 @@
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
             android:label="@string/title_activity_posting" >
         </activity>
-
+        <!--  <activity
+            android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
+        </activity> -->
         <activity 
             android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
-            
         </activity>
-
-        <activity
-            android:name="kr.re.ec.zigeon.PhotoViewActivity" >
+        <activity 
+            android:name="kr.re.ec.zigeon.PhotoViewActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
 
         <service
-            android:name=".handler.UpdateService"
+            android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
         </service>
-        <service android:name=".GCMIntentService" >
+        <service android:name="kr.re.ec.zigeon.GCMIntentService" >
 
             <!-- DO NOT MODIFY SERVICE NAME -->
         </service>

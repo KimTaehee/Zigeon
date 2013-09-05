@@ -41,11 +41,15 @@
     <string name="intro_activity_title">Balloon</string>
     <string name="posting_write_action_write">write</string>
     <string name="posting_write_activity_title">WRITE POSTING</string>
-    <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conquerer!</string>
+    <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conqueror!</string>
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
     <string name="posting_write_txt_contents">contents</string>
+<<<<<<< HEAD:res/values/string.xml
     <string name="map_address">%1$s</string>
     <string name="landmark_write_action_write">write</string>    
+=======
+    <string name="title_activity_photo_zoom">PhotoZoom</string> 
+>>>>>>> baad2b0134dd884a590e9fb85b52f96e06d6a158:res/values/strings.xml
 
 </resources>

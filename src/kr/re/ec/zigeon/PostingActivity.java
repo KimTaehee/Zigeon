@@ -8,15 +8,21 @@ package kr.re.ec.zigeon;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
-import kr.re.ec.zigeon.util.PhotoUpload;
+import kr.re.ec.zigeon.util.PhotoUploader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +33,7 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,11 +42,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class PostingActivity extends Activity implements OnClickListener {
+public class PostingActivity extends Activity implements OnClickListener, ImageLoadingListener {
 
 	private TextView tvTitle;
 	private TextView tvWrittenTime;
@@ -51,6 +59,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private ImageButton ibtUploadPhoto;
 	private EditText edtInputComment;
 	private Button btnInputComment;
+	private ImageView imgPosting;
 
 	private ArrayList<String> mCommentArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
@@ -59,6 +68,15 @@ public class PostingActivity extends Activity implements OnClickListener {
 	private CommentDataset mCommentArr[];
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
+	
+	/******** AUIL init ********/
+	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
+	.showStubImage(R.drawable.ic_auil_stub)	
+	.showImageForEmptyUri(R.drawable.ic_auil_empty)
+	.showImageOnFail(R.drawable.ic_auil_error)
+	.build();
+	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
+	
 	private Handler messageHandler = new Handler() { //recieving to UpdateService
 		@Override
 		public void handleMessage(Message msg){
@@ -77,6 +95,8 @@ public class PostingActivity extends Activity implements OnClickListener {
 				tvContents.setText(mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 //				tvLike.setText(mPostingDataset.like);
 //				tvDislike.setText(mPostingDataset.dislike);
+				LogUtil.v("image load start! uri: " + mPostingDataset.getImageUrl());
+				imgLoader.loadImage(mPostingDataset.getImageUrl(), PostingActivity.this); //load landmark image
 
 				break;
 			}
@@ -142,7 +162,9 @@ public class PostingActivity extends Activity implements OnClickListener {
 		btnInputComment = (Button) findViewById(R.id.posting_btn_input_comment);
 		btnInputComment.setOnClickListener(this);
 		edtInputComment = (EditText) findViewById(R.id.posting_edit_input_comment);
-
+		imgPosting = (ImageView) findViewById(R.id.posting_img_posting);
+		imgPosting.setOnClickListener(this);
+		
 		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
 		ibtUploadPhoto.setOnClickListener(this);
 
@@ -173,15 +195,7 @@ public class PostingActivity extends Activity implements OnClickListener {
 		case R.id.posting_btn_input_comment:
 		{
 			if(edtInputComment.getText().toString().compareTo("") == 0) { //if blank, force to return and alert.
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("Blank Comment? ^^");
-				alert.show();
+				new AlertManager(this,"Blank Comment? ^^","Confirm");
 				return;
 			} else {
 				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //+1 idx insertion.
@@ -214,7 +228,21 @@ public class PostingActivity extends Activity implements OnClickListener {
 			}
 			break;
 		}
+		
+		case R.id.posting_img_posting:
+		{
+			if(mPostingDataset.getImageUrl()!=null) {
+				Intent intent = new Intent(PostingActivity.this, PhotoViewActivity.class);
+				intent.putExtra("imgPath", mPostingDataset.getImageUrl());
+				startActivity(intent);
+			} else {
+				LogUtil.w("imgPath is null. cancel calling");
+			}
+			
 
+			break;
+
+		}
 		case R.id.posting_camera_button:
 		{
 			//startActivity(new Intent(this,PhotoUploadActivity.class));
@@ -222,5 +250,30 @@ public class PostingActivity extends Activity implements OnClickListener {
 		}
 		}
 
+	}
+
+	@Override
+	public void onLoadingStarted(String arg0, View arg1) {
+		// TODO Auto-generated method stub
+		imgPosting.setImageResource(R.drawable.ic_auil_stub);
+	}
+
+	@Override
+	public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+		// TODO Auto-generated method stub
+		imgPosting.setImageResource(R.drawable.ic_auil_error);
+	}
+
+	@Override
+	public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+		// TODO Auto-generated method stub
+		LogUtil.v("Image onLoadingComplete!");
+		imgPosting.setImageBitmap(arg2);
+	}
+
+	@Override
+	public void onLoadingCancelled(String arg0, View arg1) {
+		// TODO Auto-generated method stub
+		imgPosting.setImageResource(R.drawable.ic_auil_error);
 	}
 }
