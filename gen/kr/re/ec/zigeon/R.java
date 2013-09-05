@@ -220,7 +220,11 @@ public final class R {
         public static final int posting_write_edt_title_hint=0x7f060029;
         public static final int posting_write_txt_contents=0x7f06002d;
         public static final int posting_write_txt_title=0x7f06002a;
+<<<<<<< HEAD
         public static final int title_activity_photo_zoom=0x7f06002c;
+=======
+        public static final int title_activity_photo_zoom=0x7f06002d;
+>>>>>>> origin/KTHWorking
         public static final int title_activity_posting=0x7f060016;
     }
     public static final class style {

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/KTHWorking
 package kr.re.ec.zigeon;
 
 import android.content.Context;
@@ -274,4 +278,8 @@ public class ScaleImageView extends ImageView implements OnTouchListener{
         matrix.setValues(value);
         savedMatrix2.set(matrix);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/KTHWorking

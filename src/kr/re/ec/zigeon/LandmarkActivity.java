@@ -50,7 +50,6 @@ import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
-
 public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -151,7 +150,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landmark);  
 
-		/************** register handler ***************/
+        /************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
@@ -293,7 +292,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		case R.id.image:
 		{
-			LogUtil.i("hi i'm here");
 			mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
 			mIntent.putExtra("imgPath","/sdcard/Download/kang.jpg");
 			startActivity(mIntent);
@@ -305,8 +303,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 
 	}
-
-	@Override
+    	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.landmark, menu);
@@ -328,7 +325,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		}
 		return true;
 	}
-
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub
