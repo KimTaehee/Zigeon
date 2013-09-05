@@ -85,7 +85,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
      	</activity>
+     	
+     	<activity 
+     	    android:name="kr.re.ec.zigeon.PreferenceActivity">
+     	    
+     	</activity>
         
+     	<activity 
+     	    android:name="kr.re.ec.zigeon.Preferences">
+     	    
+     	</activity>
         <service
             android:name=".handler.UpdateService"
             android:enabled="true" >
