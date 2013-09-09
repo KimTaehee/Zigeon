@@ -55,13 +55,18 @@ public class LandmarkDataset extends Object {
 				writerIdx = Integer.parseInt(strArr[7]);
 				readedCount = Integer.parseInt(strArr[8]);
 				writtenTime = new Date(); //TODO: temp. return now.
-				if (strArr[10]!=null) { //for avoid NumberFormatException
-					undoIdx = Integer.parseInt(strArr[10]);
-				} else {
-					//LogUtil.v("convert null to int DB_NULL");
-					undoIdx = Constants.INT_NULL;
+				if (strArr[10]!=null) {
+					if (strArr[10].compareTo("null")!=0) { //for avoid NumberFormatException
+						//LogUtil.i("undoIdx: " + strArr[10]);
+						undoIdx = Integer.parseInt(strArr[10]);
+					} else {
+						//LogUtil.v("convert null to int DB_NULL");
+						undoIdx = Constants.INT_NULL;
+					}
 				}
+
 				picturePath = strArr[11];
+				//LogUtil.i("PicturePath is: " + picturePath);
 				return 0;
 			} else {
 				LogUtil.e("wrong data input");
@@ -72,6 +77,7 @@ public class LandmarkDataset extends Object {
 			e.printStackTrace();
 			return Constants.ERR_DATASET_MISMATCHED;
 		}
+		
 		
 	}
 	
@@ -113,6 +119,7 @@ public class LandmarkDataset extends Object {
 		} else {
 			str = null;
 		}
+		//LogUtil.i("image url is: " + str);
 		return str;
 	}
 	
