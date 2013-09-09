@@ -1,5 +1,5 @@
 /**
- * Class Name: IntroActivity
+ * Class Name: UpdateService
  * Description: Thread Service. Manage periodical Task (Location, UI, SoapParser)
  * Author: KimTaehee slhyvaa@nate.com
  * Version: 0.0.1
@@ -14,7 +14,6 @@ import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.MapActivity;
-import kr.re.ec.zigeon.MapListActivity;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.ActivityManager;
@@ -67,7 +66,7 @@ public class UpdateService extends Service implements Runnable{
 			}
 		}
 		
-		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
+		//MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		MapActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		
 

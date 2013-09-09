@@ -49,12 +49,8 @@
             android:label="@string/join_activity_title" >
         </activity>
         <activity
-            android:name="kr.re.ec.zigeon.BubbleActivity"
-            android:label="@string/bubble_activity_title" >
-        </activity>
-        <activity
-            android:name="kr.re.ec.zigeon.MapListActivity"
-            android:label="@string/map_list_activity_title" >
+            android:name="kr.re.ec.zigeon.BestListActivity"
+            android:label="@string/best_list_activity_title" >
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LandmarkActivity"

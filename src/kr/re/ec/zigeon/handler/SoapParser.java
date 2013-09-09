@@ -88,10 +88,6 @@ public class SoapParser {
 			//LogUtil.v(result.toString());
 			resultStrArr = xmlParser(result.toString(),datatype); // xml parsing
 
-			
-			resultObj = convertDatasetToObj(resultStrArr, datatype);
-			
-
 			resultObj = convertDatasetToObj(resultStrArr, datatype);
 
 
@@ -161,11 +157,23 @@ public class SoapParser {
 //						LogUtil.v("Constants.DATASET_FIELD[datatype][j]" + Constants.DATASET_FIELD[datatype][j]);
 
 						if(tag.compareTo(Constants.DATASET_FIELD[datatype][j]) == 0) { //no error on col name matching 
+							//LogUtil.d("Constants.DATASET_FIELD[][]: "+Constants.DATASET_FIELD[datatype][j]+", tag: "+tag+", j:"+j);
+							parsingDataArr[i][j] = parser.getText();
+							j++;
+						} else { 
+							//error on col name matching. find next matched col name. 
+							//if not exist, go through next table 
+							//LogUtil.i("mismatched col name. tag:" + tag +" ,j: "+j);
+							//parsingDataArr[i][j] = "null"; //force to insert null
+							for(int k=j;k<Constants.DATASET_FIELD[datatype].length;k++) {
+								if(tag.compareTo(Constants.DATASET_FIELD[datatype][k]) == 0) {
+									j = k; //force to move index.
+									//LogUtil.v("found it. col name: " + Constants.DATASET_FIELD[datatype][k] + ", k: " + k +", j: "+j);
+									break;
+								}
+							}
 							parsingDataArr[i][j] = parser.getText();							
-						} else { //error on col name matching
-							parsingDataArr[i][j] = "null"; //force to insert null
 						}
-						j++;
 						break;
 					}
 					case NONE:
@@ -180,10 +188,11 @@ public class SoapParser {
 					break;
 				}
 				}
-				parserEvent = parser.next();
+				parserEvent = parser.next();				
 			}
 		} catch (Exception e) {
 			LogUtil.e("Error in network call" + e.toString());
+			e.printStackTrace();
 		}
 		parsingData = new String("");
 		for(int i=0;i<parsingDataArr.length;i++) {
@@ -192,10 +201,6 @@ public class SoapParser {
 			}
 			parsingData += "\n";
 		}
-
-		
-
-
 		return parsingDataArr;
 	}
 
@@ -258,6 +263,7 @@ public class SoapParser {
 
 			for(int i=0; i<strArr.length; i++) {
 				landmarkArr[i] = new LandmarkDataset(strArr[i]);	
+				//LogUtil.i("strArr[i][11](ldmPicturePath): " + strArr[i][11] + ", i: " + i);
 			}
 			obj = landmarkArr;
 			break;
@@ -266,7 +272,7 @@ public class SoapParser {
 			PostingDataset[] postingArr = new PostingDataset[strArr.length];	//create Posting Array 
 
 			for(int i=0; i<strArr.length; i++) {
-				postingArr[i] = new PostingDataset(strArr[i]);	
+				postingArr[i] = new PostingDataset(strArr[i]);				
 			}
 			obj = postingArr;
 			break;
