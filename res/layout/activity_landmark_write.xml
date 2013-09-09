@@ -5,69 +5,73 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/landmark_write_layout_contents"
+        android:id="@+id/landmark_write_contents"
         android:layout_width="match_parent"
         android:layout_height="230dp"
+        android:layout_margin="5dp"
         android:orientation="vertical" >
 
         <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:id="@+id/landmark_write_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="@string/landmark_write_txt_title" />
 
                 <EditText
-                    android:id="@+id/landmark_write_edt_title"
+                    android:id="@+id/landmark_write_edit_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/landmark_write_edt_title_hint" >
-
-                    <requestFocus />
-                </EditText>
+                    android:hint="@string/landmark_write_edit_title_hint"
+                    android:inputType="textPersonName" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/landmark_write_txt_contents" />
+                    android:layout_marginTop="10dp"
+                    android:text="@string/landmark_write_txt_uniqueness" />
 
                 <EditText
-                    android:id="@+id/landmark_write_edt_contents"
+                    android:id="@+id/landmark_write_edit_uniqueness"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/landmark_write_edt_contents_hint"
-                    android:inputType="textMultiLine"
-                    android:lines="6" >
-                </EditText>
+                    android:hint="@string/landmark_write_edit_uniqueness_hint"
+                    android:inputType="textMultiLine" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/landmark_write_layout_contents"
+        android:id="@+id/landmark_write_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/landmark_write_contents"
+        android:layout_margin="10dp"
         android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/landmark_write_btn_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="gogo_map" />
+        <RelativeLayout
+            android:id="@+id/landmark_write_map"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="15dp" >
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/landmark_write_img_input"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_camera" />
     </LinearLayout>
 
