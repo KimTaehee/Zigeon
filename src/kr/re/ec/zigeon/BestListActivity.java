@@ -83,6 +83,10 @@ public class BestListActivity extends Activity {
 //					//(mBestListArr[i].name + "\n"
 //					//		+ ((distanceFromMe==Constants.INT_NULL)?"finding.. ^o^":distanceFromMe + " m"));
 //				}
+				for(int i=0; i<mBestListArr.length; i++) {
+					mBestListArr[i].getDistance(myLocation);	//calc LocationDataset.distanceFromCurrentLocation
+				}
+				
 				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArr);
 				grdBestList.setAdapter(mBestListAdp);
 				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?

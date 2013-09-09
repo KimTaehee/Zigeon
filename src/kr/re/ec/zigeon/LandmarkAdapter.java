@@ -85,11 +85,9 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 			tvName.setText(mLandmarkArr[position].name);
 			
 			tvDistance = (TextView) gridView.findViewById(R.id.gridview_item_best_list_tv_distance);
-			//TODO: insert LandmarkDataset.distanceFromCurrentPosition and test it 
-			//			int distanceFromMe = (int)(mLandmarkArr[position].getDistance(myLocation));
-//			tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"finding.. ^o^":distanceFromMe + " m");
-			tvDistance.setText("on ur jungsuri");
 			
+			int distanceFromMe = (int)mLandmarkArr[position].distanceFromCurrentLocation;
+			tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"wait...":distanceFromMe + " m");
 			
 			//picture that represents landmarks
 			ivLandmark = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_landmark);

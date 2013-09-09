@@ -29,6 +29,8 @@ public class LandmarkDataset extends Object {
 	public int undoIdx;
 	public String picturePath;
 	
+	public double distanceFromCurrentLocation = Constants.DOUBLE_NULL; 
+	
 	public LandmarkDataset() {
 		
 	}
@@ -89,11 +91,13 @@ public class LandmarkDataset extends Object {
 	public double getDistance(NGeoPoint gp) {
 		if (this.latitude==0.0 || this.longitude==0.0 || gp==null) { //if this has no latlog
 			LogUtil.e("this.latlog or gp wasn't set. return dbl_null");
-			return Constants.DOUBLE_NULL;
+			distanceFromCurrentLocation = Constants.DOUBLE_NULL;
+			
 		} else {
 			//WARN: NGeoPoint constructor is (lon, lat)! not (lat, lon)
-			return NGeoPoint.getDistance(gp, new NGeoPoint(this.longitude, this.latitude)); 
+			distanceFromCurrentLocation = NGeoPoint.getDistance(gp, new NGeoPoint(this.longitude, this.latitude)); 
 		}
+		return distanceFromCurrentLocation;
 	}
 	
 	/**
@@ -103,12 +107,13 @@ public class LandmarkDataset extends Object {
 	public double getDistance(double _latitude, double _longitude) {
 		if (this.latitude==0.0 || this.longitude==0.0) { //if this has no latlog
 			LogUtil.e("this.latlog didn't set. return dbl_null");
-			return Constants.DOUBLE_NULL;
+			distanceFromCurrentLocation = Constants.DOUBLE_NULL;
 		} else {
 			//WARN: NGeoPoint constructor is (lon, lat)! not (lat, lon)
-			return NGeoPoint.getDistance(new NGeoPoint(_longitude, _latitude)
+			distanceFromCurrentLocation = NGeoPoint.getDistance(new NGeoPoint(_longitude, _latitude)
 				, new NGeoPoint(this.longitude, this.latitude)); 
 		}
+		return distanceFromCurrentLocation;
 	}
 	
 	public String getImageUrl() {
