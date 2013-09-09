@@ -6,25 +6,31 @@
     <GridView
         android:id="@+id/best_list_gridview"
         android:layout_width="fill_parent"
-        android:layout_height="415sp"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/best_list_layout_options"
         android:gravity="center"
-        android:horizontalSpacing="4dip"
+        android:horizontalSpacing="1sp"
         android:numColumns="2"
-        android:padding="4dip"
+        android:padding="1sp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="4dip" />
+        android:verticalSpacing="1sp"
+        android:background="#878787" />
 
     <LinearLayout
+        android:id="@+id/best_list_layout_options"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/best_list_gridview"
-        android:orientation="horizontal" >
+        android:layout_height="50sp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" 
+        android:background="#686868">
 
         <Button
             android:id="@+id/best_list_btn_set_range"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#686868"
+            android:textColor="#FFFFFF"
             android:text="Set Range" />
 
         <ToggleButton
@@ -32,6 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#686868"
+            android:textColor="#FFFFFF"
             android:text="Trace Location" />
 
         <Button
@@ -39,6 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#686868"
+            android:textColor="#FFFFFF"
             android:text="Refresh" />
     </LinearLayout>
 

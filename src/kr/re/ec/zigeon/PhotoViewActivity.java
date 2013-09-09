@@ -5,14 +5,11 @@
 
 package kr.re.ec.zigeon;
 
-<<<<<<< HEAD
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
-=======
->>>>>>> scaledimageview applied
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -32,10 +29,9 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 
 //	private final int imgWidth = 320;
 //	private final int imgHeight = 372;
-	
-<<<<<<< HEAD
+
 	private ImageView iv;
-	
+
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
 	.showStubImage(R.drawable.ic_auil_stub)	
@@ -43,15 +39,13 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 	.showImageOnFail(R.drawable.ic_auil_error)
 	.build();
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
-=======
->>>>>>> git add   AndroidManifest.xml
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_view);
 
-		
+
 		/** receive intent */
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
@@ -62,19 +56,18 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 			finish();
 			return;
 		}
-		
+
 		/** show image from path  */
 		BitmapFactory.Options bfo = new BitmapFactory.Options();
 		bfo.inSampleSize = 2;
-<<<<<<< HEAD
 		iv = (ImageView)findViewById(R.id.photo_view_image);
-		
+
 		LogUtil.v("image load start! uri: " + imgPath);
 		imgLoader.loadImage(imgPath, PhotoViewActivity.this); //load landmark image
-		
-		
+
+
 		//Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
-		
+
 //		/** calc and resize image to fit screen **/
 //		Point displaySize = new Point();
 //		getWindowManager().getDefaultDisplay().getSize(displaySize);
@@ -110,21 +103,5 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 	public void onLoadingCancelled(String arg0, View arg1) {
 		// TODO Auto-generated method stub
 		iv.setImageResource(R.drawable.ic_auil_error);
-=======
-		ImageView iv = (ImageView)findViewById(R.id.photo_view_image);
-		
-		Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
-		
-		/** calc and resize image to fit screen **/
-		Point displaySize = new Point();
-		getWindowManager().getDefaultDisplay().getSize(displaySize);
-		int scaledY = displaySize.x * bm.getHeight() / bm.getWidth(); //calc height
-		
-		LogUtil.v("display w, h, scaledY: " + displaySize.x + ", " + displaySize.y + ", " + scaledY);
-		
-		bm = Bitmap.createScaledBitmap(bm, displaySize.x, scaledY, true);
-		
-		iv.setImageBitmap(bm);	
->>>>>>> scaledimageview applied
 	}
 }

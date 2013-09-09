@@ -8,25 +8,7 @@
     <string name="bubble_tvGPSTest">GPS temp</string>
     <string name="bubble_tvLandmarkTest">Landmark info. temp</string>
     <string name="bubble_tvPostingTest">Posting info temp</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <string name="best_list_activity_title">MapListActivity</string>
-=======
-=======
-
-    <string name="app_name">Zigeon</string>
-    <string name="bubble_activity_title">Bubble</string>
-    <string name="action_settings">Settings</string>
-    <string name="bubble_test_stop_service">ServiceOff</string>
-    <string name="bubble_tvIntro">지전(지역전문가) 납셨다.\nEndless Creation, Seoultech\n\n</string>
-    <string name="bubble_tvGPSTest">GPS 정보를 임시로 출력할거야</string>
-    <string name="bubble_tvLandmarkTest">Landmark 정보를 임시로 출력할거야</string>
-    <string name="bubble_tvPostingTest">Posting 정보를 임시로 출력할거야</string>
->>>>>>> commited.
-=======
->>>>>>> conflict occured
-    <string name="map_list_activity_title">MapListActivity</string>
->>>>>>> commited.
+    <string name="best_list_activity_title">BestList</string>
     <string name="map_list_activity_title_section1">Landmarks</string>
     <string name="map_list_activity_title_section2">Postings</string>
     <string name="landmark_activity_title">LandmarkActivity</string>
@@ -62,63 +44,9 @@
     <string name="posting_write_edt_title_hint">scroll warn- I\'m the bobburger conqueror!</string>
     <string name="posting_write_txt_title">title</string>
     <string name="posting_write_edt_contents_hint"></string>
-<<<<<<< HEAD
-<<<<<<< HEAD:res/values/strings.xml
-<<<<<<< HEAD
-<<<<<<< HEAD
     <string name="posting_write_txt_contents">contents</string>
-    <string name="title_activity_photo_zoom">PhotoZoom</string> 
-
-</resources>
-=======
-    <string name="posting_write_txt_contents">내용</string>
-    <string name="landmark_write_txt_title">name!</string>
-    <string name="landmark_write_edt_title_hint">write name!!!!!!!!!!!!!!!!!!!!!!!</string>
-    <string name="landmark_write_txt_contents">hahaha</string>
-    <string name="landmark_write_edt_contents_hint">haha</string>
-    <string name="map_list_action_landmark_write">landmark write</string>
-    <string name="title_activity_photo_zoom">PhotoZoom</string>
-=======
-    <string name="title_activity_photo_zoom">PhotoZoom</string>
-    <string name="posting_write_txt_contents">contents</string>    
->>>>>>> fixed conflicts
-=======
-    <string name="posting_write_txt_contents">contents</string>
-<<<<<<< HEAD
-    <string name="map_address">%s</string>    
->>>>>>> address textview working ing ing ing:res/values/string.xml
-
-<<<<<<< HEAD
-</resources>
-<<<<<<< HEAD
->>>>>>> git add   AndroidManifest.xml
-=======
-=======
-    <string name="Join">회원가입</string>
-    <string name="Facebook_button">Facebook</string>
-    <string name="cancle">취소</string>
-    <string name="autologin">자동로그인</string>
-    <string name="intro_activity_title">Balloon</string>
-    <string name="posting_write_action_write">올려</string>
-    <string name="posting_write_activity_title">포스팅 작성</string>
-    <string name="posting_write_edt_title_hint">스압ㅡ 본격 밥버거 정복기!</string>
-    <string name="posting_write_txt_title">제목</string>
-    <string name="posting_write_edt_contents_hint"></string>
-    <string name="posting_write_txt_contents">내용</string>
-    
-=======
-    <string name="posting_write_txt_contents">contents</string>
-    <string name="title_activity_photo_zoom">PhotoZoom</string> 
->>>>>>> conflict solved
-=======
     <string name="map_address">ya</string>
     <string name="landmark_write_action_write">write</string>    
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
->>>>>>> conflict solved
 
 </resources>
->>>>>>> commited.
->>>>>>> commited.
-=======
-</resources>
->>>>>>> conflict occured
