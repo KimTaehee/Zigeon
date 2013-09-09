@@ -10,13 +10,10 @@
         android:layout_height="wrap_content"
         android:text="preference" />
 
-<<<<<<< HEAD
     <Button
         android:id="@+id/test_btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test2" />
 
-=======
->>>>>>> test... why not? SSANG
 </LinearLayout>

@@ -104,39 +104,20 @@
         
      	<activity 
      	    android:name="kr.re.ec.zigeon.TestActivity">
-     	    
      	</activity>
-<<<<<<< HEAD
-<<<<<<< HEAD
      	
      	<activity 
      	    android:name="kr.re.ec.zigeon.TestActivity2">
-     	    
      	</activity>
-=======
->>>>>>> preference data load test OK
-     	
      	<activity 
      	    android:name="kr.re.ec.zigeon.PreferenceActivity">
      	    
      	</activity>
-<<<<<<< HEAD
-        
      	<activity 
      	    android:name="kr.re.ec.zigeon.Preferences">
-     	    
      	</activity>
-=======
-        
->>>>>>> test... why not? SSANG
-=======
-        
-     	<activity 
-     	    android:name="kr.re.ec.zigeon.Preferences">
-     	    
-     	</activity>
->>>>>>> preference data load test OK
-        <service
+
+     	<service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
         </service>
