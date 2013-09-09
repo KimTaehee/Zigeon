@@ -103,6 +103,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 			}
 			//grade: best, new, ... 
 			ivGrade = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_grade);
+			ivGrade.setVisibility(ImageView.INVISIBLE);
 			//ivGrade = //TODO: gonna work
 			
 			ivBalloon = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_balloon);

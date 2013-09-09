@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10sp"
+    android:padding="5sp"
     android:textSize="16sp" >
 
     <ImageView
@@ -33,16 +33,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30sp"
+        android:layout_height="35sp"
         android:layout_alignLeft="@+id/gridview_item_best_list_iv_landmark"
-        android:layout_below="@+id/gridview_item_best_list_iv_landmark" >
+        android:layout_below="@+id/gridview_item_best_list_iv_landmark"
+        android:background="#FFFFFF" >
 
         <TextView
             android:id="@+id/gridview_item_best_list_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="Name" />
+            android:layout_weight="3"
+            android:text="Name"
+            android:padding="2sp"
+            android:textColor="#686868"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/gridview_item_best_list_tv_distance"
@@ -50,7 +54,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="Distance" />
+            android:text="Distance"
+            android:padding="2sp"
+            android:textColor="#686868"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </RelativeLayout>
