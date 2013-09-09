@@ -5,17 +5,25 @@
     <RelativeLayout
         android:id="@+id/mapmap"
         android:layout_width="match_parent"
-        android:layout_height="500dp" >
+        android:layout_height="match_parent" >
     </RelativeLayout>
 
     <Button
         android:id="@+id/map_btn_gps"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/mapmap"
         android:text="@string/map_location" />
+
+    <TextView
+        android:id="@+id/map_txt_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/map_btn_gps"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="#ffffffff"
+        android:text="@string/map_address" />
 
 </RelativeLayout>
