@@ -27,7 +27,8 @@ public final class Constants {
 	public static final String GCM_PROJECT_ID = "39642280488"; //can identify unique GCM server
 	
 	/**************** Image Server URL *********************/
-	public static final String URL_SERVER_IMAGE_DIR = "http://117.17.198.41:8088/images/"; //image dir
+	//image dir: only used in eachDataset.getImageUrl()
+	public static final String URL_SERVER_IMAGE_DIR = "http://117.17.198.41:8088/images/"; 
 	public static final String URL_SERVER_IMAGE_UPLOAD_PAGE = "http://117.17.198.41:8088/Upload.aspx"; //upload page
 	
 	/**************** Err Code. int range 1000~1069 ****************/

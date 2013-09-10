@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/gridview_item_best_list_tv_name"
-            android:layout_width="wrap_content"
+            android:layout_width="30sp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:text="Name"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/gridview_item_best_list_tv_distance"
-            android:layout_width="wrap_content"
+            android:layout_width="20sp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="right"

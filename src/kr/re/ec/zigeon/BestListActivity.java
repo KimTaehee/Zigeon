@@ -152,7 +152,6 @@ public class BestListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_best_list);
 
-
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -162,10 +161,7 @@ public class BestListActivity extends Activity {
 		LogUtil.v("data request. select * from tLandmark");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
-		LogUtil.v("data request. select * from tPosting");
-		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
-				soapParser.getSoapData("select * from tPosting", Constants.MSG_TYPE_POSTING));
-
+		
 
 		/********** init UI ************/
 		grdBestList = (GridView) findViewById(R.id.best_list_gridview);
@@ -219,7 +215,7 @@ public class BestListActivity extends Activity {
 	private AdapterView.OnItemClickListener grdBestListItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position. 0~n
-			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			LogUtil.v("onItemClick invoked!! item: " + mBestListArr[position].name);
 			LogUtil.v("position: "+position + ", ldmIdx: " + mBestListArr[position].idx);
 			//TODO: SHOULD match mLandmarkArr contents == Listview contents. need to test 
 			
