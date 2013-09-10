@@ -77,15 +77,15 @@ public class PreferenceActivity extends Activity{
 	private void DialogSimple(){
 	    AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
 	    alt_bld.setMessage("Do you want to close this window ?").setCancelable(
-	        false).setPositiveButton("Yes",
+	        false).setPositiveButton("OK",
 	        new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int id) {
-	            // Action for 'Yes' Button
+	            // Action for 'OK' Button
 	        }
-	        }).setNegativeButton("No",
+	        }).setNegativeButton("Cancel",
 	        new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int id) {
-	            // Action for 'NO' Button
+	            // Action for 'Cancel' Button
 	            dialog.cancel();
 	        }
 	        });
