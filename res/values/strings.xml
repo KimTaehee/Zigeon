@@ -8,7 +8,7 @@
     <string name="bubble_tvGPSTest">GPS temp</string>
     <string name="bubble_tvLandmarkTest">Landmark info. temp</string>
     <string name="bubble_tvPostingTest">Posting info temp</string>
-    <string name="best_list_activity_title">MapListActivity</string>
+    <string name="best_list_activity_title">BestList</string>
     <string name="map_list_activity_title_section1">Landmarks</string>
     <string name="map_list_activity_title_section2">Postings</string>
     <string name="landmark_activity_title">LandmarkActivity</string>
