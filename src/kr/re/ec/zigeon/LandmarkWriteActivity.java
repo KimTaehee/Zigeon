@@ -100,6 +100,8 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 			public void onClick(View v){
 				startActivity(new Intent(LandmarkWriteActivity.this,MapActivity.class));
 				overridePendingTransition(0, 0); //no switching animation
+				LogUtil.v("call GC!");
+				System.gc();
 			}
 		});
 	}

@@ -95,7 +95,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 			LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
 			if(mLandmarkArr[position].getImageUrl() != null) {
 				LogUtil.v("image load start!");
-				//imgLoader.loadImage(mLandmarkArr[position].getImageUrl(), LandmarkAdapter.this); //load landmark image
+				
 				imgLoader.displayImage(mLandmarkArr[position].getImageUrl(), ivLandmark, this);
 				//System.gc(); 	//it may cause UI frame skip but do memory free
 			}

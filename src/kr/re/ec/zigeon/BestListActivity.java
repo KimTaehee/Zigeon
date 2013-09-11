@@ -26,19 +26,25 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
-public class BestListActivity extends Activity {
+public class BestListActivity extends Activity implements OnClickListener {
 	private Intent mIntent;
 
 	private SoapParser soapParser;
 	private NGeoPoint myLocation;
 	
 	private GridView grdBestList;
+	private ToggleButton tglBtnTraceLocation;
+	private Button btnRefreshLocation;
+	private Button btnSetRange;
 	
 	private ArrayList<LandmarkDataset> mBestListArl;		//to set gridtview	
 	private LandmarkAdapter mBestListAdp;		//user defined Adapter. to set gridview
@@ -165,6 +171,12 @@ public class BestListActivity extends Activity {
 
 		/********** init UI ************/
 		grdBestList = (GridView) findViewById(R.id.best_list_gridview);
+		btnSetRange = (Button) findViewById(R.id.best_list_btn_set_range);
+		tglBtnTraceLocation = (ToggleButton) findViewById(R.id.best_list_tglbtn_trace_location);
+		btnRefreshLocation = (Button) findViewById(R.id.best_list_btn_refresh_location);
+		btnSetRange.setOnClickListener(this);
+		tglBtnTraceLocation.setOnClickListener(this);
+		btnRefreshLocation.setOnClickListener(this);
 
 		//first gridview string 
 		//mBestListArl = new ArrayList<LandmarkDataset>();
@@ -226,6 +238,20 @@ public class BestListActivity extends Activity {
 			
 		}
 	};
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId())
+		{
+		case R.id.best_list_tglbtn_trace_location:
+		{
+			LogUtil.v("tglbtn_trace_location clicked!");
+			startActivity(new Intent(this,MapListActivity.class));
+			break;
+		}
+		}
+		
+	}
 
 
 }

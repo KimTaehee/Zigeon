@@ -74,6 +74,9 @@
             android:name="kr.re.ec.zigeon.MapActivity" >
         </activity>
         <activity 
+            android:name="kr.re.ec.zigeon.MapListActivity" >
+        </activity>
+        <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
         </activity>
         <activity 
