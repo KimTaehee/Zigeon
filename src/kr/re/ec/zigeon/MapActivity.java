@@ -313,7 +313,6 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.map_btn_gps : 
 			startMyLocation();
@@ -329,60 +328,58 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 	}
 
-
-	public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
-
-		if (errInfo != null) {
-			LogUtil.v("Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
-			return;
-		}
-
-		LogUtil.v("onReverseGeocoderResponse: placeMark=" + placeMark.toString());
-		Toast.makeText(MapActivity.this,
-				"onReverseGeocoderResponse: placeMark=" + placeMark.toString(),
-				Toast.LENGTH_LONG).show();
-	}
-
-
-	private NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener = new NMapLocationManager.OnLocationChangeListener() {
-
-		@Override
-		public boolean onLocationChanged(NMapLocationManager locationManager,
-				NGeoPoint myLocation) {
-			findPlacemarkAtLocation(myLocation.getLongitude(), myLocation.getLatitude());
-			//lat,lon -> address
-
-			onReverseGeocoderResponse(nMapPlacemark, null);
-
-			String strFormat = getResources().getString(R.string.map_address);
-			String strResult = String.format(strFormat, nMapPlacemark.toString());
-
-			TextView text = (TextView) findViewById(R.id.map_txt_address);
-			text.setText(strResult);
-
-			return true;
-		}
-
-		@Override
-		public void onLocationUnavailableArea(NMapLocationManager arg0,
-				NGeoPoint arg1) {
-			// TODO Auto-generated method stub
-			Toast.makeText(MapActivity.this,
-					"Your current location is unavailable area.",
-					Toast.LENGTH_LONG).show();
-
-			stopMyLocation();
-		}
-
-		@Override
-		public void onLocationUpdateTimeout(NMapLocationManager arg0) {
-			// TODO Auto-generated method stub
-			Toast.makeText(MapActivity.this,
-					"Your current location is temporarily unavailable.",
-					Toast.LENGTH_LONG).show();
-		}
-	};
-
-
+//
+//	public void onReverseGeocoderResponse(NMapPlacemark placeMark, NMapError errInfo) {
+//
+//		if (errInfo != null) {
+//			LogUtil.v("Failed to findPlacemarkAtLocation: error=" + errInfo.toString());
+//			return;
+//		}
+//
+//		LogUtil.v("onReverseGeocoderResponse: placeMark=" + placeMark.toString());
+//		Toast.makeText(MapActivity.this,
+//				"onReverseGeocoderResponse: placeMark=" + placeMark.toString(),
+//				Toast.LENGTH_LONG).show();
+//	}
+//
+//
+//	private NMapLocationManager.OnLocationChangeListener onMyLocationChangeListener = new NMapLocationManager.OnLocationChangeListener() {
+//
+//		@Override
+//		public boolean onLocationChanged(NMapLocationManager locationManager,
+//				NGeoPoint myLocation) {
+//			findPlacemarkAtLocation(myLocation.getLongitude(), myLocation.getLatitude());
+//			//lat,lon -> address
+//
+//			onReverseGeocoderResponse(nMapPlacemark, null);
+//
+//			String strFormat = getResources().getString(R.string.map_address);
+//			String strResult = String.format(strFormat, nMapPlacemark.toString());
+//
+//			TextView text = (TextView) findViewById(R.id.map_txt_address);
+//			text.setText(strResult);
+//
+//			return true;
+//		}
+//
+//		@Override
+//		public void onLocationUnavailableArea(NMapLocationManager arg0,
+//				NGeoPoint arg1) {
+//			// TODO Auto-generated method stub
+//			Toast.makeText(MapActivity.this,
+//					"Your current location is unavailable area.",
+//					Toast.LENGTH_LONG).show();
+//
+//			stopMyLocation();
+//		}
+//
+//		@Override
+//		public void onLocationUpdateTimeout(NMapLocationManager arg0) {
+//			// TODO Auto-generated method stub
+//			Toast.makeText(MapActivity.this,
+//					"Your current location is temporarily unavailable.",
+//					Toast.LENGTH_LONG).show();
+//		}
+//	};
 
 }

@@ -73,7 +73,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 
-	private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
+	//private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
 
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
@@ -96,8 +96,8 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 				/******************** print info *******************/
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
-				LogUtil.v("image load start! uri: " + sampleImgUri);
-				imgLoader.loadImage(Constants.URL_SERVER_IMAGE_DIR + sampleImgUri, LandmarkActivity.this); //load landmark image
+				LogUtil.v("image load start! uri: " + mLandmarkDataset.getImageUrl());
+				imgLoader.loadImage(mLandmarkDataset.getImageUrl(), LandmarkActivity.this); //load landmark image
 
 				break;
 			}

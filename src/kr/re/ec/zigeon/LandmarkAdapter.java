@@ -85,11 +85,9 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 			tvName.setText(mLandmarkArr[position].name);
 			
 			tvDistance = (TextView) gridView.findViewById(R.id.gridview_item_best_list_tv_distance);
-			//TODO: insert LandmarkDataset.distanceFromCurrentPosition and test it 
-			//			int distanceFromMe = (int)(mLandmarkArr[position].getDistance(myLocation));
-//			tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"finding.. ^o^":distanceFromMe + " m");
-			tvDistance.setText("on ur jungsuri");
 			
+			int distanceFromMe = (int)mLandmarkArr[position].distanceFromCurrentLocation;
+			tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"wait...":distanceFromMe + " m");
 			
 			//picture that represents landmarks
 			ivLandmark = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_landmark);
@@ -97,12 +95,13 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 			LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
 			if(mLandmarkArr[position].getImageUrl() != null) {
 				LogUtil.v("image load start!");
-				//imgLoader.loadImage(mLandmarkArr[position].getImageUrl(), LandmarkAdapter.this); //load landmark image
+				
 				imgLoader.displayImage(mLandmarkArr[position].getImageUrl(), ivLandmark, this);
 				//System.gc(); 	//it may cause UI frame skip but do memory free
 			}
 			//grade: best, new, ... 
 			ivGrade = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_grade);
+			ivGrade.setVisibility(ImageView.INVISIBLE);
 			//ivGrade = //TODO: gonna work
 			
 			ivBalloon = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_balloon);

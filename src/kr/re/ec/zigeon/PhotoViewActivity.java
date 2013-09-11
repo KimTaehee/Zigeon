@@ -29,9 +29,9 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 
 //	private final int imgWidth = 320;
 //	private final int imgHeight = 372;
-	
+
 	private ImageView iv;
-	
+
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
 	.showStubImage(R.drawable.ic_auil_stub)	
@@ -39,13 +39,13 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 	.showImageOnFail(R.drawable.ic_auil_error)
 	.build();
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_view);
 
-		
+
 		/** receive intent */
 		Intent i = getIntent();
 		Bundle extras = i.getExtras();
@@ -56,18 +56,18 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 			finish();
 			return;
 		}
-		
+
 		/** show image from path  */
 		BitmapFactory.Options bfo = new BitmapFactory.Options();
 		bfo.inSampleSize = 2;
 		iv = (ImageView)findViewById(R.id.photo_view_image);
-		
+
 		LogUtil.v("image load start! uri: " + imgPath);
 		imgLoader.loadImage(imgPath, PhotoViewActivity.this); //load landmark image
-		
-		
+
+
 		//Bitmap bm = BitmapFactory.decodeFile(imgPath, bfo);
-		
+
 //		/** calc and resize image to fit screen **/
 //		Point displaySize = new Point();
 //		getWindowManager().getDefaultDisplay().getSize(displaySize);
