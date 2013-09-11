@@ -23,11 +23,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/map_btn_gps"
         android:textAppearance="?android:attr/textAppearanceLarge"
-<<<<<<< HEAD
-        android:background="#ffffffff"
-=======
         android:background="#ffffff"
->>>>>>> origin/KTHWorking
         android:text="@string/map_address" />
 
 </RelativeLayout>
