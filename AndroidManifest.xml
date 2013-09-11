@@ -33,7 +33,10 @@
             android:name="kr.re.ec.zigeon.IntroActivity"
             android:label="@string/intro_activity_title"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LoginActivity"
@@ -45,12 +48,8 @@
             android:label="@string/join_activity_title" >
         </activity>
         <activity
-            android:name="kr.re.ec.zigeon.BubbleActivity"
-            android:label="@string/bubble_activity_title" >
-        </activity>
-        <activity
-            android:name="kr.re.ec.zigeon.MapListActivity"
-            android:label="@string/map_list_activity_title" >
+            android:name="kr.re.ec.zigeon.BestListActivity"
+            android:label="@string/best_list_activity_title" >
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LandmarkActivity"
@@ -84,27 +83,20 @@
         
      	<activity 
      	    android:name="kr.re.ec.zigeon.TestActivity">
-     	    <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
      	</activity>
      	
      	<activity 
      	    android:name="kr.re.ec.zigeon.TestActivity2">
-     	    
      	</activity>
-     	
      	<activity 
      	    android:name="kr.re.ec.zigeon.PreferenceActivity">
      	    
      	</activity>
-        
      	<activity 
      	    android:name="kr.re.ec.zigeon.Preferences">
-     	    
      	</activity>
-        <service
+
+     	<service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
         </service>

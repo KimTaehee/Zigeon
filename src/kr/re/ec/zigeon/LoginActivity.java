@@ -128,7 +128,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					
 
 					intent = new Intent(LoginActivity.this,
-							BubbleActivity.class);
+							BestListActivity.class);
 					startActivity(intent);
 
 					finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */

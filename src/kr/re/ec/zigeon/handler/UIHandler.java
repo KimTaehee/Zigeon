@@ -18,7 +18,7 @@ import android.os.Message;
 public class UIHandler {
 	/* Target Activity Handler definition */ 
 	public static Handler bubbleActivityHandler;
-	public static Handler mapListActivityHandler;
+	public static Handler bestListActivityHandler;
 	public static Handler landmarkActivityHandler;
 	public static Handler postingActivityHandler;
 	public static Handler mapActivityHandler;
@@ -50,10 +50,10 @@ public class UIHandler {
 			bubbleActivityHandler = handler;
 			LogUtil.v("top activity is BubbleActivity. set handler.");
 		} 
-		else if (str.compareTo("kr.re.ec.zigeon.MapListActivity") == 0) 
+		else if (str.compareTo("kr.re.ec.zigeon.BestListActivity") == 0) 
 		{
-			mapListActivityHandler = handler;
-			LogUtil.v("top activity is MapListActivity. set handler.");
+			bestListActivityHandler = handler;
+			LogUtil.v("top activity is BestListActivity. set handler.");
 		}
 		else if (str.compareTo("kr.re.ec.zigeon.LandmarkActivity") == 0)
 		{
@@ -92,13 +92,13 @@ public class UIHandler {
 				return null;
 			}
 		} 
-		else if (str.compareTo("kr.re.ec.zigeon.MapListActivity") == 0) 
+		else if (str.compareTo("kr.re.ec.zigeon.BestListActivity") == 0) 
 		{
-			if(mapListActivityHandler!=null) {
-				LogUtil.v("mapListActivityHandler selected.");
-				return mapListActivityHandler;
+			if(bestListActivityHandler!=null) {
+				LogUtil.v("bestListActivityHandler selected.");
+				return bestListActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no mapListActivityHandler detected.");
+				LogUtil.e("Cannot return handler. no bestListActivityHandler detected.");
 				return null;
 			}
 		}

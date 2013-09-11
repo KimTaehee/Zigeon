@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/map_list_action_bubble" 
+        android:orderInCategory="1" 
+        android:title="@string/map_list_action_bubble"
+        android:showAsAction="ifRoom|withText" >
+	</item>
+    
+    <item android:id="@+id/map_list_action_landmark_write" 
+        android:orderInCategory="2" 
+        android:title="@string/map_list_action_landmark_write"
+        android:showAsAction="ifRoom|withText" >
+	</item>
+    
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings">
+    </item>
+
+</menu>

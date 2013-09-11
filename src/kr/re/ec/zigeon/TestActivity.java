@@ -16,8 +16,8 @@ public class TestActivity extends Activity {
 	private Intent intent;
 	private Button testBtn;
 	private Button testBtn2;
-	private SharedPreferences pref;
 	private PreferenceDataset preference;
+	private SharedPreferences pref;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,10 +66,73 @@ public class TestActivity extends Activity {
 			}
 		});
 
+		/*
+		getFragmentManager()
+				.beginTransaction()
+				.replace(android.R.id.content,
+						new kr.re.ec.zigeon.PreferenceFrag()).commit();
+*/
+		
+		
+		PreferenceManager.setDefaultValues(TestActivity.this, R.xml.preference,
+				false);
+		  LogUtil.v("1");
+		  testBtn = (Button)findViewById(R.id.test_btn1);
+		  LogUtil.v("2");
+		  pref = PreferenceManager.getDefaultSharedPreferences(TestActivity.this);
+		  LogUtil.v("test=" + pref.getBoolean("preference_CheckBox_notificationSound", false));
+		  if(pref.getBoolean("preference_CheckBox_notificationSound", false))
+		  {
+			  LogUtil.v("3");
+			  testBtn.setText("Checked");
+		  }else
+		  {
+			  testBtn.setText("not Checked");
+		  }
+		  LogUtil.v("5");
+		  testBtn.setOnClickListener(new OnClickListener() {
+		  
+		  @Override public void onClick(View v) {
+			  intent = new Intent(TestActivity.this,
+						PreferenceActivity.class);
+				startActivity(intent);
+		 
+		  } });
+		 
 	}
+}
 	/*
 	 * @Override protected void onCreate(Bundle savedInstanceState) {
 	 * super.onCreate(savedInstanceState);
 	 * addPreferencesFromResource(R.xml.activity_preference); }
 	 */
-}
+//=======
+//import android.os.Bundle;
+//import android.preference.PreferenceActivity;
+//
+//public class TestActivity extends PreferenceActivity{
+///*
+//	private Button testBtn;
+//	private Intent mIntent;
+//	@Override
+//	protected void onCreate(Bundle savedInstanceState) {
+//		super.onCreate(savedInstanceState);
+//		setContentView(R.layout.activity_test);
+//		
+//		testBtn = (Button)findViewById(R.id.test_btn1);
+//		testBtn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				mIntent = new Intent(TestActivity.this, PreferenceActivity.class);
+//				startActivity(mIntent);
+//			}
+//		});
+//	}*/
+//	@Override
+//	public void onCreate(Bundle savedInstanceState)
+//	{
+//		super.onCreate(savedInstanceState);
+//		addPreferencesFromResource(R.layout.activity_preference);
+//	}
+//}
