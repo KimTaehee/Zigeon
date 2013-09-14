@@ -48,5 +48,9 @@
     <string name="map_address">ya</string>
     <string name="landmark_write_action_write">write</string>    
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
+    <string name="user_profile_main_level">계급</string>
+    <string name="user_profile_user_name">횡성한우헠헠</string>
+    <string name="user_profile_level">계급 : </string>
+    <string name="user_profile_user_level">앙멍엉능뎅?</string>
 
 </resources>

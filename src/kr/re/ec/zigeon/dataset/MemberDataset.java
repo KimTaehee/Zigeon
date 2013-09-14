@@ -25,7 +25,7 @@ public class MemberDataset extends Object {
 	
 	private static MemberDataset instance; //for singleton
 	
-	private MemberDataset() {
+	public MemberDataset() {
 		
 	}	
 	

@@ -57,6 +57,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		
 		//  To Auto Login, get Shared Preference
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
+		SharedPreferences id_pref = getSharedPreferences("id_pref", Activity.MODE_PRIVATE);
 		
 		// load from saved values
 		String auto_ID = pref.getString("ID","");
