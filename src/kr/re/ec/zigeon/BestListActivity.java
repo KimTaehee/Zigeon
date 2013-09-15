@@ -157,7 +157,19 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 				//WARN: cannot use this query on UpdateService.onLocationChanged().
 				//WARN: It may cause to send to other Activity.
+<<<<<<< HEAD
 				
+=======
+<<<<<<< HEAD
+				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+						soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+=======
+				LogUtil.v("select * from tLandmark WHERE ldmVisible = 'True'");
+				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+						soapParser.getSoapData("select * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+>>>>>>> landmark table changed.
+>>>>>>> landmark table changed.
 
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
@@ -188,6 +200,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 		//request contents
 		soapParser = SoapParser.getInstance(); 
+<<<<<<< HEAD
 		
 		detLocation = new NGeoPoint();
 		
@@ -203,6 +216,17 @@ public class BestListActivity extends Activity implements OnClickListener {
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+=======
+<<<<<<< HEAD
+		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+=======
+		LogUtil.v("data request. select * from tLandmark WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+>>>>>>> landmark table changed.
+>>>>>>> landmark table changed.
 		
 
 		/********** init UI ************/
