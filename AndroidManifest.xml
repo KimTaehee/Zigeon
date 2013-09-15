@@ -34,11 +34,10 @@
             android:name="kr.re.ec.zigeon.IntroActivity"
             android:label="@string/intro_activity_title"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-            <!-- for test
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
+            </intent-filter>
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LoginActivity"
@@ -103,11 +102,12 @@
         <activity
             android:name="kr.re.ec.zigeon.BalloonHeadButtonActivity"
             android:screenOrientation="portrait" >
+            <!-- test 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         <service android:name="kr.re.ec.zigeon.service.ServiceFloating" />
         <service
