@@ -212,8 +212,6 @@ public class ServiceFloating extends Service implements Runnable{
         mCounter = COUNT;
         
         
-        
-        // 동작중이 아니면 run 메소드를 일정 시간 후에 시작
         if (!mRunning) {
               // postAtTime : Method calls a specific time
              mHandler.postAtTime(this, TIMER_PERIOD);
@@ -223,20 +221,20 @@ public class ServiceFloating extends Service implements Runnable{
         return START_NOT_STICKY;
     }
 
-	// 서비스 처리
+	// Service processing
     public void run() {
         if (!mRunning) {
-            // 서비스 종료 요청이 들어온 경우 그냥 종료
+            // a service stop request
             LogUtil.v("run after destory");
             return;
         } else if (--mCounter <= 0) {
-            // 지정한 횟수 실행하면 스스로 종료
+            // connter=0 stopSelf
             LogUtil.v("stop Service id = "+mStartId);
             stopSelf(mStartId);
         } else {
-            // 다음 작업을 다시 요구
+            // Require the operation again
             LogUtil.v("mCounter : " + mCounter);
-            mHandler.postDelayed(this, TIMER_PERIOD);
+            mHandler.postAtTime(this, TIMER_PERIOD);
         }
     }
     
@@ -249,7 +247,6 @@ public class ServiceFloating extends Service implements Runnable{
 		if (wordBubble != null) windowManager.removeView(wordBubble);
 		if (quit != null) windowManager.removeView(quit);
 		
-		// postDelayed는 바로 정지되지 않고 다음 번 run 메소드를 호출.
         mRunning = false;
         
 	}
