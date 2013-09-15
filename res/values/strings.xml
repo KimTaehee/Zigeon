@@ -48,5 +48,14 @@
     <string name="map_address">ya</string>
     <string name="landmark_write_action_write">write</string>    
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
+    <string name="user_profile_main_level">class</string>
+    <string name="user_profile_user_name">cow hukhuk</string>
+    <string name="user_profile_level">class: </string>
+    <string name="user_profile_user_level">angmeongeongnuengdeng?</string>
+    <string name="title_activity_configurations">Configurations</string>
+    <string name="start_service">balloonhead start!</string>
+    <string name="stop_service">balloonhead stop!</string>
+    <string name="wordbubble_text">malmalmal</string>
+    
 
 </resources>

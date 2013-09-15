@@ -10,12 +10,14 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+
 
 @SuppressLint("ValidFragment")
 public class PreferenceActivity extends Activity{
@@ -41,7 +43,8 @@ public class PreferenceActivity extends Activity{
 
 	}
 
-	public class PrefsFragment extends PreferenceFragment implements OnPreferenceClickListener{
+	public class PrefsFragment extends PreferenceFragment implements
+	OnPreferenceClickListener {
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class PreferenceActivity extends Activity{
 		}
 
 		public boolean onPreferenceClick(Preference preference) {
+
 			  LogUtil.v("PW test= " + preference.getKey().equals(PreferenceDataset.PW_CHANGE));
 			//preference.getKey().equals("key")
 	        if (preference.getKey().equals(PreferenceDataset.MY_INFO)) {
@@ -72,11 +76,10 @@ public class PreferenceActivity extends Activity{
 	        	DialogSimple();
 	        } else if (preference.getKey().equals("priority")) {
 
-	        } else {
 
-	        }
-	        return false;
-	    }
+			}
+			return false;
+		}
 	}
 
 	private void DialogSimple(){

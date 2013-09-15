@@ -20,7 +20,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+     
     <application
         android:name="kr.re.ec.zigeon.BalloonApplication"
         android:allowBackup="true"
@@ -93,13 +94,23 @@
      	</activity>
      	<activity 
      	    android:name="kr.re.ec.zigeon.PreferenceActivity">
-     	    
+
      	</activity>
      	<activity 
      	    android:name="kr.re.ec.zigeon.Preferences">
      	</activity>
+        <activity
+            android:name="kr.re.ec.zigeon.BalloonHeadButtonActivity"
+            android:screenOrientation="portrait" >
+            <!-- test 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-     	<service
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
+        </activity>
+        <service android:name="kr.re.ec.zigeon.service.ServiceFloating" />
+        <service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
         </service>
