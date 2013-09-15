@@ -250,7 +250,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		//LogUtil.v("onMapInitHandler invoked!");
 		if (errorInfo == null) { // success
 			//lon, lat, zoom level
-			//	mMapController.setMapCenter(new NGeoPoint(LonLatScan.getLon(),LonLatScan.getLat()), 12);
+			mMapController.setMapCenter(new NGeoPoint(127.0783702,37.6316386), 12); 	//TODO: test phrase
 		} else { // fail
 			LogUtil.e("onMapInitHandler: error=" + errorInfo.toString());
 		}	
@@ -307,6 +307,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	public void onDestroy () {
 		super.onDestroy();
 		LogUtil.v("onDestroy called. finish()");
+		
 		finish();
 	}
 

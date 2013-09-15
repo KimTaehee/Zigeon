@@ -2,9 +2,9 @@
  * Class Name: UpdateService
  * Description: Thread Service. Manage periodical Task (Location, UI, SoapParser)
  * Author: KimTaehee slhyvaa@nate.com
- * Version: 0.0.1
+ * Version: 0.0.3
  * Created Date: 
- * Modified Date: 130915
+ * Modified Date: 130911
  */
 
 package kr.re.ec.zigeon.handler;
@@ -38,9 +38,9 @@ public class UpdateService extends Service implements Runnable{
 //	private Location location; 
 //	
 
-	/*************nMap test****************/
+	/*************nMap ****************/
 	private NMapLocationManager mMapLocationManager; 
-	private NGeoPoint mLocation;
+	private NGeoPoint mLocation;	//Location for detection
 	
 	private UIHandler uiHandler; 	//UIHandler
 	private SoapParser soapParser;	//SoapParser
@@ -67,7 +67,7 @@ public class UpdateService extends Service implements Runnable{
 			}
 		}
 		
-		MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
+		//MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		MapActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		
 
