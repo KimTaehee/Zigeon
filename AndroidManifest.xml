@@ -34,6 +34,7 @@
             android:name="kr.re.ec.zigeon.IntroActivity"
             android:label="@string/intro_activity_title"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            <!-- test -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

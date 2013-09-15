@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -17,7 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 @SuppressLint("ResourceAsColor")
-public class ServiceFloating extends Service {
+public class ServiceFloating extends Service implements Runnable{
 
 	public static  int ID_NOTIFICATION = 2018;
 
@@ -25,6 +26,18 @@ public class ServiceFloating extends Service {
 	private ImageView chatHead;
 	private ImageView quit;
 	private Button wordBubble;
+
+	// Start ID
+    private int mStartId;
+    // Service thread Handler. use to repeat by timer
+    private Handler mHandler;
+    // Service working flag
+    private boolean mRunning;
+    // timer set (5sec)
+    private static final int TIMER_PERIOD = 5 * 1000; 
+    private static final int COUNT = 2;
+    private int mCounter;
+
 
 	Activity imsi = new Activity();
 	long lastPressTime;
@@ -42,6 +55,9 @@ public class ServiceFloating extends Service {
 	public void onCreate() {
 		super.onCreate();
 		
+		mHandler = new Handler();
+        mRunning = false;
+        		
 		windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 		chatHead = new ImageView(this);
 		quit = new ImageView(this);
@@ -185,7 +201,45 @@ public class ServiceFloating extends Service {
 
 	}
 
+	 // call when service start . started in background processing.
+    // startId : Service start request id. stopSelf used to exit from. 
+     //onStart is called multiple times,therefore used as an identifier
 
+	public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtil.v("Service startId = " + startId);
+        super.onStartCommand(intent, flags, startId);
+        mStartId = startId;
+        mCounter = COUNT;
+        
+        
+        
+        // 동작중이 아니면 run 메소드를 일정 시간 후에 시작
+        if (!mRunning) {
+              // postAtTime : Method calls a specific time
+             mHandler.postAtTime(this, TIMER_PERIOD);
+             mRunning = true;
+        }
+        
+        return START_NOT_STICKY;
+    }
+
+	// 서비스 처리
+    public void run() {
+        if (!mRunning) {
+            // 서비스 종료 요청이 들어온 경우 그냥 종료
+            LogUtil.v("run after destory");
+            return;
+        } else if (--mCounter <= 0) {
+            // 지정한 횟수 실행하면 스스로 종료
+            LogUtil.v("stop Service id = "+mStartId);
+            stopSelf(mStartId);
+        } else {
+            // 다음 작업을 다시 요구
+            LogUtil.v("mCounter : " + mCounter);
+            mHandler.postDelayed(this, TIMER_PERIOD);
+        }
+    }
+    
 
 
 	@Override
@@ -194,6 +248,10 @@ public class ServiceFloating extends Service {
 		if (chatHead != null) windowManager.removeView(chatHead);
 		if (wordBubble != null) windowManager.removeView(wordBubble);
 		if (quit != null) windowManager.removeView(quit);
+		
+		// postDelayed는 바로 정지되지 않고 다음 번 run 메소드를 호출.
+        mRunning = false;
+        
 	}
 
 }
