@@ -14,15 +14,16 @@ import kr.re.ec.zigeon.util.Constants;
 
 
 public class LandmarkDataset extends Object {
-	public static final int LANDMARK_FIELD_COUNT = 12;
+	public static final int LANDMARK_FIELD_COUNT = 13;
 	
 	public int idx;
 	public String name;
 	public double latitude;
 	public double longitude;
 	public String contents;
-	public int like;
-	public int dislike;
+	public double rating;
+	public int ratingVotes;
+	public boolean visible;
 	public int writerIdx;
 	public int readedCount;
 	public Date writtenTime;
@@ -52,27 +53,28 @@ public class LandmarkDataset extends Object {
 				latitude = Double.parseDouble(strArr[2]);
 				longitude = Double.parseDouble(strArr[3]);
 				contents = strArr[4];
-				like = Integer.parseInt(strArr[5]);
-				dislike = Integer.parseInt(strArr[6]);
-				writerIdx = Integer.parseInt(strArr[7]);
-				readedCount = Integer.parseInt(strArr[8]);
+				rating = Double.parseDouble(strArr[5]);
+				ratingVotes = Integer.parseInt(strArr[6]);
+				visible = Boolean.parseBoolean(strArr[7]);
+				writerIdx = Integer.parseInt(strArr[8]);
+				readedCount = Integer.parseInt(strArr[9]);
 				writtenTime = new Date(); //TODO: temp. return now.
-				if (strArr[10]!=null) {
-					if (strArr[10].compareTo("null")!=0) { //for avoid NumberFormatException
-						//LogUtil.i("undoIdx: " + strArr[10]);
-						undoIdx = Integer.parseInt(strArr[10]);
+				if (strArr[11]!=null) {
+					if (strArr[11].compareTo("null")!=0) { //for avoid NumberFormatException
+						//LogUtil.i("undoIdx: " + strArr[11]);
+						undoIdx = Integer.parseInt(strArr[11]);
 					} else {
 						//LogUtil.v("convert null to int DB_NULL");
 						undoIdx = Constants.INT_NULL;
 					}
 				}
 
-				picturePath = strArr[11];
+				picturePath = strArr[12];
 				//LogUtil.i("PicturePath is: " + picturePath);
 				return 0;
 			} else {
 				LogUtil.e("wrong data input");
-				return Constants.ERR_DATASET_MISMATCHED;
+			return Constants.ERR_DATASET_MISMATCHED;
 			}
 			
 		} catch (Exception e) {
