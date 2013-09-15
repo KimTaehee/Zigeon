@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 package kr.re.ec.zigeon.service;
 
 import kr.re.ec.zigeon.BalloonHeadButtonActivity;
@@ -253,6 +254,8 @@ public class ServiceFloating extends Service implements Runnable{
 	}
 
 =======
+=======
+>>>>>>> no_hangle?
 package kr.re.ec.zigeon.service;
 
 import kr.re.ec.zigeon.BalloonHeadButtonActivity;
@@ -509,5 +512,8 @@ public class ServiceFloating extends Service implements Runnable{
         
 	}
 
+<<<<<<< HEAD
 >>>>>>> ServiceFloating auto service stop
+=======
+>>>>>>> no_hangle?
 }
