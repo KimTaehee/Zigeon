@@ -20,7 +20,7 @@ public class BalloonHeadButtonActivity extends Activity {
 		launch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LogUtil.v("Å¬¸¯‰ç³Ä??");
+				LogUtil.v("Å¬ï¿½ï¿½ï¿½ï¿½ï¿½??");
 				startService(new Intent(BalloonHeadButtonActivity.this, ServiceFloating.class));
 			}
 		});
