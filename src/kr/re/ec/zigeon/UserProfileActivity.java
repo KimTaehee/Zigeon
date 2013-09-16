@@ -8,6 +8,7 @@ import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
@@ -31,6 +32,8 @@ public class UserProfileActivity extends Activity {
 	public Activity act = this;
 	public ProgressBar prBar;
 
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	private ListView myLstComment;
 	private ListView myLstPosting;
 	private MemberDataset mMemberDataset;	
@@ -106,11 +109,17 @@ public class UserProfileActivity extends Activity {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		LogUtil.v("1");
 >>>>>>> userprofile
 =======
 >>>>>>> UserProfile myPosting,Comment list
+=======
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
+>>>>>>> Logout, ActivityManager
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -273,4 +282,14 @@ public class UserProfileActivity extends Activity {
 		return true;
 	}
 	*/
+	
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+	}
+	
 }

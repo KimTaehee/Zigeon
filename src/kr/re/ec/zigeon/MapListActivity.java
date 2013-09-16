@@ -14,9 +14,9 @@ import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
-
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -58,8 +57,10 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayList
 public class MapListActivity extends NMapActivity 
 	implements OnMapStateChangeListener, OnCalloutOverlayListener {
 	
-	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
+	private ActivityManager activityManager = ActivityManager.getInstance();
 	
+	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
+		
 	private NMapView mMapView = null;	//Naver map object
 
 	private ListView lstLandmark;
@@ -190,6 +191,9 @@ public class MapListActivity extends NMapActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_list);
 
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -423,6 +427,10 @@ public class MapListActivity extends NMapActivity
 	public void onDestroy () {
 		super.onDestroy();
 		LogUtil.v("onDestroy called. finish()");
+		
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+		
 		finish();
 	}
 	

@@ -4,6 +4,8 @@
  * LoginActivity
  * 130821 kim ji hong
  * */
+import com.nhn.android.maps.maplib.NGeoPoint;
+
 import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
