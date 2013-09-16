@@ -216,7 +216,7 @@ public class ServiceFloating extends Service implements Runnable{
         
         if (!mRunning) {
               // postAtTime : Method calls a specific time
-             mHandler.postAtTime(this, TIMER_PERIOD);
+             mHandler.postDelayed(this, TIMER_PERIOD);
              mRunning = true;
         }
         
@@ -236,7 +236,7 @@ public class ServiceFloating extends Service implements Runnable{
         } else {
             // Require the operation again
             LogUtil.v("mCounter : " + mCounter);
-            mHandler.postAtTime(this, TIMER_PERIOD);
+            mHandler.postDelayed(this, TIMER_PERIOD);
         }
     }
     

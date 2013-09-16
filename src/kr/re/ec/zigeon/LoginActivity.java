@@ -7,6 +7,7 @@
 import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.service.ServiceFloating;
 import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -57,7 +58,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		
 		//  To Auto Login, get Shared Preference
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
-		SharedPreferences id_pref = getSharedPreferences("id_pref", Activity.MODE_PRIVATE);
 		
 		// load from saved values
 		String auto_ID = pref.getString("ID","");
@@ -131,6 +131,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					intent = new Intent(LoginActivity.this,
 							BestListActivity.class);
 					startActivity(intent);
+					startService(new Intent(LoginActivity.this, ServiceFloating.class));
 
 					finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
 				} else {

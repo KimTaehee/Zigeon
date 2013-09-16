@@ -93,7 +93,6 @@ public final class R {
         public static final int action_settings=0x7f0b0058;
         public static final int action_settings_landmark=0x7f0b005d;
         public static final int action_test_stop_service=0x7f0b005a;
-        public static final int alarm=0x7f0b004d;
         public static final int best_list_btn_refresh_location=0x7f0b0006;
         public static final int best_list_btn_set_range=0x7f0b0004;
         public static final int best_list_gridview=0x7f0b0002;
@@ -101,7 +100,6 @@ public final class R {
         public static final int best_list_tglbtn_trace_location=0x7f0b0005;
         public static final int button1=0x7f0b0000;
         public static final int button2=0x7f0b0001;
-        public static final int comments=0x7f0b0050;
         public static final int gridview_item_best_list_iv_balloon=0x7f0b0053;
         public static final int gridview_item_best_list_iv_grade=0x7f0b0052;
         public static final int gridview_item_best_list_iv_landmark=0x7f0b0051;
@@ -168,7 +166,6 @@ public final class R {
         public static final int posting_write_edt_title=0x7f0b0041;
         public static final int posting_write_img_input=0x7f0b0043;
         public static final int posting_write_layout_contents=0x7f0b0040;
-        public static final int postings=0x7f0b004e;
         public static final int progressBar=0x7f0b004b;
         public static final int tabhost=0x7f0b004c;
         public static final int tableRow1=0x7f0b0017;
@@ -177,6 +174,9 @@ public final class R {
         public static final int test_btn2=0x7f0b0045;
         public static final int userLevel=0x7f0b004a;
         public static final int userName=0x7f0b0048;
+        public static final int user_alarm_list=0x7f0b004d;
+        public static final int user_comments_list=0x7f0b0050;
+        public static final int user_postings_list=0x7f0b004e;
     }
     public static final class layout {
         public static final int activity_balloon_head_button=0x7f030000;
