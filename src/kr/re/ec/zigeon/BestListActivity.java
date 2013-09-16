@@ -158,8 +158,11 @@ public class BestListActivity extends Activity implements OnClickListener {
 				//WARN: cannot use this query on UpdateService.onLocationChanged().
 				//WARN: It may cause to send to other Activity.
 <<<<<<< HEAD
+<<<<<<< HEAD
 				
 =======
+=======
+>>>>>>> top 20 tLandmark & landmark adapter update
 <<<<<<< HEAD
 				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -169,7 +172,15 @@ public class BestListActivity extends Activity implements OnClickListener {
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 >>>>>>> landmark table changed.
+<<<<<<< HEAD
 >>>>>>> landmark table changed.
+=======
+=======
+				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+						soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+>>>>>>> top 20 tLandmark & landmark adapter update
+>>>>>>> top 20 tLandmark & landmark adapter update
 
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
@@ -201,6 +212,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 		//request contents
 		soapParser = SoapParser.getInstance(); 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		
 		detLocation = new NGeoPoint();
 		
@@ -217,6 +229,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 =======
+=======
+>>>>>>> top 20 tLandmark & landmark adapter update
 <<<<<<< HEAD
 		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -226,7 +240,15 @@ public class BestListActivity extends Activity implements OnClickListener {
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 >>>>>>> landmark table changed.
+<<<<<<< HEAD
 >>>>>>> landmark table changed.
+=======
+=======
+		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+>>>>>>> top 20 tLandmark & landmark adapter update
+>>>>>>> top 20 tLandmark & landmark adapter update
 		
 
 		/********** init UI ************/

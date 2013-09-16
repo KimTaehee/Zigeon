@@ -121,11 +121,15 @@ public class UserProfileActivity extends Activity {
 		mMemberDataset.id = pref.getString("ID", "");
 		soapParser = SoapParser.getInstance(); 
 
+<<<<<<< HEAD
 		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
 		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
 		
 		query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
 
+=======
+		String query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
+>>>>>>> top 20 tLandmark & landmark adapter update
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
