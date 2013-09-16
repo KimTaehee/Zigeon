@@ -46,54 +46,54 @@ public class UserProfileActivity extends Activity {
 	private Intent mIntent;
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-
-	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
-		@Override
-		public void handleMessage(Message msg){
-			LogUtil.v("msg receive success!");
-			switch (msg.what) {
-			case Constants.MSG_TYPE_POSTING:
-			{
-				mPostingArr =(PostingDataset[]) msg.obj;
-
-				/************ Posting to listview ************/
-				mPostingArl.clear();
-
-				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
-				for(int i=0;i<mPostingArr.length;i++){
-					mPostingArl.add(mPostingArr[i].title);
-				}
-				mPostingAdp.notifyDataSetChanged();
-				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
-				break;
-			}
-			case Constants.MSG_TYPE_COMMENT:
-			{
-				mCommentArr =(CommentDataset[]) msg.obj;
-
-
-				/************ Comment to listview ************/
-
-				mCommentArl.clear();
-
-				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
-				for(int i=0;i<mCommentArr.length;i++){
-					mCommentArl.add(mCommentArr[i].contents);
-				}
-				mCommentAdp.notifyDataSetChanged();
-				myLstComment.smoothScrollToPosition(mCommentArr.length-1);
-				//LogUtil.i("mCommentAdp.notifyDataSetChanged()");
-				break;
-			}
-			case Constants.MSG_TYPE_MEMBER:
-			{
-				//tvPostingTest.setText(msg.getData().getString("msg"));
-				break;
-			}
-			}
-		}
-	};
-	
+//
+//	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
+//		@Override
+//		public void handleMessage(Message msg){
+//			LogUtil.v("msg receive success!");
+//			switch (msg.what) {
+//			case Constants.MSG_TYPE_POSTING:
+//			{
+//				mPostingArr =(PostingDataset[]) msg.obj;
+//
+//				/************ Posting to listview ************/
+//				mPostingArl.clear();
+//
+//				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
+//				for(int i=0;i<mPostingArr.length;i++){
+//					mPostingArl.add(mPostingArr[i].title);
+//				}
+//				mPostingAdp.notifyDataSetChanged();
+//				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
+//				break;
+//			}
+//			case Constants.MSG_TYPE_COMMENT:
+//			{
+//				mCommentArr =(CommentDataset[]) msg.obj;
+//
+//
+//				/************ Comment to listview ************/
+//
+//				mCommentArl.clear();
+//
+//				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
+//				for(int i=0;i<mCommentArr.length;i++){
+//					mCommentArl.add(mCommentArr[i].contents);
+//				}
+//				mCommentAdp.notifyDataSetChanged();
+//				myLstComment.smoothScrollToPosition(mCommentArr.length-1);
+//				//LogUtil.i("mCommentAdp.notifyDataSetChanged()");
+//				break;
+//			}
+//			case Constants.MSG_TYPE_MEMBER:
+//			{
+//				//tvPostingTest.setText(msg.getData().getString("msg"));
+//				break;
+//			}
+//			}
+//		}
+//	};
+//	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -107,15 +107,20 @@ public class UserProfileActivity extends Activity {
 		prBar = (ProgressBar) findViewById(R.id.progressBar);
 		//		prBar.setVisibility(ProgressBar.GONE);
 
+<<<<<<< HEAD
 		/*******add activity list********/
 		activityManager.addActivity(this);
 		
+=======
+		LogUtil.v("1");
+>>>>>>> userprofile
 		/************** register handler ***************/
-		uiHandler = UIHandler.getInstance(this);
-		uiHandler.setHandler(messageHandler);
+//		uiHandler = UIHandler.getInstance(this);
+//		uiHandler.setHandler(messageHandler);
 
 		/****** Data init request *****/
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
+<<<<<<< HEAD
 
 		mMemberDataset = new MemberDataset();
 		mMemberDataset.id = pref.getString("ID", "");
@@ -158,6 +163,47 @@ public class UserProfileActivity extends Activity {
 		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
 //		Bundle bundle = this.getIntent().getExtras();
 
+=======
+		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
+//		Bundle bundle = this.getIntent().getExtras();
+		mMemberDataset = new MemberDataset();
+		mMemberDataset.id = pref.getString("ID", "");
+		//LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
+		//data request using ldmIdx
+		soapParser = SoapParser.getInstance(); 
+		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
+		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
+		/*
+		query="SELECT * FROM tLandmark WHERE ldmWriterIdx='"+ mMemberDataset.idx +"'";
+		LogUtil.v("data request. " + query);
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));*/
+//		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "'"; 
+//		LogUtil.v("data request. " + query);
+//		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
+//				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
+//
+//		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "'"; 
+//		LogUtil.v("data request. " + query);
+//		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+//				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+		
+		
+//		mCommentAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_comment , mCommentArl); 
+//		mPostingAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_posting , mPostingArl);
+		LogUtil.v("4");
+		/*
+		myLstComment.setAdapter(mCommentAdp);
+		LogUtil.v("6");
+		//lstComment.setOnItemClickListener(lstCommentItemClickListener);
+		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		LogUtil.v("5");
+		myLstPosting.setAdapter(mPostingAdp);
+		myLstPosting.setOnItemClickListener(myLstPostingItemClickListener);
+		mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		LogUtil.v("3");
+		*/
+>>>>>>> userprofile
 		/*****************TabTab***************************/
 		
 		tab_host.setup(); 
@@ -181,6 +227,10 @@ public class UserProfileActivity extends Activity {
 	}
 
 	/************** when listview clicked ****************/
+<<<<<<< HEAD
+=======
+	/*
+>>>>>>> userprofile
 	private AdapterView.OnItemClickListener myLstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
@@ -192,8 +242,12 @@ public class UserProfileActivity extends Activity {
 			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
 			startActivity(mIntent);
 		}
+<<<<<<< HEAD
 	};
 	
+=======
+	};*/
+>>>>>>> userprofile
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
