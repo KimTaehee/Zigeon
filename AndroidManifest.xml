@@ -104,27 +104,12 @@
      	</activity>
      	<activity 
             android:name="kr.re.ec.zigeon.UserProfileActivity" >
-<<<<<<< HEAD
-<<<<<<< HEAD
             <!--  test
-=======
->>>>>>> userprofile
-=======
-            <!--  test
->>>>>>> UserProfile myPosting,Comment list
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-<<<<<<< HEAD
-<<<<<<< HEAD
             </intent-filter> -->
-=======
-            </intent-filter>
->>>>>>> userprofile
-=======
-            </intent-filter> -->
->>>>>>> UserProfile myPosting,Comment list
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.BalloonHeadButtonActivity"
