@@ -73,46 +73,54 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		View gridView;
+		//View gridView;
+		ViewHolder holder = null; //use viewholder pattern
 		
 		if(convertView == null) { 
-			gridView = new View(context);
+			//gridView = new View(context);
 			
-			gridView = inflater.inflate(R.layout.gridview_item_best_list, null);
+			convertView = inflater.inflate(R.layout.gridview_item_best_list, null);
 			
 			/*********** set contents into gridview ***********/
-			tvName = (TextView) gridView.findViewById(R.id.gridview_item_best_list_tv_name);
-			tvName.setText(mLandmarkArr[position].name);
+			holder = new ViewHolder();
 			
-			tvDistance = (TextView) gridView.findViewById(R.id.gridview_item_best_list_tv_distance);
+			holder.tvName= (TextView) convertView.findViewById(R.id.gridview_item_best_list_tv_name);
+			holder.tvDistance = (TextView) convertView.findViewById(R.id.gridview_item_best_list_tv_distance);
+			holder.ivLandmark = (ImageView) convertView.findViewById(R.id.gridview_item_best_list_iv_landmark);
+			holder.ivGrade = (ImageView) convertView.findViewById(R.id.gridview_item_best_list_iv_grade);
+			holder.ivBalloon = (ImageView) convertView.findViewById(R.id.gridview_item_best_list_iv_balloon);
 			
-			int distanceFromMe = (int)mLandmarkArr[position].distanceFromCurrentLocation;
-			tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"wait...":distanceFromMe + " m");
-			
-			//picture that represents landmarks
-			ivLandmark = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_landmark);
-			
-			LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
-			if(mLandmarkArr[position].getImageUrl() != null) {
-				LogUtil.v("image load start!");
-				
-				imgLoader.displayImage(mLandmarkArr[position].getImageUrl(), ivLandmark, this);
-				//System.gc(); 	//it may cause UI frame skip but do memory free
-			}
-			//grade: best, new, ... 
-			ivGrade = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_grade);
-			ivGrade.setVisibility(ImageView.INVISIBLE);
-			//ivGrade = //TODO: gonna work
-			
-			ivBalloon = (ImageView) gridView.findViewById(R.id.gridview_item_best_list_iv_balloon);
-			//TODO: gonna work
-			
+			convertView.setTag(holder);
 			
 		} else {
-			gridView = (View) convertView;
+			holder = (ViewHolder) convertView.getTag(); 
+			//gridView = (View) convertView;
 			
 		}
-		return gridView;
+		
+		LogUtil.v("Landmark name: " + mLandmarkArr[position].name + ", pos: " + position);
+		holder.tvName.setText(mLandmarkArr[position].name);
+		
+		int distanceFromMe = (int)mLandmarkArr[position].distanceFromCurrentLocation;
+		holder.tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"wait...":distanceFromMe + " m");
+		
+		//picture that represents landmarks
+		LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
+		if(mLandmarkArr[position].getImageUrl() != null) {
+			LogUtil.v("position: " + position +", image load start!");
+			
+			imgLoader.displayImage(mLandmarkArr[position].getImageUrl(), holder.ivLandmark, this);
+			//System.gc(); 	//it may cause UI frame skip but do memory free
+		} else {
+			imgLoader.displayImage(null, holder.ivLandmark, this);
+		
+		}
+		
+		//grade: best, new, ... 
+		holder.ivGrade.setVisibility(ImageView.INVISIBLE);
+		//ivGrade = //TODO: gonna work
+		
+		return convertView;
 	}
 
 	@Override
@@ -140,4 +148,12 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 		}
 		
 	}
+}
+
+class ViewHolder {
+	TextView tvName;
+	TextView tvDistance;
+	ImageView ivLandmark;
+	ImageView ivBalloon;
+	ImageView ivGrade;
 }

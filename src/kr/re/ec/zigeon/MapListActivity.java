@@ -168,9 +168,9 @@ public class MapListActivity extends NMapActivity
 				
 				//WARN: cannot use this query on UpdateService.onLocationChanged().
 				//WARN: It may cause to send to other Activity.
-				LogUtil.v("select * from tLandmark");
+				LogUtil.v("select TOP 20 * from tLandmark");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
+						soapParser.getSoapData("select TOP 20 * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 				
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
@@ -224,9 +224,9 @@ public class MapListActivity extends NMapActivity
 		/*********************** tab and listview init***************************/
 		//request contents
 		soapParser = SoapParser.getInstance(); 
-		LogUtil.v("data request. select * from tLandmark");
+		LogUtil.v("data request. select TOP 20 * from tLandmark");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
+				soapParser.getSoapData("select TOP 20 * from tLandmark", Constants.MSG_TYPE_LANDMARK));
 		LogUtil.v("data request. select * from tPosting");
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData("select * from tPosting", Constants.MSG_TYPE_POSTING));

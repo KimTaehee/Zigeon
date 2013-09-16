@@ -164,7 +164,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		//data request using ldmIdx
 		soapParser = SoapParser.getInstance(); 
 
-		String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
+		String query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
