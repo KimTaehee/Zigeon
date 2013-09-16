@@ -165,6 +165,7 @@ public class UserProfileActivity extends Activity {
 		LogUtil.v("mCommentArl" + mCommentArl);
 		
 		myLstComment.setAdapter(mCommentAdp);
+		myLstComment.setOnItemClickListener(myLstCommentItemClickListener);
 		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 		myLstPosting.setAdapter(mPostingAdp);
 		myLstPosting.setOnItemClickListener(myLstPostingItemClickListener);
@@ -275,12 +276,27 @@ public class UserProfileActivity extends Activity {
 <<<<<<< HEAD
 	};
 	
+<<<<<<< HEAD
 =======
 	};*/
 >>>>>>> userprofile
 =======
 	};
 >>>>>>> UserProfile myPosting,Comment list
+=======
+	private AdapterView.OnItemClickListener myLstCommentItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
+			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			LogUtil.v("position: "+position + ", ldmIdx: " + mCommentArr[position].idx);
+			//TODO: MUST BE mPostingArr == Listview. (test phrase)
+
+			mIntent = new Intent(UserProfileActivity.this, LandmarkActivity.class);
+			mIntent.putExtra("ldmIdx",mCommentArr[position].parentIdx);
+			startActivity(mIntent);
+		}
+	};
+>>>>>>> actionbar overflow and myComment intent set
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

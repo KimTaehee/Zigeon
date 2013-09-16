@@ -83,7 +83,7 @@ public class PreferenceActivity extends Activity{
 	        	Toast.makeText(getBaseContext(),
 						"The custom preference_PW_Change has been clicked",
 						Toast.LENGTH_LONG).show();
-	        	DialogSimple();
+	        	//DialogSimple();
 	        } else if (preference.getKey().equals(PreferenceDataset.LOGOUT)) {
 	        	DialogLogout();
 
@@ -91,7 +91,7 @@ public class PreferenceActivity extends Activity{
 			return false;
 		}
 	}
-
+/*
 	private void DialogSimple(){
 	    AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
 	    alt_bld.setMessage("Do you want to close this window ?").setCancelable(
@@ -113,7 +113,7 @@ public class PreferenceActivity extends Activity{
 	    // Icon for AlertDialog
 	    alert.setIcon(R.drawable.icon);
 	    alert.show();
-	}
+	}*/
 	
 	private void DialogLogout(){
 	    AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
@@ -136,9 +136,7 @@ public class PreferenceActivity extends Activity{
 	        });
 	    AlertDialog alert = alt_bld.create();
 	    // Title for AlertDialog
-	    alert.setTitle("Title");
 	    // Icon for AlertDialog
-	    alert.setIcon(R.drawable.icon);
 	    alert.show();
 	}
 

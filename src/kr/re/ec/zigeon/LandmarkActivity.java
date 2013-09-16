@@ -334,6 +334,18 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 			overridePendingTransition(0, 0); //no switching animation
 			break;
 		}
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
 		}
 		return true;
 	}

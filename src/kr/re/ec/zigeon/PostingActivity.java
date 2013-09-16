@@ -32,6 +32,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.format.DateFormat;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -262,6 +263,24 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 	}
 
+	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
+		switch(item.getItemId()) {
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		}
+		return true;
+	}
+	
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub

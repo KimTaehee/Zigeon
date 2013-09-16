@@ -5,7 +5,26 @@
         android:title="@string/posting_write_action_write"
         android:showAsAction="ifRoom|withText" >
 	</item>
-    
+    <item
+        android:id="@+id/overflow"
+        android:orderInCategory="3"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/overflow">
+        <menu>
+            <item
+                android:id="@+id/preference"
+                android:orderInCategory="5"
+                android:showAsAction="ifRoom|withText"
+                android:title="@string/preferecen">
+            </item>
+            <item
+                android:id="@+id/my_profile"
+                android:orderInCategory="4"
+                android:showAsAction="ifRoom|withText"
+                android:title="@string/my_profile">
+            </item>
+        </menu>
+    </item>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
