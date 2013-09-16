@@ -467,7 +467,7 @@ public class ServiceFloating extends Service implements Runnable{
         // 동작중이 아니면 run 메소드를 일정 시간 후에 시작
         if (!mRunning) {
               // postAtTime : Method calls a specific time
-             mHandler.postAtTime(this, TIMER_PERIOD);
+             mHandler.postDelayed(this, TIMER_PERIOD);
              mRunning = true;
         }
         
