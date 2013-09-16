@@ -19,6 +19,7 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayList
 
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Intent;
@@ -40,7 +41,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class LandmarkWriteActivity extends Activity implements OnClickListener{
-
+	private ActivityManager activityManager = ActivityManager.getInstance();
 	EditText edtTitle;
 	EditText edtContents;
 	ImageView imgInput;
@@ -68,6 +69,11 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(kr.re.ec.zigeon.R.layout.activity_landmark_write);
 		LogUtil.v("onCreate invoked!");
+		
+
+		/*******add activity list********/
+		activityManager.addActivity(this);
+
 
 		/******** Init UI ********/
 		edtTitle = (EditText) findViewById(R.id.landmark_write_edit_title);
@@ -124,6 +130,18 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 			startActivity(intent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
+		}
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
 		}
 		}
 		return true;
@@ -187,6 +205,14 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+	}
+	
 	public String getPath(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null); 	//deprecated func used!

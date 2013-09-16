@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +30,8 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 
 //	private final int imgWidth = 320;
 //	private final int imgHeight = 372;
-
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	private ImageView iv;
 
 	/******** AUIL init ********/
@@ -45,6 +47,8 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_view);
 
+		/*******add activity list********/
+		activityManager.addActivity(this);
 
 		/** receive intent */
 		Intent i = getIntent();
@@ -80,6 +84,15 @@ public class PhotoViewActivity extends Activity implements ImageLoadingListener 
 //		iv.setImageBitmap(bm);	
 	}
 
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+	}
+	
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub

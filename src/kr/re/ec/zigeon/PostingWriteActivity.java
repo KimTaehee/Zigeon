@@ -16,6 +16,7 @@ import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -36,6 +37,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 public class PostingWriteActivity extends Activity implements OnClickListener {
+	private ActivityManager activityManager = ActivityManager.getInstance();
 	private EditText edtTitle;
 	private EditText edtContents;
 	private ImageView imgInput;
@@ -55,6 +57,9 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_posting_write);
 		LogUtil.v("onCreate invoked!");
 
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
 		Bundle bundle = this.getIntent().getExtras();
 		mLdmIdx = bundle.getInt("ldmIdx");
 
@@ -126,7 +131,18 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 
 			break;
 		}
-
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
 	}
 	return true;
 }
@@ -188,6 +204,14 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		}
 
 	}
+}
+
+@Override
+public void onDestroy() {
+	super.onDestroy();
+
+	/*********remove activity list******/
+	activityManager.removeActivity(this);
 }
 
 public String getPath(Uri uri) {

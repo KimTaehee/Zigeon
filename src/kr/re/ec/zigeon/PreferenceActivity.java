@@ -1,6 +1,7 @@
 package kr.re.ec.zigeon;
 
 import kr.re.ec.zigeon.dataset.PreferenceDataset;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,7 +11,6 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -21,11 +21,18 @@ import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class PreferenceActivity extends Activity{
-
+	private Intent intent;
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	@SuppressLint("ValidFragment")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
 		FragmentManager mFragmentManager = getFragmentManager();
 		FragmentTransaction mFragmentTransaction = mFragmentManager
 				.beginTransaction();
@@ -55,9 +62,12 @@ public class PreferenceActivity extends Activity{
 			// Get the custom preference
 			Preference Pref_myInfo = (Preference) findPreference(PreferenceDataset.MY_INFO);
 			Preference Pref_PwChange = (Preference) findPreference(PreferenceDataset.PW_CHANGE);
+			Preference Pref_Logout = (Preference) findPreference(PreferenceDataset.LOGOUT);
+			
 			// preference set ClickListncer
 			Pref_myInfo.setOnPreferenceClickListener(this);
 			Pref_PwChange.setOnPreferenceClickListener(this);
+			Pref_Logout.setOnPreferenceClickListener(this);
 		}
 
 		public boolean onPreferenceClick(Preference preference) {
@@ -73,15 +83,15 @@ public class PreferenceActivity extends Activity{
 	        	Toast.makeText(getBaseContext(),
 						"The custom preference_PW_Change has been clicked",
 						Toast.LENGTH_LONG).show();
-	        	DialogSimple();
-	        } else if (preference.getKey().equals("priority")) {
-
+	        	//DialogSimple();
+	        } else if (preference.getKey().equals(PreferenceDataset.LOGOUT)) {
+	        	DialogLogout();
 
 			}
 			return false;
 		}
 	}
-
+/*
 	private void DialogSimple(){
 	    AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
 	    alt_bld.setMessage("Do you want to close this window ?").setCancelable(
@@ -103,6 +113,39 @@ public class PreferenceActivity extends Activity{
 	    // Icon for AlertDialog
 	    alert.setIcon(R.drawable.icon);
 	    alert.show();
+	}*/
+	
+	private void DialogLogout(){
+	    AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+	    alt_bld.setMessage("Do you want to Logout?").setCancelable(
+	        false).setPositiveButton("Yes",
+	        new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int id) {
+	            // Action for 'Yes' Button
+	        	intent = new Intent(PreferenceActivity.this,
+						LoginActivity.class);
+	        	startActivity(intent);
+	        	activityManager.finishAllActivity();
+	        }
+	        }).setNegativeButton("No",
+	        new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int id) {
+	            // Action for 'NO' Button
+	            dialog.cancel();
+	        }
+	        });
+	    AlertDialog alert = alt_bld.create();
+	    // Title for AlertDialog
+	    // Icon for AlertDialog
+	    alert.show();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+	}
+	
 }

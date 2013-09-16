@@ -13,6 +13,7 @@ import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.content.Intent;
@@ -51,6 +52,8 @@ public class MapActivity extends NMapActivity implements OnClickListener
 , OnMapStateChangeListener, OnCalloutOverlayListener{
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	private NMapView mMapView = null;	//Naver map object
 
 	private NMapController mMapController = null;	// map controller
@@ -146,6 +149,9 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+
+		/*******add activity list********/
+		activityManager.addActivity(this);
 
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
@@ -308,6 +314,9 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		super.onDestroy();
 		LogUtil.v("onDestroy called. finish()");
 		
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+
 		finish();
 	}
 

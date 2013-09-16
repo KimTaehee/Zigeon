@@ -19,6 +19,7 @@ import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -31,6 +32,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.format.DateFormat;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -49,6 +51,8 @@ import android.widget.TextView;
 
 public class PostingActivity extends Activity implements OnClickListener, ImageLoadingListener {
 
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	private TextView tvTitle;
 	private TextView tvWrittenTime;
 	private TextView tvWriter;
@@ -130,6 +134,9 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
 
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -187,6 +194,10 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+		
 	}
 
 	@Override
@@ -252,6 +263,24 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 	}
 
+	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
+		switch(item.getItemId()) {
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		}
+		return true;
+	}
+	
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub

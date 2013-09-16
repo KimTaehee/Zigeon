@@ -20,6 +20,7 @@ import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
 public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
+	private ActivityManager activityManager = ActivityManager.getInstance();
 	private TabHost tabHost;
 	private ListView lstComment;
 	private ListView lstPosting;
@@ -150,6 +152,9 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_landmark);  
 
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
         /************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -242,6 +247,9 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
 	}
 
 	@Override
@@ -325,6 +333,18 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
+		}
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
 		}
 		}
 		return true;

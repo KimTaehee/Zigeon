@@ -105,7 +105,7 @@
                     android:layout_height="match_parent" >
 
                     <ListView
-                        android:id="@+id/alarm"
+                        android:id="@+id/user_alarm_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
@@ -118,7 +118,7 @@
                     </TableRow>
 
                     <ListView
-                        android:id="@+id/postings"
+                        android:id="@+id/user_postings_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
@@ -131,7 +131,7 @@
                     </TableRow>
 
                     <ListView
-                        android:id="@+id/comments"
+                        android:id="@+id/user_comments_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"

@@ -12,10 +12,12 @@ package kr.re.ec.zigeon;
 import java.util.ArrayList;
 
 import com.nhn.android.maps.maplib.NGeoPoint;
+
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
@@ -38,6 +40,8 @@ import android.widget.ToggleButton;
 public class BestListActivity extends Activity implements OnClickListener {
 	private Intent mIntent;
 
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	private SoapParser soapParser;
 	private NGeoPoint myLocation;
 	
@@ -157,7 +161,10 @@ public class BestListActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_best_list);
-
+		
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -193,6 +200,10 @@ public class BestListActivity extends Activity implements OnClickListener {
 	public void onDestroy () {
 		super.onDestroy();
 		LogUtil.v("onDestroy called. finish()");
+		
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+		
 		finish();
 	}
 	
@@ -218,6 +229,18 @@ public class BestListActivity extends Activity implements OnClickListener {
 			startActivity(new Intent(this,LandmarkWriteActivity.class));
 			overridePendingTransition(0, 0); //no switching animation
 			break;			
+		}
+		case R.id.my_profile:
+		{
+			startActivity(new Intent(this,UserProfileActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
+		}
+		case R.id.preference:
+		{
+			startActivity(new Intent(this,PreferenceActivity.class));
+			overridePendingTransition(0, 0); //no switching animation
+			break;		
 		}
 		}
 		return true;

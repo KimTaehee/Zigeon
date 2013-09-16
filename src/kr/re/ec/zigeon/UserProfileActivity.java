@@ -8,19 +8,23 @@ import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 public class UserProfileActivity extends Activity {
@@ -28,6 +32,8 @@ public class UserProfileActivity extends Activity {
 	public Activity act = this;
 	public ProgressBar prBar;
 
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	
 	private ListView myLstComment;
 	private ListView myLstPosting;
 	private MemberDataset mMemberDataset;	
@@ -95,62 +101,202 @@ public class UserProfileActivity extends Activity {
 
 		ImageView levelImage = (ImageView)findViewById(R.id.levelImage);
 		levelImage.setScaleType(ImageView.ScaleType.FIT_XY); // layout set scale
-
+		TabHost tab_host = (TabHost) findViewById(R.id.tabhost);
+		myLstComment = (ListView) findViewById(R.id.user_comments_list);
+		myLstPosting = (ListView) findViewById(R.id.user_postings_list);
 		prBar = (ProgressBar) findViewById(R.id.progressBar);
 		//		prBar.setVisibility(ProgressBar.GONE);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+		/*******add activity list********/
+		activityManager.addActivity(this);
 		
+=======
+		LogUtil.v("1");
+>>>>>>> userprofile
+=======
+>>>>>>> UserProfile myPosting,Comment list
+=======
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
+>>>>>>> Logout, ActivityManager
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
 		/****** Data init request *****/
-		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
-		Bundle bundle = this.getIntent().getExtras();
-		mMemberDataset = new MemberDataset();
-		mMemberDataset.idx = bundle.getInt("memIdx");
-		//LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
+		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
+<<<<<<< HEAD
+<<<<<<< HEAD
 
-		//data request using ldmIdx
+		mMemberDataset = new MemberDataset();
+		mMemberDataset.id = pref.getString("ID", "");
 		soapParser = SoapParser.getInstance(); 
 
-		String query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
+		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
+		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
+		
+		query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
+
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
-
-		query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mMemberDataset.idx + "'"; 
+		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "'"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
 
-		query = "SELECT * FROM tComment WHERE comParentIdx='" + mMemberDataset.idx + "' AND comParentType='L'"; 
+		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "'"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
 		
+		//initial listview string.
+				mCommentArl = new ArrayList<String>();
+				mCommentArl.add("Comments Loading...");
+				mPostingArl = new ArrayList<String>();
+				mPostingArl.add("Postings Loading...");
+		
+		mCommentAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_comment , mCommentArl); 
+		mPostingAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_posting , mPostingArl);
+		LogUtil.v("mCommentArl" + mCommentArl);
+		
+		myLstComment.setAdapter(mCommentAdp);
+		myLstComment.setOnItemClickListener(myLstCommentItemClickListener);
+		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		myLstPosting.setAdapter(mPostingAdp);
+		myLstPosting.setOnItemClickListener(myLstPostingItemClickListener);
+		mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		
+		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
+//		Bundle bundle = this.getIntent().getExtras();
+
+=======
+		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
+//		Bundle bundle = this.getIntent().getExtras();
+=======
+>>>>>>> UserProfile myPosting,Comment list
+		mMemberDataset = new MemberDataset();
+		mMemberDataset.id = pref.getString("ID", "");
+		soapParser = SoapParser.getInstance(); 
+<<<<<<< HEAD
+		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
+		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
+		/*
+		query="SELECT * FROM tLandmark WHERE ldmWriterIdx='"+ mMemberDataset.idx +"'";
+=======
+
+		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
+		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
+		
+		query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
+
+>>>>>>> UserProfile myPosting,Comment list
+		LogUtil.v("data request. " + query);
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
+		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "'"; 
+		LogUtil.v("data request. " + query);
+		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
+				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
+
+		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "'"; 
+		LogUtil.v("data request. " + query);
+		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+		
+		//initial listview string.
+				mCommentArl = new ArrayList<String>();
+				mCommentArl.add("Comments Loading...");
+				mPostingArl = new ArrayList<String>();
+				mPostingArl.add("Postings Loading...");
+		
+		mCommentAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_comment , mCommentArl); 
+		mPostingAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_posting , mPostingArl);
+		LogUtil.v("mCommentArl" + mCommentArl);
+		
+		myLstComment.setAdapter(mCommentAdp);
+		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		myLstPosting.setAdapter(mPostingAdp);
+		myLstPosting.setOnItemClickListener(myLstPostingItemClickListener);
+		mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+<<<<<<< HEAD
+		LogUtil.v("3");
+		*/
+>>>>>>> userprofile
+=======
+		
+>>>>>>> UserProfile myPosting,Comment list
 		/*****************TabTab***************************/
-		TabHost tab_host = (TabHost) findViewById(R.id.tabhost);
+		
 		tab_host.setup(); 
 
 		TabSpec ts1 = tab_host.newTabSpec("Alarm");
 		ts1.setIndicator("Alarm");
-		ts1.setContent(R.id.alarm);
+		ts1.setContent(R.id.user_alarm_list);
 		tab_host.addTab(ts1);
 
 		TabSpec ts2 = tab_host.newTabSpec("My Postings");
 		ts2.setIndicator("My Postings");
-		ts2.setContent(R.id.postings);
+		ts2.setContent(R.id.user_postings_list);
 		tab_host.addTab(ts2);
 		
 		TabSpec ts3 = tab_host.newTabSpec("My comments");
-		ts2.setIndicator("My comments");
-		ts2.setContent(R.id.comments);
+		ts3.setIndicator("My comments");
+		ts3.setContent(R.id.user_comments_list);
 		tab_host.addTab(ts3);
 
 		tab_host.setCurrentTab(0);
 	}
 
+	/************** when listview clicked ****************/
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	/*
+>>>>>>> userprofile
+=======
+	
+>>>>>>> UserProfile myPosting,Comment list
+	private AdapterView.OnItemClickListener myLstPostingItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
+			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
+			//TODO: MUST BE mPostingArr == Listview. (test phrase)
+
+			mIntent = new Intent(UserProfileActivity.this, PostingActivity.class);
+			mIntent.putExtra("pstIdx",mPostingArr[position].idx);
+			startActivity(mIntent);
+		}
+<<<<<<< HEAD
+<<<<<<< HEAD
+	};
+	
+<<<<<<< HEAD
+=======
+	};*/
+>>>>>>> userprofile
+=======
+	};
+>>>>>>> UserProfile myPosting,Comment list
+=======
+	private AdapterView.OnItemClickListener myLstCommentItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
+			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			LogUtil.v("position: "+position + ", ldmIdx: " + mCommentArr[position].idx);
+			//TODO: MUST BE mPostingArr == Listview. (test phrase)
+
+			mIntent = new Intent(UserProfileActivity.this, LandmarkActivity.class);
+			mIntent.putExtra("ldmIdx",mCommentArr[position].parentIdx);
+			startActivity(mIntent);
+		}
+	};
+>>>>>>> actionbar overflow and myComment intent set
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,4 +305,14 @@ public class UserProfileActivity extends Activity {
 		return true;
 	}
 	*/
+	
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+	}
+	
 }

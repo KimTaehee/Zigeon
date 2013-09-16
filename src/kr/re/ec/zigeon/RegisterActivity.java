@@ -2,6 +2,7 @@
 
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class RegisterActivity extends Activity implements OnClickListener{
+	private ActivityManager activityManager = ActivityManager.getInstance();
 	private EditText id,password,nickname;
 	private SoapParser soapParser;
 	private String ID_check, Nickname_check; 
@@ -21,6 +23,10 @@ public class RegisterActivity extends Activity implements OnClickListener{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		/*******add activity list********/
+		activityManager.addActivity(this);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_join);
 		cancle_btn = (Button)findViewById(R.id.Cancle_btu);
@@ -136,5 +142,12 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		toast.show(); 
 		finish();
 	}
-	
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		/*********remove activity list******/
+		activityManager.removeActivity(this);
+	}
 }
