@@ -46,54 +46,54 @@ public class UserProfileActivity extends Activity {
 	private Intent mIntent;
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-//
-//	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
-//		@Override
-//		public void handleMessage(Message msg){
-//			LogUtil.v("msg receive success!");
-//			switch (msg.what) {
-//			case Constants.MSG_TYPE_POSTING:
-//			{
-//				mPostingArr =(PostingDataset[]) msg.obj;
-//
-//				/************ Posting to listview ************/
-//				mPostingArl.clear();
-//
-//				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
-//				for(int i=0;i<mPostingArr.length;i++){
-//					mPostingArl.add(mPostingArr[i].title);
-//				}
-//				mPostingAdp.notifyDataSetChanged();
-//				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
-//				break;
-//			}
-//			case Constants.MSG_TYPE_COMMENT:
-//			{
-//				mCommentArr =(CommentDataset[]) msg.obj;
-//
-//
-//				/************ Comment to listview ************/
-//
-//				mCommentArl.clear();
-//
-//				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
-//				for(int i=0;i<mCommentArr.length;i++){
-//					mCommentArl.add(mCommentArr[i].contents);
-//				}
-//				mCommentAdp.notifyDataSetChanged();
-//				myLstComment.smoothScrollToPosition(mCommentArr.length-1);
-//				//LogUtil.i("mCommentAdp.notifyDataSetChanged()");
-//				break;
-//			}
-//			case Constants.MSG_TYPE_MEMBER:
-//			{
-//				//tvPostingTest.setText(msg.getData().getString("msg"));
-//				break;
-//			}
-//			}
-//		}
-//	};
-//	
+
+	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
+		@Override
+		public void handleMessage(Message msg){
+			LogUtil.v("msg receive success!");
+			switch (msg.what) {
+			case Constants.MSG_TYPE_POSTING:
+			{
+				mPostingArr =(PostingDataset[]) msg.obj;
+
+				/************ Posting to listview ************/
+				mPostingArl.clear();
+
+				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
+				for(int i=0;i<mPostingArr.length;i++){
+					mPostingArl.add(mPostingArr[i].title);
+				}
+				mPostingAdp.notifyDataSetChanged();
+				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
+				break;
+			}
+			case Constants.MSG_TYPE_COMMENT:
+			{
+				mCommentArr =(CommentDataset[]) msg.obj;
+
+
+				/************ Comment to listview ************/
+
+				mCommentArl.clear();
+
+				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
+				for(int i=0;i<mCommentArr.length;i++){
+					mCommentArl.add(mCommentArr[i].contents);
+				}
+				mCommentAdp.notifyDataSetChanged();
+				myLstComment.smoothScrollToPosition(mCommentArr.length-1);
+				//LogUtil.i("mCommentAdp.notifyDataSetChanged()");
+				break;
+			}
+			case Constants.MSG_TYPE_MEMBER:
+			{
+				//tvPostingTest.setText(msg.getData().getString("msg"));
+				break;
+			}
+			}
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,18 +108,22 @@ public class UserProfileActivity extends Activity {
 		//		prBar.setVisibility(ProgressBar.GONE);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		/*******add activity list********/
 		activityManager.addActivity(this);
 		
 =======
 		LogUtil.v("1");
 >>>>>>> userprofile
+=======
+>>>>>>> UserProfile myPosting,Comment list
 		/************** register handler ***************/
-//		uiHandler = UIHandler.getInstance(this);
-//		uiHandler.setHandler(messageHandler);
+		uiHandler = UIHandler.getInstance(this);
+		uiHandler.setHandler(messageHandler);
 
 		/****** Data init request *****/
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 		mMemberDataset = new MemberDataset();
@@ -166,44 +170,59 @@ public class UserProfileActivity extends Activity {
 =======
 		//intent receive. mIntent.putExtra("ldmIdx",mLandmarkArr[position].idx); remind !
 //		Bundle bundle = this.getIntent().getExtras();
+=======
+>>>>>>> UserProfile myPosting,Comment list
 		mMemberDataset = new MemberDataset();
 		mMemberDataset.id = pref.getString("ID", "");
-		//LogUtil.v("received ldmIdx: " + mLandmarkDataset.idx);
-		//data request using ldmIdx
 		soapParser = SoapParser.getInstance(); 
+<<<<<<< HEAD
 		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
 		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
 		/*
 		query="SELECT * FROM tLandmark WHERE ldmWriterIdx='"+ mMemberDataset.idx +"'";
+=======
+
+		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
+		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
+		
+		query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
+
+>>>>>>> UserProfile myPosting,Comment list
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));*/
-//		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "'"; 
-//		LogUtil.v("data request. " + query);
-//		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
-//				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
-//
-//		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "'"; 
-//		LogUtil.v("data request. " + query);
-//		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-//				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
+		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "'"; 
+		LogUtil.v("data request. " + query);
+		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
+				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
+
+		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "'"; 
+		LogUtil.v("data request. " + query);
+		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
 		
+		//initial listview string.
+				mCommentArl = new ArrayList<String>();
+				mCommentArl.add("Comments Loading...");
+				mPostingArl = new ArrayList<String>();
+				mPostingArl.add("Postings Loading...");
 		
-//		mCommentAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_comment , mCommentArl); 
-//		mPostingAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_posting , mPostingArl);
-		LogUtil.v("4");
-		/*
+		mCommentAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_comment , mCommentArl); 
+		mPostingAdp = new ArrayAdapter<String>(UserProfileActivity.this, R.layout.listview_item_posting , mPostingArl);
+		LogUtil.v("mCommentArl" + mCommentArl);
+		
 		myLstComment.setAdapter(mCommentAdp);
-		LogUtil.v("6");
-		//lstComment.setOnItemClickListener(lstCommentItemClickListener);
 		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
-		LogUtil.v("5");
 		myLstPosting.setAdapter(mPostingAdp);
 		myLstPosting.setOnItemClickListener(myLstPostingItemClickListener);
 		mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+<<<<<<< HEAD
 		LogUtil.v("3");
 		*/
 >>>>>>> userprofile
+=======
+		
+>>>>>>> UserProfile myPosting,Comment list
 		/*****************TabTab***************************/
 		
 		tab_host.setup(); 
@@ -228,9 +247,13 @@ public class UserProfileActivity extends Activity {
 
 	/************** when listview clicked ****************/
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	/*
 >>>>>>> userprofile
+=======
+	
+>>>>>>> UserProfile myPosting,Comment list
 	private AdapterView.OnItemClickListener myLstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
@@ -243,11 +266,15 @@ public class UserProfileActivity extends Activity {
 			startActivity(mIntent);
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	};
 	
 =======
 	};*/
 >>>>>>> userprofile
+=======
+	};
+>>>>>>> UserProfile myPosting,Comment list
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
