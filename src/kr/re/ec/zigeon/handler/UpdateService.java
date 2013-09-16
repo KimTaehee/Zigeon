@@ -17,9 +17,11 @@ import kr.re.ec.zigeon.MapActivity;
 import kr.re.ec.zigeon.MapListActivity;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.provider.Settings;
 
@@ -70,7 +72,15 @@ public class UpdateService extends Service implements Runnable{
 		//MapListActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		MapActivity.mMapLocationManager =  this.mMapLocationManager; //TODO: send LM forcely. test phrase
 		
-
+		/************ mLocation Init ************/
+		LogUtil.v("mLocation setting");
+		mLocation = new NGeoPoint();
+		
+		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+		mLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
+				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
+		
+		
 //		/********* LocationManager Init ******************/ 
 //		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 //		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -112,6 +122,14 @@ public class UpdateService extends Service implements Runnable{
 		threadLoop=false;	//thread loop exit
 		
 		mMapLocationManager.disableMyLocation();
+		
+		if(mLocation==null) {
+			SharedPreferences pref = getSharedPreferences("pref",Activity.MODE_PRIVATE);
+			SharedPreferences.Editor editor = pref.edit();
+			editor.putString("lat", "37.6292700");
+			editor.putString("lon", "127.0815700"); //default
+			editor.commit();
+		}
 
 		//locationManager.removeUpdates(listener);	
 	}
@@ -179,6 +197,12 @@ public class UpdateService extends Service implements Runnable{
 //					soapParser.getSoapData("select * from tPosting", Constants.MSG_TYPE_POSTING));
 			
 			mLocation = myLocation;
+			
+			SharedPreferences pref = getSharedPreferences("pref",Activity.MODE_PRIVATE);
+			SharedPreferences.Editor editor = pref.edit();
+			editor.putString("lat", String.valueOf(mLocation.getLatitude()));
+			editor.putString("lon", String.valueOf(mLocation.getLongitude()));
+			editor.commit();			
 			
 			return true;
 		}

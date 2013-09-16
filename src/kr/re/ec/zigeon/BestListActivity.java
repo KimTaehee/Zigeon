@@ -22,6 +22,7 @@ import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,6 +45,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 	
 	private SoapParser soapParser;
 	private NGeoPoint myLocation;
+	private int detectRange = 500;	//meter for search around
 	
 	private GridView grdBestList;
 	private ToggleButton tglBtnTraceLocation;
@@ -142,7 +144,9 @@ public class BestListActivity extends Activity implements OnClickListener {
 				//WARN: It may cause to send to other Activity.
 				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
@@ -162,6 +166,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_best_list);
 		
+		LogUtil.i("onCreate invoked!");
+		
 		/*******add activity list********/
 		activityManager.addActivity(this);
 		
@@ -171,9 +177,21 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 		//request contents
 		soapParser = SoapParser.getInstance(); 
-		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+		
+		myLocation = new NGeoPoint();
+		
+		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+		myLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
+				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
+		
+		
+		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+						+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 		
 
 		/********** init UI ************/
