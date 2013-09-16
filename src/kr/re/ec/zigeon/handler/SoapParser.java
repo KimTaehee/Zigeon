@@ -68,12 +68,12 @@ public class SoapParser {
 		Object resultObj = null;
 		String resultStrArr[][] = null;
 
-
+		
 		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(request);			
-
+		
 		request.addProperty("searchData", query); //TODO: what is searchData?
 		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 		androidHttpTransport.debug = true;
@@ -87,7 +87,6 @@ public class SoapParser {
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			//LogUtil.v(result.toString());
 			resultStrArr = xmlParser(result.toString(),datatype); // xml parsing
-
 			resultObj = convertDatasetToObj(resultStrArr, datatype);
 
 
