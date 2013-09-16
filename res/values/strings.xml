@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> conflict solved
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Balloon</string>
@@ -61,6 +64,7 @@
     <string name="preferecen">PREFERENCE</string>
     <string name="overflow">OverFlow</string>
 
+<<<<<<< HEAD
 =======
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
@@ -141,4 +145,6 @@
 >>>>>>> actionbar overflow and myComment intent set
 
 >>>>>>> sb
+=======
+>>>>>>> conflict solved
 </resources>
