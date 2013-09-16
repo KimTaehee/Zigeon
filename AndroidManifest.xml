@@ -95,10 +95,12 @@
      	</activity>
      	<activity 
      	    android:name="kr.re.ec.zigeon.PreferenceActivity">
+			<!--  test
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-     	</activity>
-     	<activity 
-     	    android:name="kr.re.ec.zigeon.Preferences">
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
      	</activity>
      	<activity 
             android:name="kr.re.ec.zigeon.UserProfileActivity" >

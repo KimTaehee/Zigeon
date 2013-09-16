@@ -109,6 +109,7 @@ public class UserProfileActivity extends Activity {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		/*******add activity list********/
 		activityManager.addActivity(this);
 		
@@ -117,6 +118,11 @@ public class UserProfileActivity extends Activity {
 >>>>>>> userprofile
 =======
 >>>>>>> UserProfile myPosting,Comment list
+=======
+		/*******add activity list********/
+		activityManager.addActivity(this);
+		
+>>>>>>> Logout, ActivityManager
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
