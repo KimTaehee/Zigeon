@@ -113,24 +113,12 @@ public class UserProfileActivity extends Activity {
 		mMemberDataset = new MemberDataset();
 		mMemberDataset.id = pref.getString("ID", "");
 		soapParser = SoapParser.getInstance(); 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-		String query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
-=======
-		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
-		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
-		/*
-		query="SELECT * FROM tLandmark WHERE ldmWriterIdx='"+ mMemberDataset.idx +"'";
->>>>>>> userprofile
-=======
 
 		String query = "SELECT memIdx FROM tMember WHERE memID='" + mMemberDataset.id+"'";
 		mMemberDataset.idx = Integer.parseInt(soapParser.sendQuery(query));
 		
 		query="SELECT TOP 20 * FROM tLandmark WHERE ldmIdx='"+ mMemberDataset.idx +"'";
 
->>>>>>> UserProfile myPosting,Comment list
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
