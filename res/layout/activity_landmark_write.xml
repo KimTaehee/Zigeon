@@ -63,8 +63,8 @@
         <RelativeLayout
             android:id="@+id/landmark_write_map"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="15dp" >
+            android:layout_height="100sp"     
+            >
 
         </RelativeLayout>
 

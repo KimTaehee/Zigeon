@@ -12,12 +12,15 @@ import com.nhn.android.maps.NMapView;
 import com.nhn.android.maps.NMapView.OnMapStateChangeListener;
 import com.nhn.android.maps.maplib.NGeoPoint;
 import com.nhn.android.maps.nmapmodel.NMapError;
+import com.nhn.android.maps.overlay.NMapPOIdata;
 import com.nhn.android.mapviewer.overlay.NMapCalloutOverlay;
 import com.nhn.android.mapviewer.overlay.NMapMyLocationOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
+import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayListener;
 
 import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
 import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -43,23 +46,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class LandmarkWriteActivity extends Activity implements OnClickListener{
+public class LandmarkWriteActivity extends NMapActivity implements OnClickListener
+	, OnMapStateChangeListener, OnCalloutOverlayListener {
 	private ActivityManager activityManager = ActivityManager.getInstance();
-	EditText edtTitle;
-	EditText edtContents;
-	ImageView imgInput;
-	RelativeLayout mapContainer;
-	InputMethodManager imm; 
-//	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
-//
-//	private NMapView mMapView = null;	//Naver map object
-//
-//	private NMapController mMapController = null;	// map controller
-//	private RelativeLayout MapContainer;	//map on layout
-//	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	 //Overlay Resource Provider
-//	private NMapOverlayManager mOverlayManager = null;
+	private EditText edtTitle;
+	private EditText edtContents;
+	private ImageView imgInput;
+	private RelativeLayout layoutMap;	//map on layout
+	private InputMethodManager imm; 
 
-	SoapParser soapParser;
+	private SoapParser soapParser;
 
 	//YOU CAN EDIT THIS TO WHATEVER YOU WANT
 	private final int SELECT_PICTURE = 1000;
@@ -70,7 +66,16 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 	private NGeoPoint myLocation;
 	private Intent mIntent;
 
+	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
+	private NMapView mMapView = null;	//Naver map object
 
+	private NMapController mMapController = null;	// map controller
+	private NMapMyLocationOverlay mMyLocationOverlay; 
+	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	 //Overlay Resource Provider
+	private NMapOverlayManager mOverlayManager = null;	
+	private NMapLocationManager mMapLocationManager; //TODO: test
+	private NMapCompassManager mMapCompassManager; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,33 +96,34 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 		/******** Init UI ********/
 		edtTitle = (EditText) findViewById(R.id.landmark_write_edit_title);
 		edtContents = (EditText) findViewById(R.id.landmark_write_edit_uniqueness);
-		mapContainer = (RelativeLayout) findViewById(R.id.landmark_write_map);
+		layoutMap = (RelativeLayout) findViewById(R.id.landmark_write_map);
 		imgInput = (ImageView) findViewById(R.id.landmark_write_img_input);
 		imgInput.setOnClickListener(this);
+		layoutMap.setOnClickListener(this);
 
-//		/************* map init **************/
-//		LogUtil.v("map init start");
-//		MapContainer = (RelativeLayout)findViewById(R.id.mapmap);		// Layout for show map
-//		mMapView = new NMapView(this);		//create map object
-//		mMapController = mMapView.getMapController();		//extract controller from map object
-//		mMapView.setApiKey(API_KEY);		
-//		MapContainer.addView(mMapView);		//map->layout
-//		mMapView.setClickable(true);		//can click map
-//		mMapView.setBuiltInZoomControls(true, null);		//zoom controller for +/- enable
-//		
-//		
-//		/**************** overlay init ************************/
-//		LogUtil.v("overlay init start");
-//		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider
-//		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);	//add overlay manager
+		/************* map init **************/
+		LogUtil.v("map init start");
+		layoutMap = (RelativeLayout)findViewById(R.id.landmark_write_map);		// Layout for show map
+		mMapView = new NMapView(this);		//create map object
+		mMapController = mMapView.getMapController();		//extract controller from map object
+		mMapView.setApiKey(API_KEY);		
+		layoutMap.addView(mMapView);		//map->layout
+		//mMapView.setClickable(true);		//can click map
+		mMapView.setBuiltInZoomControls(false, null);		//zoom controller for +/- enable
+		mMapLocationManager = new NMapLocationManager(this);
+		mMapController.setMapCenter(myLocation);
+		mMapController.setZoomLevel(12);
 		
-//		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//		imm.showSoftInput(edtTitle, imm.SHOW_FORCED);
+		/**************** overlay init ************************/
+		LogUtil.v("overlay init start");
+		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);	//add overlay manager
+		
 
 		/******** Init Handler *******/
 		soapParser = SoapParser.getInstance();
 
-		mapContainer.setOnClickListener(this);
+		
 	}
 
 	@Override
@@ -237,12 +243,23 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 				myLocation.longitude = Double.parseDouble(bundle.getString("lon"));
 				myLocation.latitude = Double.parseDouble(bundle.getString("lat"));
 				LogUtil.v("location from MapActivity: " + myLocation.longitude + ", " + myLocation.latitude);
+				
+				mMapController.setMapCenter(myLocation);
+				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
+				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
+				poiData.beginPOIdata(0); //TODO: what is 0?
+				poiData.addPOIitem(myLocation.longitude, myLocation.latitude, "User Choosed", markerId, 0); 
+				poiData.endPOIdata();
+				
+				// create overlay with location data
+				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 				break;
 			}
 			}
 			
 		}
 	}
+
 
 	@Override
 	public void onDestroy() {
@@ -266,4 +283,50 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 		}
 		else return null;
 	}
+	
+	/**
+	 * called after map init. 
+	 * when no error, =>null
+	 * else errorInfo => cause 
+	 */
+	@Override
+	public void onMapInitHandler(NMapView arg0, NMapError errorInfo) {
+		LogUtil.v("onMapInitHandler invoked! myLocation is: " + myLocation.longitude + ", " + myLocation.latitude);
+		if (errorInfo == null) { // success
+			//lon, lat, zoom level
+			mMapController.setMapCenter(myLocation, 12); 	//TODO: test phrase
+		} else { // fail
+			LogUtil.e("onMapInitHandler: error=" + errorInfo.toString());
+		}	
+
+	}
+
+	@Override
+	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
+			NMapOverlayItem arg1, Rect arg2) {
+		return null;
+	}
+
+	@Override
+	public void onAnimationStateChange(NMapView arg0, int arg1, int arg2) {
+		
+	}
+
+	@Override
+	public void onMapCenterChange(NMapView arg0, NGeoPoint arg1) {
+		
+	}
+
+	@Override
+	public void onMapCenterChangeFine(NMapView arg0) {
+		
+	}
+
+	@Override
+	public void onZoomLevelChange(NMapView arg0, int arg1) {
+		
+	}
+
+
+	
 }

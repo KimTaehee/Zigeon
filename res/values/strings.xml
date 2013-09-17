@@ -46,6 +46,7 @@
     <string name="posting_write_edt_contents_hint"></string>
     <string name="posting_write_txt_contents">contents</string>
     <string name="map_address">ya</string>
+    <string name="map_activity_title">Select Location</string>
     <string name="landmark_write_action_write">write</string>    
     <string name="title_activity_photo_zoom">PhotoZoom</string> 
     <string name="user_profile_main_level">class</string>

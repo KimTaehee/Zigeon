@@ -51,7 +51,7 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayList
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 
 public class MapActivity extends NMapActivity implements OnClickListener
-, OnMapStateChangeListener, OnCalloutOverlayListener{
+, OnMapStateChangeListener, OnCalloutOverlayListener {
 	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 
 	private ActivityManager activityManager = ActivityManager.getInstance();

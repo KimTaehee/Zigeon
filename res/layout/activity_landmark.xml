@@ -37,7 +37,7 @@
             android:layout_height="140dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/lotte_logo"> 
+            android:src="@drawable/ic_auil_empty"> 
         </ImageView>
     </RelativeLayout>
 

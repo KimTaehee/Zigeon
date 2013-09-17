@@ -14,7 +14,6 @@ import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.MapActivity;
-import kr.re.ec.zigeon.MapListActivity;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
@@ -28,7 +27,7 @@ import android.provider.Settings;
 public class UpdateService extends Service implements Runnable{
 	private boolean threadLoop=false;
 	private int count = 0; 		//thread loop count
-	private final static int THREAD_INTERVAL_MS = 5000; 	//thread loop delay
+	private final static int THREAD_INTERVAL_MS = 30000; 	//thread loop delay
 	//private static final int MIN_DISTANCE = 1; 		//min distance(m) to recognize gps updates
 	
 	private Thread mThread;

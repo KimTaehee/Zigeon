@@ -337,12 +337,12 @@ public class BestListActivity extends Activity implements OnClickListener {
 				LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'");
-				//use manual sendMessage! cause of finish() timing on MapActivity is delayed.
+				//use manual sendMessage!!!! cause of finish() timing on MapActivity is delayed.
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK), messageHandler);
-				LogUtil.i("where am i ?"); //TODO: need to kill MapActivity
+				//LogUtil.i("where am i ?"); //TODO: need to kill MapActivity
 				break;
 			}
 			}	
