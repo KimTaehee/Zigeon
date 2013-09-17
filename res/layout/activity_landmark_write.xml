@@ -71,7 +71,7 @@
         <ImageView
             android:id="@+id/landmark_write_img_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:src="@android:drawable/ic_menu_camera" />
     </LinearLayout>
 

@@ -8,6 +8,8 @@
  */
 package kr.re.ec.zigeon;
 
+import org.apache.http.entity.mime.MinimalField;
+
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
@@ -62,6 +64,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	private NMapOverlayManager mOverlayManager = null;	
 	//private OnStateChangeListener onPOIdataStateChangeListener = null;
 	private NGeoPoint myLocation;
+	private NGeoPoint locationToReturn;
 
 	private NMapMyLocationOverlay mMyLocationOverlay; 
 	public static NMapLocationManager mMapLocationManager; //forced init from UpdateService.onCreate()
@@ -158,10 +161,17 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		uiHandler.setHandler(messageHandler);
 
 		/************ UI init ***********/
-		Button btn = (Button) findViewById(R.id.map_btn_gps);
-		btn.setOnClickListener(this);
+		Button btnMoveToMyLocation = (Button) findViewById(R.id.map_btn_move_to_mylocation);
+		btnMoveToMyLocation.setOnClickListener(this);
+		Button btnSelectLocation = (Button) findViewById(R.id.map_btn_select_location);
+		btnSelectLocation.setOnClickListener(this);
 
-
+		/************ myLocation init *******/
+		Bundle bundle = this.getIntent().getExtras(); 
+		myLocation = new NGeoPoint();
+		myLocation.latitude = bundle.getDouble("lat");
+		myLocation.longitude = bundle.getDouble("lon");
+		
 		/************* map init **************/
 		LogUtil.v("map init start");
 		MapContainer = (RelativeLayout)findViewById(R.id.mapmap);		// Layout for show map
@@ -232,6 +242,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	public void onMapCenterChange(NMapView arg0, NGeoPoint arg1) {
 		// TODO Auto-generated method stub
 		LogUtil.v("onMapCenterChange invoked!!!!! oh yeah\nlat: " + arg1.latitude + ", lon: " + arg1.longitude);
+		locationToReturn = arg1;
 		
 	}
 
@@ -256,7 +267,8 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		//LogUtil.v("onMapInitHandler invoked!");
 		if (errorInfo == null) { // success
 			//lon, lat, zoom level
-			mMapController.setMapCenter(new NGeoPoint(127.0783702,37.6316386), 12); 	//TODO: test phrase
+			mMapController.setMapCenter(myLocation, 12); 	//TODO: test phrase
+			locationToReturn = myLocation;
 		} else { // fail
 			LogUtil.e("onMapInitHandler: error=" + errorInfo.toString());
 		}	
@@ -317,6 +329,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		/*********remove activity list******/
 		activityManager.removeActivity(this);
 
+		LogUtil.i("removeActivity called");
 		finish();
 	}
 
@@ -324,7 +337,8 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
-		case R.id.map_btn_gps : 
+		case R.id.map_btn_move_to_mylocation :
+		{
 			startMyLocation();
 			if (mMapController != null && myLocation != null) {
 				mMapController.animateTo(myLocation);
@@ -333,6 +347,20 @@ public class MapActivity extends NMapActivity implements OnClickListener
 			}
 
 			break;
+		}
+		case R.id.map_btn_select_location:
+		{
+			LogUtil.v("return data: " + locationToReturn.longitude + ", " + locationToReturn.latitude);
+			Intent intent = new Intent();
+			intent.putExtra("lon", String.valueOf(locationToReturn.longitude));
+			intent.putExtra("lat", String.valueOf(locationToReturn.latitude));
+					
+			setResult(RESULT_OK, intent);
+			LogUtil.i("setResult called");
+			
+			finish();
+			break;
+		}
 		}
 
 

@@ -63,7 +63,8 @@
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.PostingWriteActivity"
-            android:label="@string/posting_write_activity_title" >
+            android:label="@string/posting_write_activity_title"
+            android:windowSoftInputMode="stateUnspecified|adjustPan"  >
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
@@ -73,13 +74,16 @@
             android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
         </activity> -->
         <activity 
-            android:name="kr.re.ec.zigeon.MapActivity" >
+            android:name="kr.re.ec.zigeon.MapActivity" 
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.MapListActivity" >
         </activity>
         <activity 
-            android:name="kr.re.ec.zigeon.LandmarkWriteActivity" >
+            android:name="kr.re.ec.zigeon.LandmarkWriteActivity"
+            android:windowSoftInputMode="stateUnspecified|adjustPan" 
+            >
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.PhotoViewActivity"

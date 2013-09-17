@@ -22,7 +22,9 @@ import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
 import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,7 +49,7 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 	EditText edtContents;
 	ImageView imgInput;
 	RelativeLayout mapContainer;
-
+	InputMethodManager imm; 
 //	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
 //
 //	private NMapView mMapView = null;	//Naver map object
@@ -59,9 +62,13 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 	SoapParser soapParser;
 
 	//YOU CAN EDIT THIS TO WHATEVER YOU WANT
-	private final int SELECT_PICTURE = 1;
+	private final int SELECT_PICTURE = 1000;
+	private final int SELECT_LOCATION = 1001;
 	private String selectedImagePath;
 	private String fileManagerString;
+	
+	private NGeoPoint myLocation;
+	private Intent mIntent;
 
 
 	@Override
@@ -69,6 +76,12 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(kr.re.ec.zigeon.R.layout.activity_landmark_write);
 		LogUtil.v("onCreate invoked!");
+		
+		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+		
+		myLocation = new NGeoPoint();
+		myLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
+				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
 		
 
 		/*******add activity list********/
@@ -97,19 +110,14 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 //		LogUtil.v("overlay init start");
 //		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider
 //		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);	//add overlay manager
-
+		
+//		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//		imm.showSoftInput(edtTitle, imm.SHOW_FORCED);
 
 		/******** Init Handler *******/
 		soapParser = SoapParser.getInstance();
 
-		mapContainer.setOnClickListener(new Button.OnClickListener(){
-			public void onClick(View v){
-				startActivity(new Intent(LandmarkWriteActivity.this,MapActivity.class));
-				overridePendingTransition(0, 0); //no switching animation
-				LogUtil.v("call GC!");
-				System.gc();
-			}
-		});
+		mapContainer.setOnClickListener(this);
 	}
 
 	@Override
@@ -162,13 +170,33 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 
 			break;
 		}
+		case R.id.landmark_write_map:
+		{
+			//hide keyboard
+			imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(edtTitle.getWindowToken(), 0);
+			
+			mIntent = new Intent(this,MapActivity.class);
+			
+			mIntent.putExtra("lon", myLocation.longitude);
+			mIntent.putExtra("lat", myLocation.latitude);
+			startActivityForResult(mIntent, SELECT_LOCATION);
+			
+			//overridePendingTransition(0, 0); //no switching animation
+
+			break;
+		}
 		}
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			if (requestCode == SELECT_PICTURE) {
+			
+			switch(requestCode)
+			{
+			case SELECT_PICTURE:
+			{
 				Uri selectedImageUri = data.getData();
 
 				//OI FILE Manager
@@ -200,8 +228,19 @@ public class LandmarkWriteActivity extends Activity implements OnClickListener{
 				File imgFile = new File(selectedImagePath);
 				Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 				imgInput.setImageBitmap(bitmap);
-			}
 
+				break;
+			}
+			case SELECT_LOCATION:
+			{
+				Bundle bundle = data.getExtras();
+				myLocation.longitude = Double.parseDouble(bundle.getString("lon"));
+				myLocation.latitude = Double.parseDouble(bundle.getString("lat"));
+				LogUtil.v("location from MapActivity: " + myLocation.longitude + ", " + myLocation.latitude);
+				break;
+			}
+			}
+			
 		}
 	}
 

@@ -4,26 +4,53 @@
 
     <RelativeLayout
         android:id="@+id/mapmap"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         >
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/map_btn_gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/map_location" />
+    <ImageView
+        android:id="@+id/map_iv_aim"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/map_aim" />
 
-    <TextView
-        android:id="@+id/map_txt_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/map_options"
+        android:layout_width="fill_parent"
+        android:layout_height="50sp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/map_btn_gps"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:background="#ffffff"
-        android:text="@string/map_address" />
+        android:background="#686868"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/map_btn_move_to_mylocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#686868"
+            android:text="@string/map_location"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/map_btn_select_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#686868"
+            android:text="Confirm"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/map_tv_show_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#686868"
+            android:text="Address"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -174,6 +174,24 @@ public class UIHandler {
 			LogUtil.e("no handler set! cannot run sendMessage()");
 		}
 	}
+	
+	/************ send msg to user manually selected handler(for bestlist, onActivityResult)**********/
+	public void sendMessage(int _what, String _value, Object _obj, Handler userHandler){ //what defined on Constants.java
+		LogUtil.i("manual sendmsg called.");
+		Bundle bundle = new Bundle();
+		bundle.putString("msg", _value);
+		msg = new Message(); //SHOULD use new Message(cannot use again)
+
+		msg.what = _what; 
+		msg.obj = _obj;
+		msg.setData(bundle);
+
+		if(userHandler!=null) {
+			userHandler.sendMessage(msg); //if handler==null, error occur
+		} else {
+			LogUtil.e("user handler is null! cannot run sendMessage()");
+		}
+	}
 
 	/* which activity on Top? */
 	public String getTopActivityName(Context context) {

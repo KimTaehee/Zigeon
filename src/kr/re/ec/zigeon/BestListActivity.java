@@ -40,11 +40,14 @@ import android.widget.ToggleButton;
 
 public class BestListActivity extends Activity implements OnClickListener {
 	private Intent mIntent;
+	private final int SELECT_LOCATION = 1001;	//request code
 
 	private ActivityManager activityManager = ActivityManager.getInstance();
 	
 	private SoapParser soapParser;
-	private NGeoPoint myLocation;
+	private NGeoPoint myLocation;	//location from LM
+	private NGeoPoint detLocation;	//location for detecting
+	private boolean isTraceLocation=true;	//mode for real-time trace location
 	private int detectRange = 500;	//meter for search around
 	
 	private GridView grdBestList;
@@ -96,7 +99,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 //					//		+ ((distanceFromMe==Constants.INT_NULL)?"finding.. ^o^":distanceFromMe + " m"));
 //				}
 				for(int i=0; i<mBestListArr.length; i++) {
-					mBestListArr[i].getDistance(myLocation);	//calc LocationDataset.distanceFromCurrentLocation
+					mBestListArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
 				}
 				LogUtil.i("mBestListArr.length: " + mBestListArr.length);
 				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArr);
@@ -138,15 +141,23 @@ public class BestListActivity extends Activity implements OnClickListener {
 			case Constants.MSG_TYPE_LOCATION:
 			{
 				//use NGeoPoint instead of android.location 
+				
 				myLocation = (NGeoPoint)msg.obj;
+				if(isTraceLocation) {
+					detLocation = myLocation;
+				
+					LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True'");
+					uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+							soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+								+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+								+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+				} 
 
 				//WARN: cannot use this query on UpdateService.onLocationChanged().
 				//WARN: It may cause to send to other Activity.
-				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+				
 
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
@@ -178,19 +189,19 @@ public class BestListActivity extends Activity implements OnClickListener {
 		//request contents
 		soapParser = SoapParser.getInstance(); 
 		
-		myLocation = new NGeoPoint();
+		detLocation = new NGeoPoint();
 		
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
-		myLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
+		detLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
 				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
 		
 		
 		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-						+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 		
 
@@ -201,6 +212,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 		btnRefreshLocation = (Button) findViewById(R.id.best_list_btn_refresh_location);
 		btnSetRange.setOnClickListener(this);
 		tglBtnTraceLocation.setOnClickListener(this);
+		tglBtnTraceLocation.setChecked(true);
+		isTraceLocation = true;
 		btnRefreshLocation.setOnClickListener(this);
 
 		//first gridview string 
@@ -286,10 +299,53 @@ public class BestListActivity extends Activity implements OnClickListener {
 		{
 		case R.id.best_list_tglbtn_trace_location:
 		{
-			LogUtil.v("tglbtn_trace_location clicked!");
-			startActivity(new Intent(this,MapListActivity.class));
+			LogUtil.v("tglbtn_trace_location clicked! current state: " + tglBtnTraceLocation.isChecked());
+		
+			if(!tglBtnTraceLocation.isChecked()) { //previous state is trace on, let mode be turned off 
+				isTraceLocation = false;
+				
+				//and get location manually
+				mIntent = new Intent(this,MapActivity.class);
+				
+				mIntent.putExtra("lon", detLocation.longitude);
+				mIntent.putExtra("lat", detLocation.latitude);
+				startActivityForResult(mIntent, SELECT_LOCATION);
+			} else { //turn on trace location mode
+				isTraceLocation = true;
+				
+			}
 			break;
 		}
+		}
+		
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			switch(requestCode) 
+			{
+			case SELECT_LOCATION:
+			{
+				Bundle bundle = data.getExtras();
+				if (detLocation==null) {
+					detLocation = new NGeoPoint();
+				}
+				detLocation.longitude = Double.parseDouble(bundle.getString("lon"));
+				detLocation.latitude = Double.parseDouble(bundle.getString("lat"));
+				LogUtil.v("location from MapActivity: " + detLocation.longitude + ", " + detLocation.latitude);
+				
+				LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+						+ "') WHERE ldmVisible = 'True'");
+				//use manual sendMessage! cause of finish() timing on MapActivity is delayed.
+				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK), messageHandler);
+				LogUtil.i("where am i ?"); //TODO: need to kill MapActivity
+				break;
+			}
+			}	
 		}
 		
 	}
