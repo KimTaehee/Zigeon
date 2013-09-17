@@ -329,15 +329,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		/*********remove activity list******/
 		activityManager.removeActivity(this);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 		LogUtil.i("removeActivity called");
-=======
-=======
->>>>>>> landmark table changed.
->>>>>>> landmark table changed.
-=======
->>>>>>> commentadapter
 		finish();
 	}
 

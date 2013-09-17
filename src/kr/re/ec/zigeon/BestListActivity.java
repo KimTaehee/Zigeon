@@ -45,13 +45,11 @@ public class BestListActivity extends Activity implements OnClickListener {
 	private ActivityManager activityManager = ActivityManager.getInstance();
 	
 	private SoapParser soapParser;
-<<<<<<< HEAD
+
 	private NGeoPoint myLocation;	//location from LM
 	private NGeoPoint detLocation;	//location for detecting
 	private boolean isTraceLocation=true;	//mode for real-time trace location
-=======
-	private NGeoPoint myLocation;
->>>>>>> detect around myLocation!!!
+
 	private int detectRange = 500;	//meter for search around
 	
 	private GridView grdBestList;
@@ -161,47 +159,15 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 				//WARN: cannot use this query on UpdateService.onLocationChanged().
 				//WARN: It may cause to send to other Activity.
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-				
-=======
-=======
->>>>>>> top 20 tLandmark & landmark adapter update
-<<<<<<< HEAD
-				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-<<<<<<< HEAD
-						soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
-=======
-				LogUtil.v("select * from tLandmark WHERE ldmVisible = 'True'");
-				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData("select * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
->>>>>>> landmark table changed.
-<<<<<<< HEAD
->>>>>>> landmark table changed.
-=======
-=======
-				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
->>>>>>> top 20 tLandmark & landmark adapter update
-<<<<<<< HEAD
->>>>>>> top 20 tLandmark & landmark adapter update
-=======
-=======
-						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
->>>>>>> detect around myLocation!!!
->>>>>>> detect around myLocation!!!
-=======
+
+
+
 				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
->>>>>>> commentadapter
+
 
 				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
 
@@ -232,10 +198,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 		//request contents
 		soapParser = SoapParser.getInstance(); 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		
 		detLocation = new NGeoPoint();
 		
@@ -251,42 +214,18 @@ public class BestListActivity extends Activity implements OnClickListener {
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
-=======
-=======
->>>>>>> top 20 tLandmark & landmark adapter update
-=======
->>>>>>> detect around myLocation!!!
-<<<<<<< HEAD
+
 		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
-=======
-		LogUtil.v("data request. select * from tLandmark WHERE ldmVisible = 'True'");
-		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
->>>>>>> landmark table changed.
-<<<<<<< HEAD
->>>>>>> landmark table changed.
-=======
-=======
-		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
->>>>>>> top 20 tLandmark & landmark adapter update
-<<<<<<< HEAD
->>>>>>> top 20 tLandmark & landmark adapter update
-=======
-=======
-		
-=======
+
 /*		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 	*/	
->>>>>>> commentadapter
+
 		myLocation = new NGeoPoint();
 		
-		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 		myLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
 				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
 		
@@ -298,12 +237,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
-<<<<<<< HEAD
->>>>>>> detect around myLocation!!!
->>>>>>> detect around myLocation!!!
-=======
->>>>>>> commentadapter
-		
+
 
 		/********** init UI ************/
 		grdBestList = (GridView) findViewById(R.id.best_list_gridview);
