@@ -8,10 +8,7 @@
 package kr.re.ec.zigeon;
 
 import com.google.android.gcm.GCMRegistrar;
-<<<<<<< HEAD
 import com.nhn.android.maps.maplib.NGeoPoint;
-=======
->>>>>>> landmark table changed.
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -75,10 +72,5 @@ public class BalloonApplication extends Application {
 			LogUtil.i("already registered device! ready to receive msg!");
 			LogUtil.v("regId " + regId);
 		}
-<<<<<<< HEAD
-
-=======
-		
->>>>>>> landmark table changed.
 	}	
 }
