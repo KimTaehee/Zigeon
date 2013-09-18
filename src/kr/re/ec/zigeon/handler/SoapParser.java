@@ -289,8 +289,7 @@ public class SoapParser {
 			MemberDataset[] memberArr = new MemberDataset[strArr.length];	//create Landmark Array 
 			for(int i=0; i<strArr.length; i++) {
 				memberArr[i] = new MemberDataset();
-				memberArr[i].setDataset(strArr[i]); 
-				//memberArr[i].setDataset(strArr[i]);   //NONONO!!! //always one instance created
+				memberArr[i].setDataset(strArr[i]);
 			}
 			obj = memberArr;
 			break;

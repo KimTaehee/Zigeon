@@ -1,6 +1,8 @@
 /**
  * 130828 kim ji hong
  * memberDataset
+ * usage: loginInstance is data about logged in user, or also can create instance such as 
+ * MemberDataset bestReplier = new MemberDataset();
  */
 package kr.re.ec.zigeon.dataset;
 

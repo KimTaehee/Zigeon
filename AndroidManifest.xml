@@ -33,7 +33,8 @@
         <activity
             android:name="kr.re.ec.zigeon.IntroActivity"
             android:label="@string/intro_activity_title"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" 
+            android:screenOrientation="portrait">
             <!-- test -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,32 +44,39 @@
         <activity
             android:name="kr.re.ec.zigeon.LoginActivity"
             android:label="@string/login_activity_title" 
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.Black.NoTitleBar" 
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.RegisterActivity"
-            android:label="@string/join_activity_title" >
+            android:label="@string/join_activity_title" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.BestListActivity"
-            android:label="@string/best_list_activity_title" >
+            android:label="@string/best_list_activity_title" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LandmarkActivity"
-            android:label="@string/landmark_activity_title" >
+            android:label="@string/landmark_activity_title" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.PostingActivity"
-            android:label="@string/title_activity_posting" >
+            android:label="@string/title_activity_posting" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.PostingWriteActivity"
             android:label="@string/posting_write_activity_title"
-            android:windowSoftInputMode="stateUnspecified|adjustPan"  >
+            android:windowSoftInputMode="stateUnspecified|adjustPan"  
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.util.PhotoUploadActivity"
-            android:label="@string/title_activity_posting" >
+            android:label="@string/title_activity_posting" 
+            android:screenOrientation="portrait">
         </activity>
         <!--  <activity
             android:name="kr.re.ec.zigeon.ScaleImageViewActivity">
@@ -76,12 +84,13 @@
         <activity 
             android:name="kr.re.ec.zigeon.MapActivity"
             android:label="@string/map_activity_title" 
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan" 
+            android:screenOrientation="portrait">
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity"
             android:windowSoftInputMode="stateUnspecified|adjustPan" 
-            >
+            android:screenOrientation="portrait">
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.PhotoViewActivity"
@@ -105,7 +114,8 @@
             </intent-filter> -->
      	</activity>
      	<activity 
-            android:name="kr.re.ec.zigeon.UserProfileActivity" >
+            android:name="kr.re.ec.zigeon.UserProfileActivity" 
+            android:screenOrientation="portrait">
             <!--  test
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
