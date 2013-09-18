@@ -290,11 +290,15 @@ public class SoapParser {
 			for(int i=0; i<strArr.length; i++) {
 				memberArr[i] = new MemberDataset();
 <<<<<<< HEAD
+<<<<<<< HEAD
 				memberArr[i].setDataset(strArr[i]);
 =======
 				memberArr[i].setDataset(strArr[i]); 
 				//memberArr[i].setDataset(strArr[i]);   //NONONO!!! //always one instance created
 >>>>>>> catching bug
+=======
+				memberArr[i].setDataset(strArr[i]);
+>>>>>>> only portrait mode allow
 			}
 			obj = memberArr;
 			break;
