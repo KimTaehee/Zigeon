@@ -63,9 +63,8 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	private TextView tvContents;
 	private ImageView imgLandmarkPicture;
 	private ArrayList<String> mCommentArl;		//to set listview 
-	private ArrayList<String> mPostingArl;		//to set listview 
 	private ArrayAdapter<String> mCommentAdp;		//to set listview 
-	private ArrayAdapter<String> mPostingAdp;		//to set listview 
+	private PostingAdapter mPostingAdp;		//to set listview 
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
@@ -108,14 +107,14 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 				mPostingArr =(PostingDataset[]) msg.obj;
 
 				/************ Posting to listview ************/
-				mPostingArl.clear();
-
-				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
-				for(int i=0;i<mPostingArr.length;i++){
-					mPostingArl.add(mPostingArr[i].title);
+				for(int i=0; i<mPostingArr.length; i++) {
+					//TODO: getWriterName
+					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
 				}
-				mPostingAdp.notifyDataSetChanged();
-				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
+				LogUtil.i("mPostingArr.length: " + mPostingArr.length);
+				mPostingAdp = new PostingAdapter(LandmarkActivity.this, mPostingArr);
+				lstPosting.setAdapter(mPostingAdp);
+				mPostingAdp.notifyDataSetChanged();	//TODO: is this work?
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
@@ -188,7 +187,6 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		tabHost = (TabHost) findViewById(R.id.landmark_tabhost);
 		lstComment = (ListView) findViewById(R.id.landmark_commentlist);
 		lstPosting = (ListView) findViewById(R.id.landmark_postinglist);
-		ibtUploadPhoto = (ImageButton) findViewById(R.id.landmark_camera_button);
 		edtInputComment = (EditText) findViewById(R.id.landmark_edit_input_comment);
 		btnInputComment = (Button) findViewById(R.id.landmark_btn_input_comment);
 		tvName = (TextView) findViewById(R.id.landmark_tv_name);
@@ -200,20 +198,19 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		//initial listview string.
 		mCommentArl = new ArrayList<String>();
 		mCommentArl.add("Comments Loading...");
-		mPostingArl = new ArrayList<String>();
-		mPostingArl.add("Postings Loading...");
-
+		
 		//warn: no listview, SHOULD input layout
 		mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl); 
-		mPostingAdp = new ArrayAdapter<String>(this, R.layout.listview_item_posting , mPostingArl);
-
+		
+		mPostingAdp = new PostingAdapter(this, mPostingArr); 
+		lstPosting.setAdapter(mPostingAdp);
+		lstPosting.setOnItemClickListener(lstPostingItemClickListener);
+		
 		lstComment.setAdapter(mCommentAdp);
 		//lstComment.setOnItemClickListener(lstCommentItemClickListener);
 		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 
-		lstPosting.setAdapter(mPostingAdp);
-		lstPosting.setOnItemClickListener(lstPostingItemClickListener);
-		mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		//mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 
 		tabHost.setup(); 
 
@@ -234,7 +231,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
-			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+//			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
 			//TODO: MUST BE mPostingArr == Listview. (test phrase)
 
@@ -334,12 +331,12 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 			overridePendingTransition(0, 0); //no switching animation
 			break;
 		}
-		case R.id.my_profile:
-		{
-			startActivity(new Intent(this,UserProfileActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
-			break;		
-		}
+//		case R.id.my_profile:
+//		{
+//			startActivity(new Intent(this,UserProfileActivity.class));
+//			overridePendingTransition(0, 0); //no switching animation
+//			break;		
+//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));

@@ -24,13 +24,15 @@
                     android:id="@+id/posting_tv_title"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3sp"
                     android:text="☆SCROLL WARN☆ Today I had seen HUNNAM parttimer!!"
-                    android:textSize="30sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/posting_tv_writedate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3sp"
                     android:text="2013/08/15/Thu"
                     android:textSize="15sp" />
 
@@ -38,20 +40,15 @@
                     android:id="@+id/posting_tv_writer"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3sp"
                     android:text="Writer: seo dule num"
                     android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="20dp"
-                    android:background="@drawable/cal_line_01_g"
-                    android:orientation="vertical" >
-                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/posting_img_posting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    
                     android:layout_weight="3"
                     android:src="@drawable/ic_auil_empty" />
 
@@ -59,51 +56,23 @@
                     android:id="@+id/posting_tv_contents"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3sp"
                     android:layout_weight="4"
                     android:scrollbars="vertical"
                     android:text="  hi sisters~~dddddn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nddddddddddd\n\n\ndddddddddddddddddddddddddddddddddddddddddddddddddddddd"
                     android:textSize="15sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="95dp"
-                        android:src="@drawable/btn_subfold_tch" />
-
-                    <TextView
-                        android:id="@+id/posting_tv_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1"
-                        android:textSize="25sp" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/btn_subopen_nor" />
-
-                    <TextView
-                        android:id="@+id/posting_tv_dislike"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="98"
-                        android:textSize="25sp" />
-                </LinearLayout>
+               
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/cal_line_01_g"
-            android:orientation="vertical" >
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:text="Comments" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -124,12 +93,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/posting_camera_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_camera" />
 
             <EditText
                 android:id="@+id/posting_edit_input_comment"

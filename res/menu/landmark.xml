@@ -17,12 +17,13 @@
                 android:showAsAction="ifRoom|withText"
                 android:title="@string/preferecen">
             </item>
+            <!-- 
             <item
                 android:id="@+id/my_profile"
                 android:orderInCategory="4"
                 android:showAsAction="ifRoom|withText"
                 android:title="@string/my_profile">
-            </item>
+            </item> -->
         </menu>
     </item>
     <item

@@ -75,8 +75,9 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	private LandmarkDataset mLandmarkArr[];
 	
 	private NGeoPoint mMapCenter;
-
+	
 	private UIHandler uiHandler;
+	private int detectRange = 500; //TODO: test phrase 
 	
 	private Handler messageHandler = new Handler() { //receiver from UpdateService
 		@Override
@@ -90,6 +91,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 				//LogUtil.v("LandmarkDataset -> NMapOverlay");
 
 				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
+				
 				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
 				poiData.beginPOIdata(0); //TODO: what is 0?
 				for(int i=0;i<mLandmarkArr.length;i++) {
@@ -99,9 +101,10 @@ public class MapActivity extends NMapActivity implements OnClickListener
 				}
 				poiData.endPOIdata();	
 
-				// create overlay with location data
+				// recreate overlay with location data
+				mOverlayManager.clearOverlays();
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-				poiDataOverlay.showAllPOIdata(0);	//set center and zoom which can express all overlay where id==0
+				//poiDataOverlay.showAllPOIdata(0);	//set center and zoom which can express all overlay where id==0
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
@@ -159,6 +162,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
+		soapParser = SoapParser.getInstance();
 
 		/************ UI init ***********/
 		Button btnMoveToMyLocation = (Button) findViewById(R.id.map_btn_move_to_mylocation);
@@ -207,13 +211,16 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		LogUtil.v("mMapCenter: lat: " + mMapCenter.latitude + ", lon: " + mMapCenter.longitude);
 
 		/************ data request ***********/
-		soapParser = SoapParser.getInstance(); 
-		//		LogUtil.v("data request. select * from tLandmark");
-		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-		//				soapParser.getSoapData("select * from tLandmark", Constants.MSG_TYPE_LANDMARK));
-
-		
-		// set data provider listener
+		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+					+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+	
+			
+			// set data provider listener
 		super.setMapDataProviderListener(onDataProviderListener);
 
 	}
@@ -243,6 +250,14 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		// TODO Auto-generated method stub
 		LogUtil.v("onMapCenterChange invoked!!!!! oh yeah\nlat: " + arg1.latitude + ", lon: " + arg1.longitude);
 		locationToReturn = arg1;
+		
+		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+					+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
+					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 		
 	}
 

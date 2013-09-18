@@ -23,17 +23,17 @@ public class MemberDataset extends Object {
 	public Date lastAccessTime;
 	public boolean isAdmin;
 	
-	private static MemberDataset instance; //for singleton
+	private static MemberDataset loginInstance; //for singleton
 	
 	public MemberDataset() {
 		
 	}	
 	
-	public static MemberDataset getInstance(){
-		if(instance==null) {
-			instance = new MemberDataset(); 
+	public static MemberDataset getLoginInstance(){
+		if(loginInstance==null) {
+			loginInstance = new MemberDataset(); 
 		}
-		return instance;
+		return loginInstance;
 	}
 	
 	public void setDataset(String[] strArr) {
@@ -51,9 +51,9 @@ public class MemberDataset extends Object {
 			LogUtil.e("wrong data input");
 		}
 	}
-	public void setDataset(MemberDataset dataset) {
+	public void setLoginDataset(MemberDataset dataset) {
 		//LogUtil.i("dataset.id: " + dataset.id);
-		instance = dataset;
+		loginInstance = dataset;
 		//LogUtil.i("instance.id: " + instance.id);		 
 	}
 }

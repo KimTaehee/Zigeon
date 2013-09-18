@@ -5,40 +5,39 @@
     <RelativeLayout
         android:id="@+id/landmark_layout_info"
         android:layout_width="match_parent"
-        android:layout_height="154dp" >
-
-        <TextView
-            android:id="@+id/landmark_tv_name"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="22dp"
-            android:text="@string/landmark_tv_name"
-            android:textColor="#000000"
-            android:textSize="19dp"
-            android:textStyle="bold" />
-        
-        <TextView
-            android:id="@+id/landmark_tv_contents"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="70dp"
-            android:text="@string/landmark_tv_contents"
-            android:textColor="#000000"
-            android:textSize="9dp"
-            android:layout_below="@id/landmark_tv_name" />
+        android:layout_height="250dp" >
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="130dp"
-            android:layout_height="140dp"
+            android:layout_width="fill_parent"
+            android:layout_height="160dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_auil_empty"> 
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_auil_empty" >
         </ImageView>
+
+        <TextView
+            android:id="@+id/landmark_tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_margin="3sp"
+            android:layout_marginTop="2dp"
+            android:text="@string/landmark_tv_name"
+            android:textColor="#000000"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/landmark_tv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/landmark_tv_name"
+            android:layout_margin="3sp"
+            android:text="@string/landmark_tv_contents"
+            android:textColor="#000000"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -78,20 +77,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" 
-                            android:layout_weight="1"/>
+                            android:layout_centerVertical="true"
+                            android:layout_weight="1" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal" 
-                            android:layout_below="@id/landmark_commentlist">
-
-                            <ImageButton
-                                android:id="@+id/landmark_camera_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@android:drawable/ic_menu_camera" />
+                            android:layout_below="@id/landmark_commentlist"
+                            android:orientation="horizontal" >
 
                             <EditText
                                 android:id="@+id/landmark_edit_input_comment"
@@ -101,7 +94,7 @@
                                 android:ems="10"
                                 android:hint="@string/edit_message" >
 
-                                <!-- <requestFocus android:layout_width="match_parent" />  -->
+                                <!-- <requestFocus android:layout_width="match_parent" /> -->
                             </EditText>
 
                             <Button
@@ -109,7 +102,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
-                                android:text="썼다" />
+                                android:text="input" />
                         </LinearLayout>
                     </LinearLayout>
 

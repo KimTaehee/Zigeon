@@ -1,13 +1,15 @@
 /**
- * Class Name: LandmarkAdapter
- * Description: for show Landmarks on gridview.
+ * Class Name: PostingAdapter
+ * Description: for show Posting on listview.
  * Author: KimTaehee slhyvaa@nate.com
  * Version: 0.0.1
- * Created Date: 130909
+ * Created Date: 130917
  * Modified Date: 
  */
 
 package kr.re.ec.zigeon;
+
+import java.text.SimpleDateFormat;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -15,6 +17,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
+import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.content.Context;
@@ -28,25 +31,16 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener {
+public class PostingAdapter extends BaseAdapter implements ImageLoadingListener {
 
 	private Context context = null;
-	private LandmarkDataset[] mLandmarkArr = null;
+	private PostingDataset[] mPostingArr = null;
 
 //	private TextView tvName;
 //	private TextView tvDistance;
 //	private ImageView ivLandmark;
 //	private ImageView ivBalloon;
 //	private ImageView ivGrade;
-	
-	private int imgBalloon[] = {
-			R.drawable.ic_best_balloon0,
-			R.drawable.ic_best_balloon1,
-			R.drawable.ic_best_balloon2,
-			R.drawable.ic_best_balloon3,
-			R.drawable.ic_best_balloon4,
-			R.drawable.ic_best_balloon5
-	};
 	
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
@@ -57,20 +51,20 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
 	
 	
-	public LandmarkAdapter(Context _context, LandmarkDataset[] landmarkArr) {
+	public PostingAdapter(Context _context, PostingDataset[] PostingArr) {
 		this.context = _context;
-		mLandmarkArr = landmarkArr;
+		mPostingArr = PostingArr;
 		LogUtil.v("constuctor called!");
 	}
 	
 	@Override
 	public int getCount() {
-		return (null != mLandmarkArr) ? mLandmarkArr.length : 0; //TODO: is this be used?
+		return (null != mPostingArr) ? mPostingArr.length : 0; //TODO: is this be used?
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mLandmarkArr[position];	//TODO: is this be used?
+		return mPostingArr[position];	//TODO: is this be used?
 	}
 
 	@Override
@@ -83,63 +77,45 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		//View gridView;
-		ViewHolder holder = null; //use viewholder pattern
+		PostingViewHolder holder = null; //use viewholder pattern
 		
 		if(convertView == null) { 
 			//gridView = new View(context);
 			
-			convertView = inflater.inflate(R.layout.gridview_item_best_list, null);
+			convertView = inflater.inflate(R.layout.listview_item_posting, null);
 			
 			/*********** set contents into gridview ***********/
-			holder = new ViewHolder();
+			holder = new PostingViewHolder();
 			
-			holder.tvName= (TextView) convertView.findViewById(R.id.gridview_item_best_list_tv_name);
-			holder.tvDistance = (TextView) convertView.findViewById(R.id.gridview_item_best_list_tv_distance);
-			holder.ivLandmark = (ImageView) convertView.findViewById(R.id.gridview_item_best_list_iv_landmark);
-			holder.ivGrade = (ImageView) convertView.findViewById(R.id.gridview_item_best_list_iv_grade);
-			holder.ivBalloon = (ImageView) convertView.findViewById(R.id.gridview_item_best_list_iv_balloon);
+			holder.tvWriterName= (TextView) convertView.findViewById(R.id.listview_item_posting_tv_writer_name);
+			holder.tvPostingTitle = (TextView) convertView.findViewById(R.id.listview_item_posting_tv_title);
+			holder.tvWrittenDate = (TextView) convertView.findViewById(R.id.listview_item_posting_tv_date);
+			holder.ivPosting = (ImageView) convertView.findViewById(R.id.listview_item_posting_iv_picture);
 			
 			convertView.setTag(holder);
 			
 		} else {
-			holder = (ViewHolder) convertView.getTag(); 
+			holder = (PostingViewHolder) convertView.getTag(); 
 			//gridView = (View) convertView;
 			
 		}
 		
-		LogUtil.v("Landmark name: " + mLandmarkArr[position].name + ", pos: " + position);
-		holder.tvName.setText(mLandmarkArr[position].name);
+		holder.tvWriterName.setText(mPostingArr[position].writerName);
+		holder.tvPostingTitle.setText(mPostingArr[position].title);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		holder.tvWrittenDate.setText(sdf.format(mPostingArr[position].writtenTime));
 		
-		int distanceFromMe = (int)mLandmarkArr[position].distanceFromCurrentLocation;
-		holder.tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"wait...":distanceFromMe + " m");
-		
-		//picture that represents landmarks
-		LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
-		if(mLandmarkArr[position].getImageUrl() != null) {
+		//picture that represents postings
+		LogUtil.v("image uri: " + mPostingArr[position].getImageUrl());
+		if(mPostingArr[position].getImageUrl() != null) {
 			LogUtil.v("position: " + position +", image load start!");
 			
-			imgLoader.displayImage(mLandmarkArr[position].getImageUrl(), holder.ivLandmark, this);
+			imgLoader.displayImage(mPostingArr[position].getImageUrl(), holder.ivPosting, this);
 			//System.gc(); 	//it may cause UI frame skip but do memory free
 		} else {
-			imgLoader.displayImage(null, holder.ivLandmark, this);
+			imgLoader.displayImage(null, holder.ivPosting, this);
 		
 		}
-		
-		int balloonIdx = (int) Math.round(mLandmarkArr[position].rating);
-		LogUtil.i("num of balloon: " + balloonIdx);
-		
-		Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), imgBalloon[balloonIdx]);
-		
-		if(balloonIdx==0) {
-			balloonIdx = 1;
-		}
-		
-		bmp = Bitmap.createScaledBitmap(bmp, 28*balloonIdx, 37, false);
-		holder.ivBalloon.setImageBitmap(bmp);
-		
-		//grade: best, new, ... 
-		holder.ivGrade.setVisibility(ImageView.INVISIBLE);
-		//ivGrade = //TODO: gonna work
 		
 		return convertView;
 	}
@@ -171,10 +147,10 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 	}
 }
 
-class ViewHolder {
-	TextView tvName;
-	TextView tvDistance;
-	ImageView ivLandmark;
-	ImageView ivBalloon;
-	ImageView ivGrade;
+class PostingViewHolder {
+	TextView tvWriterName;
+	TextView tvPostingTitle;
+	TextView tvWrittenDate;
+	ImageView ivPosting;
+
 }

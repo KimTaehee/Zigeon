@@ -5,6 +5,7 @@
 
 package kr.re.ec.zigeon;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -93,10 +94,11 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 				/******************** print info  *******************/
 				tvTitle.setText(mPostingDataset.title);
-				tvWrittenTime.setText(mPostingDataset.writtenTime.toString());
-				tvWriter.setText("seo dul nim. memIdx: " + mPostingDataset.writerIdx); //TODO: tMember query proceeing
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				tvWrittenTime.setText("written date: " + sdf.format(mPostingDataset.writtenTime));
+				tvWriter.setText("writer: " + mPostingDataset.writerName); //TODO: tMember query proceeing
 				//TODO: test line separator. what is it?
-				tvContents.setText(mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
+				tvContents.setText("contents: \n"  + mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 //				tvLike.setText(mPostingDataset.like);
 //				tvDislike.setText(mPostingDataset.dislike);
 				LogUtil.v("image load start! uri: " + mPostingDataset.getImageUrl());
@@ -157,23 +159,19 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+		
         
 		/****** UI init *****/
 		tvTitle = (TextView) findViewById(R.id.posting_tv_title);
 		tvWrittenTime = (TextView) findViewById(R.id.posting_tv_writedate);
 		tvWriter = (TextView) findViewById(R.id.posting_tv_writer);
 		tvContents = (TextView) findViewById(R.id.posting_tv_contents);
-		tvLike = (TextView) findViewById(R.id.posting_tv_like);
-		tvDislike = (TextView) findViewById(R.id.posting_tv_dislike);
 		lstComment = (ListView) findViewById(R.id.posting_commentlist);
 		btnInputComment = (Button) findViewById(R.id.posting_btn_input_comment);
 		btnInputComment.setOnClickListener(this);
 		edtInputComment = (EditText) findViewById(R.id.posting_edit_input_comment);
 		imgPosting = (ImageView) findViewById(R.id.posting_img_posting);
 		imgPosting.setOnClickListener(this);
-		
-		ibtUploadPhoto = (ImageButton) findViewById(R.id.posting_camera_button);
-		ibtUploadPhoto.setOnClickListener(this);
 
 		mCommentArl = new ArrayList<String>();
         mCommentArl.add("Comments Loading...");
@@ -254,23 +252,18 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			break;
 
 		}
-		case R.id.posting_camera_button:
-		{
-			//startActivity(new Intent(this,PhotoUploadActivity.class));
-			break;
-		}
 		}
 
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
 		switch(item.getItemId()) {
-		case R.id.my_profile:
-		{
-			startActivity(new Intent(this,UserProfileActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
-			break;		
-		}
+//		case R.id.my_profile:
+//		{
+//			startActivity(new Intent(this,UserProfileActivity.class));
+//			overridePendingTransition(0, 0); //no switching animation
+//			break;		
+//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));

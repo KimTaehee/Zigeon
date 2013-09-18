@@ -288,8 +288,9 @@ public class SoapParser {
 		case Constants.MSG_TYPE_MEMBER: 
 			MemberDataset[] memberArr = new MemberDataset[strArr.length];	//create Landmark Array 
 			for(int i=0; i<strArr.length; i++) {
-				memberArr[i] = MemberDataset.getInstance(); 
-				memberArr[i].setDataset(strArr[i]);   //always one instance created
+				memberArr[i] = new MemberDataset();
+				memberArr[i].setDataset(strArr[i]); 
+				//memberArr[i].setDataset(strArr[i]);   //NONONO!!! //always one instance created
 			}
 			obj = memberArr;
 			break;

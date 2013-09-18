@@ -55,8 +55,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 	private GridView grdBestList;
 	private ToggleButton tglBtnTraceLocation;
 	private Button btnRefreshLocation;
-	private Button btnSetRange;
-	
+	private TextView tvSetRange;
+		
 	private ArrayList<LandmarkDataset> mBestListArl;		//to set gridtview	
 	private LandmarkAdapter mBestListAdp;		//user defined Adapter. to set gridview
 	private LandmarkDataset mBestListArr[];
@@ -70,36 +70,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 			case Constants.MSG_TYPE_LANDMARK:
 			{
 				mBestListArr =(LandmarkDataset[]) msg.obj;
-				/****************** LandmarkDataset -> NMapPOIdataOverlay ***************/
-				//LogUtil.v("LandmarkDataset -> NMapOverlay");
-
-//				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
-//				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
-//				poiData.beginPOIdata(0); //TODO: what is 0?
-//				for(int i=0;i<mLandmarkArr.length;i++) {
-//					//TODO: what is 0?
-//					poiData.addPOIitem(mLandmarkArr[i].longitude, 
-//							mLandmarkArr[i].latitude, mLandmarkArr[i].name, markerId, 0); 
-//				}
-//				poiData.endPOIdata();	
-//
-//				// create overlay with location data
-//				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-//				poiDataOverlay.showAllPOIdata(0);	//set center and zoom which can express all overlay where id==0
-
-
+				
 				/******************** reflect on Grid*******************/
-//				mBestListArl.clear(); //reset arraylist
-//				//LogUtil.v("mLandmarkArr.length : "+ mLandmarkArr.length);
-//				for(int i=0;i<mBestListArr.length;i++){
-//					//double->int
-//					int distanceFromMe = (int)(mBestListArr[i].getDistance(myLocation));
-//
-//					//init string
-//					mBestListArl.add(mBestListArr[i]);
-//					//(mBestListArr[i].name + "\n"
-//					//		+ ((distanceFromMe==Constants.INT_NULL)?"finding.. ^o^":distanceFromMe + " m"));
-//				}
 				for(int i=0; i<mBestListArr.length; i++) {
 					mBestListArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
 				}
@@ -241,10 +213,10 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 		/********** init UI ************/
 		grdBestList = (GridView) findViewById(R.id.best_list_gridview);
-		btnSetRange = (Button) findViewById(R.id.best_list_btn_set_range);
+		tvSetRange = (TextView) findViewById(R.id.best_list_btn_set_range);
 		tglBtnTraceLocation = (ToggleButton) findViewById(R.id.best_list_tglbtn_trace_location);
 		btnRefreshLocation = (Button) findViewById(R.id.best_list_btn_refresh_location);
-		btnSetRange.setOnClickListener(this);
+		//btnSetRange.setOnClickListener(this);
 		tglBtnTraceLocation.setOnClickListener(this);
 		tglBtnTraceLocation.setChecked(true);
 		isTraceLocation = true;
@@ -282,25 +254,18 @@ public class BestListActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
 		switch(item.getItemId()) {
-		case R.id.map_list_action_bubble:
-		{
-			LogUtil.v("action_bubble clicked. ");
-			finish(); //TODO: need to reduce MAP Loading again.. TT 
-			overridePendingTransition(0, 0); //no switching animation
-			break;
-		}
 		case R.id.map_list_action_landmark_write:
 		{
 			startActivity(new Intent(this,LandmarkWriteActivity.class));
 			overridePendingTransition(0, 0); //no switching animation
 			break;			
 		}
-		case R.id.my_profile:
-		{
-			startActivity(new Intent(this,UserProfileActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
-			break;		
-		}
+//		case R.id.my_profile:
+//		{
+//			startActivity(new Intent(this,UserProfileActivity.class));
+//			overridePendingTransition(0, 0); //no switching animation
+//			break;		
+//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));
@@ -350,8 +315,18 @@ public class BestListActivity extends Activity implements OnClickListener {
 			}
 			break;
 		}
+		case R.id.best_list_btn_refresh_location:
+		{
+			LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+					+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+					+ "') WHERE ldmVisible = 'True'");
+			uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+					soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+			break;
 		}
-		
+		}
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

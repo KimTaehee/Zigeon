@@ -1,6 +1,10 @@
 package kr.re.ec.zigeon.dataset;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.text.format.DateFormat;
+
+import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 
@@ -22,6 +26,10 @@ public class PostingDataset extends Object {
 	public int readedCount;
 	public Date writtenTime;
 	public String picturePath;
+	
+	public String writerName;
+	
+	private SoapParser soapParser;
 	
 	public PostingDataset() {
 		
@@ -50,8 +58,11 @@ public class PostingDataset extends Object {
 				dislike = Integer.parseInt(strArr[5]);
 				writerIdx = Integer.parseInt(strArr[6]);
 				readedCount = Integer.parseInt(strArr[7]);
-				writtenTime = new Date(); //TODO: temporary.
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+				writtenTime = sdf.parse(strArr[8]); //TODO: temporary.
 				picturePath = strArr[9];
+				
+				writerName = getWriterName();
 				return 0; // no error
 			} else {
 				LogUtil.e("wrong data input");
@@ -72,6 +83,17 @@ public class PostingDataset extends Object {
 			str = null;
 		}
 		return str;
+	}
+	
+	public String getWriterName() {
+		
+		String query = "SELECT * FROM tMember WHERE memIdx='" + writerIdx + "'"; 
+		LogUtil.v("data request. " + query);
+		
+		soapParser = SoapParser.getInstance();
+		MemberDataset[] mem = (MemberDataset[]) soapParser.getSoapData(query, Constants.MSG_TYPE_MEMBER);
+		writerName = mem[0].nick; 
+		return writerName;
 	}
 	
 }

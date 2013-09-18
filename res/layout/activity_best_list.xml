@@ -8,37 +8,37 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/best_list_layout_options"
+        android:background="#878787"
         android:gravity="center"
         android:horizontalSpacing="1sp"
         android:numColumns="2"
         android:padding="1sp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="1sp"
-        android:background="#878787" />
+        android:verticalSpacing="1sp" />
 
     <LinearLayout
         android:id="@+id/best_list_layout_options"
         android:layout_width="fill_parent"
         android:layout_height="50sp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal" 
-        android:background="#686868">
+        android:background="#686868"
+        android:orientation="horizontal" >
 
-        <Button
+        <TextView
             android:id="@+id/best_list_btn_set_range"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#686868"
             android:textColor="#FFFFFF"
-            android:text="Set Range" />
+            android:gravity="center"
+            android:text="500 M" />
 
         <ToggleButton
             android:id="@+id/best_list_tglbtn_trace_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#686868"
             android:textColor="#FFFFFF"
             android:text="Trace Location" />
 
@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#686868"
-            android:textColor="#FFFFFF"
-            android:text="Refresh" />
+            android:text="Refresh"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
 </RelativeLayout>

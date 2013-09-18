@@ -56,7 +56,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		imgbtnRegister = (ImageButton) findViewById(R.id.login_imgbtn_register);
 		soapParser = SoapParser.getInstance();
 		swtAutoLogin = (Switch) findViewById(R.id.login_switch_autologin);
-		mMemberDataset = MemberDataset.getInstance();
+		mMemberDataset = MemberDataset.getLoginInstance();
 		
 		//  To Auto Login, get Shared Preference
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE); 
@@ -123,7 +123,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					String query = "SELECT * FROM tMember WHERE memID='" + strID + "'"; 
 					LogUtil.v("data request. " + query);
 
-					mMemberDataset.setDataset(((MemberDataset[]) soapParser.getSoapData(query,
+					mMemberDataset.setLoginDataset(((MemberDataset[]) soapParser.getSoapData(query,
 							Constants.MSG_TYPE_MEMBER))[0]);
 					
 					/******************** dataset test *******************/
@@ -133,7 +133,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					intent = new Intent(LoginActivity.this,
 							BestListActivity.class);
 					startActivity(intent);
-					startService(new Intent(LoginActivity.this, ServiceFloating.class));
+					//startService(new Intent(LoginActivity.this, ServiceFloating.class));
 
 					finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
 				} else {

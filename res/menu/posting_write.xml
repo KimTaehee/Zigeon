@@ -5,6 +5,7 @@
         android:title="@string/posting_write_action_write"
         android:showAsAction="ifRoom|withText" >
 	</item>
+	<!-- 
     <item
         android:id="@+id/overflow"
         android:orderInCategory="3"
@@ -22,9 +23,9 @@
                 android:orderInCategory="4"
                 android:showAsAction="ifRoom|withText"
                 android:title="@string/my_profile">
-            </item>
+            </item> 
         </menu>
-    </item>
+    </item> -->
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

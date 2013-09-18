@@ -145,18 +145,18 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 			overridePendingTransition(0, 0); //no switching animation
 			break;
 		}
-		case R.id.my_profile:
-		{
-			startActivity(new Intent(this,UserProfileActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
-			break;		
-		}
-		case R.id.preference:
-		{
-			startActivity(new Intent(this,PreferenceActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
-			break;		
-		}
+//		case R.id.my_profile:
+//		{
+//			startActivity(new Intent(this,UserProfileActivity.class));
+//			overridePendingTransition(0, 0); //no switching animation
+//			break;		
+//		}
+//		case R.id.preference:
+//		{
+//			startActivity(new Intent(this,PreferenceActivity.class));
+//			overridePendingTransition(0, 0); //no switching animation
+//			break;		
+//		}
 		}
 		return true;
 	}
@@ -252,6 +252,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				poiData.endPOIdata();
 				
 				// create overlay with location data
+				mOverlayManager.clearOverlays();
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 				break;
 			}

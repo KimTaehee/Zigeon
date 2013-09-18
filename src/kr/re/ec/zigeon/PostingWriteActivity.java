@@ -88,13 +88,14 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 			LogUtil.v("action_write clicked.");
 
 			PostingDataset pst = new PostingDataset();
-			MemberDataset mem = MemberDataset.getInstance();
+			MemberDataset mem = MemberDataset.getLoginInstance();
 			//String strArr[] = new String[Constants.DATASET_FIELD[Constants.MSG_TYPE_POSTING].length];
 			//strArr[0] = 
 			LogUtil.v("create pstDataset and get memDataset success!");
 			//title
 			if(edtTitle.getText().toString().compareTo("")==0) {
 				new AlertManager(this,"Blank Title? ^^","Confirm");	
+				return false;
 			} else {
 				pst.title = edtTitle.getText().toString();
 			}
@@ -105,12 +106,13 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 			//contents
 			if(edtContents.getText().toString().compareTo("")==0) {
 				new AlertManager(this,"Blank Contents? ^^","Confirm");	
+				return false;
 			} else {
 				pst.contents = edtContents.getText().toString();
 			}
 
 			pst.writerIdx = mem.idx;
-
+			LogUtil.v("memidx: " + mem.idx);
 			pst.readedCount = 0;
 
 			if(selectedImagePath==null) { 
@@ -131,12 +133,12 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 
 			break;
 		}
-		case R.id.my_profile:
-		{
-			startActivity(new Intent(this,UserProfileActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
-			break;		
-		}
+//		case R.id.my_profile:
+//		{
+//			startActivity(new Intent(this,UserProfileActivity.class));
+//			overridePendingTransition(0, 0); //no switching animation
+//			break;		
+//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));
