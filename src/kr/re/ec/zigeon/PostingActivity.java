@@ -151,7 +151,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
         
 		query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
-				"AND comParentType='P' ORDER BY comWrittenTime desc"; 
+					"AND comParentType='P' ORDER BY comWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -221,7 +221,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				edtInputComment.setText("");
 
 				String query = "SELECT * FROM tComment WHERE comParentIdx='"
-						+ mPostingDataset.idx + "' AND comParentType='P'"; 
+						+ mPostingDataset.idx + "' AND comParentType='P' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));

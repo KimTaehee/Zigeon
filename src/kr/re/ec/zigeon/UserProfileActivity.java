@@ -134,7 +134,7 @@
 //		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 //				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
 //
-//		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "'"; 
+//		query = "SELECT * FROM tComment WHERE comWriterIdx='" + mMemberDataset.idx + "' ORDER BY comWrittenTime desc"; 
 //		LogUtil.v("data request. " + query);
 //		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 //				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));

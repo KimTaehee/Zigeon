@@ -313,7 +313,8 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 				edtInputComment.setText("");
 
-				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
+				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " + 
+						"AND comParentType='L' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
