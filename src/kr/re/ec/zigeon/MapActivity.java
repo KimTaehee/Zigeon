@@ -211,11 +211,19 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		LogUtil.v("mMapCenter: lat: " + mMapCenter.latitude + ", lon: " + mMapCenter.longitude);
 
 		/************ data request ***********/
+<<<<<<< HEAD
 		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+=======
+		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+>>>>>>> catching bug
 					+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 	
@@ -251,11 +259,19 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		LogUtil.v("onMapCenterChange invoked!!!!! oh yeah\nlat: " + arg1.latitude + ", lon: " + arg1.longitude);
 		locationToReturn = arg1;
 		
+<<<<<<< HEAD
 		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+=======
+		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+>>>>>>> catching bug
 					+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 		

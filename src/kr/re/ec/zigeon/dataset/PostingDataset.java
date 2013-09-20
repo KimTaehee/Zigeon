@@ -59,7 +59,11 @@ public class PostingDataset extends Object {
 				writerIdx = Integer.parseInt(strArr[6]);
 				readedCount = Integer.parseInt(strArr[7]);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+<<<<<<< HEAD
 				writtenTime = sdf.parse(strArr[8]); 
+=======
+				writtenTime = sdf.parse(strArr[8]); //TODO: temporary.
+>>>>>>> catching bug
 				picturePath = strArr[9];
 				
 				writerName = getWriterName();

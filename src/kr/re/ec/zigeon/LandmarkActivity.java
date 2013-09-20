@@ -64,9 +64,15 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	private TextView tvName;
 	private TextView tvContents;
 	private ImageView imgLandmarkPicture;
+<<<<<<< HEAD
 	 
 	private PostingAdapter mPostingAdp;		//to set listview
 	private CommentAdapter mCommentAdp;
+=======
+	private ArrayList<String> mCommentArl;		//to set listview 
+	private ArrayAdapter<String> mCommentAdp;		//to set listview 
+	private PostingAdapter mPostingAdp;		//to set listview 
+>>>>>>> catching bug
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
@@ -109,9 +115,16 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 				mPostingArr =(PostingDataset[]) msg.obj;
 
 				/************ Posting to listview ************/
+<<<<<<< HEAD
 				//for(int i=0; i<mPostingArr.length; i++) {
 					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
 				//}
+=======
+				for(int i=0; i<mPostingArr.length; i++) {
+					//TODO: getWriterName
+					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
+				}
+>>>>>>> catching bug
 				LogUtil.i("mPostingArr.length: " + mPostingArr.length);
 				mPostingAdp = new PostingAdapter(LandmarkActivity.this, mPostingArr);
 				lstPosting.setAdapter(mPostingAdp);
@@ -194,8 +207,17 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		btnInputComment.setOnClickListener(this);
 		imgLandmarkPicture.setOnClickListener(this);
 
+<<<<<<< HEAD
 		//TODO: if no item on listview, SHOULD input layout
 		mCommentAdp = new CommentAdapter(this, mCommentArr);
+=======
+		//initial listview string.
+		mCommentArl = new ArrayList<String>();
+		mCommentArl.add("Comments Loading...");
+		
+		//warn: no listview, SHOULD input layout
+		mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl); 
+>>>>>>> catching bug
 		
 		mPostingAdp = new PostingAdapter(this, mPostingArr); 
 		lstPosting.setAdapter(mPostingAdp);
