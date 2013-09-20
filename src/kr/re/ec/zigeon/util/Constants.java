@@ -31,6 +31,17 @@ public final class Constants {
 	public static final String URL_SERVER_IMAGE_DIR = "http://117.17.198.41:8088/images/"; 
 	public static final String URL_SERVER_IMAGE_UPLOAD_PAGE = "http://117.17.198.41:8088/Upload.aspx"; //upload page
 	
+	/**************** Image optimization for Uploading ***************/
+	//public static final int IMG_UPLOAD_MAX_BYTE = 150000;	//150KB
+	public static final int IMG_UPLOAD_MAX_SIDE_PIXEL = 1000;	//max image size is 1000 x 1000
+	
+	/**************** Naver Map *********************/
+	//Aug 2013, Seo Juri registered.
+	public static final String NMAP_API_KEY = "3aa5ca39d123f5448faff118a4fd9528";
+	//default location (Mirae hall, Seoultech. when no location detected, use this temporary value.)
+	public static final double NMAP_DEFAULT_LAT = 37.6292700;
+	public static final double NMAP_DEFAULT_LON = 127.0815700; 
+	
 	/**************** Err Code. int range 1000~1069 ****************/
 	public static final int ERR_UNEXPECTED = 1000;
 	public static final int ERR_DEFAULT_SWITCHED = 1001;

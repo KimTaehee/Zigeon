@@ -1,6 +1,6 @@
 package kr.re.ec.zigeon;
 
-import kr.re.ec.zigeon.service.ServiceFloating;
+import kr.re.ec.zigeon.handler.ServiceFloating;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Intent;

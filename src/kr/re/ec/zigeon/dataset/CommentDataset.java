@@ -1,5 +1,9 @@
 package kr.re.ec.zigeon.dataset;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 
 /*
@@ -20,6 +24,10 @@ public class CommentDataset extends Object {
 	public Date writtenTime;
 	public String picturePath;
 	
+	public String writerName;
+	
+	private SoapParser soapParser;
+	
 	public CommentDataset() {
 		
 	}
@@ -28,19 +36,42 @@ public class CommentDataset extends Object {
 		setDataset(strArr);
 	}
 	
-	public void setDataset(String[] strArr) {
-		if(strArr.length == COMMENT_FIELD_COUNT){
-			idx = Integer.parseInt(strArr[0]);
-			parentType = strArr[1].charAt(0); //TODO: test해봐야 함
-			parentIdx = Integer.parseInt(strArr[2]);
-			contents = strArr[3];
-			like = Integer.parseInt(strArr[4]);
-			dislike = Integer.parseInt(strArr[5]);
-			writerIdx = Integer.parseInt(strArr[6]);
-			writtenTime = new Date(); //TODO: temporary.
-			picturePath = strArr[8];
-		} else {
-			LogUtil.e("wrong data input");
+	public int setDataset(String[] strArr) {
+		try {
+			if(strArr.length == COMMENT_FIELD_COUNT){
+				idx = Integer.parseInt(strArr[0]);
+				parentType = strArr[1].charAt(0); //TODO: test해봐야 함
+				parentIdx = Integer.parseInt(strArr[2]);
+				contents = strArr[3];
+				like = Integer.parseInt(strArr[4]);
+				dislike = Integer.parseInt(strArr[5]);
+				writerIdx = Integer.parseInt(strArr[6]);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+				writtenTime = sdf.parse(strArr[7]);
+				picturePath = strArr[8];
+				
+				writerName = getWriterName();
+				
+				return 0;
+			} else {
+				LogUtil.e("wrong data input");
+				return Constants.ERR_DATASET_MISMATCHED;
+			}
+		} catch (Exception e) {
+			LogUtil.e(e.toString());
+			return Constants.ERR_DATASET_MISMATCHED;
 		}
+		
+	}
+	
+	public String getWriterName() {
+		
+		String query = "SELECT * FROM tMember WHERE memIdx='" + writerIdx + "'"; 
+		LogUtil.v("data request. " + query);
+		
+		soapParser = SoapParser.getInstance();
+		MemberDataset[] mem = (MemberDataset[]) soapParser.getSoapData(query, Constants.MSG_TYPE_MEMBER);
+		writerName = mem[0].nick; 
+		return writerName;
 	}
 }

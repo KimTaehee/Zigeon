@@ -47,14 +47,36 @@ public class PhotoUploader extends AsyncTask<PhotoUploadDataset, Integer, Void> 
 			reqEntity.addPart("filename",new StringBody(fileName));
 			try{
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-				bitmap.compress(CompressFormat.JPEG, 75, bos);
+				
+				BitmapFactory.Options bfo = new BitmapFactory.Options();
+				bfo.inJustDecodeBounds = true;	//DO NOT remove this phrase. it may occur OUT OF MEMORY
+				Bitmap bitmap = BitmapFactory.decodeFile(fileName, bfo);
+				
+				//if image side size is longer than constants, reduce image size 
+				if(bfo.outHeight * bfo.outWidth >=
+						Constants.IMG_UPLOAD_MAX_SIDE_PIXEL * Constants.IMG_UPLOAD_MAX_SIDE_PIXEL)
+				{
+					bfo.inSampleSize = (int)Math.pow(2, (int)Math.round(Math.log(Constants.IMG_UPLOAD_MAX_SIDE_PIXEL
+							/ (double) Math.max(bfo.outHeight, bfo.outWidth)) / Math.log(0.5)));
+				}
+				bfo.inJustDecodeBounds = false;
+				bfo.inDither = true;
+				bitmap = BitmapFactory.decodeFile(fileName, bfo);
+				
+				//bitmap.compress(CompressFormat.JPEG, 75, bos);	//2,659,566B -> 1,970,481B
+				//bitmap.compress(CompressFormat.JPEG, 25, bos);	//2,659,566B -> 809,638B
+				
+				//current optimization example(Byte)
+				//1,820,983(3264x2448,jpg) -> 46,722(816x612,jpg) => 2.6% (Cannot feel broken)
+				//1,495,698(1040x6416,jpg) -> 13,883(130x802,jpg) => 0.9% (feel broken)
+				//4,995,376(3264x2448,jpg) -> 168,861(816x612,jpg) => 3.4% (Cannot feel broken)
+				bitmap.compress(CompressFormat.JPEG, 75, bos);	
 				byte[] data = bos.toByteArray();
 				ByteArrayBody bab = new ByteArrayBody(data, fileName);
 				reqEntity.addPart("picture", bab);
 			}
 			catch(Exception e){
-				//Log.v("Exception in Image", ""+e);
+				LogUtil.v("Exception in Image" + e.toString());
 				reqEntity.addPart("picture", new StringBody(""));
 			}
 			postRequest.setEntity(reqEntity);       
@@ -66,7 +88,8 @@ public class PhotoUploader extends AsyncTask<PhotoUploadDataset, Integer, Void> 
 				s = s.append(sResponse + "\n");
 			}
 			LogUtil.v("result: "+ s);
-
+			
+			System.gc();
 		} catch (Exception e) {
 			LogUtil.e("exception " + e.getMessage()+", "+e.toString());
 		}		

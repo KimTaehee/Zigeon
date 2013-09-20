@@ -16,11 +16,13 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
 import kr.re.ec.zigeon.util.ActivityManager;
+import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.os.Bundle;
@@ -62,9 +64,9 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	private TextView tvName;
 	private TextView tvContents;
 	private ImageView imgLandmarkPicture;
-	private ArrayList<String> mCommentArl;		//to set listview 
-	private ArrayAdapter<String> mCommentAdp;		//to set listview 
-	private PostingAdapter mPostingAdp;		//to set listview 
+	 
+	private PostingAdapter mPostingAdp;		//to set listview
+	private CommentAdapter mCommentAdp;
 	private LandmarkDataset mLandmarkDataset;		
 	private CommentDataset mCommentArr[];
 	private PostingDataset mPostingArr[];
@@ -107,10 +109,9 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 				mPostingArr =(PostingDataset[]) msg.obj;
 
 				/************ Posting to listview ************/
-				for(int i=0; i<mPostingArr.length; i++) {
-					//TODO: getWriterName
+				//for(int i=0; i<mPostingArr.length; i++) {
 					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
-				}
+				//}
 				LogUtil.i("mPostingArr.length: " + mPostingArr.length);
 				mPostingAdp = new PostingAdapter(LandmarkActivity.this, mPostingArr);
 				lstPosting.setAdapter(mPostingAdp);
@@ -123,16 +124,13 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 
 				/************ Comment to listview ************/
-
-				mCommentArl.clear();
-
-				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
-				for(int i=0;i<mCommentArr.length;i++){
-					mCommentArl.add(mCommentArr[i].contents);
-				}
-				mCommentAdp.notifyDataSetChanged();
-				lstComment.smoothScrollToPosition(mCommentArr.length-1);
-				//LogUtil.i("mCommentAdp.notifyDataSetChanged()");
+				//for(int i=0; i<mPostingArr.length; i++) {
+				//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
+				//}
+				LogUtil.i("mCommentArr.length: " + mCommentArr.length);
+				mCommentAdp = new CommentAdapter(LandmarkActivity.this, mCommentArr);
+				lstComment.setAdapter(mCommentAdp);
+				mCommentAdp.notifyDataSetChanged();	//TODO: is this work?
 				break;
 			}
 			case Constants.MSG_TYPE_MEMBER:
@@ -178,7 +176,8 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
 
-		query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' AND comParentType='L'"; 
+		query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
+				"AND comParentType='L' ORDER BY comWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -195,12 +194,8 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		btnInputComment.setOnClickListener(this);
 		imgLandmarkPicture.setOnClickListener(this);
 
-		//initial listview string.
-		mCommentArl = new ArrayList<String>();
-		mCommentArl.add("Comments Loading...");
-		
-		//warn: no listview, SHOULD input layout
-		mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl); 
+		//TODO: if no item on listview, SHOULD input layout
+		mCommentAdp = new CommentAdapter(this, mCommentArr);
 		
 		mPostingAdp = new PostingAdapter(this, mPostingArr); 
 		lstPosting.setAdapter(mPostingAdp);
@@ -208,7 +203,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		
 		lstComment.setAdapter(mCommentAdp);
 		//lstComment.setOnItemClickListener(lstCommentItemClickListener);
-		mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
+		//mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 
 		//mPostingAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 
@@ -256,15 +251,8 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		{
 			//send 
 			if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank allowed. force to return
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("BLANK? ^^");
-				alert.show();
+				new AlertManager(this, "Blank ^^?", "Confirm"); 
+				
 				return;
 			} else {
 				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); 
@@ -278,7 +266,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 								mLandmarkDataset.idx + //comParentIdx
 								"','"+ edtInputComment.getText() + //comContents
 								"','0','0','" + //comLike, comDislike
-								"1" + //TODO: temp comWriterIdx
+								MemberDataset.getLoginInstance().idx + //comWriterIdx
 								"',GETDATE()," + //comWrittenTime
 								"NULL" + //TODO: temp comPicturePath 
 						")");

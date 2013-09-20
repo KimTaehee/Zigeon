@@ -23,6 +23,7 @@ import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
 import kr.re.ec.zigeon.util.ActivityManager;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -66,7 +67,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 	private NGeoPoint myLocation;
 	private Intent mIntent;
 
-	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
+	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
 	private NMapView mMapView = null;	//Naver map object
 
 	private NMapController mMapController = null;	// map controller
@@ -85,8 +86,8 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 		
 		myLocation = new NGeoPoint();
-		myLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
-				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
+		myLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
+				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
 		
 
 		/*******add activity list********/

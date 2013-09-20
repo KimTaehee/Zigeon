@@ -132,22 +132,11 @@ public class BestListActivity extends Activity implements OnClickListener {
 				//WARN: cannot use this query on UpdateService.onLocationChanged().
 				//WARN: It may cause to send to other Activity.
 
-
-
-				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
-
-
-				//String str = myLocation.getLatitude() + "\n" + myLocation.getLongitude() + "\n";
-
-				//WARN: It may cause you angry. map trace myLocation always.
-				//				if (mMapController != null) {
-				//					mMapController.animateTo(myLocation);
-				//				}
-
+//				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+//				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+//						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+//							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+//							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 				break;
 			}
 			}
@@ -175,8 +164,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 		detLocation = new NGeoPoint();
 		
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
-		detLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
-				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
+		detLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
+				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
 		
 		
 		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
@@ -198,8 +187,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 		myLocation = new NGeoPoint();
 		
-		myLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
-				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
+		myLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
+				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
 		
 		
 		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
@@ -311,7 +300,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 				startActivityForResult(mIntent, SELECT_LOCATION);
 			} else { //turn on trace location mode
 				isTraceLocation = true;
-				
+				uiHandler.sendMessage(Constants.MSG_TYPE_LOCATION, "", 
+						MapActivity.mMapLocationManager.getMyLocation());
 			}
 			break;
 		}

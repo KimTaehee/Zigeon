@@ -11,6 +11,9 @@ package kr.re.ec.zigeon;
 
 import java.io.File;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import kr.re.ec.zigeon.dataset.PhotoUploadDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.MemberDataset;
@@ -50,7 +53,15 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 	private final int SELECT_PICTURE = 1;
 	private String selectedImagePath;
 	private String fileManagerString;
-
+	
+	/******** AUIL init ********/
+	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
+	.showStubImage(R.drawable.ic_auil_stub)	
+	.showImageForEmptyUri(R.drawable.ic_auil_empty)
+	.showImageOnFail(R.drawable.ic_auil_error)
+	.build();
+	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +71,7 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 		/*******add activity list********/
 		activityManager.addActivity(this);
 		
+		/************ get landmark's index *************/
 		Bundle bundle = this.getIntent().getExtras();
 		mLdmIdx = bundle.getInt("ldmIdx");
 
@@ -201,8 +213,14 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 			//path to imageview
 			File imgFile = new File(selectedImagePath);
-			Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-			imgInput.setImageBitmap(bitmap);
+			
+			//Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+			String uri = "file://" + imgFile.getAbsolutePath();
+			LogUtil.v("uri: " + uri);
+			imgLoader.displayImage(uri, imgInput, imgOption);
+			
+//			bitmap = Bitmap.createScaledBitmap(src, dstWidth, dstHeight, filter)
+//			imgInput.setImageBitmap(bitmap);
 		}
 
 	}

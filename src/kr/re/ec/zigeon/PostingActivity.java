@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.CommentDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
@@ -66,8 +67,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	private Button btnInputComment;
 	private ImageView imgPosting;
 
-	private ArrayList<String> mCommentArl;		//to set listview 
-	private ArrayAdapter<String> mCommentAdp;		//to set listview 
+	private CommentAdapter mCommentAdp;		//to set listview 
 
 	private PostingDataset mPostingDataset;
 	private CommentDataset mCommentArr[];
@@ -111,15 +111,10 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				mCommentArr =(CommentDataset[]) msg.obj;
 
 				/************ print Comment to listview ************/
-				mCommentArl.clear();
-
-				//LogUtil.v("mCommentArr.length : "+ mCommentArr.length);
-				for(int i=0;i<mCommentArr.length;i++){
-					mCommentArl.add(mCommentArr[i].contents);
-				}
-				mCommentAdp.notifyDataSetChanged();
-				lstComment.smoothScrollToPosition(mCommentArr.length-1);
-				//LogUtil.i("mCommentAdp.notifyDataSetChanged()");
+				LogUtil.i("mCommentArr.length: " + mCommentArr.length);
+				mCommentAdp = new CommentAdapter(PostingActivity.this, mCommentArr);
+				lstComment.setAdapter(mCommentAdp);
+				mCommentAdp.notifyDataSetChanged();	//TODO: is this work?
 				break;
 			}
 			case Constants.MSG_TYPE_MEMBER:
@@ -155,7 +150,8 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
         
-		query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' AND comParentType='P'"; 
+		query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
+				"AND comParentType='P' ORDER BY comWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -173,12 +169,10 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		imgPosting = (ImageView) findViewById(R.id.posting_img_posting);
 		imgPosting.setOnClickListener(this);
 
-		mCommentArl = new ArrayList<String>();
-        mCommentArl.add("Comments Loading...");
-        
-        mCommentAdp = new ArrayAdapter<String>(this, R.layout.listview_item_comment , mCommentArl);
+		//TODO: if no item on listview, SHOULD put other msg;
+		mCommentAdp = new CommentAdapter(this, mCommentArr);
         lstComment.setAdapter(mCommentAdp);
-        mCommentAdp.setNotifyOnChange(true); //when ArrayList modified, ArrayList is reflected automatically. SHOULD USE ArrayList
+        //mCommentAdp.setNotifyOnChange(true); //when ArrayList modified, ArrayList is reflected automatically. SHOULD USE ArrayList
         
 	}
 
@@ -218,7 +212,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 								mPostingDataset.idx + //comParentIdx
 								"','"+ edtInputComment.getText() + //comContents
 								"','0','0','" + //comLike, comDislike
-								"1" + //TODO: temp comWriterIdx
+								MemberDataset.getLoginInstance().idx + //comWriterIdx
 								"',GETDATE()," + //comWrittenTime
 								"NULL" + //TODO: temp comPicturePath 
 						")");

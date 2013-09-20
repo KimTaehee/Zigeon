@@ -52,7 +52,7 @@ import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 
 public class MapActivity extends NMapActivity implements OnClickListener
 , OnMapStateChangeListener, OnCalloutOverlayListener {
-	public static final String API_KEY="3aa5ca39d123f5448faff118a4fd9528";	//API-KEY
+	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
 
 	private ActivityManager activityManager = ActivityManager.getInstance();
 	
@@ -211,11 +211,11 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		LogUtil.v("mMapCenter: lat: " + mMapCenter.latitude + ", lon: " + mMapCenter.longitude);
 
 		/************ data request ***********/
-		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				soapParser.getSoapData("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 					+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 	
@@ -230,7 +230,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 	@Override
 	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
 			NMapOverlayItem arg1, Rect arg2) {
-
+		LogUtil.v("overlay clicked!: " + arg1.getHeadText());
 		//show overlay selected effect
 		return new NMapCalloutCustomOverlay(arg0, arg1, arg2, mMapViewerResourceProvider);   
 	}
@@ -251,11 +251,11 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		LogUtil.v("onMapCenterChange invoked!!!!! oh yeah\nlat: " + arg1.latitude + ", lon: " + arg1.longitude);
 		locationToReturn = arg1;
 		
-		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				soapParser.getSoapData("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 					+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 		
@@ -354,6 +354,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		switch(v.getId()){
 		case R.id.map_btn_move_to_mylocation :
 		{
+			
 			startMyLocation();
 			if (mMapController != null && myLocation != null) {
 				mMapController.animateTo(myLocation);

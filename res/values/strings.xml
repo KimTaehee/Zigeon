@@ -12,7 +12,7 @@
     <string name="map_list_activity_title_section1">Landmarks</string>
     <string name="map_list_activity_title_section2">Postings</string>
     <string name="landmark_activity_title">LandmarkActivity</string>
-    <string name="landmark_comment_default_message">input bitch</string>
+    <string name="landmark_comment_default_message">input comments</string>
     <string name="login_activity_title">LoginActivity</string>
     <string name="join_activity_title">JoinActivity</string>
     <string name="hello_world">Hello world!</string>
@@ -21,7 +21,7 @@
     <string name="map_list_action_bubble">Bubble</string>
     <string name="map_list_str_done">done</string>
     <string name="map_list_action_landmark_write">WRITE LANDMARK</string>
-    <string name="edit_message">input bitch</string>
+    <string name="edit_message">input comments</string>
     <string name="title_activity_posting">PostingActivity</string>
     <string name="landmark_tv_name">title</string>
     <string name="landmark_tv_contents">contents</string>

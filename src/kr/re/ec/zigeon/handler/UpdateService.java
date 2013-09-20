@@ -76,8 +76,8 @@ public class UpdateService extends Service implements Runnable{
 		mLocation = new NGeoPoint();
 		
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
-		mLocation.set(Double.parseDouble(pref.getString("lon","127.0815700"))
-				, Double.parseDouble(pref.getString("lat","37.6292700"))) ; //default value
+		mLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
+				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
 		
 		
 //		/********* LocationManager Init ******************/ 
@@ -125,8 +125,8 @@ public class UpdateService extends Service implements Runnable{
 		if(mLocation==null) {
 			SharedPreferences pref = getSharedPreferences("pref",Activity.MODE_PRIVATE);
 			SharedPreferences.Editor editor = pref.edit();
-			editor.putString("lat", "37.6292700");
-			editor.putString("lon", "127.0815700"); //default
+			editor.putString("lat", String.valueOf(Constants.NMAP_DEFAULT_LAT));
+			editor.putString("lon", String.valueOf(Constants.NMAP_DEFAULT_LON)); //default
 			editor.commit();
 		}
 
@@ -162,8 +162,10 @@ public class UpdateService extends Service implements Runnable{
 					LogUtil.e("DB Connection Test Failed!");
 				}
 				
+				//mLocation = mMapLocationManager.getMyLocation();
 				if(mLocation != null) {
 					LogUtil.i("myLocation searching OK: Lat: " + mLocation.getLatitude() + ", Log: " + mLocation.getLongitude());
+					
 				} else {
 					LogUtil.i("Location is null!");
 				}

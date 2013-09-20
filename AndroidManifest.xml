@@ -133,7 +133,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter> -->
         </activity>
-        <service android:name="kr.re.ec.zigeon.service.ServiceFloating" />
+        <service android:name="kr.re.ec.zigeon.handler.ServiceFloating" />
         <service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >
