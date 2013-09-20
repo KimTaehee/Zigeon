@@ -145,7 +145,8 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
         soapParser = SoapParser.getInstance();
 
-        String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "'"; 
+        String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "' " +
+				"ORDER BY pstWrittenTime desc";  
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));

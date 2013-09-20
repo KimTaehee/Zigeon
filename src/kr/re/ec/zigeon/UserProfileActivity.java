@@ -129,7 +129,8 @@
 //		LogUtil.v("data request. " + query);
 //		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 //				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
-//		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "'"; 
+//		query = "SELECT * FROM tPosting WHERE pstWriterIdx='" + mMemberDataset.idx + "' " +
+//				"ORDER BY pstWrittenTime desc";  
 //		LogUtil.v("data request. " + query);
 //		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 //				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
