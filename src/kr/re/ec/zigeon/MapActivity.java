@@ -212,6 +212,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 
 		/************ data request ***********/
 <<<<<<< HEAD
+<<<<<<< HEAD
 		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
@@ -224,6 +225,13 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 >>>>>>> catching bug
+=======
+		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+>>>>>>> modified chong che jeok nan gook
 					+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 	
@@ -260,6 +268,7 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		locationToReturn = arg1;
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
@@ -272,6 +281,13 @@ public class MapActivity extends NMapActivity implements OnClickListener
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 >>>>>>> catching bug
+=======
+		LogUtil.v("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+				+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
+		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+				soapParser.getSoapData("select TOP 50 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+>>>>>>> modified chong che jeok nan gook
 					+ locationToReturn.getLongitude() + "','" + locationToReturn.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 		

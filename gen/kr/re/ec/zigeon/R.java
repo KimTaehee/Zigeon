@@ -88,6 +88,7 @@ public final class R {
         public static final int Login_Id=0x7f0b0020;
         public static final int Login_Password=0x7f0b0021;
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int action_map_list=0x7f0b0060;
         public static final int action_settings=0x7f0b005f;
         public static final int action_test_stop_service=0x7f0b0061;
@@ -96,6 +97,11 @@ public final class R {
         public static final int action_settings=0x7f0b005c;
         public static final int action_test_stop_service=0x7f0b005e;
 >>>>>>> catching bug
+=======
+        public static final int action_map_list=0x7f0b0060;
+        public static final int action_settings=0x7f0b005f;
+        public static final int action_test_stop_service=0x7f0b0061;
+>>>>>>> modified chong che jeok nan gook
         public static final int best_list_btn_refresh_location=0x7f0b0006;
         public static final int best_list_btn_set_range=0x7f0b0004;
         public static final int best_list_gridview=0x7f0b0002;
@@ -112,10 +118,14 @@ public final class R {
         public static final int intro_img_logo=0x7f0b0007;
         public static final int landmarkList=0x7f0b0030;
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int landmark_action_posting_write=0x7f0b0062;
 =======
         public static final int landmark_action_posting_write=0x7f0b005f;
 >>>>>>> catching bug
+=======
+        public static final int landmark_action_posting_write=0x7f0b0062;
+>>>>>>> modified chong che jeok nan gook
         public static final int landmark_btn_input_comment=0x7f0b0015;
         public static final int landmark_commentlist=0x7f0b0013;
         public static final int landmark_edit_input_comment=0x7f0b0014;
@@ -126,10 +136,14 @@ public final class R {
         public static final int landmark_tv_contents=0x7f0b0010;
         public static final int landmark_tv_name=0x7f0b000f;
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int landmark_write_action_write=0x7f0b0063;
 =======
         public static final int landmark_write_action_write=0x7f0b0060;
 >>>>>>> catching bug
+=======
+        public static final int landmark_write_action_write=0x7f0b0063;
+>>>>>>> modified chong che jeok nan gook
         public static final int landmark_write_contents=0x7f0b0018;
         public static final int landmark_write_edit_title=0x7f0b001a;
         public static final int landmark_write_edit_uniqueness=0x7f0b001b;
@@ -140,6 +154,9 @@ public final class R {
         public static final int level=0x7f0b0048;
         public static final int levelImage=0x7f0b0046;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> modified chong che jeok nan gook
         public static final int listview_item_comment_tv_contents=0x7f0b0056;
         public static final int listview_item_comment_tv_date=0x7f0b0057;
         public static final int listview_item_comment_tv_writer_name=0x7f0b0055;
@@ -147,12 +164,15 @@ public final class R {
         public static final int listview_item_posting_tv_date=0x7f0b005b;
         public static final int listview_item_posting_tv_title=0x7f0b005a;
         public static final int listview_item_posting_tv_writer_name=0x7f0b0059;
+<<<<<<< HEAD
 =======
         public static final int listview_item_posting_iv_picture=0x7f0b0055;
         public static final int listview_item_posting_tv_date=0x7f0b0058;
         public static final int listview_item_posting_tv_title=0x7f0b0057;
         public static final int listview_item_posting_tv_writer_name=0x7f0b0056;
 >>>>>>> catching bug
+=======
+>>>>>>> modified chong che jeok nan gook
         public static final int login_img_logo=0x7f0b001f;
         public static final int login_imgbtn_facebook=0x7f0b0026;
         public static final int login_imgbtn_find_account=0x7f0b0025;
@@ -165,16 +185,22 @@ public final class R {
         public static final int map_btn_select_location=0x7f0b002b;
         public static final int map_iv_aim=0x7f0b0028;
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int map_list_action_bubble=0x7f0b0064;
         public static final int map_list_action_landmark_write=0x7f0b005c;
 =======
         public static final int map_list_action_bubble=0x7f0b0061;
         public static final int map_list_action_landmark_write=0x7f0b0059;
 >>>>>>> catching bug
+=======
+        public static final int map_list_action_bubble=0x7f0b0064;
+        public static final int map_list_action_landmark_write=0x7f0b005c;
+>>>>>>> modified chong che jeok nan gook
         public static final int map_list_tabhost=0x7f0b002e;
         public static final int map_options=0x7f0b0029;
         public static final int map_tv_show_address=0x7f0b002c;
         public static final int mapmap=0x7f0b0027;
+<<<<<<< HEAD
 <<<<<<< HEAD
         public static final int my_profile=0x7f0b0065;
         public static final int overflow=0x7f0b005d;
@@ -182,6 +208,10 @@ public final class R {
         public static final int my_profile=0x7f0b0062;
         public static final int overflow=0x7f0b005a;
 >>>>>>> catching bug
+=======
+        public static final int my_profile=0x7f0b0065;
+        public static final int overflow=0x7f0b005d;
+>>>>>>> modified chong che jeok nan gook
         public static final int photo_upload_btn=0x7f0b0031;
         public static final int photo_upload_edit=0x7f0b0032;
         public static final int photo_view_image=0x7f0b0033;
@@ -197,19 +227,27 @@ public final class R {
         public static final int posting_tv_writedate=0x7f0b0036;
         public static final int posting_tv_writer=0x7f0b0037;
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int posting_write_action_write=0x7f0b0066;
 =======
         public static final int posting_write_action_write=0x7f0b0063;
 >>>>>>> catching bug
+=======
+        public static final int posting_write_action_write=0x7f0b0066;
+>>>>>>> modified chong che jeok nan gook
         public static final int posting_write_edt_contents=0x7f0b0041;
         public static final int posting_write_edt_title=0x7f0b0040;
         public static final int posting_write_img_input=0x7f0b0042;
         public static final int posting_write_layout_contents=0x7f0b003f;
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final int preference=0x7f0b005e;
 =======
         public static final int preference=0x7f0b005b;
 >>>>>>> catching bug
+=======
+        public static final int preference=0x7f0b005e;
+>>>>>>> modified chong che jeok nan gook
         public static final int progressBar=0x7f0b004a;
         public static final int tabhost=0x7f0b004b;
         public static final int tableRow1=0x7f0b0016;
