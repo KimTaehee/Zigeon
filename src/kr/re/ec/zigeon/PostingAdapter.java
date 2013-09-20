@@ -35,18 +35,6 @@ public class PostingAdapter extends BaseAdapter implements ImageLoadingListener 
 
 	private Context context = null;
 	private PostingDataset[] mPostingArr = null;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-//	private TextView tvName;
-//	private TextView tvDistance;
-//	private ImageView ivLandmark;
-//	private ImageView ivBalloon;
-//	private ImageView ivGrade;
->>>>>>> catching bug
-=======
->>>>>>> modified chong che jeok nan gook
 	
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
