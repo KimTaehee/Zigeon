@@ -96,7 +96,7 @@ public class PostingAdapter extends BaseAdapter implements ImageLoadingListener 
 		
 		holder.tvWriterName.setText(mPostingArr[position].writerName);
 		holder.tvPostingTitle.setText(mPostingArr[position].title);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_PRINT);
 		holder.tvWrittenDate.setText(sdf.format(mPostingArr[position].writtenTime));
 		
 		//picture that represents postings

@@ -6,10 +6,12 @@
  */
 package kr.re.ec.zigeon.dataset;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 
 public class MemberDataset extends Object {
@@ -39,19 +41,33 @@ public class MemberDataset extends Object {
 	}
 	
 	public void setDataset(String[] strArr) {
-		if(strArr.length == MEMBER_FIELD_COUNT){
-			idx = Integer.parseInt(strArr[0]);
-			id = strArr[1]; 
-			pw = strArr[2];
-			nick = strArr[3];
-			exp = Integer.parseInt(strArr[4]);
-			isFacebook = Boolean.parseBoolean(strArr[5]);
-			regTime = new Date(); //TODO: temporary.
-			lastAccessTime = new Date(); //TODO: temporary.
-			isAdmin = Boolean.parseBoolean(strArr[8]);
-		} else {
-			LogUtil.e("wrong data input");
+		try {
+			if(strArr.length == MEMBER_FIELD_COUNT){
+				idx = Integer.parseInt(strArr[0]);
+				id = strArr[1]; 
+				pw = strArr[2];
+				nick = strArr[3];
+				exp = Integer.parseInt(strArr[4]);
+				isFacebook = Boolean.parseBoolean(strArr[5]);
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DB);
+				if(strArr[6]!=null) { 
+					regTime = sdf.parse(strArr[6]);
+				} else {
+					regTime = null;
+				}
+				if(strArr[7]!=null) {
+					lastAccessTime = sdf.parse(strArr[7]);
+				} else {
+					lastAccessTime = null;
+				}
+				isAdmin = Boolean.parseBoolean(strArr[8]);
+			} else {
+				LogUtil.e("wrong data input");
+			}
+		} catch (Exception e) {
+			LogUtil.e("parse error: " + e.toString());
 		}
+		
 	}
 	public void setLoginDataset(MemberDataset dataset) {
 		//LogUtil.i("dataset.id: " + dataset.id);

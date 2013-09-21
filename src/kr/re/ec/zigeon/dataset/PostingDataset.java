@@ -58,7 +58,7 @@ public class PostingDataset extends Object {
 				dislike = Integer.parseInt(strArr[5]);
 				writerIdx = Integer.parseInt(strArr[6]);
 				readedCount = Integer.parseInt(strArr[7]);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DB);
 				writtenTime = sdf.parse(strArr[8]); 
 				picturePath = strArr[9];
 				

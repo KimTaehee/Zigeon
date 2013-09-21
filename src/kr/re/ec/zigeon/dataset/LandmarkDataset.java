@@ -5,6 +5,7 @@
  */
 
 package kr.re.ec.zigeon.dataset;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.nhn.android.maps.maplib.NGeoPoint;
@@ -58,7 +59,8 @@ public class LandmarkDataset extends Object {
 				visible = Boolean.parseBoolean(strArr[7]);
 				writerIdx = Integer.parseInt(strArr[8]);
 				readedCount = Integer.parseInt(strArr[9]);
-				writtenTime = new Date(); //TODO: temp. return now.
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DB);
+				writtenTime = sdf.parse(strArr[10]);
 				if (strArr[11]!=null) {
 					if (strArr[11].compareTo("null")!=0) { //for avoid NumberFormatException
 						//LogUtil.i("undoIdx: " + strArr[11]);

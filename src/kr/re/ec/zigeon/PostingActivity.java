@@ -94,7 +94,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 				/******************** print info  *******************/
 				tvTitle.setText(mPostingDataset.title);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_PRINT);
 				tvWrittenTime.setText("written date: " + sdf.format(mPostingDataset.writtenTime));
 				tvWriter.setText("writer: " + mPostingDataset.writerName); //TODO: tMember query proceeing
 				//TODO: test line separator. what is it?

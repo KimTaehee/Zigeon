@@ -87,7 +87,7 @@ public class CommentAdapter extends BaseAdapter {
 		
 		holder.tvWriterName.setText(mCommentArr[position].writerName);
 		holder.tvCommentContents.setText(mCommentArr[position].contents);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_PRINT);
 		holder.tvWrittenDate.setText(sdf.format(mCommentArr[position].writtenTime));
 			
 		return convertView;

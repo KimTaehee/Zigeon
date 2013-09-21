@@ -22,6 +22,10 @@ public final class Constants {
 	/************** DO NOT MODIFY THE NUMBER ! DOUBLE_NULL may cast to INT_NULL ************/
 	public static final int INT_NULL = -1; //because of int cannot have null value. Dataset.setDataSet use.
 	public static final double DOUBLE_NULL = -1.0; //double cannot have null value. LandmarkDataset.getDistance use.
+
+	/***************** Date format **************/
+	public static final String DATE_FORMAT_DB = "yyyy-MM-dd\'T\'HH:mm:ss"; 
+	public static final String DATE_FORMAT_PRINT = "yyyy-MM-dd HH:mm";
 	
 	/***************** GCM **************/
 	public static final String GCM_PROJECT_ID = "39642280488"; //can identify unique GCM server
