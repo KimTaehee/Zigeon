@@ -16,7 +16,7 @@ public class LogUtil {
 	{
 		if(debug) {
 			android.util.Log.v(Tag, new Exception().getStackTrace()[1].getClassName() + "::" 
-					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //한 수준 이전의 클래스명과 메소드명 호출
+					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 		}
 	}
 
@@ -25,7 +25,7 @@ public class LogUtil {
 	{
 		if(debug) {
 			android.util.Log.d(Tag, new Exception().getStackTrace()[1].getClassName() + "::" 
-					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //한 수준 이전의 클래스명과 메소드명 호출
+					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 		}
 	}
 	
@@ -34,7 +34,7 @@ public class LogUtil {
 	{
 		if(debug) {
 			android.util.Log.i(Tag, new Exception().getStackTrace()[1].getClassName() + "::" 
-					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //한 수준 이전의 클래스명과 메소드명 호출
+					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 		}
 	}
 
@@ -42,13 +42,13 @@ public class LogUtil {
 	public static void w(String log)
 	{
 		android.util.Log.w(Tag, new Exception().getStackTrace()[1].getClassName() + "::" 
-				+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //한 수준 이전의 클래스명과 메소드명 호출
+				+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 	}
 	
 	/* error */
 	public static void e(String log)
 	{
 		android.util.Log.e(Tag, new Exception().getStackTrace()[1].getClassName() + "::" 
-				+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //한 수준 이전의 클래스명과 메소드명 호출
+				+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 	}
 }

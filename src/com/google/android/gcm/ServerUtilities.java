@@ -34,10 +34,10 @@
 //
 //// TODO: Auto-generated Javadoc
 ///**
-// * 3rd party 서버로의 gcm id 전송을 위한 method
-// * 현재는 test를 위해서 걍 http 통신 서버를 setting 하였지만, 차후 서버가 구축 되면 수정 필요.
+// * method for sending gcm id to 3rd party server
+// * TEST: http server set, TODO: need to fix
 // *
-// * @author interwater
+// * @author interwater - Kim Taehee
 // */
 //public final class ServerUtilities {
 //
@@ -70,7 +70,7 @@
 //            LogUtil.v("Attempt #" + i + " to register");
 //            try {
 //            	
-//            	// 서비스 호출 부분 선언
+//            	// declare calling service
 //        		SocketService ls = new SocketService();
 //        		TelephonyManager telManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 //            	boolean result = ls.pushAuth(telManager.getDeviceId(), regId);
@@ -114,7 +114,7 @@
 //        String serverUrl = Contants.SERVER_URL + "/unregister";
 //        Map<String, String> params = new HashMap<String, String>();
 //        params.put("regId", regId);
-//        // unregister 는 아직 정의 안돼었음 pass
+//        // unregister wasn't define. pass
 //        /*
 //        try {
 //            post(serverUrl, params);
