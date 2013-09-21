@@ -466,13 +466,35 @@ public class SoapParser {
 		case Constants.MSG_TYPE_LANDMARK:
 			LandmarkDataset ldm = (LandmarkDataset)datasetObj;
 			
-			break;
+			//get maxLdmIdx
+			String str = sendQuery("SELECT MAX(ldmIdx) FROM tLandmark"); 
+    		insertIndex = Integer.parseInt(str) + 1;
+
+    		query = "INSERT INTO tLandmark (ldmIdx,ldmName,ldmLatitude,ldmLongitude,ldmContents,ldmRating" +
+					",ldmRatingVotes,ldmVisible,ldmWriterIdx,ldmReadedCount,ldmWrittenTime,ldmUndoIdx,ldmPicturePath)" +
+					" values ('" +
+					insertIndex + //ldmIdx
+					"','" + ldm.name + //ldmName
+					"','" + ldm.latitude + //ldmLatitude
+					"','" + ldm.longitude + //ldmLongitude
+					"','" + ldm.contents + //ldmContents
+					"','0','0','True','" + //ldmRating, ldmRatingVotes, ldmVisible
+					ldm.writerIdx + //ldmWriterIdx
+					"','0'," + //ldmReadedCount
+					"GETDATE(),NULL,"; //ldmWrittenTime, ldmUndoIdx
+			if(ldm.picturePath==null) {
+				query += "NULL)";
+			} else {
+				query += "'" + ldm.picturePath + "')";
+			}
+
+    		break;
 			
 		case Constants.MSG_TYPE_POSTING:
 			PostingDataset pst = (PostingDataset)datasetObj;
 			
 			//get maxPstIdx
-			String str = sendQuery("SELECT MAX(pstIdx) FROM tPosting"); 
+			str = sendQuery("SELECT MAX(pstIdx) FROM tPosting"); 
     		insertIndex = Integer.parseInt(str) + 1;
 			    		
 			query = "INSERT INTO tPosting (pstIdx,pstTitle,pstParentIdx,pstContents,pstLike,pstDislike" +
