@@ -19,12 +19,18 @@ import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayListener;
 
+import kr.re.ec.zigeon.dataset.LandmarkDataset;
+import kr.re.ec.zigeon.dataset.MemberDataset;
+import kr.re.ec.zigeon.dataset.PhotoUploadDataset;
+import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
 import kr.re.ec.zigeon.util.ActivityManager;
+import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
+import kr.re.ec.zigeon.util.PhotoUploader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -66,7 +72,8 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 	
 	private NGeoPoint myLocation;
 	private Intent mIntent;
-
+	private boolean isLocationSelected;
+	
 	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
 	private NMapView mMapView = null;	//Naver map object
 
@@ -83,6 +90,9 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 		setContentView(kr.re.ec.zigeon.R.layout.activity_landmark_write);
 		LogUtil.v("onCreate invoked!");
 		
+		/********* get default location from sharedpref ***********/
+		isLocationSelected = false;
+		
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 		
 		myLocation = new NGeoPoint();
@@ -92,7 +102,6 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 
 		/*******add activity list********/
 		activityManager.addActivity(this);
-
 
 		/******** Init UI ********/
 		edtTitle = (EditText) findViewById(R.id.landmark_write_edit_title);
@@ -140,9 +149,57 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 		case R.id.landmark_write_action_write:
 		{
 			LogUtil.v("action_write_landmark clicked");
-			//TODO: here is error part. need to fix 
-			Intent intent = new Intent(this, LandmarkActivity.class); 
-			startActivity(intent);
+			
+			LandmarkDataset ldm = new LandmarkDataset();
+			MemberDataset mem = MemberDataset.getLoginInstance();
+			//String strArr[] = new String[Constants.DATASET_FIELD[Constants.MSG_TYPE_POSTING].length];
+			//strArr[0] = 
+			LogUtil.v("create ldmDataset and get memDataset success!");
+			
+			//landmark's name
+			if(edtTitle.getText().toString().compareTo("")==0) {
+				new AlertManager(this,"Blank Title? ^^","Confirm");	
+				return false;
+			} else {
+				ldm.name = edtTitle.getText().toString();
+			}
+
+			//location
+			if(isLocationSelected) {
+				ldm.latitude = myLocation.latitude;
+				ldm.longitude = myLocation.longitude;
+			} else {
+				new AlertManager(this,"Select Location ^^","Confirm");	
+				return false;
+			}
+			
+			//contents
+			if(edtContents.getText().toString().compareTo("")==0) {
+				new AlertManager(this,"Blank Contents? ^^","Confirm");	
+				return false;
+			} else {
+				ldm.contents = edtContents.getText().toString();
+			}
+
+			ldm.writerIdx = mem.idx;
+			LogUtil.v("memidx: " + mem.idx);
+
+			if(selectedImagePath==null) { 
+				ldm.picturePath = null;
+			} else {
+				//save only filename(not dir. ex: gootmorning.jpg)
+				ldm.picturePath = selectedImagePath.substring(selectedImagePath.lastIndexOf("/")+1);
+				LogUtil.v("pst.picturePath: " + ldm.picturePath);
+			}
+			LogUtil.v("data input to ldm success");
+
+			ldm.idx = soapParser.insertDatasetUsingQuery(Constants.MSG_TYPE_LANDMARK, ldm);
+
+			//upload photo
+			new PhotoUploader().execute(new PhotoUploadDataset(Constants.MSG_TYPE_LANDMARK,ldm.idx,selectedImagePath));
+
+			//Intent intent = new Intent(this, LandmarkActivity.class); 
+			//startActivity(intent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
 		}
@@ -255,6 +312,8 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				// create overlay with location data
 				mOverlayManager.clearOverlays();
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+				
+				isLocationSelected = true;
 				break;
 			}
 			}
