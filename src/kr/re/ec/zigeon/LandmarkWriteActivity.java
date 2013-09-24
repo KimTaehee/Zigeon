@@ -18,6 +18,8 @@ import com.nhn.android.mapviewer.overlay.NMapMyLocationOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
 import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayListener;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.MemberDataset;
@@ -83,6 +85,14 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 	private NMapOverlayManager mOverlayManager = null;	
 	private NMapLocationManager mMapLocationManager; //TODO: test
 	private NMapCompassManager mMapCompassManager; 
+
+	/******** AUIL init ********/
+	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
+	.showStubImage(R.drawable.ic_auil_stub)	
+	.showImageForEmptyUri(R.drawable.ic_auil_empty)
+	.showImageOnFail(R.drawable.ic_auil_error)
+	.build();
+	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -290,8 +300,11 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 
 				//path to imageview
 				File imgFile = new File(selectedImagePath);
-				Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-				imgInput.setImageBitmap(bitmap);
+				
+				//Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+				String uri = "file://" + imgFile.getAbsolutePath();
+				LogUtil.v("uri: " + uri);
+				imgLoader.displayImage(uri, imgInput, imgOption);
 
 				break;
 			}

@@ -269,7 +269,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 								"','0','0','" + //comLike, comDislike
 								MemberDataset.getLoginInstance().idx + //comWriterIdx
 								"',GETDATE()," + //comWrittenTime
-								"NULL" + //TODO: temp comPicturePath 
+								"NULL" +  
 						")");
 				LogUtil.i("server return : "+str);
 
