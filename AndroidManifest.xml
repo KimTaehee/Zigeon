@@ -59,7 +59,8 @@
         </activity>
         <activity
             android:name="kr.re.ec.zigeon.LandmarkActivity"
-            android:label="@string/landmark_activity_title" 
+            android:label="@string/landmark_activity_title"
+            android:windowSoftInputMode="stateUnspecified|adjustPan" 
             android:screenOrientation="portrait">
         </activity>
         <activity

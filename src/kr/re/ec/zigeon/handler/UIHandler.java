@@ -95,7 +95,7 @@ public class UIHandler {
 				LogUtil.v("bubbleActivityHandler selected.");
 				return bubbleActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no bubbleActivityHandler detected.");
+				LogUtil.w("Cannot return handler. no bubbleActivityHandler detected.");
 				return null;
 			}
 		} 
@@ -105,7 +105,7 @@ public class UIHandler {
 				LogUtil.v("bestListActivityHandler selected.");
 				return bestListActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no bestListActivityHandler detected.");
+				LogUtil.w("Cannot return handler. no bestListActivityHandler detected.");
 				return null;
 			}
 		}
@@ -115,7 +115,7 @@ public class UIHandler {
 				LogUtil.v("landmarkActivityHandler selected.");
 				return landmarkActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no landmarkActivityhandler detected.");
+				LogUtil.w("Cannot return handler. no landmarkActivityhandler detected.");
 				return null;
 			}
 		}
@@ -125,7 +125,7 @@ public class UIHandler {
 				LogUtil.v("postingActivityHandler selected.");
 				return postingActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no postingActivityHandler detected.");
+				LogUtil.w("Cannot return handler. no postingActivityHandler detected.");
 				return null;
 			}
 		}
@@ -135,7 +135,7 @@ public class UIHandler {
 				LogUtil.v("mapActivityHandler selected.");
 				return mapActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no mapActivityHandler detected.");
+				LogUtil.w("Cannot return handler. no mapActivityHandler detected.");
 				return null;
 			}
 		}
@@ -145,13 +145,13 @@ public class UIHandler {
 				LogUtil.v("userProfileActivityHandler selected.");
 				return userProfileActivityHandler;
 			} else {
-				LogUtil.e("Cannot return handler. no userProfileActivityHandler detected.");
+				LogUtil.w("Cannot return handler. no userProfileActivityHandler detected.");
 				return null;
 			}
 		}
 		else 
 		{
-			LogUtil.e("Cannot return handler. Other TopActivity detected.");
+			LogUtil.w("Cannot return handler. Other TopActivity detected.");
 			return null;
 		}
 	}
@@ -171,7 +171,7 @@ public class UIHandler {
 		if(handler!=null) {
 			handler.sendMessage(msg); //if handler==null, error occur
 		} else {
-			LogUtil.e("no handler set! cannot run sendMessage()");
+			LogUtil.w("no handler set! cannot run sendMessage()");
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class UIHandler {
 		if(userHandler!=null) {
 			userHandler.sendMessage(msg); //if handler==null, error occur
 		} else {
-			LogUtil.e("user handler is null! cannot run sendMessage()");
+			LogUtil.w("user handler is null! cannot run sendMessage()");
 		}
 	}
 

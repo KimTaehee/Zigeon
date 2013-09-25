@@ -13,10 +13,14 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
@@ -40,11 +44,12 @@ public class PhotoUploader extends AsyncTask<PhotoUploadDataset, Integer, Void> 
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost postRequest = new HttpPost(Constants.URL_SERVER_IMAGE_UPLOAD_PAGE);
+			postRequest.setHeader("Accept-Charset", "UTF-8");
 			MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 			/********** add POST string values *********/
 			reqEntity.addPart("type", new StringBody(String.valueOf(type)));
 			reqEntity.addPart("idx", new StringBody(String.valueOf(idx)));
-			reqEntity.addPart("filename",new StringBody(fileName));
+			reqEntity.addPart("filename",new StringBody(fileName, Charset.forName("UTF-8")));
 			try{
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				

@@ -8,6 +8,21 @@ package kr.re.ec.zigeon;
 
 import java.util.ArrayList;
 
+import com.nhn.android.maps.NMapActivity;
+import com.nhn.android.maps.NMapController;
+import com.nhn.android.maps.NMapLocationManager;
+import com.nhn.android.maps.NMapOverlay;
+import com.nhn.android.maps.NMapOverlayItem;
+import com.nhn.android.maps.NMapView;
+import com.nhn.android.maps.NMapView.OnMapStateChangeListener;
+import com.nhn.android.maps.maplib.NGeoPoint;
+import com.nhn.android.maps.nmapmodel.NMapError;
+import com.nhn.android.maps.overlay.NMapPOIdata;
+import com.nhn.android.mapviewer.overlay.NMapCalloutOverlay;
+import com.nhn.android.mapviewer.overlay.NMapMyLocationOverlay;
+import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
+import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
+import com.nhn.android.mapviewer.overlay.NMapOverlayManager.OnCalloutOverlayListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -21,6 +36,8 @@ import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.handler.UpdateService;
+import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
+import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
 import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
@@ -35,6 +52,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
@@ -48,12 +66,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
-public class LandmarkActivity extends Activity implements OnClickListener, ImageLoadingListener {
+public class LandmarkActivity extends NMapActivity implements OnClickListener, ImageLoadingListener 
+		, OnMapStateChangeListener, OnCalloutOverlayListener{
 	private ActivityManager activityManager = ActivityManager.getInstance();
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -64,6 +84,7 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	private TextView tvName;
 	private TextView tvContents;
 	private ImageView imgLandmarkPicture;
+	private RelativeLayout layoutMap;
 	 
 	private PostingAdapter mPostingAdp;		//to set listview
 	private CommentAdapter mCommentAdp;
@@ -78,6 +99,15 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 
 	//private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
 
+	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
+	private NMapView mMapView = null;	//Naver map object
+
+	private NMapController mMapController = null;	// map controller
+	private NMapMyLocationOverlay mMyLocationOverlay; 
+	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	 //Overlay Resource Provider
+	private NMapOverlayManager mOverlayManager = null;	
+	private NMapLocationManager mMapLocationManager; //TODO: test
+	
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
 	.showStubImage(R.drawable.ic_auil_stub)	
@@ -100,8 +130,21 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 				tvName.setText(mLandmarkDataset.name);
 				tvContents.setText(mLandmarkDataset.contents);
 				LogUtil.v("image load start! uri: " + mLandmarkDataset.getImageUrl());
-				imgLoader.loadImage(mLandmarkDataset.getImageUrl(), LandmarkActivity.this); //load landmark image
+				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); 
 
+				mMapController.setMapCenter(mLandmarkDataset.longitude, mLandmarkDataset.latitude);
+				
+				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
+				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
+				poiData.beginPOIdata(0); //TODO: what is 0?
+				poiData.addPOIitem(mLandmarkDataset.longitude, mLandmarkDataset.latitude, "Landmark Location", markerId, 0); 
+				poiData.endPOIdata();
+				
+				// create overlay with location data
+				mOverlayManager.clearOverlays();
+				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+				
+				
 				break;
 			}
 			case Constants.MSG_TYPE_POSTING:
@@ -221,6 +264,23 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 		tabHost.addTab(ts2);
 
 		tabHost.setCurrentTab(0);
+		
+		/************* map init **************/
+		LogUtil.v("map init start");
+		layoutMap = (RelativeLayout)findViewById(R.id.landmark_layout_map);		// Layout for show map
+		mMapView = new NMapView(this);		//create map object
+		mMapController = mMapView.getMapController();		//extract controller from map object
+		mMapView.setApiKey(API_KEY);		
+		layoutMap.addView(mMapView);		//map->layout
+		//mMapView.setClickable(true);		//can click map
+		mMapView.setBuiltInZoomControls(false, null);		//zoom controller for +/- enable
+		mMapLocationManager = new NMapLocationManager(this);
+		mMapController.setZoomLevel(12);
+		
+		/**************** overlay init ************************/
+		LogUtil.v("overlay init start");
+		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider
+		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);	//add overlay manager
 	}
 
 	/************** when listview clicked ****************/
@@ -358,6 +418,44 @@ public class LandmarkActivity extends Activity implements OnClickListener, Image
 	@Override
 	public void onLoadingCancelled(String arg0, View arg1) {
 		// TODO Auto-generated method stub
+		LogUtil.e("Image Load Cancelled!!!");
 		imgLandmarkPicture.setImageResource(R.drawable.ic_auil_error);
+	}
+
+	@Override
+	public NMapCalloutOverlay onCreateCalloutOverlay(NMapOverlay arg0,
+			NMapOverlayItem arg1, Rect arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void onAnimationStateChange(NMapView arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMapCenterChange(NMapView arg0, NGeoPoint arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMapCenterChangeFine(NMapView arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMapInitHandler(NMapView arg0, NMapError arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onZoomLevelChange(NMapView arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }

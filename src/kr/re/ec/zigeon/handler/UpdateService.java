@@ -164,7 +164,7 @@ public class UpdateService extends Service implements Runnable{
 				
 				//mLocation = mMapLocationManager.getMyLocation();
 				if(mLocation != null) {
-					LogUtil.i("myLocation searching OK: Lat: " + mLocation.getLatitude() + ", Log: " + mLocation.getLongitude());
+					LogUtil.i("myLocation searching OK: Lat: " + mLocation.getLatitude() + ", Lon: " + mLocation.getLongitude());
 					
 				} else {
 					LogUtil.i("Location is null!");
