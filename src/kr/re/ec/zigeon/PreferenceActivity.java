@@ -2,6 +2,8 @@ package kr.re.ec.zigeon;
 
 import kr.re.ec.zigeon.dataset.PreferenceDataset;
 import kr.re.ec.zigeon.util.ActivityManager;
+import kr.re.ec.zigeon.util.AlertManager;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -116,28 +118,20 @@ public class PreferenceActivity extends Activity{
 	}*/
 	
 	private void DialogLogout(){
-	    AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
-	    alt_bld.setMessage("Do you want to Logout?").setCancelable(
-	        false).setPositiveButton("Yes",
-	        new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int id) {
-	            // Action for 'Yes' Button
+		DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Action for 'Yes' Button
 	        	intent = new Intent(PreferenceActivity.this,
 						LoginActivity.class);
 	        	startActivity(intent);
 	        	activityManager.finishAllActivity();
-	        }
-	        }).setNegativeButton("No",
-	        new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int id) {
-	            // Action for 'NO' Button
-	            dialog.cancel();
-	        }
-	        });
-	    AlertDialog alert = alt_bld.create();
-	    // Title for AlertDialog
-	    // Icon for AlertDialog
-	    alert.show();
+			}
+		};
+		
+		LogUtil.v("dialoglogout() called");
+		new AlertManager().show(this, "Logout. Continue?", "Confirm"
+				, Constants.ALERT_YES_NO, dialogListner);		
 	}
 
 	@Override
