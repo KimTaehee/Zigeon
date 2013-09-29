@@ -1,4 +1,11 @@
-﻿package kr.re.ec.zigeon;
+﻿/**
+ * 
+ * 
+ *  
+ * modified date: 130929 Kim Taehee - all new registered member isAdmin = false
+ *     
+*/
+package kr.re.ec.zigeon;
 
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.handler.SoapParser;
@@ -132,7 +139,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 								"','false" + //memIsFacebook
 								"',GETDATE()" + //memRegTime
 								",GETDATE()" + //memLastAccessTime
-								",'true'" + //memIsAdmin 
+								",'false'" + //memIsAdmin 
 						")");
 				LogUtil.v("server return : "+str);
 				break;
