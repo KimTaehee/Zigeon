@@ -176,6 +176,12 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				mCommentAdp.notifyDataSetChanged();	//TODO: is this work?
 				break;
 			}
+			case Constants.MSG_TYPE_REFRESH:
+			{
+				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
+				imgLoader.loadImage(mLandmarkDataset.getImageUrl(), LandmarkActivity.this); //load landmark image
+				break;			
+			}
 			case Constants.MSG_TYPE_MEMBER:
 			{
 				//tvPostingTest.setText(msg.getData().getString("msg"));

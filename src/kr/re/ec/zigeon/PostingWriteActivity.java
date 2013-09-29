@@ -46,7 +46,8 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 	private ImageView imgInput;
 
 	private int mLdmIdx;
-
+	private Intent mIntent;
+	
 	private SoapParser soapParser;
 
 	//YOU CAN EDIT THIS TO WHATEVER YOU WANT
@@ -141,8 +142,14 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 
 			//upload photo
 			new PhotoUploader().execute(new PhotoUploadDataset(Constants.MSG_TYPE_POSTING,pst.idx,selectedImagePath));
-			//TODO: PhotoUploader
+			//TODO: if upload photo failed, do exception
 
+			mIntent = new Intent(this, PostingActivity.class);
+			mIntent.putExtra("pstIdx",pst.idx);
+			startActivity(mIntent);
+			
+			finish();
+			
 			break;
 		}
 //		case R.id.my_profile:

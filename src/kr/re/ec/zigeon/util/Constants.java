@@ -17,6 +17,7 @@ public final class Constants {
 	public static final int MSG_TYPE_MEMBER = 3;	//query result of member.
 	public static final int MSG_TYPE_TEST = 4;		//for test query. String Object "test"
 	public static final int MSG_TYPE_LOCATION = 5;	// NGeoPoint. Location Object(android.location.Location) is unused.
+	public static final int MSG_TYPE_REFRESH = 6;	
 	
 	/********************* DB_NULL Definition *********************/
 	/************** DO NOT MODIFY THE NUMBER ! DOUBLE_NULL may cast to INT_NULL ************/

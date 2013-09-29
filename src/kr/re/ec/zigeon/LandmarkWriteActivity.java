@@ -208,9 +208,12 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 			//upload photo
 			new PhotoUploader().execute(new PhotoUploadDataset(Constants.MSG_TYPE_LANDMARK,ldm.idx,selectedImagePath));
 
-			//Intent intent = new Intent(this, LandmarkActivity.class); 
-			//startActivity(intent);
-			overridePendingTransition(0, 0); //no switching animation
+			mIntent = new Intent(this, LandmarkActivity.class);
+			mIntent.putExtra("ldmIdx", ldm.idx);
+			startActivity(mIntent);
+			
+			finish();
+			
 			break;
 		}
 //		case R.id.my_profile:

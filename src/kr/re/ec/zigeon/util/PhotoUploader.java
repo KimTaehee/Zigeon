@@ -4,7 +4,7 @@
  * Author: KimTaehee slhyvaa@nate.com
  * Version: 0.0.1
  * Created Date: 130821
- * Modified Date: 130905
+ * Modified Date: 130925
  */
 
 package kr.re.ec.zigeon.util;
@@ -27,6 +27,7 @@ import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 
 import kr.re.ec.zigeon.dataset.PhotoUploadDataset;
+import kr.re.ec.zigeon.handler.UIHandler;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +35,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
 
 public class PhotoUploader extends AsyncTask<PhotoUploadDataset, Integer, Void> {	
+	private UIHandler uiHandler;
+	
 	private void DoFileUpload(PhotoUploadDataset imageUpload) throws IOException {
 		LogUtil.v("file source path = " + imageUpload.sourcePath);
 		HttpFileUpload(Constants.URL_SERVER_IMAGE_UPLOAD_PAGE, imageUpload.type, imageUpload.idx, imageUpload.sourcePath);	
@@ -95,6 +98,7 @@ public class PhotoUploader extends AsyncTask<PhotoUploadDataset, Integer, Void> 
 			LogUtil.v("result: "+ s);
 			
 			System.gc();
+			
 		} catch (Exception e) {
 			LogUtil.e("exception " + e.getMessage()+", "+e.toString());
 		}		
@@ -108,6 +112,8 @@ public class PhotoUploader extends AsyncTask<PhotoUploadDataset, Integer, Void> 
 	@Override
 	protected void onPostExecute(Void result) {
 		LogUtil.v("onPostExecute invoked! result:" + result);
+		uiHandler = UIHandler.getInstance();
+		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "", null); //현재 창 refresh
 	};
 	
 	/**

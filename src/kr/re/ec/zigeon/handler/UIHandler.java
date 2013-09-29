@@ -42,6 +42,13 @@ public class UIHandler {
 		}
 		return instance;
 	}
+	
+	public static UIHandler getInstance(){
+		if(instance==null) {
+			return null; 
+		}
+		return instance;
+	}
 
 	/***** when TopActivity change, reset handler. *****/ //TODO: how it works on background?
 	public void setHandler(Handler handler) { //MUST set handler in each Activity.onCreate()
