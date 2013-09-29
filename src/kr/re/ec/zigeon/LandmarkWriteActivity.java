@@ -168,7 +168,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 			
 			//landmark's name
 			if(edtTitle.getText().toString().compareTo("")==0) {
-				new AlertManager(this,"Blank Title? ^^","Confirm");	
+				new AlertManager().show(this,"Blank Title? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
 				ldm.name = edtTitle.getText().toString();
@@ -179,13 +179,13 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				ldm.latitude = myLocation.latitude;
 				ldm.longitude = myLocation.longitude;
 			} else {
-				new AlertManager(this,"Select Location ^^","Confirm");	
+				new AlertManager().show(this,"Select Location ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return false;
 			}
 			
 			//contents
 			if(edtContents.getText().toString().compareTo("")==0) {
-				new AlertManager(this,"Blank Contents? ^^","Confirm");	
+				new AlertManager().show(this,"Blank Contents? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
 				ldm.contents = edtContents.getText().toString();

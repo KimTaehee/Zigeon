@@ -138,13 +138,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 					finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
 				} else {
 					// Wrong Password
-					new AlertManager(this,"Wrong Password? ^^","Confirm");
+					new AlertManager().show(this,"Wrong PW? ^^","Confirm",Constants.ALERT_OK_ONLY);
 					return;
 				}
 			} else {
 				// No matched ID
-				new AlertManager(this,"There is no matched ID? ^^","Confirm");
-				
+				new AlertManager().show(this,"No matched ID? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return;
 			}
 			break;

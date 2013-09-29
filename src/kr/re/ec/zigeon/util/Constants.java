@@ -9,7 +9,7 @@ package kr.re.ec.zigeon.util;
  */
 
 public final class Constants {
-	/************** key value(msg.what) for message send. int range 0~5 ************/
+	/************** key value(msg.what) for message send. int range 0~ ************/
 	/************** DO NOT MODIFY THE NUMBER ! SoapParser and Dataset Definition should be FOOLED ! ***********/
 	public static final int MSG_TYPE_LANDMARK = 0;	//query result of landmarks. about LandmarkDataset. 
 	public static final int MSG_TYPE_POSTING = 1;	//query result of postings. about PostingDataset.
@@ -18,6 +18,15 @@ public final class Constants {
 	public static final int MSG_TYPE_TEST = 4;		//for test query. String Object "test"
 	public static final int MSG_TYPE_LOCATION = 5;	// NGeoPoint. Location Object(android.location.Location) is unused.
 	public static final int MSG_TYPE_REFRESH = 6;	
+	
+	/******************* Alert Type. int range 10000~ *******************/
+	//dialog type
+	public static final int ALERT_OK_ONLY = 10000;
+	public static final int ALERT_YES_NO = 10001;
+	//return value
+	public static final int ALERT_RETURN_YES = 10010;
+	public static final int ALERT_RETURN_NO = 10011;
+	public static final int ALERT_RETURN_CANCEL = 10012;
 	
 	/********************* DB_NULL Definition *********************/
 	/************** DO NOT MODIFY THE NUMBER ! DOUBLE_NULL may cast to INT_NULL ************/

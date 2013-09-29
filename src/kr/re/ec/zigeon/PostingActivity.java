@@ -54,7 +54,7 @@ import android.widget.TextView;
 public class PostingActivity extends Activity implements OnClickListener, ImageLoadingListener {
 
 	private ActivityManager activityManager = ActivityManager.getInstance();
-	
+
 	private TextView tvTitle;
 	private TextView tvWrittenTime;
 	private TextView tvWriter;
@@ -73,7 +73,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	private CommentDataset mCommentArr[];
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
-	
+
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
 	.showStubImage(R.drawable.ic_auil_stub)	
@@ -81,7 +81,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	.showImageOnFail(R.drawable.ic_auil_error)
 	.build();
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
-	
+
 	private Handler messageHandler = new Handler() { //recieving to UpdateService
 		@Override
 		public void handleMessage(Message msg){
@@ -99,8 +99,8 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				tvWriter.setText("writer: " + mPostingDataset.writerName); //TODO: tMember query proceeing
 				//TODO: test line separator. what is it?
 				tvContents.setText("contents: \n"  + mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
-//				tvLike.setText(mPostingDataset.like);
-//				tvDislike.setText(mPostingDataset.dislike);
+				//				tvLike.setText(mPostingDataset.like);
+				//				tvDislike.setText(mPostingDataset.dislike);
 				LogUtil.v("image load start! uri: " + mPostingDataset.getImageUrl());
 				imgLoader.loadImage(mPostingDataset.getImageUrl(), PostingActivity.this); //load landmark image
 
@@ -121,6 +121,12 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			{
 				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
 				imgLoader.loadImage(mPostingDataset.getImageUrl(), PostingActivity.this); //load landmark image
+
+				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
+						"AND comParentType='P' ORDER BY comWrittenTime desc"; 
+				LogUtil.v("data request. " + query);
+				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
 				break;			
 			}
 			case Constants.MSG_TYPE_MEMBER:
@@ -139,31 +145,31 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 		/*******add activity list********/
 		activityManager.addActivity(this);
-		
+
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
 		/****** Data init request *****/
 		Bundle bundle = this.getIntent().getExtras();
-        mPostingDataset = new PostingDataset();
-        mPostingDataset.idx = bundle.getInt("pstIdx");
+		mPostingDataset = new PostingDataset();
+		mPostingDataset.idx = bundle.getInt("pstIdx");
 
-        soapParser = SoapParser.getInstance();
+		soapParser = SoapParser.getInstance();
 
-        String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "' " +
+		String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "' " +
 				"ORDER BY pstWrittenTime desc";  
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
-        
+
 		query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
-					"AND comParentType='P' ORDER BY comWrittenTime desc"; 
+				"AND comParentType='P' ORDER BY comWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
-		
-        
+
+
 		/****** UI init *****/
 		tvTitle = (TextView) findViewById(R.id.posting_tv_title);
 		tvWrittenTime = (TextView) findViewById(R.id.posting_tv_writedate);
@@ -178,9 +184,9 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 		//TODO: if no item on listview, SHOULD put other msg;
 		mCommentAdp = new CommentAdapter(this, mCommentArr);
-        lstComment.setAdapter(mCommentAdp);
-        //mCommentAdp.setNotifyOnChange(true); //when ArrayList modified, ArrayList is reflected automatically. SHOULD USE ArrayList
-        
+		lstComment.setAdapter(mCommentAdp);
+		//mCommentAdp.setNotifyOnChange(true); //when ArrayList modified, ArrayList is reflected automatically. SHOULD USE ArrayList
+
 	}
 
 	@Override
@@ -193,10 +199,10 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		
+
 		/*********remove activity list******/
 		activityManager.removeActivity(this);
-		
+
 	}
 
 	@Override
@@ -205,7 +211,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		case R.id.posting_btn_input_comment:
 		{
 			if(edtInputComment.getText().toString().compareTo("") == 0) { //if blank, force to return and alert.
-				new AlertManager(this,"Blank Comment? ^^","Confirm");
+				new AlertManager().show(this,"Blank Comment? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return;
 			} else {
 				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //+1 idx insertion.
@@ -238,7 +244,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			}
 			break;
 		}
-		
+
 		case R.id.posting_img_posting:
 		{
 			if(mPostingDataset.getImageUrl()!=null) {
@@ -248,7 +254,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			} else {
 				LogUtil.w("imgPath is null. cancel calling");
 			}
-			
+
 
 			break;
 
@@ -259,12 +265,12 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
 		switch(item.getItemId()) {
-//		case R.id.my_profile:
-//		{
-//			startActivity(new Intent(this,UserProfileActivity.class));
-//			overridePendingTransition(0, 0); //no switching animation
-//			break;		
-//		}
+		//		case R.id.my_profile:
+		//		{
+		//			startActivity(new Intent(this,UserProfileActivity.class));
+		//			overridePendingTransition(0, 0); //no switching animation
+		//			break;		
+		//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));
@@ -274,7 +280,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void onLoadingStarted(String arg0, View arg1) {
 		// TODO Auto-generated method stub

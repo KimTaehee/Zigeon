@@ -144,7 +144,6 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				mOverlayManager.clearOverlays();
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 				
-				
 				break;
 			}
 			case Constants.MSG_TYPE_POSTING:
@@ -165,7 +164,6 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			{
 				mCommentArr =(CommentDataset[]) msg.obj;
 
-
 				/************ Comment to listview ************/
 				//for(int i=0; i<mPostingArr.length; i++) {
 				//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
@@ -179,7 +177,13 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			case Constants.MSG_TYPE_REFRESH:
 			{
 				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
-				imgLoader.loadImage(mLandmarkDataset.getImageUrl(), LandmarkActivity.this); //load landmark image
+				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); //load landmark image
+		
+				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
+						"AND comParentType='L' ORDER BY comWrittenTime desc"; 
+				LogUtil.v("data request. " + query);
+				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
 				break;			
 			}
 			case Constants.MSG_TYPE_MEMBER:
@@ -251,7 +255,9 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		lstPosting.setAdapter(mPostingAdp);
 		lstPosting.setOnItemClickListener(lstPostingItemClickListener);
 		
+		lstComment.setClickable(false);
 		lstComment.setAdapter(mCommentAdp);
+		
 		//lstComment.setOnItemClickListener(lstCommentItemClickListener);
 		//mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 
@@ -318,8 +324,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		{
 			//send 
 			if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank allowed. force to return
-				new AlertManager(this, "Blank ^^?", "Confirm"); 
-				
+				new AlertManager().show(this,"Blank Comment? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return;
 			} else {
 				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); 

@@ -107,7 +107,7 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 			LogUtil.v("create pstDataset and get memDataset success!");
 			//title
 			if(edtTitle.getText().toString().compareTo("")==0) {
-				new AlertManager(this,"Blank Title? ^^","Confirm");	
+				new AlertManager().show(this,"Blank Title? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
 				pst.title = edtTitle.getText().toString();
@@ -118,7 +118,7 @@ public class PostingWriteActivity extends Activity implements OnClickListener {
 
 			//contents
 			if(edtContents.getText().toString().compareTo("")==0) {
-				new AlertManager(this,"Blank Contents? ^^","Confirm");	
+				new AlertManager().show(this,"Blank Contents? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
 				pst.contents = edtContents.getText().toString();

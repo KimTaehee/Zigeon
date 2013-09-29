@@ -388,8 +388,8 @@ public class SoapParser {
 	 */
 	private String xmlRawParser(String data) {
 		String parsingData = null;
-
-
+		
+		
 		try {
 			XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
 			XmlPullParser parser = parserCreator.newPullParser();
