@@ -126,7 +126,8 @@ public final class Constants {
 			"pstWriterIdx",
 			"pstReadedCount",
 			"pstWrittenTime",
-			"pstPicturePath"
+			"pstPicturePath",
+			"pstVisible"
 		},
 		{ //2
 			"comIdx",
@@ -137,7 +138,8 @@ public final class Constants {
 			"comDislike",
 			"comWriterIdx",
 			"comWrittenTime",
-			"comPicturePath"
+			"comPicturePath",
+			"comVisible"
 		},
 		{ //3
 			"memIdx",

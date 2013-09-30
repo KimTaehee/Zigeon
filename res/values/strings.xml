@@ -62,4 +62,5 @@
     <string name="overflow">OverFlow</string>
 	<string name="alert_yes">YES</string>
 	<string name="alert_no">NO</string>
+	<string name="landmark_action_delete_landmark">DEL</string>
 </resources>

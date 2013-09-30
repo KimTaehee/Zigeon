@@ -97,6 +97,17 @@ public class BestListActivity extends Activity implements OnClickListener {
 //				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
 //				break;
 			}
+			case Constants.MSG_TYPE_REFRESH:
+			{
+				LogUtil.v("refresh: select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+						+ "') WHERE ldmVisible = 'True'");
+				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK),this);
+				break;
+			}
 			case Constants.MSG_TYPE_COMMENT:
 			{
 				//tv Test.setText(msg.getData().getString("msg"));
@@ -109,7 +120,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 			}
 			case Constants.MSG_TYPE_TEST:
 			{	
-
+					
 				break;
 			}
 			case Constants.MSG_TYPE_LOCATION:
@@ -159,7 +170,6 @@ public class BestListActivity extends Activity implements OnClickListener {
 
 		//request contents
 		soapParser = SoapParser.getInstance(); 
-
 		
 		detLocation = new NGeoPoint();
 		
@@ -167,18 +177,18 @@ public class BestListActivity extends Activity implements OnClickListener {
 		detLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
 				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
 		
-		
-		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'");
-		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+		//search nearby location
+//		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+//							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+//							+ "') WHERE ldmVisible = 'True'");
+//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+//				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+//						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+//						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 
-		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+//		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+//				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 
 /*		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
@@ -189,8 +199,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 		
 		myLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
 				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
-		
-		
+				
 		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True'");

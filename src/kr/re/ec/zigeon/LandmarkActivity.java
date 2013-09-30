@@ -6,6 +6,7 @@
 
 package kr.re.ec.zigeon;
 
+import java.security.cert.LDAPCertStoreParameters;
 import java.util.ArrayList;
 
 import com.nhn.android.maps.NMapActivity;
@@ -180,7 +181,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); //load landmark image
 		
 				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
-						"AND comParentType='L' ORDER BY comWrittenTime desc"; 
+						"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -225,13 +226,13 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
 
 		query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "' " +
-				"ORDER BY pstWrittenTime desc"; 
+				"AND pstVisible='True' ORDER BY pstWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
 
 		query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
-				"AND comParentType='L' ORDER BY comWrittenTime desc"; 
+				"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -331,7 +332,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				int maxComIdx = Integer.parseInt(str);
 				str = soapParser.sendQuery(
 						"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-								",comWriterIdx,comWrittenTime,comPicturePath)" +
+								",comWriterIdx,comWrittenTime,comPicturePath,comVisible)" +
 								" values ('" +
 								(maxComIdx + 1) + //comIdx
 								"','L','" + //comParentType
@@ -339,15 +340,16 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 								"','"+ edtInputComment.getText() + //comContents
 								"','0','0','" + //comLike, comDislike
 								MemberDataset.getLoginInstance().idx + //comWriterIdx
-								"',GETDATE()," + //comWrittenTime
-								"NULL" +  
+								"',GETDATE()" + //comWrittenTime
+								",NULL" +  //comPicturePath
+								",'True'" + //comVisible
 						")");
 				LogUtil.i("server return : "+str);
 
 				edtInputComment.setText("");
 
 				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " + 
-						"AND comParentType='L' ORDER BY comWrittenTime desc"; 
+						"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -377,6 +379,21 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.landmark, menu);
+		
+		//admin or writer of landmark(SHOULD there is no posting) only can delete landmark
+		MemberDataset loginMem = MemberDataset.getLoginInstance();
+		String str = soapParser.sendQuery("SELECT COUNT(pstIdx) FROM tPosting " +
+				"WHERE pstParentIdx = '" + mLandmarkDataset.idx + "'");
+		int postingCnt = Integer.parseInt(str);
+		
+		if(loginMem.isAdmin == true || 
+				(mLandmarkDataset.writerIdx == loginMem.idx 
+				&& postingCnt == 0)) {
+			
+		} else {
+			menu.removeItem(R.id.landmark_action_delete_landmark);
+		}		
+		
 		return true;
 	}
 	@Override
@@ -390,6 +407,34 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
+			break;
+		}
+		case R.id.landmark_action_delete_landmark:
+		{
+			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+
+					String query = "UPDATE tLandmark SET ldmVisible = 'False' WHERE ldmIdx='" + mLandmarkDataset.idx + "'"; 
+					LogUtil.v("data request. " + query);
+
+					String result = soapParser.sendQuery(query);
+					uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,UIHandler.bestListActivityHandler);
+					if(result != null){
+						LogUtil.v("result : " + result);
+					} else {
+						LogUtil.v("result is null");
+					}
+					finish();
+					
+					
+				}
+			};
+			
+			LogUtil.v("delete_landmark clicked");
+			new AlertManager().show(this, "Delete Landmark. Continue?", "Confirm"
+					, Constants.ALERT_YES_NO, dialogListner);
 			break;
 		}
 //		case R.id.my_profile:

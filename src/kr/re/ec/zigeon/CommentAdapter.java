@@ -113,7 +113,8 @@ public class CommentAdapter extends BaseAdapter {
 					DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							String query = "DELETE FROM tComment WHERE comIdx='" + mCommentArr[mPosition].idx + "'"; 
+							String query = "UPDATE tComment SET comVisible = 'False' WHERE comIdx='" 
+									+ mCommentArr[mPosition].idx + "'"; 
 							LogUtil.v("data request. " + query);
 							
 							String result = soapParser.sendQuery(query);

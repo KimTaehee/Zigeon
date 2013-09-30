@@ -14,7 +14,7 @@ import kr.re.ec.zigeon.util.LogUtil;
  * slhyvaa@nate.com
  */
 public class PostingDataset extends Object {
-	public static final int POSTING_FIELD_COUNT = 10;
+	public static final int POSTING_FIELD_COUNT = 11;
 	
 	public int idx;
 	public String title;
@@ -26,6 +26,7 @@ public class PostingDataset extends Object {
 	public int readedCount;
 	public Date writtenTime;
 	public String picturePath;
+	public boolean visible;
 	
 	public String writerName;
 	
@@ -61,6 +62,7 @@ public class PostingDataset extends Object {
 				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DB);
 				writtenTime = sdf.parse(strArr[8]); 
 				picturePath = strArr[9];
+				visible = Boolean.parseBoolean(strArr[10]);
 				
 				writerName = getWriterName();
 				return 0; // no error

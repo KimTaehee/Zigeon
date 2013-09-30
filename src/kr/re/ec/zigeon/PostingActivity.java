@@ -123,7 +123,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				imgLoader.loadImage(mPostingDataset.getImageUrl(), PostingActivity.this); //load landmark image
 
 				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
-						"AND comParentType='P' ORDER BY comWrittenTime desc"; 
+						"AND comParentType='P' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -158,13 +158,13 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		soapParser = SoapParser.getInstance();
 
 		String query = "SELECT * FROM tPosting WHERE pstIdx='" + mPostingDataset.idx + "' " +
-				"ORDER BY pstWrittenTime desc";  
+				"AND pstVisible='True' ORDER BY pstWrittenTime desc";  
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING));
 
 		query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
-				"AND comParentType='P' ORDER BY comWrittenTime desc"; 
+				"AND comParentType='P' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 		LogUtil.v("data request. " + query);
 		uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 				soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
@@ -218,7 +218,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				int maxComIdx = Integer.parseInt(str);
 				str = soapParser.sendQuery(
 						"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-								",comWriterIdx,comWrittenTime,comPicturePath)" +
+								",comWriterIdx,comWrittenTime,comPicturePath,comVisible)" +
 								" values ('" +
 								(maxComIdx + 1) + //comIdx
 								"','P','" + //comParentType
@@ -226,15 +226,16 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 								"','"+ edtInputComment.getText() + //comContents
 								"','0','0','" + //comLike, comDislike
 								MemberDataset.getLoginInstance().idx + //comWriterIdx
-								"',GETDATE()," + //comWrittenTime
-								"NULL" + //TODO: temp comPicturePath 
+								"',GETDATE()" + //comWrittenTime
+								",NULL" + //comPicturePath
+								",'True'" + //comVisible
 						")");
 				LogUtil.i("server return : "+str);
 
 				edtInputComment.setText("");
 
-				String query = "SELECT * FROM tComment WHERE comParentIdx='"
-						+ mPostingDataset.idx + "' AND comParentType='P' ORDER BY comWrittenTime desc"; 
+				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx 
+						+ "' AND comParentType='P' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
 						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));

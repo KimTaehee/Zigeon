@@ -12,7 +12,7 @@ import kr.re.ec.zigeon.util.LogUtil;
  * slhyvaa@nate.com
  */
 public class CommentDataset extends Object {
-	public static final int COMMENT_FIELD_COUNT = 9;
+	public static final int COMMENT_FIELD_COUNT = 10;
 	
 	public int idx;
 	public char parentType;
@@ -23,6 +23,7 @@ public class CommentDataset extends Object {
 	public int writerIdx;
 	public Date writtenTime;
 	public String picturePath;
+	public boolean visible;
 	
 	public String writerName;
 	
@@ -46,9 +47,11 @@ public class CommentDataset extends Object {
 				like = Integer.parseInt(strArr[4]);
 				dislike = Integer.parseInt(strArr[5]);
 				writerIdx = Integer.parseInt(strArr[6]);
+				LogUtil.i("asdfadsadsf");
 				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DB);
 				writtenTime = sdf.parse(strArr[7]);
 				picturePath = strArr[8];
+				visible = Boolean.parseBoolean(strArr[9]);
 				
 				writerName = getWriterName();
 				

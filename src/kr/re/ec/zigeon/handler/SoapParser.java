@@ -498,7 +498,7 @@ public class SoapParser {
     		insertIndex = Integer.parseInt(str) + 1;
 			    		
 			query = "INSERT INTO tPosting (pstIdx,pstTitle,pstParentIdx,pstContents,pstLike,pstDislike" +
-					",pstWriterIdx,pstReadedCount,pstWrittenTime,pstPicturePath)" +
+					",pstWriterIdx,pstReadedCount,pstWrittenTime,pstPicturePath,pstVisible)" +
 					" values ('" +
 					insertIndex + //pstIdx
 					"','" + pst.title + //pstTitle
@@ -509,10 +509,11 @@ public class SoapParser {
 					"','0'," + //pstReadedCount
 					"GETDATE(),"; //pstWrittenTime
 			if(pst.picturePath==null) {
-				query += "NULL)";
+				query += "NULL,";
 			} else {
-				query += "'" + pst.picturePath + "')";
+				query += "'" + pst.picturePath + "',";
 			}
+			query += "'True')"; //pstVisible
 			
 			break;
 		case Constants.MSG_TYPE_COMMENT:
