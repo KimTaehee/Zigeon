@@ -119,8 +119,8 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			}
 			case Constants.MSG_TYPE_REFRESH:
 			{
-				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
-				imgLoader.loadImage(mPostingDataset.getImageUrl(), PostingActivity.this); //load landmark image
+				LogUtil.v("MSG_TYPE_REFRESH received! reload image and comments");
+				imgLoader.loadImage(mPostingDataset.getImageUrl(), PostingActivity.this); //load posting image
 
 				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mPostingDataset.idx + "' " +
 						"AND comParentType='P' AND comVisible='True' ORDER BY comWrittenTime desc"; 
@@ -193,6 +193,15 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.posting, menu);
+
+		//admin or writer of posting only can delete posting
+		MemberDataset loginMem = MemberDataset.getLoginInstance();
+
+		if(loginMem.isAdmin == true || mPostingDataset.writerIdx == loginMem.idx) {
+
+		} else {
+			menu.removeItem(R.id.posting_action_delete_posting);
+		}
 		return true;
 	}
 
@@ -277,6 +286,34 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			startActivity(new Intent(this,PreferenceActivity.class));
 			overridePendingTransition(0, 0); //no switching animation
 			break;		
+		}
+		case R.id.posting_action_delete_posting:
+		{
+			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+
+					String query = "UPDATE tPosting SET pstVisible = 'False' WHERE pstIdx='" + mPostingDataset.idx + "'"; 
+					LogUtil.v("data request. " + query);
+
+					String result = soapParser.sendQuery(query);
+					uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,UIHandler.landmarkActivityHandler);
+					if(result != null){
+						LogUtil.v("result : " + result);
+					} else {
+						LogUtil.v("result is null");
+					}
+					finish();
+					
+					
+				}
+			};
+			
+			LogUtil.v("delete_posting clicked");
+			new AlertManager().show(this, "Delete Posting. Continue?", "Confirm"
+					, Constants.ALERT_YES_NO, dialogListner);
+			break;
 		}
 		}
 		return true;

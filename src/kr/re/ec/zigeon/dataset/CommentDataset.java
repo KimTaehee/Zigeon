@@ -47,7 +47,6 @@ public class CommentDataset extends Object {
 				like = Integer.parseInt(strArr[4]);
 				dislike = Integer.parseInt(strArr[5]);
 				writerIdx = Integer.parseInt(strArr[6]);
-				LogUtil.i("asdfadsadsf");
 				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DB);
 				writtenTime = sdf.parse(strArr[7]);
 				picturePath = strArr[8];

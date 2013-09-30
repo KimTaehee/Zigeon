@@ -63,4 +63,5 @@
 	<string name="alert_yes">YES</string>
 	<string name="alert_no">NO</string>
 	<string name="landmark_action_delete_landmark">DEL</string>
+	<string name="posting_action_delete_posting">DEL</string>
 </resources>

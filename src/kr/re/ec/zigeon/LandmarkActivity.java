@@ -180,11 +180,17 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
 				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); //load landmark image
 		
-				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
+				String query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "' " +
+						"AND pstVisible='True' ORDER BY pstWrittenTime desc"; 
+				LogUtil.v("data request. " + query);
+				uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
+						soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING),this);
+				
+				query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
 						"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT),this);
 				break;			
 			}
 			case Constants.MSG_TYPE_MEMBER:
