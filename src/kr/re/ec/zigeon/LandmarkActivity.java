@@ -325,6 +325,12 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
+	}
+	
+	@Override
 	public void onClick(View v) { 
 		switch(v.getId()) {
 		case R.id.landmark_btn_input_comment:

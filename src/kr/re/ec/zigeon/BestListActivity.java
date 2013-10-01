@@ -242,6 +242,12 @@ public class BestListActivity extends Activity implements OnClickListener {
 		finish();
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
+	}
+	
 	/************ actionbar & menu init, event processing  *******************/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
