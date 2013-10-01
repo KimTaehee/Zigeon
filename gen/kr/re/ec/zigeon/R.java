@@ -161,7 +161,8 @@ public final class R {
         public static final int photo_upload_edit=0x7f0b0033;
         public static final int photo_view_image=0x7f0b0034;
         public static final int postingList=0x7f0b0030;
-        public static final int posting_action_delete_posting=0x7f0b0069;
+        public static final int posting_action_delete_posting=0x7f0b006a;
+        public static final int posting_action_edit_posting=0x7f0b0069;
         public static final int posting_btn_input_comment=0x7f0b003f;
         public static final int posting_commentlist=0x7f0b003d;
         public static final int posting_edit_input_comment=0x7f0b003e;
@@ -172,7 +173,7 @@ public final class R {
         public static final int posting_tv_title=0x7f0b0036;
         public static final int posting_tv_writedate=0x7f0b0037;
         public static final int posting_tv_writer=0x7f0b0038;
-        public static final int posting_write_action_write=0x7f0b006a;
+        public static final int posting_write_action_write=0x7f0b006b;
         public static final int posting_write_edt_contents=0x7f0b0042;
         public static final int posting_write_edt_title=0x7f0b0041;
         public static final int posting_write_img_input=0x7f0b0043;
@@ -273,6 +274,7 @@ public final class R {
         public static final int my_profile=0x7f070039;
         public static final int overflow=0x7f07003b;
         public static final int posting_action_delete_posting=0x7f07003f;
+        public static final int posting_action_edit_posting=0x7f070040;
         public static final int posting_write_action_write=0x7f070027;
         public static final int posting_write_activity_title=0x7f070028;
         public static final int posting_write_edt_contents_hint=0x7f07002b;

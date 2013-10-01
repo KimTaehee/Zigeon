@@ -531,4 +531,69 @@ public class SoapParser {
 		LogUtil.v("query result: " + result);
 		return insertIndex;
 	}
+	
+	public int updateDatasetUsingQuery(int dataType, Object datasetObj) {
+		String query = null;
+		int updateIndex = Constants.INT_NULL; //maxIdx + 1
+		//create query for each dataset
+		switch(dataType) {
+//		case Constants.MSG_TYPE_LANDMARK:
+//			LandmarkDataset ldm = (LandmarkDataset)datasetObj;
+//			
+//			//get maxLdmIdx
+//			String str = sendQuery("SELECT MAX(ldmIdx) FROM tLandmark"); 
+//    		insertIndex = Integer.parseInt(str) + 1;
+//
+//    		query = "INSERT INTO tLandmark (ldmIdx,ldmName,ldmLatitude,ldmLongitude,ldmContents,ldmRating" +
+//					",ldmRatingVotes,ldmVisible,ldmWriterIdx,ldmReadedCount,ldmWrittenTime,ldmUndoIdx,ldmPicturePath)" +
+//					" values ('" +
+//					insertIndex + //ldmIdx
+//					"','" + ldm.name + //ldmName
+//					"','" + ldm.latitude + //ldmLatitude
+//					"','" + ldm.longitude + //ldmLongitude
+//					"','" + ldm.contents + //ldmContents
+//					"','0','0','True','" + //ldmRating, ldmRatingVotes, ldmVisible
+//					ldm.writerIdx + //ldmWriterIdx
+//					"','0'," + //ldmReadedCount
+//					"GETDATE(),NULL,"; //ldmWrittenTime, ldmUndoIdx
+//			if(ldm.picturePath==null) {
+//				query += "NULL)";
+//			} else {
+//				query += "'" + ldm.picturePath + "')";
+//			}
+//
+//    		break;
+			
+		case Constants.MSG_TYPE_POSTING:
+			PostingDataset pst = (PostingDataset)datasetObj;
+			    		
+			query = "UPDATE tPosting SET " +
+					"pstTitle='" + pst.title +
+					"', pstContents='" + pst.contents +
+					"', pstWriterIdx='" + pst.writerIdx +
+					"', pstWrittenTime=GETDATE()";
+			if(pst.picturePath==null) { //unchanged
+				query += " ";
+			} else {
+				query += ", pstPicturePath='" + pst.picturePath + "' ";
+			}
+			query += "WHERE pstIdx='" + pst.idx + "'";
+			
+			updateIndex = pst.idx;
+			break;
+		case Constants.MSG_TYPE_COMMENT:
+		
+			break;
+		
+		case Constants.MSG_TYPE_MEMBER:
+		
+			break;
+		}
+		
+		//send insert query
+		LogUtil.v(query);
+		String result = sendQuery(query);
+		LogUtil.v("query result: " + result);
+		return updateIndex;
+	}
 }

@@ -411,6 +411,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 
 			mIntent = new Intent(this, PostingWriteActivity.class);
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
+			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, false); //new posting
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
