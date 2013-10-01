@@ -203,7 +203,11 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 		} else {
 			menu.removeItem(R.id.posting_action_delete_posting);
+			menu.removeItem(R.id.posting_action_edit_posting);
 		}
+		
+		
+		
 		return true;
 	}
 
@@ -326,6 +330,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, true); //edit posting
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
+			finish();
 			break;
 		}
 		}
