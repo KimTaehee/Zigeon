@@ -12,6 +12,7 @@ package kr.re.ec.zigeon.handler;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
@@ -226,7 +227,7 @@ public class SoapParser {
 			androidHttpTransport.call(SOAP_ACTION, envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			LogUtil.i(result.toString());
-
+			
 			LogUtil.v("xmlparser start");
 
 			resultStr = xmlRawParser(result.toString()); // xml parsing
@@ -385,8 +386,9 @@ public class SoapParser {
 	 * @param 	XML
 	 * @return 	if data exist: String "t1.col1,t1.col2,t1.col3,t2.col1,t2.col2 ..."
 	 * 			if no data: String ""
+	 * @throws Exception 
 	 */
-	private String xmlRawParser(String data) {
+	private String xmlRawParser(String data) throws Exception {
 		String parsingData = null;
 		
 		
@@ -444,6 +446,7 @@ public class SoapParser {
 		} catch (Exception e) {
 			LogUtil.e("Error in network call");
 			e.printStackTrace();
+			throw e;
 		}
 		parsingData = parsingData.substring(0, parsingData.length()-1);
 
@@ -537,32 +540,35 @@ public class SoapParser {
 		int updateIndex = Constants.INT_NULL; //maxIdx + 1
 		//create query for each dataset
 		switch(dataType) {
-//		case Constants.MSG_TYPE_LANDMARK:
-//			LandmarkDataset ldm = (LandmarkDataset)datasetObj;
-//			
-//			//get maxLdmIdx
-//			String str = sendQuery("SELECT MAX(ldmIdx) FROM tLandmark"); 
-//    		insertIndex = Integer.parseInt(str) + 1;
-//
-//    		query = "INSERT INTO tLandmark (ldmIdx,ldmName,ldmLatitude,ldmLongitude,ldmContents,ldmRating" +
-//					",ldmRatingVotes,ldmVisible,ldmWriterIdx,ldmReadedCount,ldmWrittenTime,ldmUndoIdx,ldmPicturePath)" +
-//					" values ('" +
-//					insertIndex + //ldmIdx
-//					"','" + ldm.name + //ldmName
-//					"','" + ldm.latitude + //ldmLatitude
-//					"','" + ldm.longitude + //ldmLongitude
-//					"','" + ldm.contents + //ldmContents
-//					"','0','0','True','" + //ldmRating, ldmRatingVotes, ldmVisible
-//					ldm.writerIdx + //ldmWriterIdx
-//					"','0'," + //ldmReadedCount
-//					"GETDATE(),NULL,"; //ldmWrittenTime, ldmUndoIdx
-//			if(ldm.picturePath==null) {
-//				query += "NULL)";
-//			} else {
-//				query += "'" + ldm.picturePath + "')";
-//			}
-//
-//    		break;
+		case Constants.MSG_TYPE_LANDMARK:
+			LandmarkDataset ldm = (LandmarkDataset)datasetObj;
+			MemberDataset loginMem = MemberDataset.getLoginInstance();
+			
+			/**
+			 * Ex) 
+			 * There is a absolutely handsome partimer guy! +O+(ORIGIN CONTENTS)
+			 * ------------- 
+			 * 2013-10-03 06:57:21 Edited by Seodule
+			 * He was fired ToT(APPENDED CONTENTS)
+			 */
+			query = "UPDATE tLandmark SET " +
+					"ldmName='" + ldm.name +
+					"', ldmLatitude='" + ldm.latitude +
+					"', ldmLongitude='" + ldm.longitude +
+					"', ldmContents+=CHAR(10)+'-----------------------'+CHAR(10)" +
+					"+CONVERT(VARCHAR,GETDATE(),120)+' Edited by '+" +
+					"+'" + loginMem.nick +
+					"'+CHAR(10)+'" + ldm.contents +"'";
+					
+			if(ldm.picturePath==null) { //unchanged
+				query += " ";
+			} else {
+				query += ", ldmPicturePath='" + ldm.picturePath + "' ";
+			}
+			query += "WHERE ldmIdx='" + ldm.idx + "'";
+			
+			updateIndex = ldm.idx;
+			break;
 			
 		case Constants.MSG_TYPE_POSTING:
 			PostingDataset pst = (PostingDataset)datasetObj;

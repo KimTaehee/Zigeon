@@ -260,8 +260,11 @@ public class BestListActivity extends Activity implements OnClickListener {
 		switch(item.getItemId()) {
 		case R.id.map_list_action_landmark_write:
 		{
-			startActivity(new Intent(this,LandmarkWriteActivity.class));
-			overridePendingTransition(0, 0); //no switching animation
+			mIntent = new Intent(this, LandmarkWriteActivity.class);
+			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, false); //new landmark
+			startActivity(mIntent);
+			
+			//overridePendingTransition(0, 0); //no switching animation
 			break;			
 		}
 //		case R.id.my_profile:

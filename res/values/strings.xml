@@ -26,10 +26,11 @@
     <string name="landmark_tv_name">title</string>
     <string name="landmark_tv_contents">contents</string>
     <string name="landmark_action_posting_write">Write Posting</string>
-    <string name="landmark_write_txt_title">Landmark Name</string>
-    <string name="landmark_write_edit_title_hint">ex) Mirae hall</string>
-    <string name="landmark_write_txt_uniqueness">Uniqueness</string>
-    <string name="landmark_write_edit_uniqueness_hint">ex)\n Handsome assistant!!!\n (is a dream..T-T)\n Miraehall number is 60! \n Com-gong has a Jool!\n (So goooooood!)</string>
+    <string name="landmark_write_tv_name">Landmark Name</string>
+    <string name="landmark_write_edit_name_hint">Input Landmark Name</string>
+    <string name="landmark_write_tv_contents">Contents</string>
+    <string name="landmark_write_edit_contents_hint_new">Input message about Landmark</string>
+    <string name="landmark_write_edit_contents_hint_append">Input message want to be appended</string>
     <string name="login_id">ID</string>
     <string name="login_password">password</string>
     <string name="login_nickname">nickname</string>
@@ -65,4 +66,7 @@
 	<string name="landmark_action_delete_landmark">DEL</string>
 	<string name="posting_action_delete_posting">DEL</string>
 	<string name="posting_action_edit_posting">EDIT</string>
+	<string name="landmark_action_edit_landmark">EDIT</string>
+	<string name="landmark_notation_edited">Edited by</string>
+	<string name="landmark_notation_boundary">----------------</string>
 </resources>

@@ -31,6 +31,8 @@ public class LandmarkDataset extends Object {
 	public int undoIdx;
 	public String picturePath;
 	
+	public String writerName;
+	
 	public double distanceFromCurrentLocation = Constants.DOUBLE_NULL; 
 	
 	public LandmarkDataset() {

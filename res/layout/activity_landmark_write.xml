@@ -25,28 +25,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/landmark_write_txt_title" />
+                    android:text="@string/landmark_write_tv_name" />
 
                 <EditText
-                    android:id="@+id/landmark_write_edit_title"
+                    android:id="@+id/landmark_write_edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/landmark_write_edit_title_hint"
+                    android:hint="@string/landmark_write_edit_name_hint"
                     android:inputType="textPersonName" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/landmark_write_txt_uniqueness" />
+                    android:text="@string/landmark_write_tv_contents" />
 
                 <EditText
-                    android:id="@+id/landmark_write_edit_uniqueness"
+                    android:id="@+id/landmark_write_edit_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/landmark_write_edit_uniqueness_hint"
+                    android:hint="@string/landmark_write_edit_contents_hint_new"
                     android:inputType="textMultiLine" />
             </LinearLayout>
         </ScrollView>
