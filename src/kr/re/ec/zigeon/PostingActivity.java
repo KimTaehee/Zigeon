@@ -73,6 +73,8 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 	private CommentDataset mCommentArr[];
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
+	
+	private Intent mIntent;
 
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
@@ -201,7 +203,11 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 		} else {
 			menu.removeItem(R.id.posting_action_delete_posting);
+			menu.removeItem(R.id.posting_action_edit_posting);
 		}
+		
+		
+		
 		return true;
 	}
 
@@ -293,7 +299,6 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-
 					String query = "UPDATE tPosting SET pstVisible = 'False' WHERE pstIdx='" + mPostingDataset.idx + "'"; 
 					LogUtil.v("data request. " + query);
 
@@ -313,6 +318,19 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			LogUtil.v("delete_posting clicked");
 			new AlertManager().show(this, "Delete Posting. Continue?", "Confirm"
 					, Constants.ALERT_YES_NO, dialogListner);
+			break;
+		}
+		case R.id.posting_action_edit_posting:
+		{
+			LogUtil.v("edit clicked!");
+			
+			mIntent = new Intent(this, PostingWriteActivity.class);
+			mIntent.putExtra("ldmIdx", mPostingDataset.parentIdx);
+			mIntent.putExtra("pstIdx", mPostingDataset.idx);
+			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, true); //edit posting
+			startActivity(mIntent);
+			overridePendingTransition(0, 0); //no switching animation
+			finish();
 			break;
 		}
 		}

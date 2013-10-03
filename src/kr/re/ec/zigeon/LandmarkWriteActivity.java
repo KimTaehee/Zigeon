@@ -26,6 +26,7 @@ import kr.re.ec.zigeon.dataset.MemberDataset;
 import kr.re.ec.zigeon.dataset.PhotoUploadDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
+import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.nmaps.NMapPOIflagType;
 import kr.re.ec.zigeon.nmaps.NMapViewerResourceProvider;
 import kr.re.ec.zigeon.util.ActivityManager;
@@ -43,6 +44,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,13 +61,14 @@ import android.widget.RelativeLayout;
 public class LandmarkWriteActivity extends NMapActivity implements OnClickListener
 	, OnMapStateChangeListener, OnCalloutOverlayListener {
 	private ActivityManager activityManager = ActivityManager.getInstance();
-	private EditText edtTitle;
+	private EditText edtName;
 	private EditText edtContents;
 	private ImageView imgInput;
 	private RelativeLayout layoutMap;	//map on layout
 	private InputMethodManager imm; 
 
 	private SoapParser soapParser;
+	private UIHandler uiHandler;
 
 	//YOU CAN EDIT THIS TO WHATEVER YOU WANT
 	private final int SELECT_PICTURE = 1000;
@@ -75,6 +79,11 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 	private NGeoPoint myLocation;
 	private Intent mIntent;
 	private boolean isLocationSelected;
+	
+	private boolean mIsNewLandmark;
+	private int mLdmIdxOnEdit;
+	private LandmarkDataset[] mLandmarkArr;
+	private LandmarkDataset mLandmarkData;
 	
 	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
 	private NMapView mMapView = null;	//Naver map object
@@ -93,6 +102,39 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 	.showImageOnFail(R.drawable.ic_auil_error)
 	.build();
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
+	
+	private Handler messageHandler = new Handler() { //receiver from UpdateService. important!
+		@Override
+		public void handleMessage(Message msg){
+			LogUtil.v("msg receive success!");
+			switch (msg.what) {
+			case Constants.MSG_TYPE_LANDMARK:
+			{
+				LogUtil.v("load posting data start");
+				mLandmarkArr =(LandmarkDataset[]) msg.obj;
+				mLandmarkData = mLandmarkArr[0];
+				
+				edtName.setText(mLandmarkData.name);
+				edtContents.setHint(R.string.landmark_write_edit_contents_hint_append);
+				imgLoader.displayImage(mLandmarkData.getImageUrl(), imgInput, imgOption);
+				
+				mMapController.setMapCenter(mLandmarkData.longitude, mLandmarkData.latitude);
+				
+				/******************  *****************/
+				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
+				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
+				poiData.beginPOIdata(0); //TODO: what is 0?
+				poiData.addPOIitem(mLandmarkData.longitude, mLandmarkData.latitude, "Landmark Location", markerId, 0); 
+				poiData.endPOIdata();
+				
+				// create overlay with location data
+				mOverlayManager.clearOverlays();
+				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+				break;
+			}
+			}
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +155,16 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 		/*******add activity list********/
 		activityManager.addActivity(this);
 
+		/******** get this activity type : new or edit *********/
+		Bundle bundle = this.getIntent().getExtras();
+		mIsNewLandmark = !(bundle.getBoolean(Constants.INTENT_TYPE_NAME_EDIT));
+		if(!mIsNewLandmark) {
+			mLdmIdxOnEdit = bundle.getInt("ldmIdx");
+		}
+		
 		/******** Init UI ********/
-		edtTitle = (EditText) findViewById(R.id.landmark_write_edit_title);
-		edtContents = (EditText) findViewById(R.id.landmark_write_edit_uniqueness);
+		edtName = (EditText) findViewById(R.id.landmark_write_edit_name);
+		edtContents = (EditText) findViewById(R.id.landmark_write_edit_contents);
 		layoutMap = (RelativeLayout) findViewById(R.id.landmark_write_map);
 		imgInput = (ImageView) findViewById(R.id.landmark_write_img_input);
 		imgInput.setOnClickListener(this);
@@ -141,9 +190,15 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 		
 
 		/******** Init Handler *******/
+		uiHandler = UIHandler.getInstance(this);
 		soapParser = SoapParser.getInstance();
-
 		
+		if(!mIsNewLandmark) {
+			String query = "SELECT * FROM tLandmark WHERE ldmIdx='" + mLdmIdxOnEdit + "'"; 
+			LogUtil.v("data request. " + query);
+			uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+					soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK),messageHandler);
+		}
 	}
 
 	@Override
@@ -161,17 +216,17 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 			LogUtil.v("action_write_landmark clicked");
 			
 			LandmarkDataset ldm = new LandmarkDataset();
-			MemberDataset mem = MemberDataset.getLoginInstance();
+			MemberDataset loginMem = MemberDataset.getLoginInstance();
 			//String strArr[] = new String[Constants.DATASET_FIELD[Constants.MSG_TYPE_POSTING].length];
 			//strArr[0] = 
 			LogUtil.v("create ldmDataset and get memDataset success!");
 			
 			//landmark's name
-			if(edtTitle.getText().toString().compareTo("")==0) {
+			if(edtName.getText().toString().compareTo("")==0) {
 				new AlertManager().show(this,"Blank Title? ^^","Confirm",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
-				ldm.name = edtTitle.getText().toString();
+				ldm.name = edtName.getText().toString();
 			}
 
 			//location
@@ -179,10 +234,15 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				ldm.latitude = myLocation.latitude;
 				ldm.longitude = myLocation.longitude;
 			} else {
-				new AlertManager().show(this,"Select Location ^^","Confirm",Constants.ALERT_OK_ONLY);
-				return false;
+				if(mIsNewLandmark) {
+					new AlertManager().show(this,"Select Location ^^","Confirm",Constants.ALERT_OK_ONLY);
+					return false;
+				} else { //keep location as it is
+					ldm.latitude = mLandmarkData.latitude;
+					ldm.longitude = mLandmarkData.longitude;
+				}
 			}
-			
+				
 			//contents
 			if(edtContents.getText().toString().compareTo("")==0) {
 				new AlertManager().show(this,"Blank Contents? ^^","Confirm",Constants.ALERT_OK_ONLY);
@@ -191,9 +251,15 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				ldm.contents = edtContents.getText().toString();
 			}
 
-			ldm.writerIdx = mem.idx;
-			LogUtil.v("memidx: " + mem.idx);
-
+			//writerIdx - if edit mode, writer name will be appended on contents.
+			if(mIsNewLandmark) {
+				ldm.writerIdx = loginMem.idx;
+				LogUtil.v("memidx: " + loginMem.idx);
+			} else {
+				ldm.writerName = loginMem.nick;
+			}
+			
+			
 			if(selectedImagePath==null) { 
 				ldm.picturePath = null;
 			} else {
@@ -203,8 +269,14 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 			}
 			LogUtil.v("data input to ldm success");
 
-			ldm.idx = soapParser.insertDatasetUsingQuery(Constants.MSG_TYPE_LANDMARK, ldm);
-
+			if(mIsNewLandmark) {
+				ldm.readedCount = 0;
+				ldm.idx = soapParser.insertDatasetUsingQuery(Constants.MSG_TYPE_LANDMARK, ldm);
+			} else {
+				ldm.idx = mLdmIdxOnEdit;
+				ldm.idx = soapParser.updateDatasetUsingQuery(Constants.MSG_TYPE_LANDMARK, ldm);
+			}
+			
 			//upload photo
 			new PhotoUploader().execute(new PhotoUploadDataset(Constants.MSG_TYPE_LANDMARK,ldm.idx,selectedImagePath));
 
@@ -251,7 +323,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 		{
 			//hide keyboard
 			imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(edtTitle.getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(edtName.getWindowToken(), 0);
 			
 			mIntent = new Intent(this,MapActivity.class);
 			

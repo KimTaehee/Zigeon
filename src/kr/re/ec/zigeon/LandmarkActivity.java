@@ -343,6 +343,12 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
+	}
+	
+	@Override
 	public void onClick(View v) { 
 		switch(v.getId()) {
 		case R.id.landmark_btn_input_comment:
@@ -423,12 +429,26 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){ //action bar or menu clicked
 		switch(item.getItemId()) {
+		case R.id.landmark_action_edit_landmark:
+		{
+			LogUtil.v("action_edit_landmark clicked");
+
+			mIntent = new Intent(this, LandmarkWriteActivity.class);
+			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
+			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, true); //edit Landmark
+			startActivity(mIntent);
+			overridePendingTransition(0, 0); //no switching animation
+			
+			finish();
+			break;
+		}
 		case R.id.landmark_action_posting_write:
 		{
 			LogUtil.v("action_posting_write clicked");
 
 			mIntent = new Intent(this, PostingWriteActivity.class);
 			mIntent.putExtra("ldmIdx", mLandmarkDataset.idx);
+			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, false); //new posting
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
 			break;
