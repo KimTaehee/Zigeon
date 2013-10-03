@@ -131,6 +131,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 			}
 			case Constants.MSG_TYPE_REFRESH:
 			{
+				mBestListRangeOffset = 0;
 				LogUtil.v("refresh: select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'");
