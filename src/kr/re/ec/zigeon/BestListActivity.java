@@ -31,7 +31,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+<<<<<<< HEAD
 import android.view.LayoutInflater;
+=======
+>>>>>>> progress dialog and back key event
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +65,8 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 	private int detectRange = 500;	//meter for search around
 
+	private ProgressDialog loadingDialog;
+	
 	private ProgressDialog loadingDialog;
 	
 	private GridView grdBestList;
@@ -114,7 +119,21 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 					loadingDialog.dismiss();
 					LogUtil.i("dismiss loadingDialog!!");
 				}
+<<<<<<< HEAD
 
+=======
+				LogUtil.i("mBestListArr.length: " + mBestListArr.length);
+				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArr);
+				grdBestList.setAdapter(mBestListAdp);
+				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?
+				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
+				
+				if(loadingDialog!=null) {
+					loadingDialog.dismiss();
+					LogUtil.i("dismiss loadingDialog!!");
+				}
+				
+>>>>>>> progress dialog and back key event
 				break;
 			}
 			case Constants.MSG_TYPE_REFRESH:
@@ -297,9 +316,15 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 			//send ldmIdx to LandmarkActivity using Intent
 			mIntent = new Intent(BestListActivity.this, LandmarkActivity.class);
+<<<<<<< HEAD
 
 			mIntent.putExtra("ldmIdx",mBestListArl.get(position).idx);
 
+=======
+			mIntent.putExtra("ldmIdx",mBestListArr[position].idx);
+			
+			//LogUtil.i("start LandmarkActivity!");
+>>>>>>> progress dialog and back key event
 			startActivity(mIntent);
 		}
 	};
@@ -373,6 +398,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
@@ -410,6 +436,13 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ï¿½ï¿½ ï¿½ï¿½Æ°
 			Toast.makeText(this, "BackÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
+=======
+	/*
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ¹é ¹öÆ°
+			Toast.makeText(this, "BackÅ°¸¦ ´©¸£¼Ì±º¿ä", Toast.LENGTH_SHORT).show();
+>>>>>>> progress dialog and back key event
 			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
 
 				@Override
