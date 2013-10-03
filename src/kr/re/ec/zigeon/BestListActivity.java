@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -115,6 +116,17 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 					LogUtil.i("dismiss loadingDialog!!");
 				}
 
+				LogUtil.i("mBestListArr.length: " + mBestListArr.length);
+				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArl);
+				grdBestList.setAdapter(mBestListAdp);
+				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?
+				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
+				
+				if(loadingDialog!=null) {
+					loadingDialog.dismiss();
+					LogUtil.i("dismiss loadingDialog!!");
+				}
+				
 				break;
 			}
 			case Constants.MSG_TYPE_REFRESH:
@@ -301,6 +313,10 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 			mIntent.putExtra("ldmIdx",mBestListArl.get(position).idx);
 
+
+			mIntent.putExtra("ldmIdx",mBestListArr[position].idx);
+			
+			//LogUtil.i("start LandmarkActivity!");
 			startActivity(mIntent);
 		}
 	};
@@ -411,6 +427,13 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ï¿½ï¿½ ï¿½ï¿½Æ°
 			Toast.makeText(this, "BackÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
+=======
+	/*
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ¹é ¹öÆ°
+			Toast.makeText(this, "BackÅ°¸¦ ´©¸£¼Ì±º¿ä", Toast.LENGTH_SHORT).show();
+>>>>>>> progress dialog and back key event
 			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
 
 				@Override
