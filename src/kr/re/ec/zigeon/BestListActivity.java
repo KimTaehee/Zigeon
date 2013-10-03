@@ -30,11 +30,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-<<<<<<< HEAD
 import android.view.KeyEvent;
-=======
 import android.view.LayoutInflater;
->>>>>>> can show beyond 20 bestlist
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,13 +61,9 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	private boolean isTraceLocation=true;	//mode for real-time trace location
 
 	private int detectRange = 500;	//meter for search around
-<<<<<<< HEAD
-	
+
 	private ProgressDialog loadingDialog;
 	
-=======
-
->>>>>>> can show beyond 20 bestlist
 	private GridView grdBestList;
 	private ToggleButton tglBtnTraceLocation;
 	private Button btnRefreshLocation;
@@ -96,34 +89,33 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 				for(int i=0; i<mBestListArr.length; i++) {
 					mBestListArr[i].getDistance(detLocation);	
 				}
-<<<<<<< HEAD
-				LogUtil.i("mBestListArr.length: " + mBestListArr.length);
-				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArr);
-				grdBestList.setAdapter(mBestListAdp);
-				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?
-				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
-				
+				if(mBestListArr.length == 0) { //if there is no more Landmark, stop calling load more.
+					mLockGridView = true;
+				} else {
+					mLockGridView = false;
+				}
+
+				/******************** reflect on Grid*******************/
+				LogUtil.i("mBestListArr.length: " + mBestListArr.length 
+						+ ", mBestListArl.size: " + mBestListArl.size() 
+						+ ", mBestListRangeOffset: " + mBestListRangeOffset);
+				//add to arraylist
+				if(mBestListRangeOffset==0) { //if new List
+					mBestListArl = new ArrayList<LandmarkDataset>(Arrays.asList(mBestListArr));
+					mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArl);
+					grdBestList.setAdapter(mBestListAdp);
+				} else {
+					mBestListArl.addAll(Arrays.asList(mBestListArr));
+					mBestListAdp.updateLandmarkList(mBestListArl);
+				}
+				mBestListRangeOffset += mBestListArr.length;
+
 				if(loadingDialog!=null) {
 					loadingDialog.dismiss();
 					LogUtil.i("dismiss loadingDialog!!");
 				}
-				
+
 				break;
-			}
-			case Constants.MSG_TYPE_POSTING:
-			{
-//				mPostingArr =(PostingDataset[]) msg.obj;
-//
-//				/************ reflect Posting on listview ************/
-//				mPostingArl.clear();
-//
-//				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
-//				for(int i=0;i<mPostingArr.length;i++){
-//					mPostingArl.add(mPostingArr[i].title);
-//				}
-//				mPostingAdp.notifyDataSetChanged();
-//				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
-//				break;
 			}
 			case Constants.MSG_TYPE_REFRESH:
 			{
@@ -134,49 +126,6 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK),this);
-				break;
-			}
-			case Constants.MSG_TYPE_COMMENT:
-			{
-				//tv Test.setText(msg.getData().getString("msg"));
-				break;
-			}
-			case Constants.MSG_TYPE_MEMBER:
-			{
-				//tvPostingTest.setText(msg.getData().getString("msg"));
-				break;
-			}
-			case Constants.MSG_TYPE_TEST:
-			{	
-=======
-				if(mBestListArr.length == 0) { //if there is no more Landmark, stop calling load more.
-					mLockGridView = true;
-				} else {
-					mLockGridView = false;
-				}
-								
-				/******************** reflect on Grid*******************/
-				LogUtil.i("mBestListArr.length: " + mBestListArr.length 
-						+ ", mBestListArl.size: " + mBestListArl.size() 
-						+ ", mBestListRangeOffset: " + mBestListRangeOffset);
-				//add to arraylist
-				if(mBestListRangeOffset==0) { //if new List
-					mBestListArl = new ArrayList<LandmarkDataset>(Arrays.asList(mBestListArr));
-					mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArl);
-					grdBestList.setAdapter(mBestListAdp);
->>>>>>> can show beyond 20 bestlist
-					
-				} else {
-					mBestListArl.addAll(Arrays.asList(mBestListArr));
-					mBestListAdp.updateLandmarkList(mBestListArl);
-				}
-				mBestListRangeOffset += mBestListArr.length;
-
-				//mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArl);
-				//grdBestList.setAdapter(mBestListAdp);
-				//((LandmarkAdapter) grdBestList.getAdapter()).notifyDataSetChanged();	//TODO: is this work?
-				//grdBestList.invalidate();
-				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
 				break;
 			}
 			case Constants.MSG_TYPE_LOCATION:
@@ -348,13 +297,9 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 			//send ldmIdx to LandmarkActivity using Intent
 			mIntent = new Intent(BestListActivity.this, LandmarkActivity.class);
-<<<<<<< HEAD
-			mIntent.putExtra("ldmIdx",mBestListArr[position].idx);
-			
-			//LogUtil.i("start LandmarkActivity!");
-=======
+
 			mIntent.putExtra("ldmIdx",mBestListArl.get(position).idx);
->>>>>>> can show beyond 20 bestlist
+
 			startActivity(mIntent);
 		}
 	};
@@ -463,8 +408,8 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	/*
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ¹é ¹öÆ°
-			Toast.makeText(this, "BackÅ°¸¦ ´©¸£¼Ì±º¿ä", Toast.LENGTH_SHORT).show();
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ï¿½ï¿½ ï¿½ï¿½Æ°
+			Toast.makeText(this, "BackÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
 			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
 
 				@Override
