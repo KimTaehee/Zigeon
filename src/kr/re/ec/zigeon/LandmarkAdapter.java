@@ -9,10 +9,14 @@
 
 package kr.re.ec.zigeon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.util.Constants;
@@ -32,7 +36,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 
 	private Context context = null;
 	private LandmarkDataset[] mLandmarkArr = null;
-
+	private LayoutInflater mInflater;
 //	private TextView tvName;
 //	private TextView tvDistance;
 //	private ImageView ivLandmark;
@@ -57,10 +61,17 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 	private ImageLoader imgLoader = ImageLoader.getInstance(); //singleton
 	
 	
-	public LandmarkAdapter(Context _context, LandmarkDataset[] landmarkArr) {
+	public LandmarkAdapter(Context _context, ArrayList<LandmarkDataset> landmarkArl) {
 		this.context = _context;
-		mLandmarkArr = landmarkArr;
+		mLandmarkArr = (LandmarkDataset[]) landmarkArl.toArray(new LandmarkDataset[0]);
+		//mLandmarkArr = landmarkArr;
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LogUtil.v("constuctor called!");
+	}
+	
+	public void updateLandmarkList(ArrayList<LandmarkDataset> landmarkArl) {
+		mLandmarkArr = (LandmarkDataset[]) landmarkArl.toArray(new LandmarkDataset[0]);
+		this.notifyDataSetChanged();
 	}
 	
 	@Override
@@ -69,7 +80,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public LandmarkDataset getItem(int position) {
 		return mLandmarkArr[position];	//TODO: is this be used?
 	}
 
@@ -80,7 +91,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		
 		//View gridView;
 		ViewHolder holder = null; //use viewholder pattern
@@ -88,7 +99,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 		if(convertView == null) { 
 			//gridView = new View(context);
 			
-			convertView = inflater.inflate(R.layout.gridview_item_best_list, null);
+			convertView = mInflater.inflate(R.layout.gridview_item_best_list, null);
 			
 			/*********** set contents into gridview ***********/
 			holder = new ViewHolder();
@@ -114,9 +125,9 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 		holder.tvDistance.setText((distanceFromMe==Constants.INT_NULL)?"wait...":distanceFromMe + " m");
 		
 		//picture that represents landmarks
-		LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
+		//LogUtil.v("image uri: " + mLandmarkArr[position].getImageUrl());
 		if(mLandmarkArr[position].getImageUrl() != null) {
-			LogUtil.v("position: " + position +", image load start!");
+			//LogUtil.v("position: " + position +", image load start!");
 			
 			imgLoader.displayImage(mLandmarkArr[position].getImageUrl(), holder.ivLandmark, this);
 			//System.gc(); 	//it may cause UI frame skip but do memory free
@@ -126,7 +137,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 		}
 		
 		int balloonIdx = (int) Math.round(mLandmarkArr[position].rating);
-		LogUtil.i("num of balloon: " + balloonIdx);
+		//LogUtil.i("num of balloon: " + balloonIdx);
 		
 		Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), imgBalloon[balloonIdx]);
 		
@@ -146,7 +157,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 
 	@Override
 	public void onLoadingStarted(String arg0, View v) {
-		LogUtil.v("invoked!");
+		//LogUtil.v("invoked!");
 	}
 
 	@Override
@@ -156,7 +167,7 @@ public class LandmarkAdapter extends BaseAdapter implements ImageLoadingListener
 
 	@Override
 	public void onLoadingComplete(String arg0, View v, Bitmap bmp) {
-		LogUtil.v("Image onLoadingComplete!");
+		//LogUtil.v("Image onLoadingComplete!");
 	}
 
 	@Override

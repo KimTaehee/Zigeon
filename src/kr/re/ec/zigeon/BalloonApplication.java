@@ -45,7 +45,7 @@ public class BalloonApplication extends Application {
 			.imageScaleType(ImageScaleType.IN_SAMPLE_INT) //or ImageScaleType.EXACTLY
 			.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-			.writeDebugLogs() // Remove for release app
+			//.writeDebugLogs() // Remove for release app
 			.threadPoolSize(2)
 			.memoryCache(new WeakMemoryCache())
 			.defaultDisplayImageOptions(defaultOptions)
