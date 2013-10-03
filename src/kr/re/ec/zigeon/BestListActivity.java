@@ -18,14 +18,18 @@ import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
 import kr.re.ec.zigeon.util.ActivityManager;
+import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +40,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class BestListActivity extends Activity implements OnClickListener {
@@ -51,6 +56,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 	private boolean isTraceLocation=true;	//mode for real-time trace location
 
 	private int detectRange = 500;	//meter for search around
+	
+	private ProgressDialog loadingDialog;
 	
 	private GridView grdBestList;
 	private ToggleButton tglBtnTraceLocation;
@@ -80,6 +87,12 @@ public class BestListActivity extends Activity implements OnClickListener {
 				grdBestList.setAdapter(mBestListAdp);
 				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?
 				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
+				
+				if(loadingDialog!=null) {
+					loadingDialog.dismiss();
+					LogUtil.i("dismiss loadingDialog!!");
+				}
+				
 				break;
 			}
 			case Constants.MSG_TYPE_POSTING:
@@ -157,6 +170,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		loadingDialog = ProgressDialog.show(this, "Connecting", "Loading. Please wait...", true, false);
 		setContentView(R.layout.activity_best_list);
 		
 		LogUtil.i("onCreate invoked!");
@@ -294,6 +308,8 @@ public class BestListActivity extends Activity implements OnClickListener {
 			//send ldmIdx to LandmarkActivity using Intent
 			mIntent = new Intent(BestListActivity.this, LandmarkActivity.class);
 			mIntent.putExtra("ldmIdx",mBestListArr[position].idx);
+			
+			//LogUtil.i("start LandmarkActivity!");
 			startActivity(mIntent);
 			
 		}
@@ -367,5 +383,63 @@ public class BestListActivity extends Activity implements OnClickListener {
 		
 	}
 
+	/*
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // 백 버튼
+			Toast.makeText(this, "Back키를 누르셨군요", Toast.LENGTH_SHORT).show();
+			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+
+					System.exit(0);
+					finish();
+					
+					
+				}
+			};
+			new AlertManager().show(this, "Delete Landmark. Continue?", "Confirm"
+					, Constants.ALERT_YES_NO, dialogListner);
+		}
+		return true;
+	}
+	*/
+	
+        // Back key status
+        boolean m_close_flag = false;
+   
+        // status initialization
+        Handler m_close_handler = new Handler() {
+            public void handleMessage(Message msg) {
+                m_close_flag = false;
+            }
+        };
+ 
+
+        // Back key thouch
+        public void onBackPressed () 
+        {
+            if(m_close_flag == false) { // Back key first
+ 
+                Toast.makeText(this, "Press the Cancel key again will end.", Toast.LENGTH_LONG).show();
+ 
+                m_close_flag = true;
+ 
+                m_close_handler.sendEmptyMessageDelayed(0, 3000);
+ 
+            } else { // Back key press  in 3 sec
+                super.onBackPressed();
+            }
+        }
+ 
+        protected void onStop()
+        {
+            super.onStop();
+    
+            // remove '0'message in handler
+            m_close_handler.removeMessages(0);
+        }
+    
 
 }

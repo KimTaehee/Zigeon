@@ -48,6 +48,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -98,6 +99,8 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	private SoapParser soapParser;
 	private UIHandler uiHandler;
 
+	private ProgressDialog loadingDialog;
+	
 	//private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
 
 	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
@@ -144,7 +147,10 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				// create overlay with location data
 				mOverlayManager.clearOverlays();
 				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-				
+
+//				if(loadingDialog!=null) {
+//					loadingDialog.dismiss();
+//				}
 				break;
 			}
 			case Constants.MSG_TYPE_POSTING:
@@ -159,6 +165,10 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				mPostingAdp = new PostingAdapter(LandmarkActivity.this, mPostingArr);
 				lstPosting.setAdapter(mPostingAdp);
 				mPostingAdp.notifyDataSetChanged();	//TODO: is this work?
+				
+//				if(loadingDialog!=null) {
+//					loadingDialog.dismiss();
+//				}
 				break;
 			}
 			case Constants.MSG_TYPE_COMMENT:
@@ -173,6 +183,11 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				mCommentAdp = new CommentAdapter(LandmarkActivity.this, mCommentArr);
 				lstComment.setAdapter(mCommentAdp);
 				mCommentAdp.notifyDataSetChanged();	//TODO: is this work?
+				
+				if(loadingDialog!=null) {
+					loadingDialog.dismiss();
+					LogUtil.i("dismiss loadingDialog!!");
+				}
 				break;
 			}
 			case Constants.MSG_TYPE_REFRESH:
@@ -201,14 +216,17 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			}
 		}
 	};
-
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		//waitDialog.show();
 		super.onCreate(savedInstanceState);
+		//createThreadAndDialog();
+		loadingDialog = ProgressDialog.show(this, "Connecting", "Loading. Please wait...", true, false);
 		setContentView(R.layout.activity_landmark);  
-
+		
+		
 		/*******add activity list********/
 		activityManager.addActivity(this);
 		
