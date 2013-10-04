@@ -10,6 +10,7 @@
 package kr.re.ec.zigeon;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.nhn.android.maps.maplib.NGeoPoint;
 
@@ -30,12 +31,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -43,12 +49,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class BestListActivity extends Activity implements OnClickListener {
+public class BestListActivity extends Activity implements OnClickListener, OnScrollListener {
 	private Intent mIntent;
 	private final int SELECT_LOCATION = 1001;	//request code
 
 	private ActivityManager activityManager = ActivityManager.getInstance();
-	
+
 	private SoapParser soapParser;
 
 	private NGeoPoint myLocation;	//location from LM
@@ -56,34 +62,62 @@ public class BestListActivity extends Activity implements OnClickListener {
 	private boolean isTraceLocation=true;	//mode for real-time trace location
 
 	private int detectRange = 500;	//meter for search around
-	
+
 	private ProgressDialog loadingDialog;
 	
 	private GridView grdBestList;
 	private ToggleButton tglBtnTraceLocation;
 	private Button btnRefreshLocation;
 	private TextView tvSetRange;
-		
-	private ArrayList<LandmarkDataset> mBestListArl;		//to set gridtview	
+
+	private ArrayList<LandmarkDataset> mBestListArl;		//to set gridview	
 	private LandmarkAdapter mBestListAdp;		//user defined Adapter. to set gridview
 	private LandmarkDataset mBestListArr[];
-	
+	private int mBestListRangeOffset;	//search range. if value = 20 then search 21~40. if you want new, assign 0.
+	private boolean mLockGridView;
+
 	private UIHandler uiHandler;
-	private Handler messageHandler = new Handler() { //receiver from UpdateService
+	private Handler messageHandler = new Handler() { //receiver 
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
 			switch (msg.what) {
 			case Constants.MSG_TYPE_LANDMARK:
 			{
-				mBestListArr =(LandmarkDataset[]) msg.obj;
-				
-				/******************** reflect on Grid*******************/
+				mBestListArr = (LandmarkDataset[]) msg.obj;
+
+				//calc LocationDataset.distanceFromCurrentLocation
 				for(int i=0; i<mBestListArr.length; i++) {
-					mBestListArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
+					mBestListArr[i].getDistance(detLocation);	
 				}
+				if(mBestListArr.length == 0) { //if there is no more Landmark, stop calling load more.
+					mLockGridView = true;
+				} else {
+					mLockGridView = false;
+				}
+
+				/******************** reflect on Grid*******************/
+				LogUtil.i("mBestListArr.length: " + mBestListArr.length 
+						+ ", mBestListArl.size: " + mBestListArl.size() 
+						+ ", mBestListRangeOffset: " + mBestListRangeOffset);
+				//add to arraylist
+				if(mBestListRangeOffset==0) { //if new List
+					mBestListArl = new ArrayList<LandmarkDataset>(Arrays.asList(mBestListArr));
+					mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArl);
+					grdBestList.setAdapter(mBestListAdp);
+				} else {
+					mBestListArl.addAll(Arrays.asList(mBestListArr));
+					mBestListAdp.updateLandmarkList(mBestListArl);
+				}
+				mBestListRangeOffset += mBestListArr.length;
+
+				if(loadingDialog!=null) {
+					loadingDialog.dismiss();
+					LogUtil.i("dismiss loadingDialog!!");
+				}
+
 				LogUtil.i("mBestListArr.length: " + mBestListArr.length);
-				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArr);
+				mBestListAdp = new LandmarkAdapter(BestListActivity.this, mBestListArl);
 				grdBestList.setAdapter(mBestListAdp);
 				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?
 				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
@@ -94,21 +128,6 @@ public class BestListActivity extends Activity implements OnClickListener {
 				}
 				
 				break;
-			}
-			case Constants.MSG_TYPE_POSTING:
-			{
-//				mPostingArr =(PostingDataset[]) msg.obj;
-//
-//				/************ reflect Posting on listview ************/
-//				mPostingArl.clear();
-//
-//				//LogUtil.v("mPostingArr.length : "+ mPostingArr.length);
-//				for(int i=0;i<mPostingArr.length;i++){
-//					mPostingArl.add(mPostingArr[i].title);
-//				}
-//				mPostingAdp.notifyDataSetChanged();
-//				//LogUtil.i("mPostingAdp.notifyDataSetChanged()");
-//				break;
 			}
 			case Constants.MSG_TYPE_REFRESH:
 			{
@@ -121,46 +140,23 @@ public class BestListActivity extends Activity implements OnClickListener {
 							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK),this);
 				break;
 			}
-			case Constants.MSG_TYPE_COMMENT:
-			{
-				//tv Test.setText(msg.getData().getString("msg"));
-				break;
-			}
-			case Constants.MSG_TYPE_MEMBER:
-			{
-				//tvPostingTest.setText(msg.getData().getString("msg"));
-				break;
-			}
-			case Constants.MSG_TYPE_TEST:
-			{	
-					
-				break;
-			}
 			case Constants.MSG_TYPE_LOCATION:
 			{
 				//use NGeoPoint instead of android.location 
-				
+
 				myLocation = (NGeoPoint)msg.obj;
 				if(isTraceLocation) {
 					detLocation = myLocation;
-				
+
+					mBestListRangeOffset = 0;
 					LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True'");
 					uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 							soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-								+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-								+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+									+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+									+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 				} 
-
-				//WARN: cannot use this query on UpdateService.onLocationChanged().
-				//WARN: It may cause to send to other Activity.
-
-//				LogUtil.v("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-//				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-//							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
-//							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 				break;
 			}
 			}
@@ -172,55 +168,59 @@ public class BestListActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		loadingDialog = ProgressDialog.show(this, "Connecting", "Loading. Please wait...", true, false);
 		setContentView(R.layout.activity_best_list);
-		
+
 		LogUtil.i("onCreate invoked!");
-		
+
 		/*******add activity list********/
 		activityManager.addActivity(this);
-		
+
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
-		//request contents
 		soapParser = SoapParser.getInstance(); 
-		
+
+		//set default location
 		detLocation = new NGeoPoint();
-		
+
 		SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 		detLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
 				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
-		
+
 		//search nearby location
-//		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-//							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-//							+ "') WHERE ldmVisible = 'True'");
-//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-//						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-//						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+		//		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+		//							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+		//							+ "') WHERE ldmVisible = 'True'");
+		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+		//				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+		//						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+		//						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 
-//		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
-//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-//				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+		//		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+		//		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+		//				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
 
-/*		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
+		/*		LogUtil.v("data request. select TOP 20 * from tLandmark WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from tLandmark WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
-	*/	
+		 */	
 
 		myLocation = new NGeoPoint();
-		
+
 		myLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
 				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
-				
+
+		//data request
+		mBestListRangeOffset = 0;
+		mBestListArl = new ArrayList<LandmarkDataset>();
+		
 		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'");
+				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+				+ "') WHERE ldmVisible = 'True'");
 		uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 				soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
-						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK));
+						+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK),messageHandler);
 
 
 		/********** init UI ************/
@@ -237,31 +237,33 @@ public class BestListActivity extends Activity implements OnClickListener {
 		//first gridview string 
 		//mBestListArl = new ArrayList<LandmarkDataset>();
 		//mBestListArl.add("Landmarks Loading...");
-		
-		mBestListAdp = new LandmarkAdapter(this, mBestListArr); 
+
+		mLockGridView = false;
+		mBestListAdp = new LandmarkAdapter(this, mBestListArl);
 		grdBestList.setAdapter(mBestListAdp);
 		grdBestList.setOnItemClickListener(grdBestListItemClickListener);
+		grdBestList.setOnScrollListener(this);
 		//mBestListAdp.setNotifyOnChange(true); //this can detect modify on ArrayList. SHOULD use ArrayList, not strArr
 
 	}
-	
+
 	@Override
 	public void onDestroy () {
 		super.onDestroy();
 		LogUtil.v("onDestroy called. finish()");
-		
+
 		/*********remove activity list******/
 		activityManager.removeActivity(this);
-		
+
 		finish();
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
 	}
-	
+
 	/************ actionbar & menu init, event processing  *******************/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -277,16 +279,16 @@ public class BestListActivity extends Activity implements OnClickListener {
 			mIntent = new Intent(this, LandmarkWriteActivity.class);
 			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, false); //new landmark
 			startActivity(mIntent);
-			
+
 			//overridePendingTransition(0, 0); //no switching animation
 			break;			
 		}
-//		case R.id.my_profile:
-//		{
-//			startActivity(new Intent(this,UserProfileActivity.class));
-//			overridePendingTransition(0, 0); //no switching animation
-//			break;		
-//		}
+		//		case R.id.my_profile:
+		//		{
+		//			startActivity(new Intent(this,UserProfileActivity.class));
+		//			overridePendingTransition(0, 0); //no switching animation
+		//			break;		
+		//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));
@@ -296,22 +298,25 @@ public class BestListActivity extends Activity implements OnClickListener {
 		}
 		return true;
 	}
-	
+
 	/******************************* when gridview clicked *************************/
 	private AdapterView.OnItemClickListener grdBestListItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position. 0~n
-			LogUtil.v("onItemClick invoked!! item: " + mBestListArr[position].name);
-			LogUtil.v("position: "+position + ", ldmIdx: " + mBestListArr[position].idx);
+			LogUtil.v("onItemClick invoked!! item: " + mBestListArl.get(position).name);
+			LogUtil.v("position: "+position + ", ldmIdx: " + mBestListArl.get(position).idx);
 			//TODO: SHOULD match mLandmarkArr contents == Listview contents. need to test 
-			
+
 			//send ldmIdx to LandmarkActivity using Intent
 			mIntent = new Intent(BestListActivity.this, LandmarkActivity.class);
+
+			mIntent.putExtra("ldmIdx",mBestListArl.get(position).idx);
+
+
 			mIntent.putExtra("ldmIdx",mBestListArr[position].idx);
 			
 			//LogUtil.i("start LandmarkActivity!");
 			startActivity(mIntent);
-			
 		}
 	};
 
@@ -322,13 +327,13 @@ public class BestListActivity extends Activity implements OnClickListener {
 		case R.id.best_list_tglbtn_trace_location:
 		{
 			LogUtil.v("tglbtn_trace_location clicked! current state: " + tglBtnTraceLocation.isChecked());
-		
+
 			if(!tglBtnTraceLocation.isChecked()) { //previous state is trace on, let mode be turned off 
 				isTraceLocation = false;
-				
+
 				//and get location manually
 				mIntent = new Intent(this,MapActivity.class);
-				
+
 				mIntent.putExtra("lon", detLocation.longitude);
 				mIntent.putExtra("lat", detLocation.latitude);
 				startActivityForResult(mIntent, SELECT_LOCATION);
@@ -341,6 +346,7 @@ public class BestListActivity extends Activity implements OnClickListener {
 		}
 		case R.id.best_list_btn_refresh_location:
 		{
+			mBestListRangeOffset = 0; //new list
 			LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 					+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 					+ "') WHERE ldmVisible = 'True'");
@@ -366,28 +372,67 @@ public class BestListActivity extends Activity implements OnClickListener {
 				detLocation.longitude = Double.parseDouble(bundle.getString("lon"));
 				detLocation.latitude = Double.parseDouble(bundle.getString("lat"));
 				LogUtil.v("location from MapActivity: " + detLocation.longitude + ", " + detLocation.latitude);
-				
+
 				LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 						+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
 						+ "') WHERE ldmVisible = 'True'");
 				//use manual sendMessage!!!! cause of finish() timing on MapActivity is delayed.
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK), messageHandler);
+								+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+								+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK), messageHandler);
 				//LogUtil.i("where am i ?"); //TODO: need to kill MapActivity
 				break;
 			}
 			}	
 		}
-		
+
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		//LogUtil.i("invoked!");
+
+		int count = totalItemCount - visibleItemCount;
+		if(firstVisibleItem >= count && totalItemCount != 0 && mLockGridView == false) {
+			mLockGridView = true;
+			LogUtil.i("load next item");
+			
+			uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+					soapParser.getSoapData("(select TOP " + (mBestListRangeOffset+20) 
+							+ " * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True') except (select TOP " + mBestListRangeOffset 
+							+ " * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
+							+ "') WHERE ldmVisible = 'True')", Constants.MSG_TYPE_LANDMARK),messageHandler);
+			
+//			Handler handler = new Handler();
+//			handler.po*
+			
+		}
+
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ï¿½ï¿½ ï¿½ï¿½Æ°
+			Toast.makeText(this, "BackÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
+=======
+	/*
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ¹é ¹öÆ°
 			Toast.makeText(this, "BackÅ°¸¦ ´©¸£¼Ì±º¿ä", Toast.LENGTH_SHORT).show();
+>>>>>>> progress dialog and back key event
 			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
 
 				@Override
