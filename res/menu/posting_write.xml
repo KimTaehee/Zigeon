@@ -3,7 +3,9 @@
     <item android:id="@+id/posting_write_action_write" 
         android:orderInCategory="1" 
         android:title="@string/posting_write_action_write"
-        android:showAsAction="ifRoom|withText" >
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_actionbar_checkmark"
+         >
 	</item>
 	<!-- 
     <item

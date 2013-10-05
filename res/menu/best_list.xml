@@ -3,20 +3,23 @@
     <item android:id="@+id/map_list_action_landmark_write" 
         android:orderInCategory="2" 
         android:title="@string/map_list_action_landmark_write"
-        android:showAsAction="ifRoom|withText" >
+        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_actionbar_landmarkwrite" >
 	</item>
 	
 	<item
         android:id="@+id/overflow"
         android:orderInCategory="3"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/overflow">
+        android:showAsAction="ifRoom"
+        android:title="@string/overflow"
+        android:icon="@drawable/ic_actionbar_overflow">
         <menu>
             <item
                 android:id="@+id/preference"
                 android:orderInCategory="5"
                 android:showAsAction="ifRoom|withText"
-                android:title="@string/preferecen">
+                android:title="@string/preferecen"
+                android:icon="@drawable/ic_actionbar_preference">
             </item>
             <!-- 
             <item

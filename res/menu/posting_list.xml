@@ -9,7 +9,8 @@
                 android:id="@+id/preference"
                 android:orderInCategory="5"
                 android:showAsAction="ifRoom|withText"
-                android:title="@string/preferecen">
+                android:title="@string/preferecen"
+                android:icon="@drawable/ic_actionbar_preference">
             </item>
             <item
                 android:id="@+id/my_profile"
