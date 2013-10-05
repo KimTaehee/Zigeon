@@ -47,9 +47,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#686868"
+            android:background="@drawable/actionbar_btn_style"
             android:text="Refresh"
             android:textColor="#FFFFFF" />
+        <!-- #686868 -->
     </LinearLayout>
 
 </RelativeLayout>

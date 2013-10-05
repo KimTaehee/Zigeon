@@ -44,7 +44,7 @@
         android:layout_alignTop="@+id/Login_Id"
         android:layout_marginLeft="10sp"
         android:background="#686868"
-        android:src="@drawable/ic_login_btn_login" />
+        android:src="@drawable/login_btn_style" />
     
     <Switch
         android:id="@+id/login_switch_autologin"
@@ -68,7 +68,7 @@
         android:layout_below="@+id/login_switch_autologin"
         android:layout_marginTop="24sp"
         android:background="#686868"
-        android:src="@drawable/ic_login_btn_register" />
+        android:src="@drawable/join_btn_style" />
 
     <ImageButton
         android:id="@+id/login_imgbtn_find_account"

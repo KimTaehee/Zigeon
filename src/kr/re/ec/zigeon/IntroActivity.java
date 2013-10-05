@@ -39,7 +39,6 @@ public class IntroActivity extends Activity {
 		Message msg = new Message();
 		msg.obj = new String("login");
 		handler.sendMessageDelayed(msg, LOADING_DELAY_MS); //send msg after N seconds.
-
 	}
 	
 	@Override
