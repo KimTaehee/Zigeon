@@ -12,20 +12,29 @@
             android:layout_height="match_parent" >
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/landmark_iv_landmark_picture"
                 android:layout_width="fill_parent"
-                android:layout_height="160dp"
+                android:layout_height="220dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_auil_empty" >
             </ImageView>
 
+            <RatingBar
+                android:id="@+id/landmark_ratingbar"
+                style="@style/LandmarkRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_alignBottom="@+id/landmark_iv_landmark_picture"
+                android:layout_alignParentLeft="true" />
+
             <TextView
                 android:id="@+id/landmark_tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image"
+                android:layout_below="@id/landmark_ratingbar"
                 android:layout_margin="3sp"
                 android:layout_marginTop="2dp"
                 android:text="@string/landmark_tv_name"
@@ -46,8 +55,8 @@
             <RelativeLayout
                 android:id="@+id/landmark_layout_map"
                 android:layout_width="match_parent"
-                android:layout_height="100sp" 
-                android:layout_below="@id/landmark_tv_contents">
+                android:layout_height="100sp"
+                android:layout_below="@id/landmark_tv_contents" >
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
