@@ -312,9 +312,6 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 			mIntent = new Intent(BestListActivity.this, LandmarkActivity.class);
 
 			mIntent.putExtra("ldmIdx",mBestListArl.get(position).idx);
-
-
-			mIntent.putExtra("ldmIdx",mBestListArr[position].idx);
 			
 			//LogUtil.i("start LandmarkActivity!");
 			startActivity(mIntent);
@@ -431,8 +428,8 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	/*
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ¹é ¹öÆ°
-			Toast.makeText(this, "BackÅ°¸¦ ´©¸£¼Ì±º¿ä", Toast.LENGTH_SHORT).show();
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // ï¿½ï¿½ ï¿½ï¿½Æ°
+			Toast.makeText(this, "BackÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
 >>>>>>> progress dialog and back key event
 			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
 

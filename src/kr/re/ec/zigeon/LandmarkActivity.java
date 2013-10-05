@@ -68,14 +68,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
 public class LandmarkActivity extends NMapActivity implements OnClickListener, ImageLoadingListener 
-		, OnMapStateChangeListener, OnCalloutOverlayListener{
+		, OnMapStateChangeListener, OnCalloutOverlayListener, OnRatingBarChangeListener {
 	private ActivityManager activityManager = ActivityManager.getInstance();
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -86,6 +88,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	private TextView tvName;
 	private TextView tvContents;
 	private ImageView imgLandmarkPicture;
+	private RatingBar rtbBalloon;
 	private RelativeLayout layoutMap;
 	 
 	private PostingAdapter mPostingAdp;		//to set listview
@@ -135,7 +138,8 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				tvContents.setText(mLandmarkDataset.contents);
 				LogUtil.v("image load start! uri: " + mLandmarkDataset.getImageUrl());
 				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); 
-
+				rtbBalloon.setRating((float) mLandmarkDataset.rating);
+				
 				mMapController.setMapCenter(mLandmarkDataset.longitude, mLandmarkDataset.latitude);
 				
 				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
@@ -195,7 +199,12 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
 				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); //load landmark image
 		
-				String query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "' " +
+				String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
+				LogUtil.v("data request. " + query);
+				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+						soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
+				
+				query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "' " +
 						"AND pstVisible='True' ORDER BY pstWrittenTime desc"; 
 				LogUtil.v("data request. " + query);
 				uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
@@ -269,10 +278,15 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		btnInputComment = (Button) findViewById(R.id.landmark_btn_input_comment);
 		tvName = (TextView) findViewById(R.id.landmark_tv_name);
 		tvContents = (TextView) findViewById(R.id.landmark_tv_contents);
-		imgLandmarkPicture = (ImageView)findViewById(R.id.image);
+		imgLandmarkPicture = (ImageView)findViewById(R.id.landmark_iv_landmark_picture);
+		rtbBalloon = (RatingBar) findViewById(R.id.landmark_ratingbar);
 		btnInputComment.setOnClickListener(this);
 		imgLandmarkPicture.setOnClickListener(this);
-
+		rtbBalloon.setOnRatingBarChangeListener(this);
+		
+//		rtbBalloon.setMax(5);
+//		rtbBalloon.setStepSize((float) 1.0);
+		
 		//TODO: if no item on listview, SHOULD input layout
 		mCommentAdp = new CommentAdapter(this, mCommentArr);
 		
@@ -388,7 +402,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			break;
 
 		}
-		case R.id.image:
+		case R.id.landmark_iv_landmark_picture:
 		{
 			if(mLandmarkDataset.getImageUrl()!=null) {
 				mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
@@ -557,5 +571,24 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	public void onZoomLevelChange(NMapView arg0, int arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+		if(fromUser) {
+			float total = ((float) mLandmarkDataset.rating) * ((float) mLandmarkDataset.ratingVotes);   
+			int newVotes = mLandmarkDataset.ratingVotes + 1;
+			float newRating;
+			
+			total += rating;
+			newRating = total / ((float) newVotes);
+			
+			soapParser.sendQuery("UPDATE tLandmark SET ldmRating='" + newRating + "', ldmRatingVotes='" + newVotes
+					+ "' WHERE ldmIdx = '" + mLandmarkDataset.idx + "'");
+			
+			new AlertManager().show(this, "Balloon Reflected!", "Confirm", Constants.ALERT_OK_ONLY);
+			
+			uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
+		}
 	}
 }
