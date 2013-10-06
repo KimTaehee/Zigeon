@@ -1,6 +1,7 @@
 package kr.re.ec.zigeon.handler;
 
 import kr.re.ec.zigeon.BalloonHeadButtonActivity;
+import kr.re.ec.zigeon.BestListActivity;
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.annotation.SuppressLint;
@@ -8,6 +9,7 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.Gravity;
@@ -18,7 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 @SuppressLint("ResourceAsColor")
-public class ServiceFloating extends Service implements Runnable {
+public class BalloonService extends Service implements Runnable {
 
 	public static  int ID_NOTIFICATION = 2018;
 
@@ -43,7 +45,8 @@ public class ServiceFloating extends Service implements Runnable {
 	long lastPressTime;
 	long textFloatTime;
 
-
+	private int mLdmIdx;
+	private String mLdmName;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -189,9 +192,12 @@ public class ServiceFloating extends Service implements Runnable {
 
 						if(moveCheck<3){
 							LogUtil.v("onTouch_ACTION_UP -> click invoked!!");
-							Intent intent = new Intent(getApplicationContext(), BalloonHeadButtonActivity.class);
+							//Intent intent = new Intent(getApplicationContext(), BalloonHeadButtonActivity.class);
+							Intent intent = new Intent(getApplicationContext(), BestListActivity.class);
+							//intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 							getApplicationContext().startActivity(intent);
+							stopSelf();
 						}
 						quit.setVisibility(View.INVISIBLE);
 						if(x > (quitCoord[0]-(quitWidth/6)) && x < (quitCoord[0]+quitWidth+(quitWidth/6))
@@ -239,6 +245,14 @@ public class ServiceFloating extends Service implements Runnable {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		LogUtil.v("Service startId = " + startId);
 		super.onStartCommand(intent, flags, startId);
+		
+		Bundle bundle = intent.getExtras();
+		mLdmIdx = bundle.getInt("ldmIdx");
+		mLdmName = bundle.getString("ldmName");
+		LogUtil.v("get idx, name: " + mLdmIdx + ", " + mLdmName);
+		
+		wordBubble.setText("nearby top landmark found!: \n" + mLdmName);
+		
 		mStartId = startId;
 		mCounter = COUNT;
 

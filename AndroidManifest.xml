@@ -66,6 +66,7 @@
         <activity
             android:name="kr.re.ec.zigeon.PostingActivity"
             android:label="@string/title_activity_posting" 
+            android:windowSoftInputMode="stateUnspecified|adjustPan"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -134,7 +135,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter> -->
         </activity>
-        <service android:name="kr.re.ec.zigeon.handler.ServiceFloating" />
+        <service android:name="kr.re.ec.zigeon.handler.BalloonService" />
         <service
             android:name="kr.re.ec.zigeon.handler.UpdateService"
             android:enabled="true" >

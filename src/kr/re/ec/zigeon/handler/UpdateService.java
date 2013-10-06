@@ -13,7 +13,9 @@ import com.nhn.android.maps.NMapCompassManager;
 import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
+import kr.re.ec.zigeon.BalloonHeadButtonActivity;
 import kr.re.ec.zigeon.MapActivity;
+import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
@@ -21,17 +23,22 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 
 public class UpdateService extends Service implements Runnable{
 	private boolean threadLoop=false;
 	private int count = 0; 		//thread loop count
-	private final static int THREAD_INTERVAL_MS = 30000; 	//thread loop delay
+	private final static int THREAD_INTERVAL_MS = 10000; 	//thread loop delay
 	//private static final int MIN_DISTANCE = 1; 		//min distance(m) to recognize gps updates
 	
 	private Thread mThread;
 	private ActivityManager am;
+	
+	private LandmarkDataset mBestLandmark;
+	private final int bestDetectRange = 500;
+	private boolean isLocationChanged;
 	
 //	private static LocationManager locationManager;
 //	private Criteria criteria;
@@ -51,6 +58,7 @@ public class UpdateService extends Service implements Runnable{
 		LogUtil.v("oncreate called");
 		super.onCreate();
 	
+		isLocationChanged = false;
 		
 		/**********NMapLocationManager Init************/
 		mMapLocationManager = new NMapLocationManager(this);
@@ -79,25 +87,6 @@ public class UpdateService extends Service implements Runnable{
 		mLocation.set(Double.parseDouble(pref.getString("lon",String.valueOf(Constants.NMAP_DEFAULT_LON)))
 				, Double.parseDouble(pref.getString("lat",String.valueOf(Constants.NMAP_DEFAULT_LAT)))) ; //default value
 		
-		
-//		/********* LocationManager Init ******************/ 
-//		locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-//		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//		criteria=new Criteria();
-//        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//        criteria.setAltitudeRequired(false);
-//        criteria.setBearingRequired(false);
-//        criteria.setCostAllowed(true);
-//        criteria.setPowerRequirement(Criteria.POWER_HIGH);  		//GPS update frequency 
-//        String provider = locationManager.getBestProvider(criteria, true);
-//        LogUtil.v("location provider: " + provider);
-//        
-//        gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);	//use gps
-//		LogUtil.v("GPSEnabled: "+ gpsEnabled);
-//		if(gpsEnabled) {
-//			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE, 0, listener);
-//		} //cannot call requestLocationUpdates in Thread
 		
 		
 		/********************** create Thread *********************/
@@ -139,12 +128,6 @@ public class UpdateService extends Service implements Runnable{
 	public void run() {
 		while(threadLoop){
 			try {
-				//get Top Activity (for appropriate action)
-				String topActivityName = am.getRunningTasks(1).get(0).topActivity.getClassName(); 
-				LogUtil.v("updateService thread #" + count + " / current: " + topActivityName); 
-				count++;
-
-				
 				if((uiHandler = UIHandler.getInstance(this)) != null ) {
 				} else {
 					LogUtil.e("Err: UIHandler has no instance. service and LM stopping...");
@@ -165,12 +148,45 @@ public class UpdateService extends Service implements Runnable{
 				//mLocation = mMapLocationManager.getMyLocation();
 				if(mLocation != null) {
 					LogUtil.i("myLocation searching OK: Lat: " + mLocation.getLatitude() + ", Lon: " + mLocation.getLongitude());
-					
 				} else {
 					LogUtil.i("Location is null!");
+					isLocationChanged = false;
+					
 				}
 				
 				Thread.sleep(THREAD_INTERVAL_MS);
+				
+				if(isLocationChanged) {
+					LogUtil.v("location changed detected");
+					//get Top Activity (for appropriate action)
+					String topActivityName = am.getRunningTasks(1).get(0).topActivity.getClassName(); 
+					LogUtil.v("updateService thread #" + count + " / current: " + topActivityName); 
+					count++;
+					if (!topActivityName.contains("kr.re.ec.zigeon")) {
+						LandmarkDataset[] bestLandmarkArr;
+						bestLandmarkArr = (LandmarkDataset[]) soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
+								+ mLocation.getLongitude() + "','" + mLocation.getLatitude() + "','" + bestDetectRange
+								+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK);
+						if(bestLandmarkArr.length != 0) {
+							mBestLandmark = bestLandmarkArr[0];
+						}
+
+						Intent intent = new Intent(UpdateService.this, BalloonService.class);
+						intent.putExtra("ldmIdx", mBestLandmark.idx);
+						intent.putExtra("ldmName", mBestLandmark.name);
+						stopService(intent);
+						startService(intent);
+
+						isLocationChanged = false;
+					} else {
+						LogUtil.w("timer occered, but my activity is on top: " + topActivityName);
+					}
+				} else {
+					LogUtil.w("timer occered, but no location change detected");
+					
+				}
+				
+				
 			} catch(Exception ex) {
 				LogUtil.e(ex.toString());
 			}
@@ -204,6 +220,8 @@ public class UpdateService extends Service implements Runnable{
 			editor.putString("lat", String.valueOf(mLocation.getLatitude()));
 			editor.putString("lon", String.valueOf(mLocation.getLongitude()));
 			editor.commit();			
+			
+			isLocationChanged = true;
 			
 			return true;
 		}

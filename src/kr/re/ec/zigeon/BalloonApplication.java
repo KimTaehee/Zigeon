@@ -54,8 +54,6 @@ public class BalloonApplication extends Application {
 		ImageLoader.getInstance().init(config);
 		
 		//service start: to reduce db connection delay and quick location return
-		LogUtil.v("start updateService");
-		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
 		
 		/*************** GCM registration **************/
 		LogUtil.v("push register start");

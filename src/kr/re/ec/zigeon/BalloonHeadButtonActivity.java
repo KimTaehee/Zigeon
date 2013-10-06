@@ -1,6 +1,6 @@
 package kr.re.ec.zigeon;
 
-import kr.re.ec.zigeon.handler.ServiceFloating;
+import kr.re.ec.zigeon.handler.BalloonService;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,7 +21,7 @@ public class BalloonHeadButtonActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				LogUtil.v("Ŭ�����??");
-				startService(new Intent(BalloonHeadButtonActivity.this, ServiceFloating.class));
+				startService(new Intent(BalloonHeadButtonActivity.this, BalloonService.class));
 			}
 		});
 
@@ -30,7 +30,7 @@ public class BalloonHeadButtonActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				stopService(new Intent(BalloonHeadButtonActivity.this, ServiceFloating.class));
+				stopService(new Intent(BalloonHeadButtonActivity.this, BalloonService.class));
 			}
 		});
 
@@ -41,7 +41,7 @@ public class BalloonHeadButtonActivity extends Activity {
 		Bundle bundle = getIntent().getExtras();
 
 		if(bundle != null && bundle.getString("LAUNCH").equals("YES")) {
-			startService(new Intent(BalloonHeadButtonActivity.this, ServiceFloating.class));
+			startService(new Intent(BalloonHeadButtonActivity.this, BalloonService.class));
 		}
 		super.onResume();
 	}

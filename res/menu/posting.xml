@@ -1,40 +1,42 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/posting_action_edit_posting" 
-        android:orderInCategory="1" 
-        android:title="@string/posting_action_edit_posting"
-        android:showAsAction="ifRoom|withText" >
-	</item>
-    <item android:id="@+id/posting_action_delete_posting" 
-        android:orderInCategory="2" 
-        android:title="@string/posting_action_delete_posting"
-        android:showAsAction="ifRoom|withText" >
-	</item>
     <item
         android:id="@+id/overflow"
-        android:orderInCategory="3"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/overflow">
+        android:orderInCategory="1"
+        android:showAsAction="ifRoom"
+        android:title="@string/overflow"
+        android:icon="@drawable/ic_actionbar_overflow">
         <menu>
+            <item
+                android:id="@+id/posting_action_edit_posting"
+                android:icon="@drawable/ic_actionbar_edit"
+                android:orderInCategory="2"
+                android:showAsAction="ifRoom"
+                android:title="@string/posting_action_edit_posting">
+            </item>
+            <item
+                android:id="@+id/posting_action_delete_posting"
+                android:icon="@drawable/ic_actionbar_delete"
+                android:orderInCategory="3"
+                android:showAsAction="ifRoom"
+                android:title="@string/posting_action_delete_posting">
+            </item>
             <item
                 android:id="@+id/preference"
                 android:orderInCategory="5"
                 android:showAsAction="ifRoom|withText"
-                android:title="@string/preferecen">
+                android:title="@string/preferecen"
+                android:icon="@drawable/ic_actionbar_preference">
             </item>
-            <!-- 
+            <!--
             <item
                 android:id="@+id/my_profile"
                 android:orderInCategory="4"
                 android:showAsAction="ifRoom|withText"
                 android:title="@string/my_profile">
-            </item> -->
+            </item>
+            -->
         </menu>
     </item>
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
 
 </menu>

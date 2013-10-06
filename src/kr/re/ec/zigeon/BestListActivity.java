@@ -16,8 +16,10 @@ import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
+import kr.re.ec.zigeon.handler.BalloonService;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.handler.UIHandler;
+import kr.re.ec.zigeon.handler.UpdateService;
 import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.AlertManager;
 import kr.re.ec.zigeon.util.Constants;
@@ -176,6 +178,10 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 		/*******add activity list********/
 		activityManager.addActivity(this);
 
+		/************ start updateservice ***********/
+		LogUtil.v("start updateService");
+		startService(new Intent(this, UpdateService.class)); 		//updateservice service start
+		
 		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
@@ -264,6 +270,9 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	public void onResume() {
 		super.onResume();
 		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
+		LogUtil.v("onresume invoked. stop balloonservice and refresh");
+		Intent intent = new Intent(this, BalloonService.class);
+		stopService(intent);
 	}
 
 	/************ actionbar & menu init, event processing  *******************/
