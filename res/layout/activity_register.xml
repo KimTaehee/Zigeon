@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#686868">
 
     <EditText
         android:id="@+id/Join_Id"
@@ -12,7 +13,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="83dp"
         android:ems="10"
-        android:hint="@string/login_id" />
+        android:hint="@string/login_id">
+        <requestFocus />
+    </EditText>
+        
 
     <Button
         android:id="@+id/Join_btn"

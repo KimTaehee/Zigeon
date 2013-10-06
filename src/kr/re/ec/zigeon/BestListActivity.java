@@ -1,6 +1,6 @@
 /**
  * Class Name: BestListActivity
- * Description: Show list top 5 and more. Main Activity
+ * Description: Show list top 20 and more. Main Activity
  * Author: KimTaehee slhyvaa@nate.com
  * Version: 0.0.1
  * Created Date: 130909
@@ -64,7 +64,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	private int detectRange = 500;	//meter for search around
 
 	private ProgressDialog loadingDialog;
-	
+
 	private GridView grdBestList;
 	private ToggleButton tglBtnTraceLocation;
 	private Button btnRefreshLocation;
@@ -121,12 +121,12 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 				grdBestList.setAdapter(mBestListAdp);
 				mBestListAdp.notifyDataSetChanged();	//TODO: is this work?
 				//LogUtil.i("mLandmarkAdp.notifyDataSetChanged()");
-				
+
 				if(loadingDialog!=null) {
 					loadingDialog.dismiss();
 					LogUtil.i("dismiss loadingDialog!!");
 				}
-				
+
 				break;
 			}
 			case Constants.MSG_TYPE_REFRESH:
@@ -137,8 +137,8 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 						+ "') WHERE ldmVisible = 'True'");
 				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 						soapParser.getSoapData("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
-							+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
-							+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK),this);
+								+ detLocation.getLongitude() + "','" + detLocation.getLatitude() + "','" + detectRange
+								+ "') WHERE ldmVisible = 'True'", Constants.MSG_TYPE_LANDMARK),this);
 				break;
 			}
 			case Constants.MSG_TYPE_LOCATION:
@@ -168,6 +168,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		loadingDialog = ProgressDialog.show(this, "Connecting", "Loading. Please wait...", true, false);
+		
 		setContentView(R.layout.activity_best_list);
 
 		LogUtil.i("onCreate invoked!");
@@ -214,7 +215,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 		//data request
 		mBestListRangeOffset = 0;
 		mBestListArl = new ArrayList<LandmarkDataset>();
-		
+
 		LogUtil.v("select TOP 20 * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 				+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 				+ "') WHERE ldmVisible = 'True'");
@@ -312,7 +313,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 			mIntent = new Intent(BestListActivity.this, LandmarkActivity.class);
 
 			mIntent.putExtra("ldmIdx",mBestListArl.get(position).idx);
-			
+
 			//LogUtil.i("start LandmarkActivity!");
 			startActivity(mIntent);
 		}
@@ -387,6 +388,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 	}
 
+	//if scroll to bottom of listview, show next items.
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
@@ -396,7 +398,7 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 		if(firstVisibleItem >= count && totalItemCount != 0 && mLockGridView == false) {
 			mLockGridView = true;
 			LogUtil.i("load next item");
-			
+
 			uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
 					soapParser.getSoapData("(select TOP " + (mBestListRangeOffset+20) 
 							+ " * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
@@ -405,10 +407,10 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 							+ " * from UFN_WGS84_LANDMARK_DETECT_RANGE('" 
 							+ myLocation.getLongitude() + "','" + myLocation.getLatitude() + "','" + detectRange
 							+ "') WHERE ldmVisible = 'True')", Constants.MSG_TYPE_LANDMARK),messageHandler);
-			
-//			Handler handler = new Handler();
-//			handler.po*
-			
+
+			//			Handler handler = new Handler();
+			//			handler.po*
+
 		}
 
 	}
@@ -419,70 +421,40 @@ public class BestListActivity extends Activity implements OnClickListener, OnScr
 
 	}
 
-	/*
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // �� ��ư
-			Toast.makeText(this, "BackŰ�� �����̱���", Toast.LENGTH_SHORT).show();
-=======
-	/*
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { // �� ��ư
-			Toast.makeText(this, "BackŰ�� �����̱���", Toast.LENGTH_SHORT).show();
->>>>>>> progress dialog and back key event
-			DialogInterface.OnClickListener dialogListner = new DialogInterface.OnClickListener() { //click yes
+	// Back key status
+	boolean m_close_flag = false;
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-
-					System.exit(0);
-					finish();
-					
-					
-				}
-			};
-			new AlertManager().show(this, "Delete Landmark. Continue?", "Confirm"
-					, Constants.ALERT_YES_NO, dialogListner);
+	// status initialization
+	Handler m_close_handler = new Handler() {
+		public void handleMessage(Message msg) {
+			m_close_flag = false;
 		}
-		return true;
-	}
-	*/
-	
-        // Back key status
-        boolean m_close_flag = false;
-   
-        // status initialization
-        Handler m_close_handler = new Handler() {
-            public void handleMessage(Message msg) {
-                m_close_flag = false;
-            }
-        };
- 
+	};
 
-        // Back key thouch
-        public void onBackPressed () 
-        {
-            if(m_close_flag == false) { // Back key first
- 
-                Toast.makeText(this, "Press the Cancel key again will end.", Toast.LENGTH_LONG).show();
- 
-                m_close_flag = true;
- 
-                m_close_handler.sendEmptyMessageDelayed(0, 3000);
- 
-            } else { // Back key press  in 3 sec
-                super.onBackPressed();
-            }
-        }
- 
-        protected void onStop()
-        {
-            super.onStop();
-    
-            // remove '0'message in handler
-            m_close_handler.removeMessages(0);
-        }
-    
+
+	// Back key thouch
+	public void onBackPressed () 
+	{
+		if(m_close_flag == false) { // Back key first
+
+			Toast.makeText(this, "Press the Cancel key again will end.", Toast.LENGTH_LONG).show();
+
+			m_close_flag = true;
+
+			m_close_handler.sendEmptyMessageDelayed(0, 3000);
+
+		} else { // Back key press  in 3 sec
+			super.onBackPressed();
+		}
+	}
+
+	protected void onStop()
+	{
+		super.onStop();
+
+		// remove '0'message in handler
+		m_close_handler.removeMessages(0);
+	}
+
 
 }

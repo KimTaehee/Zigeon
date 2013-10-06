@@ -35,7 +35,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		activityManager.addActivity(this);
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_join);
+		setContentView(R.layout.activity_register);
 		cancle_btn = (Button)findViewById(R.id.Cancle_btu);
 		cancle_btn.setOnClickListener(this);
 		join_btn = (Button)findViewById(R.id.Join_btn);
