@@ -26,13 +26,14 @@
                 android:icon="@drawable/ic_actionbar_delete"
                 android:orderInCategory="2"
                 android:showAsAction="ifRoom"
+                android:visible="false"
                 android:title="@string/landmark_action_delete_landmark">
             </item>
             <item
                 android:id="@+id/preference"
                 android:orderInCategory="5"
                 android:showAsAction="ifRoom|withText"
-                android:title="@string/preferecen"
+                android:title="@string/preference"
                 android:icon="@drawable/ic_actionbar_preference">
             </item>
             <!--

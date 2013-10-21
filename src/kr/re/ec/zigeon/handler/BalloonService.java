@@ -58,7 +58,7 @@ public class BalloonService extends Service implements Runnable {
 	@Override 
 	public void onCreate() {
 		super.onCreate();
-		
+
 		mHandler = new Handler();
 		mRunning = false;
 
@@ -85,8 +85,8 @@ public class BalloonService extends Service implements Runnable {
 				PixelFormat.TRANSLUCENT);
 
 		wordBubbleParams.gravity = Gravity.TOP | Gravity.LEFT;
-//		wordBubbleParams.x = (int) balloonHead.getWidth();
-//		wordBubbleParams.y = (int) balloonHead.getHeight() + (balloonHead.getHeight()/4); 
+		//		wordBubbleParams.x = (int) balloonHead.getWidth();
+		//		wordBubbleParams.y = (int) balloonHead.getHeight() + (balloonHead.getHeight()/4); 
 		wordBubbleParams.x = 150;
 		wordBubbleParams.y = 0;
 
@@ -245,14 +245,14 @@ public class BalloonService extends Service implements Runnable {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		LogUtil.v("Service startId = " + startId);
 		super.onStartCommand(intent, flags, startId);
-		
+
 		Bundle bundle = intent.getExtras();
 		mLdmIdx = bundle.getInt("ldmIdx");
 		mLdmName = bundle.getString("ldmName");
 		LogUtil.v("get idx, name: " + mLdmIdx + ", " + mLdmName);
-		
-		wordBubble.setText("nearby top landmark found!: \n" + mLdmName);
-		
+
+		wordBubble.setText("근처의 뜨거운 랜드마크!\n" + mLdmName);
+
 		mStartId = startId;
 		mCounter = COUNT;
 
@@ -289,7 +289,7 @@ public class BalloonService extends Service implements Runnable {
 		if (balloonHead != null) windowManager.removeView(balloonHead);
 		if (wordBubble != null) windowManager.removeView(wordBubble);
 		if (quit != null) windowManager.removeView(quit);
-		
+
 		mRunning = false;
 	}
 

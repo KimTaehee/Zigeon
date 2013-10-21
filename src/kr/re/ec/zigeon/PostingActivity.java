@@ -97,10 +97,10 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 				/******************** print info  *******************/
 				tvTitle.setText(mPostingDataset.title);
 				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_PRINT);
-				tvWrittenTime.setText("written date: " + sdf.format(mPostingDataset.writtenTime));
-				tvWriter.setText("writer: " + mPostingDataset.writerName); //TODO: tMember query proceeing
+				tvWrittenTime.setText("작성일: " + sdf.format(mPostingDataset.writtenTime));
+				tvWriter.setText("작성자: " + mPostingDataset.writerName); //TODO: tMember query proceeing
 				//TODO: test line separator. what is it?
-				tvContents.setText("contents: \n"  + mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
+				tvContents.setText("내용: \n"  + mPostingDataset.contents.replaceAll("\\\\n", "\\\n"));
 				//				tvLike.setText(mPostingDataset.like);
 				//				tvDislike.setText(mPostingDataset.dislike);
 				LogUtil.v("image load start! uri: " + mPostingDataset.getImageUrl());
@@ -200,8 +200,12 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		MemberDataset loginMem = MemberDataset.getLoginInstance();
 
 		if(loginMem.isAdmin == true || mPostingDataset.writerIdx == loginMem.idx) {
-
+			menu.findItem(R.id.posting_action_delete_posting).setVisible(true);
+			menu.findItem(R.id.posting_action_edit_posting).setVisible(true);
 		} else {
+			menu.findItem(R.id.posting_action_delete_posting).setVisible(false);
+			menu.findItem(R.id.posting_action_edit_posting).setVisible(false);
+			
 			menu.removeItem(R.id.posting_action_delete_posting);
 			menu.removeItem(R.id.posting_action_edit_posting);
 		}
@@ -226,7 +230,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 		case R.id.posting_btn_input_comment:
 		{
 			if(edtInputComment.getText().toString().compareTo("") == 0) { //if blank, force to return and alert.
-				new AlertManager().show(this,"Blank Comment? ^^","Confirm",Constants.ALERT_OK_ONLY);
+				new AlertManager().show(this,"내용을 입력하세요 ^^","확인",Constants.ALERT_OK_ONLY);
 				return;
 			} else {
 				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); //+1 idx insertion.
@@ -316,7 +320,7 @@ public class PostingActivity extends Activity implements OnClickListener, ImageL
 			};
 			
 			LogUtil.v("delete_posting clicked");
-			new AlertManager().show(this, "Delete Posting. Continue?", "Confirm"
+			new AlertManager().show(this, "게시글을 지웁니다. 계속할까요?", "확인"
 					, Constants.ALERT_YES_NO, dialogListner);
 			break;
 		}

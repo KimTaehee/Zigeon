@@ -72,12 +72,13 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TabHost.TabSpec;
 
 //TODO: DO NOT USE deprecated Class or function
 public class LandmarkActivity extends NMapActivity implements OnClickListener, ImageLoadingListener 
-		, OnMapStateChangeListener, OnCalloutOverlayListener, OnRatingBarChangeListener {
+, OnMapStateChangeListener, OnCalloutOverlayListener, OnRatingBarChangeListener {
 	private ActivityManager activityManager = ActivityManager.getInstance();
 	private TabHost tabHost;
 	private ListView lstComment;
@@ -90,7 +91,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	private ImageView imgLandmarkPicture;
 	private RatingBar rtbBalloon;
 	private RelativeLayout layoutMap;
-	 
+
 	private PostingAdapter mPostingAdp;		//to set listview
 	private CommentAdapter mCommentAdp;
 	private LandmarkDataset mLandmarkDataset;		
@@ -103,7 +104,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	private UIHandler uiHandler;
 
 	private ProgressDialog loadingDialog;
-	
+
 	//private final String sampleImgUri = "tLandmark_image/hanhyojoo_hq.jpg";
 
 	public static final String API_KEY = Constants.NMAP_API_KEY;	//API-KEY
@@ -114,7 +115,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	private NMapViewerResourceProvider mMapViewerResourceProvider = null;	 //Overlay Resource Provider
 	private NMapOverlayManager mOverlayManager = null;	
 	private NMapLocationManager mMapLocationManager; //TODO: test
-	
+
 	/******** AUIL init ********/
 	private DisplayImageOptions imgOption = new DisplayImageOptions.Builder()
 	.showStubImage(R.drawable.ic_auil_stub)	
@@ -127,105 +128,115 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		@Override
 		public void handleMessage(Message msg){
 			LogUtil.v("msg receive success!");
-			switch (msg.what) {
-			case Constants.MSG_TYPE_LANDMARK:
-			{
-				LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //selected by PK. so Arr.length==1
-				mLandmarkDataset = landmarkDataArr[0];
+			try {
+				switch (msg.what) {
+				case Constants.MSG_TYPE_LANDMARK:
+				{
 
-				/******************** print info *******************/
-				tvName.setText(mLandmarkDataset.name);
-				tvContents.setText(mLandmarkDataset.contents);
-				LogUtil.v("image load start! uri: " + mLandmarkDataset.getImageUrl());
-				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); 
-				rtbBalloon.setRating((float) mLandmarkDataset.rating);
-				
-				mMapController.setMapCenter(mLandmarkDataset.longitude, mLandmarkDataset.latitude);
-				
-				int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
-				NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
-				poiData.beginPOIdata(0); //TODO: what is 0?
-				poiData.addPOIitem(mLandmarkDataset.longitude, mLandmarkDataset.latitude, "Landmark Location", markerId, 0); 
-				poiData.endPOIdata();
-				
-				// create overlay with location data
-				mOverlayManager.clearOverlays();
-				NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
-//				if(loadingDialog!=null) {
-//					loadingDialog.dismiss();
-//				}
-				break;
-			}
-			case Constants.MSG_TYPE_POSTING:
-			{
-				mPostingArr =(PostingDataset[]) msg.obj;
+					LandmarkDataset[] landmarkDataArr = (LandmarkDataset[]) msg.obj; //selected by PK. so Arr.length==1
+					mLandmarkDataset = landmarkDataArr[0];
 
-				/************ Posting to listview ************/
-				//for(int i=0; i<mPostingArr.length; i++) {
-					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
-				//}
-				LogUtil.i("mPostingArr.length: " + mPostingArr.length);
-				mPostingAdp = new PostingAdapter(LandmarkActivity.this, mPostingArr);
-				lstPosting.setAdapter(mPostingAdp);
-				mPostingAdp.notifyDataSetChanged();	//TODO: is this work?
-				
-//				if(loadingDialog!=null) {
-//					loadingDialog.dismiss();
-//				}
-				break;
-			}
-			case Constants.MSG_TYPE_COMMENT:
-			{
-				mCommentArr =(CommentDataset[]) msg.obj;
+					/******************** print info *******************/
+					tvName.setText(mLandmarkDataset.name);
+					tvContents.setText(mLandmarkDataset.contents);
+					LogUtil.v("image load start! uri: " + mLandmarkDataset.getImageUrl());
+					imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); 
+					rtbBalloon.setRating((float) mLandmarkDataset.rating);
 
-				/************ Comment to listview ************/
-				//for(int i=0; i<mPostingArr.length; i++) {
-				//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
-				//}
-				LogUtil.i("mCommentArr.length: " + mCommentArr.length);
-				mCommentAdp = new CommentAdapter(LandmarkActivity.this, mCommentArr);
-				lstComment.setAdapter(mCommentAdp);
-				mCommentAdp.notifyDataSetChanged();	//TODO: is this work?
-				
-				if(loadingDialog!=null) {
-					loadingDialog.dismiss();
-					LogUtil.i("dismiss loadingDialog!!");
+					mMapController.setMapCenter(mLandmarkDataset.longitude, mLandmarkDataset.latitude);
+
+					int markerId = NMapPOIflagType.PIN;		// create marker ID to show on overlay
+					NMapPOIdata poiData = new NMapPOIdata(0, mMapViewerResourceProvider);
+					poiData.beginPOIdata(0); //TODO: what is 0?
+					poiData.addPOIitem(mLandmarkDataset.longitude, mLandmarkDataset.latitude, "Landmark Location", markerId, 0); 
+					poiData.endPOIdata();
+
+					// create overlay with location data
+					mOverlayManager.clearOverlays();
+					NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+
+					//					if(loadingDialog!=null) {
+					//						loadingDialog.dismiss();
+					//					}
+
+
+					break;
 				}
-				break;
-			}
-			case Constants.MSG_TYPE_REFRESH:
-			{
-				LogUtil.v("MSG_TYPE_REFRESH received! reload image");
-				imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); //load landmark image
-		
-				String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
-				LogUtil.v("data request. " + query);
-				uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
-						soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
-				
-				query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "' " +
-						"AND pstVisible='True' ORDER BY pstWrittenTime desc"; 
-				LogUtil.v("data request. " + query);
-				uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
-						soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING),this);
-				
-				query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
-						"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
-				LogUtil.v("data request. " + query);
-				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT),this);
-				break;			
-			}
-			case Constants.MSG_TYPE_MEMBER:
-			{
-				//tvPostingTest.setText(msg.getData().getString("msg"));
-				break;
-			}
+				case Constants.MSG_TYPE_POSTING:
+				{
+					mPostingArr =(PostingDataset[]) msg.obj;
+
+					/************ Posting to listview ************/
+					//for(int i=0; i<mPostingArr.length; i++) {
+					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
+					//}
+					LogUtil.i("mPostingArr.length: " + mPostingArr.length);
+					mPostingAdp = new PostingAdapter(LandmarkActivity.this, mPostingArr);
+					lstPosting.setAdapter(mPostingAdp);
+					mPostingAdp.notifyDataSetChanged();	//TODO: is this work?
+
+					//				if(loadingDialog!=null) {
+					//					loadingDialog.dismiss();
+					//				}
+					break;
+				}
+				case Constants.MSG_TYPE_COMMENT:
+				{
+					mCommentArr =(CommentDataset[]) msg.obj;
+
+					/************ Comment to listview ************/
+					//for(int i=0; i<mPostingArr.length; i++) {
+					//mPostingArr[i].getDistance(detLocation);	//calc LocationDataset.distanceFromCurrentLocation
+					//}
+					LogUtil.i("mCommentArr.length: " + mCommentArr.length);
+					mCommentAdp = new CommentAdapter(LandmarkActivity.this, mCommentArr);
+					lstComment.setAdapter(mCommentAdp);
+					mCommentAdp.notifyDataSetChanged();	//TODO: is this work?
+
+					if(loadingDialog!=null) {
+						loadingDialog.dismiss();
+						LogUtil.i("dismiss loadingDialog!!");
+					}
+					break;
+				}
+				case Constants.MSG_TYPE_REFRESH:
+				{
+					LogUtil.v("MSG_TYPE_REFRESH received! reload image");
+					imgLoader.displayImage(mLandmarkDataset.getImageUrl(), imgLandmarkPicture, imgOption); //load landmark image
+
+					String query="SELECT * FROM tLandmark WHERE ldmIdx='"+ mLandmarkDataset.idx +"'";
+					LogUtil.v("data request. " + query);
+					uiHandler.sendMessage(Constants.MSG_TYPE_LANDMARK, "", 
+							soapParser.getSoapData(query, Constants.MSG_TYPE_LANDMARK));
+
+					query = "SELECT * FROM tPosting WHERE pstParentIdx='" + mLandmarkDataset.idx + "' " +
+							"AND pstVisible='True' ORDER BY pstWrittenTime desc"; 
+					LogUtil.v("data request. " + query);
+					uiHandler.sendMessage(Constants.MSG_TYPE_POSTING, "", 
+							soapParser.getSoapData(query, Constants.MSG_TYPE_POSTING),this);
+
+					query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " +
+							"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
+					LogUtil.v("data request. " + query);
+					uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+							soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT),this);
+					break;			
+				}
+				case Constants.MSG_TYPE_MEMBER:
+				{
+					//tvPostingTest.setText(msg.getData().getString("msg"));
+					break;
+				}
+				}
+			} catch (Exception e) {
+				Toast.makeText(getBaseContext(),
+						"네트워크 연결에 문제가 있습니다. 다시 확인 후 시도해주세요.",
+						Toast.LENGTH_LONG).show();
 			}
 		}
 	};
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -234,12 +245,12 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		//createThreadAndDialog();
 		loadingDialog = ProgressDialog.show(this, "Connecting", "Loading. Please wait...", true, false);
 		setContentView(R.layout.activity_landmark);  
-		
-		
+
+
 		/*******add activity list********/
 		activityManager.addActivity(this);
-		
-        /************** register handler ***************/
+
+		/************** register handler ***************/
 		uiHandler = UIHandler.getInstance(this);
 		uiHandler.setHandler(messageHandler);
 
@@ -283,20 +294,20 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		btnInputComment.setOnClickListener(this);
 		imgLandmarkPicture.setOnClickListener(this);
 		rtbBalloon.setOnRatingBarChangeListener(this);
-		
-//		rtbBalloon.setMax(5);
-//		rtbBalloon.setStepSize((float) 1.0);
-		
+
+		//		rtbBalloon.setMax(5);
+		//		rtbBalloon.setStepSize((float) 1.0);
+
 		//TODO: if no item on listview, SHOULD input layout
 		mCommentAdp = new CommentAdapter(this, mCommentArr);
-		
+
 		mPostingAdp = new PostingAdapter(this, mPostingArr); 
 		lstPosting.setAdapter(mPostingAdp);
 		lstPosting.setOnItemClickListener(lstPostingItemClickListener);
-		
+
 		lstComment.setClickable(false);
 		lstComment.setAdapter(mCommentAdp);
-		
+
 		//lstComment.setOnItemClickListener(lstCommentItemClickListener);
 		//mCommentAdp.setNotifyOnChange(true); //ArrayList auto reflect. SHOULD USE ArrayList(no strArr)
 
@@ -305,17 +316,17 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		tabHost.setup(); 
 
 		TabSpec ts1 = tabHost.newTabSpec("Comment");
-		ts1.setIndicator("Comment");
+		ts1.setIndicator("댓글");
 		ts1.setContent(R.id.landmark_layout_commentlist);
 		tabHost.addTab(ts1);
 
 		TabSpec ts2 = tabHost.newTabSpec("Posting");
-		ts2.setIndicator("Posting");
+		ts2.setIndicator("게시글");
 		ts2.setContent(R.id.landmark_postinglist);
 		tabHost.addTab(ts2);
 
 		tabHost.setCurrentTab(0);
-		
+
 		/************* map init **************/
 		LogUtil.v("map init start");
 		layoutMap = (RelativeLayout)findViewById(R.id.landmark_layout_map);		// Layout for show map
@@ -327,7 +338,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		mMapView.setBuiltInZoomControls(false, null);		//zoom controller for +/- enable
 		mMapLocationManager = new NMapLocationManager(this);
 		mMapController.setZoomLevel(12);
-		
+
 		/**************** overlay init ************************/
 		LogUtil.v("overlay init start");
 		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);		// create overlay resource provider
@@ -338,7 +349,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	private AdapterView.OnItemClickListener lstPostingItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //position is 0~n
-//			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
+			//			LogUtil.v("onItemClick invoked!! item: " + ((TextView)view).getText());
 			LogUtil.v("position: "+position + ", ldmIdx: " + mPostingArr[position].idx);
 			//TODO: MUST BE mPostingArr == Listview. (test phrase)
 
@@ -361,83 +372,90 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 		super.onResume();
 		uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
 	}
-	
+
 	@Override
-	public void onClick(View v) { 
-		switch(v.getId()) {
-		case R.id.landmark_btn_input_comment:
-		{
-			//send 
-			if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank allowed. force to return
-				new AlertManager().show(this,"Blank Comment? ^^","Confirm",Constants.ALERT_OK_ONLY);
-				return;
-			} else {
-				String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); 
-				int maxComIdx = Integer.parseInt(str);
-				str = soapParser.sendQuery(
-						"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
-								",comWriterIdx,comWrittenTime,comPicturePath,comVisible)" +
-								" values ('" +
-								(maxComIdx + 1) + //comIdx
-								"','L','" + //comParentType
-								mLandmarkDataset.idx + //comParentIdx
-								"','"+ edtInputComment.getText() + //comContents
-								"','0','0','" + //comLike, comDislike
-								MemberDataset.getLoginInstance().idx + //comWriterIdx
-								"',GETDATE()" + //comWrittenTime
-								",NULL" +  //comPicturePath
-								",'True'" + //comVisible
-						")");
-				LogUtil.i("server return : "+str);
+	public void onClick(View v) {
+		try {
+			switch(v.getId()) {
+			case R.id.landmark_btn_input_comment:
+			{
+				//send 
+				if(edtInputComment.getText().toString().compareTo("") == 0) { //no blank allowed. force to return
+					new AlertManager().show(this,"내용을 입력하세요 ^^","확인",Constants.ALERT_OK_ONLY);
+					return;
+				} else {
+					String str = soapParser.sendQuery("SELECT MAX(comIdx) FROM tComment"); 
+					int maxComIdx = Integer.parseInt(str);
+					str = soapParser.sendQuery(
+							"INSERT INTO tComment (comIdx,comParentType,comParentIdx,comContents,comLike,comDislike" +
+									",comWriterIdx,comWrittenTime,comPicturePath,comVisible)" +
+									" values ('" +
+									(maxComIdx + 1) + //comIdx
+									"','L','" + //comParentType
+									mLandmarkDataset.idx + //comParentIdx
+									"','"+ edtInputComment.getText() + //comContents
+									"','0','0','" + //comLike, comDislike
+									MemberDataset.getLoginInstance().idx + //comWriterIdx
+									"',GETDATE()" + //comWrittenTime
+									",NULL" +  //comPicturePath
+									",'True'" + //comVisible
+							")");
+					LogUtil.i("server return : "+str);
 
-				edtInputComment.setText("");
+					edtInputComment.setText("");
 
-				String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " + 
-						"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
-				LogUtil.v("data request. " + query);
-				uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
-						soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+					String query = "SELECT * FROM tComment WHERE comParentIdx='" + mLandmarkDataset.idx + "' " + 
+							"AND comParentType='L' AND comVisible='True' ORDER BY comWrittenTime desc"; 
+					LogUtil.v("data request. " + query);
+					uiHandler.sendMessage(Constants.MSG_TYPE_COMMENT, "", 
+							soapParser.getSoapData(query, Constants.MSG_TYPE_COMMENT));
+				}
+
+				break;
+
 			}
+			case R.id.landmark_iv_landmark_picture:
+			{
+				if(mLandmarkDataset.getImageUrl()!=null) {
+					mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
+					mIntent.putExtra("imgPath", mLandmarkDataset.getImageUrl());
+					startActivity(mIntent);
+				} else {
+					LogUtil.w("imgPath is null. cancel calling");
+				}
 
-			break;
+				break;
 
-		}
-		case R.id.landmark_iv_landmark_picture:
-		{
-			if(mLandmarkDataset.getImageUrl()!=null) {
-				mIntent = new Intent(LandmarkActivity.this, PhotoViewActivity.class);
-				mIntent.putExtra("imgPath", mLandmarkDataset.getImageUrl());
-				startActivity(mIntent);
-			} else {
-				LogUtil.w("imgPath is null. cancel calling");
 			}
-
-			break;
-
-		}
+			}
+		} catch (Exception e) {
+			Toast.makeText(getBaseContext(),
+					"네트워크 연결에 문제가 있습니다. 다시 확인 후 시도해주세요.",
+					Toast.LENGTH_LONG).show();
 		}
 
 
 	}
-    	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.landmark, menu);
-		
+
 		//admin or writer of landmark(SHOULD there is no posting) only can delete landmark
 		MemberDataset loginMem = MemberDataset.getLoginInstance();
 		String str = soapParser.sendQuery("SELECT COUNT(pstIdx) FROM tPosting " +
-				"WHERE pstParentIdx = '" + mLandmarkDataset.idx + "'");
+				"WHERE pstParentIdx = '" + mLandmarkDataset.idx + "' AND pstVisible='True'");
 		int postingCnt = Integer.parseInt(str);
-		
+
 		if(loginMem.isAdmin == true || 
 				(mLandmarkDataset.writerIdx == loginMem.idx 
 				&& postingCnt == 0)) {
-			
+			menu.findItem(R.id.landmark_action_delete_landmark).setVisible(true);
 		} else {
 			menu.removeItem(R.id.landmark_action_delete_landmark);
+			menu.findItem(R.id.landmark_action_delete_landmark).setVisible(false);
 		}		
-		
+
 		return true;
 	}
 	@Override
@@ -452,7 +470,7 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			mIntent.putExtra(Constants.INTENT_TYPE_NAME_EDIT, true); //edit Landmark
 			startActivity(mIntent);
 			overridePendingTransition(0, 0); //no switching animation
-			
+
 			finish();
 			break;
 		}
@@ -485,22 +503,22 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 						LogUtil.v("result is null");
 					}
 					finish();
-					
-					
+
+
 				}
 			};
-			
+
 			LogUtil.v("delete_landmark clicked");
-			new AlertManager().show(this, "Delete Landmark. Continue?", "Confirm"
+			new AlertManager().show(this, "랜드마크를 삭제합니다. 계속할까요?", "확인"
 					, Constants.ALERT_YES_NO, dialogListner);
 			break;
 		}
-//		case R.id.my_profile:
-//		{
-//			startActivity(new Intent(this,UserProfileActivity.class));
-//			overridePendingTransition(0, 0); //no switching animation
-//			break;		
-//		}
+		//		case R.id.my_profile:
+		//		{
+		//			startActivity(new Intent(this,UserProfileActivity.class));
+		//			overridePendingTransition(0, 0); //no switching animation
+		//			break;		
+		//		}
 		case R.id.preference:
 		{
 			startActivity(new Intent(this,PreferenceActivity.class));
@@ -546,31 +564,31 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 	@Override
 	public void onAnimationStateChange(NMapView arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMapCenterChange(NMapView arg0, NGeoPoint arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMapCenterChangeFine(NMapView arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMapInitHandler(NMapView arg0, NMapError arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onZoomLevelChange(NMapView arg0, int arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -579,15 +597,15 @@ public class LandmarkActivity extends NMapActivity implements OnClickListener, I
 			float total = ((float) mLandmarkDataset.rating) * ((float) mLandmarkDataset.ratingVotes);   
 			int newVotes = mLandmarkDataset.ratingVotes + 1;
 			float newRating;
-			
+
 			total += rating;
 			newRating = total / ((float) newVotes);
-			
+
 			soapParser.sendQuery("UPDATE tLandmark SET ldmRating='" + newRating + "', ldmRatingVotes='" + newVotes
 					+ "' WHERE ldmIdx = '" + mLandmarkDataset.idx + "'");
-			
-			new AlertManager().show(this, "Balloon Reflected!", "Confirm", Constants.ALERT_OK_ONLY);
-			
+
+			new AlertManager().show(this, "평가가 반영되었습니다!", "확인", Constants.ALERT_OK_ONLY);
+
 			uiHandler.sendMessage(Constants.MSG_TYPE_REFRESH, "",null,messageHandler);
 		}
 	}

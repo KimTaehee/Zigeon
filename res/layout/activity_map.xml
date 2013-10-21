@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/map_iv_aim"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:src="@drawable/map_aim" />
@@ -20,7 +20,7 @@
     <LinearLayout
         android:id="@+id/map_options"
         android:layout_width="fill_parent"
-        android:layout_height="50sp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#686868"
         android:orientation="horizontal" >
@@ -30,8 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#686868"
-            android:text="@string/map_location"
+            android:text="@string/map_btn_location"
+            android:background="@drawable/actionbar_btn_style"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -39,17 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#686868"
-            android:text="Confirm"
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/map_tv_show_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#686868"
-            android:text="Address"
+            android:text="@string/map_btn_confirm"
+            android:background="@drawable/actionbar_btn_style"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 

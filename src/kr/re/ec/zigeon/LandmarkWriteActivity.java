@@ -223,7 +223,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 			
 			//landmark's name
 			if(edtName.getText().toString().compareTo("")==0) {
-				new AlertManager().show(this,"Blank Title? ^^","Confirm",Constants.ALERT_OK_ONLY);
+				new AlertManager().show(this,"제목을 입력하세요 ^^","확인",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
 				ldm.name = edtName.getText().toString();
@@ -235,7 +235,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				ldm.longitude = myLocation.longitude;
 			} else {
 				if(mIsNewLandmark) {
-					new AlertManager().show(this,"Select Location ^^","Confirm",Constants.ALERT_OK_ONLY);
+					new AlertManager().show(this,"장소를 선택하세요 ^^","확인",Constants.ALERT_OK_ONLY);
 					return false;
 				} else { //keep location as it is
 					ldm.latitude = mLandmarkData.latitude;
@@ -245,7 +245,7 @@ public class LandmarkWriteActivity extends NMapActivity implements OnClickListen
 				
 			//contents
 			if(edtContents.getText().toString().compareTo("")==0) {
-				new AlertManager().show(this,"Blank Contents? ^^","Confirm",Constants.ALERT_OK_ONLY);
+				new AlertManager().show(this,"내용을 입력하세요 ^^","확인",Constants.ALERT_OK_ONLY);
 				return false;
 			} else {
 				ldm.contents = edtContents.getText().toString();

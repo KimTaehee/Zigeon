@@ -12,6 +12,7 @@
                 android:icon="@drawable/ic_actionbar_edit"
                 android:orderInCategory="2"
                 android:showAsAction="ifRoom"
+                android:visible="false"
                 android:title="@string/posting_action_edit_posting">
             </item>
             <item
@@ -19,13 +20,14 @@
                 android:icon="@drawable/ic_actionbar_delete"
                 android:orderInCategory="3"
                 android:showAsAction="ifRoom"
+                android:visible="false"
                 android:title="@string/posting_action_delete_posting">
             </item>
             <item
                 android:id="@+id/preference"
                 android:orderInCategory="5"
                 android:showAsAction="ifRoom|withText"
-                android:title="@string/preferecen"
+                android:title="@string/preference"
                 android:icon="@drawable/ic_actionbar_preference">
             </item>
             <!--

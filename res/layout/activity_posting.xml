@@ -24,7 +24,7 @@
                     android:id="@+id/posting_tv_title"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3sp"
+                    android:layout_margin="3dp"
                     android:text="☆SCROLL WARN☆ Today I had seen HUNNAM parttimer!!"
                     android:textSize="24sp" />
 
@@ -32,7 +32,7 @@
                     android:id="@+id/posting_tv_writedate"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3sp"
+                    android:layout_margin="3dp"
                     android:text="2013/08/15/Thu"
                     android:textSize="15sp" />
 
@@ -40,7 +40,7 @@
                     android:id="@+id/posting_tv_writer"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3sp"
+                    android:layout_margin="3dp"
                     android:text="Writer: seo dule num"
                     android:textSize="15sp" />
 
@@ -56,7 +56,7 @@
                     android:id="@+id/posting_tv_contents"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3sp"
+                    android:layout_margin="3dp"
                     android:layout_weight="4"
                     android:scrollbars="vertical"
                     android:text="  hi sisters~~dddddn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nddddddddddd\n\n\ndddddddddddddddddddddddddddddddddddddddddddddddddddddd"
@@ -70,8 +70,8 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3sp"
-            android:text="Comments" />
+            android:layout_margin="3dp"
+            android:text="댓글" />
 
     </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="commit" />
+                android:text="@string/btn_input_comment" />
         </LinearLayout>
     </LinearLayout>
 

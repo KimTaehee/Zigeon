@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
 	private EditText id, password;
@@ -65,6 +66,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		String auto_ID = pref.getString("ID","");
 		String auto_password = pref.getString("Password", "");
 		Boolean auto_check = pref.getBoolean("AutoCheck",false);
+		PreferenceActivity.isBalloonNotificationOn = pref.getBoolean("isBalloonNotificationOn", true);
 		
 		swtAutoLogin.setChecked(auto_check);
 		if(swtAutoLogin.isChecked())
@@ -104,6 +106,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		switch(v.getId()) {
 		case R.id.login_imgbtn_login:
 		{
+			try {
 			LogUtil.v("onClick");
 			strID = id.getText().toString();// TODO: user ID;
 			LogUtil.v(id.getText().toString());
@@ -138,13 +141,19 @@ public class LoginActivity extends Activity implements OnClickListener {
 					finish(); /* If login successed, pressing back button means finish app. (not loginActivity) */
 				} else {
 					// Wrong Password
-					new AlertManager().show(this,"Wrong PW? ^^","Confirm",Constants.ALERT_OK_ONLY);
+					new AlertManager().show(this,"비밀번호가 일치하지 않습니다.","확인",Constants.ALERT_OK_ONLY);
 					return;
 				}
 			} else {
 				// No matched ID
-				new AlertManager().show(this,"No matched ID? ^^","Confirm",Constants.ALERT_OK_ONLY);
+				new AlertManager().show(this,"일치하는 아이디가 없습니다.","확인",Constants.ALERT_OK_ONLY);
 				return;
+			}
+			}
+			catch (Exception e) {
+				Toast.makeText(getBaseContext(),
+						"네트워크 연결에 문제가 있습니다. 다시 확인 후 시도해주세요.",
+						Toast.LENGTH_LONG).show();
 			}
 			break;
 			

@@ -10,37 +10,38 @@
         android:layout_above="@+id/best_list_layout_options"
         android:background="#878787"
         android:gravity="center"
-        android:horizontalSpacing="1sp"
+        android:horizontalSpacing="1dp"
         android:numColumns="2"
-        android:padding="1sp"
+        android:padding="1dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="1sp" />
+        android:verticalSpacing="1dp" />
 
     <LinearLayout
         android:id="@+id/best_list_layout_options"
         android:layout_width="fill_parent"
-        android:layout_height="50sp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#686868"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/best_list_btn_set_range"
+        <Button
+            android:id="@+id/best_list_btn_map_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#686868"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:text="500 M" />
-
+            android:background="@drawable/actionbar_btn_style"
+            android:text="@string/best_list_btn_map_activity"
+            android:textColor="#FFFFFF" />
+        
         <ToggleButton
             android:id="@+id/best_list_tglbtn_trace_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="#FFFFFF"
-            android:text="Trace Location" />
+            android:textOn="위치 추적중" 
+            android:textOff="위치 추적중"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/best_list_btn_refresh_location"
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/actionbar_btn_style"
-            android:text="Refresh"
+            android:text="@string/best_list_activity_btn_refresh"
             android:textColor="#FFFFFF" />
         <!-- #686868 -->
     </LinearLayout>

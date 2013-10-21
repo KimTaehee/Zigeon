@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/map_list_action_landmark_write"
+        android:id="@+id/best_list_action_landmark_write"
         android:icon="@drawable/ic_actionbar_landmarkwrite"
         android:orderInCategory="2"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/map_list_action_landmark_write">
+        android:title="@string/best_list_action_landmark_write">
     </item>
     <item
         android:id="@+id/overflow"
@@ -19,7 +19,7 @@
                 android:icon="@drawable/ic_actionbar_preference"
                 android:orderInCategory="5"
                 android:showAsAction="ifRoom|withText"
-                android:title="@string/preferecen">
+                android:title="@string/preference">
             </item>
             <!--
             <item

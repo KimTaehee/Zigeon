@@ -12,11 +12,14 @@ package kr.re.ec.zigeon.handler;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import kr.re.ec.zigeon.LoginActivity;
+import kr.re.ec.zigeon.PreferenceActivity;
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.dataset.CommentDataset;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.dataset.PostingDataset;
 import kr.re.ec.zigeon.dataset.MemberDataset;
+import kr.re.ec.zigeon.util.ActivityManager;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 
@@ -28,8 +31,10 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SoapParser {
 
@@ -94,6 +99,8 @@ public class SoapParser {
 		} catch (Exception e) {
 			LogUtil.e("Error occured. see printStackTrace().");
 			e.printStackTrace();
+			ActivityManager activityManager = ActivityManager.getInstance();
+			activityManager.finishAllActivity();			
 		} // try-catch
 
 		
@@ -548,7 +555,7 @@ public class SoapParser {
 			 * Ex) 
 			 * There is a absolutely handsome partimer guy! +O+(ORIGIN CONTENTS)
 			 * ------------- 
-			 * 2013-10-03 06:57:21 Edited by Seodule
+			 * 2013-10-03 06:57:21 다음 사용자에 의해 수정됨: Seodule
 			 * He was fired ToT(APPENDED CONTENTS)
 			 */
 			query = "UPDATE tLandmark SET " +
@@ -556,7 +563,7 @@ public class SoapParser {
 					"', ldmLatitude='" + ldm.latitude +
 					"', ldmLongitude='" + ldm.longitude +
 					"', ldmContents+=CHAR(10)+'-----------------------'+CHAR(10)" +
-					"+CONVERT(VARCHAR,GETDATE(),120)+' Edited by '+" +
+					"+CONVERT(VARCHAR,GETDATE(),120)+' 다음 사용자에 의해 수정됨: '+" +
 					"+'" + loginMem.nick +
 					"'+CHAR(10)+'" + ldm.contents +"'";
 					

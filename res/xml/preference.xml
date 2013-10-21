@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Category xmlns need? -->
+    <!-- Category xmlns need? 
     <PreferenceCategory
         android:key="preferenceCategory_account"
         android:title="ACCOUNT" >
@@ -14,33 +14,35 @@
             android:selectable="true"
             android:title="Password Change" />
     </PreferenceCategory>
+    -->
     <!-- alarm? notice? -->
     <PreferenceCategory
         android:key="preferenceCategory_notification"
         android:title="NOTIFICATION" >
 
         <!-- Notification sound vs sound? -->
-        <CheckBoxPreference
+        <!--  <CheckBoxPreference
             android:defaultValue="true"
             android:key="preference_CheckBox_notificationSound"
             android:title="Sound" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="preference_CheckBox_notificationVibration"
-            android:title="Vibration" />
+            android:title="Vibration" /> --> 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="preference_CheckBox_notification_bubblehead"
-            android:title="BubbleHead" />
+            android:title="BubbleHead 사용" 
+            android:summary="화면에 아이콘을 띄워 근처의 Hot한 랜드마크를 보여줍니다. 60초 주기로 설정되어 있습니다." />  
     </PreferenceCategory>
-    <PreferenceCategory
+    <!-- <PreferenceCategory
         android:key="preferenceCategory_divice"
         android:title="DEVICE" >
         <Preference
             android:key="preference_clearCacheImage"
             android:selectable="true"
             android:title="Clear CacheImage" />
-    </PreferenceCategory>
+    </PreferenceCategory>  -->
     <PreferenceCategory
         android:key="preferenceCategory_information"
         android:title="INFORMATION" >
@@ -48,7 +50,7 @@
         <!-- version selectable? provide more informaion? -->
         <Preference
             android:key="preference_version"
-            android:title="Version - 1.0.0" />
+            android:title="Version - 1.0.1 (2013-10-21)" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="preferenceCategory_help"
@@ -56,7 +58,8 @@
         <Preference
             android:key="preference_whatIsBallon"
             android:selectable="true"
-            android:title="What is Balloon?" />
+            android:title="What is Balloon?" 
+            android:summary="Balloon은 지역밀착형 위치기반 정보 알림 서비스로, 자기 주변 및 다른 지역의 정보를 한 눈에 쉽게 받아볼 수 있습니다." />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="preferenceCategory_logout"

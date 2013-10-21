@@ -10,6 +10,8 @@ package kr.re.ec.zigeon;
 import kr.re.ec.zigeon.R;
 import kr.re.ec.zigeon.handler.SoapParser;
 import kr.re.ec.zigeon.util.ActivityManager;
+import kr.re.ec.zigeon.util.AlertManager;
+import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,7 +28,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 	private EditText id,password,nickname;
 	private SoapParser soapParser;
 	private String ID_check, Nickname_check; 
-	private Button cancle_btn, join_btn;
+	private Button cancel_btn, join_btn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,8 @@ public class RegisterActivity extends Activity implements OnClickListener{
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		cancle_btn = (Button)findViewById(R.id.Cancle_btu);
-		cancle_btn.setOnClickListener(this);
+		cancel_btn = (Button)findViewById(R.id.Cancle_btu);
+		cancel_btn.setOnClickListener(this);
 		join_btn = (Button)findViewById(R.id.Join_btn);
 		join_btn.setOnClickListener(this);
 		id = (EditText)findViewById(R.id.Join_Id);
@@ -50,7 +52,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		switch(v.getId()) {
 		case R.id.Cancle_btu:
 			finish();
-			break;
+			return;
 		case R.id.Join_btn:
 			soapParser = SoapParser.getInstance();
 			String idQuery = "SELECT memPW FROM tMember WHERE memID ='" + id.getText().toString() + "'";
@@ -60,65 +62,67 @@ public class RegisterActivity extends Activity implements OnClickListener{
 			String nicknameQuery = "SELECT memPW FROM tMember WHERE memNick ='" + nickname.getText().toString() + "'";
 			Nickname_check = soapParser.sendQuery(nicknameQuery); 
 			if(id.getText().toString().compareTo("") == 0) { //if have no text, show alert and return
-					
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("Input ID.");
-				alert.show();
+				new AlertManager().show(this, "아이디를 입력하세요. ^^", "확인", Constants.ALERT_OK_ONLY);	
+//				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();	
+//					}
+//				});
+//				alert.setMessage("Input ID.");
+//				alert.show();
 				return;
 			} else if(ID_check.compareTo("") != 0)//duplicated id
 			{
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("This ID already in use.");
-				alert.show();
+				new AlertManager().show(this, "해당 ID는 현재 사용 중 입니다.", "확인", Constants.ALERT_OK_ONLY);
+//				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();	
+//					}
+//				});
+//				alert.setMessage("This ID already in use.");
+//				alert.show();
 				return;
 			}	
 			else if(password.getText().toString().compareTo("") == 0){
-			
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("Input Password.");
-				alert.show();
+				new AlertManager().show(this, "패스워드를 입력하세요.", "확인", Constants.ALERT_OK_ONLY);
+//				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();	
+//					}
+//				});
+//				alert.setMessage("Input Password.");
+//				alert.show();
 				return;
 			}else if(nickname.getText().toString().compareTo("") == 0){
-				
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("Input Nickname");
-				alert.show();
+				new AlertManager().show(this, "닉네임을 입력하세요.", "확인", Constants.ALERT_OK_ONLY);
+//				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();	
+//					}
+//				});
+//				alert.setMessage("Input Nickname");
+//				alert.show();
 				return;
 			}else if(Nickname_check.compareTo("") != 0)
 			{
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();	
-					}
-				});
-				alert.setMessage("This Nickname already in use.");
-				alert.show();
+				new AlertManager().show(this, "해당 닉네임은 이미 사용 중 입니다.", "확인", Constants.ALERT_OK_ONLY);
+//				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//				alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();	
+//					}
+//				});
+//				alert.setMessage("This Nickname already in use.");
+//				alert.show();
 				return;
 			}
 			else{
@@ -145,7 +149,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 				break;
 			}
 		}
-		Toast toast = Toast.makeText(this, "Welcome to join us!",Toast.LENGTH_SHORT); 
+		Toast toast = Toast.makeText(this, "성공적으로 가입되었습니다. 환영합니다 ^ㅡ^",Toast.LENGTH_SHORT); 
 		toast.show(); 
 		finish();
 	}

@@ -44,7 +44,7 @@
                 <EditText
                     android:id="@+id/landmark_write_edit_contents"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="130dp"
                     android:ems="10"
                     android:hint="@string/landmark_write_edit_contents_hint_new"
                     android:inputType="textMultiLine" />
@@ -63,7 +63,7 @@
         <RelativeLayout
             android:id="@+id/landmark_write_map"
             android:layout_width="match_parent"
-            android:layout_height="100sp"     
+            android:layout_height="100dp"     
             >
 
         </RelativeLayout>
@@ -72,7 +72,7 @@
             android:id="@+id/landmark_write_img_input"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:src="@android:drawable/ic_menu_camera" />
+            android:src="@drawable/ic_landmark_write_picture" />
     </LinearLayout>
 
 </RelativeLayout>

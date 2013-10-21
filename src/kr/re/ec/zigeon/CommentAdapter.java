@@ -128,7 +128,7 @@ public class CommentAdapter extends BaseAdapter {
 					};
 					
 					LogUtil.v("ivDelete clicked. position: " + mPosition);
-					new AlertManager().show(context, "Delete Comment. Continue?", "Confirm"
+					new AlertManager().show(context, "댓글을 지웁니다. 계속할까요?", "확인"
 							, Constants.ALERT_YES_NO, dialogListner);
 					
 				} 

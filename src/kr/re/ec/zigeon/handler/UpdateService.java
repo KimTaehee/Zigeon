@@ -15,6 +15,7 @@ import com.nhn.android.maps.maplib.NGeoPoint;
 
 import kr.re.ec.zigeon.BalloonHeadButtonActivity;
 import kr.re.ec.zigeon.MapActivity;
+import kr.re.ec.zigeon.PreferenceActivity;
 import kr.re.ec.zigeon.dataset.LandmarkDataset;
 import kr.re.ec.zigeon.util.Constants;
 import kr.re.ec.zigeon.util.LogUtil;
@@ -30,7 +31,7 @@ import android.provider.Settings;
 public class UpdateService extends Service implements Runnable{
 	private boolean threadLoop=false;
 	private int count = 0; 		//thread loop count
-	private final static int THREAD_INTERVAL_MS = 10000; 	//thread loop delay
+	private final static int THREAD_INTERVAL_MS = 60000; 	//thread loop delay
 	//private static final int MIN_DISTANCE = 1; 		//min distance(m) to recognize gps updates
 	
 	private Thread mThread;
@@ -171,13 +172,18 @@ public class UpdateService extends Service implements Runnable{
 							mBestLandmark = bestLandmarkArr[0];
 						}
 
-						Intent intent = new Intent(UpdateService.this, BalloonService.class);
-						intent.putExtra("ldmIdx", mBestLandmark.idx);
-						intent.putExtra("ldmName", mBestLandmark.name);
-						stopService(intent);
-						startService(intent);
-
-						isLocationChanged = false;
+						if(PreferenceActivity.isBalloonNotificationOn) {
+							Intent intent = new Intent(UpdateService.this, BalloonService.class);
+							intent.putExtra("ldmIdx", mBestLandmark.idx);
+							intent.putExtra("ldmName", mBestLandmark.name);
+							stopService(intent);
+							startService(intent);
+	
+							isLocationChanged = false;
+							LogUtil.i("Condition OK: Start BalloonService");
+						} else {
+							LogUtil.i("BalloonNotification Mode off. ignore starting balloonservice");
+						}
 					} else {
 						LogUtil.w("timer occered, but my activity is on top: " + topActivityName);
 					}

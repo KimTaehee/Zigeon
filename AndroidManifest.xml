@@ -91,7 +91,8 @@
         </activity>
         <activity 
             android:name="kr.re.ec.zigeon.LandmarkWriteActivity"
-            android:windowSoftInputMode="stateUnspecified|adjustPan" 
+            android:windowSoftInputMode="stateUnspecified|adjustPan"
+            android:label="@string/landmark_write_activity_title" 
             android:screenOrientation="portrait">
         </activity>
         <activity 

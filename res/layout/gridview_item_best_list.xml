@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5sp"
+    android:padding="5dp"
     android:textSize="16sp" >
 
     <ImageView
         android:id="@+id/gridview_item_best_list_iv_landmark"
         android:layout_width="match_parent"
-        android:layout_height="120sp"
+        android:layout_height="120dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_auil_empty" />
@@ -19,43 +19,43 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/gridview_item_best_list_iv_landmark"
         android:layout_alignTop="@+id/gridview_item_best_list_iv_landmark"
-        android:maxHeight="30sp"
-        android:maxWidth="70sp"
+        android:maxHeight="30dp"
+        android:maxWidth="70dp"
         android:src="@drawable/ic_auil_stub" />
 
     <ImageView
         android:id="@+id/gridview_item_best_list_iv_balloon"
         android:layout_width="wrap_content"
-        android:layout_height="30sp"
+        android:layout_height="30dp"
         android:layout_alignBottom="@+id/gridview_item_best_list_iv_landmark"
         android:layout_alignRight="@+id/gridview_item_best_list_iv_landmark"
         android:src="@drawable/ic_auil_stub" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35sp"
+        android:layout_height="35dp"
         android:layout_alignLeft="@+id/gridview_item_best_list_iv_landmark"
         android:layout_below="@+id/gridview_item_best_list_iv_landmark"
         android:background="#FFFFFF" >
 
         <TextView
             android:id="@+id/gridview_item_best_list_tv_name"
-            android:layout_width="30sp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:text="Name"
-            android:padding="2sp"
+            android:padding="2dp"
             android:textColor="#686868"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/gridview_item_best_list_tv_distance"
-            android:layout_width="20sp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="right"
             android:text="Distance"
-            android:padding="2sp"
+            android:padding="2dp"
             android:textColor="#686868"
             android:textSize="12sp" />
     </LinearLayout>
